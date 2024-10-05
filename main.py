@@ -8,13 +8,11 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-from typing import Final
-
-#import Pulse
+from typing import Final, List
 
 """
 Reads a CSV file from CoMPASS named file_name. The file comes from 
-'{project-name}\DAQ\{Run-ID_increment}\RAW'.
+\{project-name}\DAQ\{Run-ID_increment}\RAW.
 Note: Register this dialect before using
 csv.register_dialect("CoMPASS", delimiter=';')
 
@@ -23,7 +21,7 @@ TODO: Use watchdog to find that file automatically
 Returns:
     [np.array]: np.array of each pulse
 """ 
-def readData(file_name:str) -> []:
+def readData(file_name:str) -> List[np.ndarray]:
     data = []
     
     with open(file_name, newline='') as f:
@@ -38,6 +36,27 @@ def readData(file_name:str) -> []:
 
     return data
 
+def graphData(data:List[np.ndarray]):
+    return 0
+
+def levelData(data:List[np.ndarray]) -> List[np.ndarray]:
+    levelData = []
+    
+    for arr in data:
+        # Bring values close to zero
+        hist, bin_edges = np.histogram(arr, bins=50) # Adjust bins
+        mode_value = bin_edges[np.argmax(hist)]
+        leveled_arr = arr - mode_value
+        
+        # Find a threshold
+        std_dev = np.std(leveled_arr[np.abs(leveled_arr) < 3 * np.std(leveled_arr)])
+        threshold = 0.60 * std_dev # Adjust value
+        
+        leveled_arr[np.abs(leveled_arr < threshold)] = 0
+        levelData.append(leveled_arr)
+    
+    return levelData
+
 def main() -> None:
     # TODO: Make it user chosen
     RECORD_LENGTH = 15000 #ns
@@ -49,13 +68,17 @@ def main() -> None:
     # START
     data = readData('SDataR_20240516_2.CSV')
     SAMPLE_SIZE: Final[int] = data[0].size
-    STEPS: Final[int] = RECORD_LENGTH / SAMPLE_SIZE #ns
-    
+    STEPS: Final[int] = int(RECORD_LENGTH / SAMPLE_SIZE) #ns
     t_axis = np.arange(0, RECORD_LENGTH, STEPS)
     
-    first_element = data[0]
-    #x_axis = np.linspace(1,first_element.size,num=first_element.size)
-    plt.plot(t_axis, first_element)
+    data = levelData(data)
+    
+    t_axis = np.linspace(1,data[0].size,num=data[0].size)
+    plt.figure(figsize=(10,6))
+    for pulse in data:
+        plt.plot(t_axis, pulse)
+    
+    plt.grid(True)
     plt.show()
     
     
