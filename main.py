@@ -103,12 +103,12 @@ def main() -> None:
     PRE_TRIGGER = 5000 #ns
     
     # CONSTANTS & SETTINGS
-    csv.register_dialect("CoMPASS", delimiter=';')
+    
     
     app = Application()
     
     # START
-    file_path = app.select_file()
+    """ file_path = app.select_file()
     
     data = readData(file_path)
     SAMPLE_SIZE: Final[int] = data[0].size
@@ -119,7 +119,9 @@ def main() -> None:
     
     graphData(data, t_axis)
     
-    print(areaUnderCurve(data, t_axis))
+    print(areaUnderCurve(data, t_axis)) """
+    
+    app.mainloop()
     
     
 if __name__ == '__main__':
