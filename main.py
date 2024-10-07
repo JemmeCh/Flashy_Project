@@ -92,8 +92,10 @@ def areaUnderCurve(data:List[np.ndarray], x_axis) -> List[np.ndarray]:
     return [trapezoid(pulse, x_axis) for pulse in data]
     
 def select_file() -> str:
+    # REMOVE THIS AS SOON AS YOU ADD MORE
     root = tk.Tk()
     root.withdraw()
+    # REMOVE THIS AS SOON AS YOU ADD MORE
     
     file_path = filedialog.askopenfilename(
         title="Select the CSV file to analyse",
