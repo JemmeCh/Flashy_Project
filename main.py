@@ -3,7 +3,13 @@ Projet PHY3030 - FLASHy
 
 Programme d'analyse de pulse pour traitement FLASH 
 à l'aide d'un BCT et d'un digitezer CAEN DT5781.
+
+Ce fichier Python est le controlleur du projet, soit le lien entre l'analyse
+et le GUI. 
 '''
+# TODO IN PART 2 OF PROJECT
+# Use pickle library for reading binary file from digitizer
+
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,10 +19,9 @@ import sys
 import tkinter as tk
 from tkinter import filedialog
 
-# TODO IN PART 2 OF PROJECT
-# Use pickle library for reading binary file from digitizer
-
 from typing import Final, List
+
+from Application import Application
 
 """
 Reads a CSV file from CoMPASS named file_name. The file comes from 
@@ -91,19 +96,6 @@ def levelData2(data):
 def areaUnderCurve(data:List[np.ndarray], x_axis) -> List[np.ndarray]:
     return [trapezoid(pulse, x_axis) for pulse in data]
     
-def select_file() -> str:
-    # REMOVE THIS AS SOON AS YOU ADD MORE
-    root = tk.Tk()
-    root.withdraw()
-    # REMOVE THIS AS SOON AS YOU ADD MORE
-    
-    file_path = filedialog.askopenfilename(
-        title="Select the CSV file to analyse",
-        filetypes=(("CSV", "*.csv"), ("All files", "*.*"))
-    )
-    if not file_path:
-        sys.exit()
-    return file_path
 
 def main() -> None:
     # TODO: Make it user chosen
@@ -113,8 +105,10 @@ def main() -> None:
     # CONSTANTS & SETTINGS
     csv.register_dialect("CoMPASS", delimiter=';')
     
+    app = Application()
+    
     # START
-    file_path = select_file()
+    file_path = app.select_file()
     
     data = readData(file_path)
     SAMPLE_SIZE: Final[int] = data[0].size
