@@ -9,6 +9,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import trapezoid
 
+import sys
+import tkinter as tk
+from tkinter import filedialog
+
 # TODO IN PART 2 OF PROJECT
 # Use pickle library for reading binary file from digitizer
 
@@ -54,28 +58,50 @@ def graphData(data:List[np.ndarray], t_axis):
 def levelData(data:List[np.ndarray]) -> List[np.ndarray]:
     levelData = []
     
-    for arr in data:
+    for pulse in data:
         # Bring values close to zero
-        hist, bin_edges = np.histogram(arr, bins=50) # Adjust bins
+        hist, bin_edges = np.histogram(pulse, bins=50) # Adjust bins
         mode_value = bin_edges[np.argmax(hist)]
-        leveled_arr = arr - mode_value
+        leveled_pulse = pulse - mode_value
         
         # Find a threshold
-        std_dev = np.std(leveled_arr[np.abs(leveled_arr) < 3 * np.std(leveled_arr)])
+        std_dev = np.std(leveled_pulse[np.abs(leveled_pulse) < 3 * np.std(leveled_pulse)])
         threshold = 0.60 * std_dev # Adjust value
         
-        leveled_arr[np.abs(leveled_arr < threshold)] = 0
-        levelData.append(leveled_arr)
-
-    # The data needs to be scaled down from 1000 to 0.1
-    levelData = [pulse / 10000 for pulse in levelData]
+        leveled_pulse[np.abs(leveled_pulse < threshold)] = 0
+        leveled_pulse /= 10000
+        levelData.append(leveled_pulse)
     
     return levelData
 
+def levelData2(data):
+    result = []
+    threshold = 50
+    
+    for pulse in data:
+        # Median of the first 200 samples
+        baseline = np.median(pulse[:200])
+        leveled_pulse = pulse - baseline
+        leveled_pulse[np.abs(leveled_pulse) < threshold]
+        leveled_pulse /= 10000
+        
+        result.append(leveled_pulse)
+    return result
 
 def areaUnderCurve(data:List[np.ndarray], x_axis) -> List[np.ndarray]:
-    return [trapezoid(pulse, x_axis) for pulse in data] # This is in nC
+    return [trapezoid(pulse, x_axis) for pulse in data]
     
+def select_file() -> str:
+    root = tk.Tk()
+    root.withdraw()
+    
+    file_path = filedialog.askopenfilename(
+        title="Select the CSV file to analyse",
+        filetypes=(("CSV", "*.csv"), ("All files", "*.*"))
+    )
+    if not file_path:
+        sys.exit()
+    return file_path
 
 def main() -> None:
     # TODO: Make it user chosen
@@ -86,12 +112,14 @@ def main() -> None:
     csv.register_dialect("CoMPASS", delimiter=';')
     
     # START
-    data = readData('SDataR_20240516_2.CSV')
+    file_path = select_file()
+    
+    data = readData(file_path)
     SAMPLE_SIZE: Final[int] = data[0].size
     STEPS: Final[int] = int(RECORD_LENGTH / SAMPLE_SIZE) #ns
-    t_axis = np.linspace(0, RECORD_LENGTH / 1000, num=data[0].size)
+    t_axis = np.linspace(0, RECORD_LENGTH / 1000, num=SAMPLE_SIZE)
     
-    data = levelData(data)
+    data = levelData2(data)
     
     graphData(data, t_axis)
     
