@@ -101,8 +101,26 @@ def levelData3(data:np.ndarray):
     return data
     
 
-def areaUnderCurve(data:np.ndarray, x_axis) -> np.ndarray:
+def areaUnderCurve(data:np.ndarray, x_axis, dt) -> np.ndarray:
     return np.array([trapezoid(pulse, x_axis) for pulse in data])
+
+
+def areaUnderCurve2(data:np.ndarray, x_axis, dx) -> np.ndarray:
+    # Trapezoid method with matrices
+    left = data[:,  :-1]
+    right = data[:, 1:  ]
+    
+    # Creating the switch to check if we're below x=0
+    lswitch = left  >= 0
+    rswitch = right >= 0 
+    switch = ~(lswitch & rswitch)
+   
+    # Calculating the area under each trapezoid
+    # The minus is if the curve is below x=0
+    area = (np.abs(left) + np.abs(right)) * dx / 2 \
+           - ( switch.astype(int) * (np.abs(left) + np.abs(right)) * dx)
+    
+    return np.sum(area, axis=1)
     
 def select_file() -> str:
     # REMOVE THIS AS SOON AS YOU ADD MORE
@@ -117,6 +135,7 @@ def select_file() -> str:
     if not file_path:
         sys.exit()
     return file_path
+
 
 def main() -> None:
     # TODO: Make it user chosen
@@ -134,14 +153,33 @@ def main() -> None:
     SAMPLE_SIZE: Final[int] = data[0].size
     t_axis, dt = np.linspace(0, RECORD_LENGTH / 1000, SAMPLE_SIZE, retstep=True)
     
-    print(data, "\n")
+    #print(data, "\n")
     
-    testLevelingFunc(data, t_axis)
+    #testLevelingFunc(data, t_axis)
+    #testAreaFunc(data, t_axis, dt)
     
     #graphData(data, t_axis)
     
     #print(areaUnderCurve(data, t_axis))
     
+    
+def testAreaFunc(data:np.ndarray, t_axis, dt):
+    data1 = levelData3(data.copy())
+    data2 = levelData3(data.copy())
+    
+    start = time()
+    data1 = areaUnderCurve(data1, t_axis, dt)
+    end = time()
+    print(f"Utilisant fonction 1: {end - start}")
+    start = time()
+    data2 = areaUnderCurve2(data2, t_axis, dt)
+    end = time()
+    print(f"Utilisant fonction 2: {end - start}")
+    
+    """ print("Data1 =")
+    print(data1)
+    print("Data2 =")
+    print(data2) """
     
 def testLevelingFunc(data:np.ndarray, t_axis):
     data1 = data.copy()
@@ -161,16 +199,16 @@ def testLevelingFunc(data:np.ndarray, t_axis):
     end = time()
     print(f"Utilisant fonction 3: {end - start}")
     
-    """ print("Data1 =")
+    print("Data1 =")
     print(data1[0].tolist())
     print("Data2 =")
     print(data2[0].tolist())
     print("Data3 =")
-    print(data3[0].tolist()) """
+    print(data3[0].tolist())
     
-    """ graphData(data1, t_axis)
+    graphData(data1, t_axis)
     graphData(data2, t_axis)
-    graphData(data3, t_axis) """
+    graphData(data3, t_axis)
     
     #print((data2[0] == data3[0]).tolist())
 
