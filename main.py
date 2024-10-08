@@ -17,6 +17,7 @@ from tkinter import filedialog
 # Use pickle library for reading binary file from digitizer
 
 from typing import Final, List
+from time import time
 
 """
 Reads a CSV file from CoMPASS named file_name. The file comes from 
@@ -46,7 +47,7 @@ def readData(file_name:str):
     
     return array
 
-def graphData(data:List[np.ndarray], t_axis):
+def graphData(data:np.ndarray, t_axis):
     # TODO: Make it for the future pulse list thing (yk what you mean)
     plt.figure(figsize=(10,6))
     for pulse in data:
@@ -57,7 +58,7 @@ def graphData(data:List[np.ndarray], t_axis):
     plt.ylabel("Tension (V)")
     plt.show()
 
-def levelData(data:List[np.ndarray]) -> List[np.ndarray]:
+def levelData(data:np.ndarray) -> np.ndarray:
     levelData = []
     
     for pulse in data:
@@ -73,27 +74,35 @@ def levelData(data:List[np.ndarray]) -> List[np.ndarray]:
         leveled_pulse[np.abs(leveled_pulse < threshold)] = 0
         levelData.append(leveled_pulse)
     
-    return levelData
+    return np.array(levelData)
 
-def levelData2(data):
+def levelData2(data:np.ndarray) -> np.ndarray:
     result = []
-    threshold = 0.001
-    
-    # sous = np.median(data[:,:200], axis=0) moyenne par pulse (verifier axis)
-    # (data.T - sous).T
-    # switch = data >= threshold
-    # data = data * switch 
+    threshold = 8
+     
     for pulse in data:
         # Median of the first 200 samples
         baseline = np.median(pulse[:200])
         leveled_pulse = pulse - baseline
-        leveled_pulse[np.abs(leveled_pulse) < threshold] = 0 # y = y[y > sigma]
+        leveled_pulse[np.abs(leveled_pulse) < threshold] = 0
         
         result.append(leveled_pulse)
-    return result
+    return np.array(result)
 
-def areaUnderCurve(data:List[np.ndarray], x_axis) -> List[np.ndarray]:
-    return [trapezoid(pulse, x_axis) for pulse in data]
+def levelData3(data:np.ndarray):
+    threshold = 8
+
+    # Calculate de median of each pulse
+    sous = np.median(data[:, :200], axis=1)
+    # Bring values close to zero
+    data = (data.T - sous).T
+    # Bring value to zero if lower than threshold
+    data[np.abs(data) < threshold] = 0
+    return data
+    
+
+def areaUnderCurve(data:np.ndarray, x_axis) -> np.ndarray:
+    return np.array([trapezoid(pulse, x_axis) for pulse in data])
     
 def select_file() -> str:
     # REMOVE THIS AS SOON AS YOU ADD MORE
@@ -121,21 +130,50 @@ def main() -> None:
     file_path = "SDataR_20240516_2.CSV"#select_file()
     
     data = readData(file_path)
-    data = [pulse / 10000 for pulse in data]
+    #data = np.array([pulse / 10000 for pulse in data])
     SAMPLE_SIZE: Final[int] = data[0].size
     t_axis, dt = np.linspace(0, RECORD_LENGTH / 1000, SAMPLE_SIZE, retstep=True)
     
     print(data, "\n")
     
-    data = levelData2(data)
+    testLevelingFunc(data, t_axis)
     
-    print(data)
-    print(data[0].tolist())
-    
-    graphData(data, t_axis)
+    #graphData(data, t_axis)
     
     #print(areaUnderCurve(data, t_axis))
     
+    
+def testLevelingFunc(data:np.ndarray, t_axis):
+    data1 = data.copy()
+    data2 = data.copy()
+    data3 = data.copy()
+    
+    start = time()
+    data1 = levelData(data1)
+    end = time()
+    print(f"Utilisant fonction 1: {end - start}")
+    start = time()
+    data2 = levelData2(data2)
+    end = time()
+    print(f"Utilisant fonction 2: {end - start}")
+    start = time()
+    data3 = levelData3(data3)
+    end = time()
+    print(f"Utilisant fonction 3: {end - start}")
+    
+    """ print("Data1 =")
+    print(data1[0].tolist())
+    print("Data2 =")
+    print(data2[0].tolist())
+    print("Data3 =")
+    print(data3[0].tolist()) """
+    
+    """ graphData(data1, t_axis)
+    graphData(data2, t_axis)
+    graphData(data3, t_axis) """
+    
+    #print((data2[0] == data3[0]).tolist())
+
     
 if __name__ == '__main__':
     main()
