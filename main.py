@@ -15,10 +15,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import trapezoid
 
-import sys
-import tkinter as tk
-from tkinter import filedialog
-
 from typing import Final, List
 
 from Application import Application
@@ -102,12 +98,8 @@ def main() -> None:
     RECORD_LENGTH = 15000 #ns
     PRE_TRIGGER = 5000 #ns
     
-    # CONSTANTS & SETTINGS
-    
-    
     app = Application()
-    
-    # START
+
     """ file_path = app.select_file()
     
     data = readData(file_path)

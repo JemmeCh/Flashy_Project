@@ -1,5 +1,5 @@
 # ignore _ideas folder
 **/_ideas
 # ignore tests-calculs folder
-**/_tests-calculs
-**/__pychache__
+_tests-calculs/*
+__pychache__/
