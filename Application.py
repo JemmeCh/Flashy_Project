@@ -44,7 +44,7 @@ class SettingEntryFrame(ttk.Frame):
     def __init__(self, parent, label:str, init_val:str):
         super().__init__(parent)
         
-        label_width = 15 # Allign the labels
+        label_width = 15 # Align the labels
         
         self.label_recLen = ttk.Label(self, text=label, width=label_width)
         self.label_recLen.grid(row=0, column=0, sticky="w",padx=5, pady=5)
