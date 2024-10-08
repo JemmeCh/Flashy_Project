@@ -29,7 +29,7 @@ TODO: Use watchdog to find that file automatically
 Returns:
     [np.array]: np.array of each pulse
 """ 
-def readData(file_name:str) -> List[np.ndarray]:
+def readData(file_name:str):
     data = []
     
     with open(file_name, newline='') as f:
@@ -42,7 +42,9 @@ def readData(file_name:str) -> List[np.ndarray]:
             row = np.array(row[7:], dtype=int)
             data.append(row)
 
-    return data
+    array = np.array(data)
+    
+    return array
 
 def graphData(data:List[np.ndarray], t_axis):
     # TODO: Make it for the future pulse list thing (yk what you mean)
@@ -69,21 +71,23 @@ def levelData(data:List[np.ndarray]) -> List[np.ndarray]:
         threshold = 0.60 * std_dev # Adjust value
         
         leveled_pulse[np.abs(leveled_pulse < threshold)] = 0
-        leveled_pulse /= 10000
         levelData.append(leveled_pulse)
     
     return levelData
 
 def levelData2(data):
     result = []
-    threshold = 50
+    threshold = 0.001
     
+    # sous = np.median(data[:,:200], axis=0) moyenne par pulse (verifier axis)
+    # (data.T - sous).T
+    # switch = data >= threshold
+    # data = data * switch 
     for pulse in data:
         # Median of the first 200 samples
         baseline = np.median(pulse[:200])
         leveled_pulse = pulse - baseline
-        leveled_pulse[np.abs(leveled_pulse) < threshold]
-        leveled_pulse /= 10000
+        leveled_pulse[np.abs(leveled_pulse) < threshold] = 0 # y = y[y > sigma]
         
         result.append(leveled_pulse)
     return result
@@ -114,18 +118,23 @@ def main() -> None:
     csv.register_dialect("CoMPASS", delimiter=';')
     
     # START
-    file_path = select_file()
+    file_path = "SDataR_20240516_2.CSV"#select_file()
     
     data = readData(file_path)
+    data = [pulse / 10000 for pulse in data]
     SAMPLE_SIZE: Final[int] = data[0].size
-    STEPS: Final[int] = int(RECORD_LENGTH / SAMPLE_SIZE) #ns
-    t_axis = np.linspace(0, RECORD_LENGTH / 1000, num=SAMPLE_SIZE)
+    t_axis, dt = np.linspace(0, RECORD_LENGTH / 1000, SAMPLE_SIZE, retstep=True)
+    
+    print(data, "\n")
     
     data = levelData2(data)
     
+    print(data)
+    print(data[0].tolist())
+    
     graphData(data, t_axis)
     
-    print(areaUnderCurve(data, t_axis))
+    #print(areaUnderCurve(data, t_axis))
     
     
 if __name__ == '__main__':
