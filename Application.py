@@ -75,23 +75,37 @@ class FileSelector(ttk.LabelFrame):
         self.file_path = ttk.Entry(self)
         self.file_path.grid(row=0,column=1, sticky="nwe", padx=5,pady=5)
         
-        self.confirm_btn = ttk.Button(self, text="Confirm path to file", 
+        # Confirm path inserted by user
+        self.confirm_btn = ttk.Button(self, text="Confirmer", 
                                       command=self.confirm_path)
         self.confirm_btn.grid(row=0,column=2, sticky="ew")
         
+        # Choose file using file explorer
+        self.file_exp = ttk.Button(self, text="Ouvrir",
+                                   command=self.select_file)
+        self.file_exp.grid(row=0, column=3, sticky="ew")
+        
+        # Feedback terminal
         self.feedback = tk.Text(self, height=1, state="disabled")
         self.feedback.grid(row=1,column=0,sticky="new",padx=5,pady=5,
                            columnspan=3)
         
         self.grid_columnconfigure(0, weight=0) # Label doesn't expand
         self.grid_columnconfigure(1, weight=1) # Entry can expand
+        self.grid_columnconfigure(2, weight=0) # Confirm button doesn't expand
+        self.grid_columnconfigure(3, weight=0) # Select file button doesn't expand
         
         #self.grid_rowconfigure(0, weight=1)
+        
+        
+    def insert_text_in_feedback(self, txt:str):
+        self.feedback.config(state="normal")
+        self.feedback.insert(tk.END, txt + "\n")
+        self.feedback.config(state="disabled") 
+    
     
     def confirm_path(self):
-        self.feedback.config(state="normal")
-        self.feedback.insert(tk.END, "This will be implemented later\n")
-        self.feedback.config(state="disabled")
+        self.insert_text_in_feedback("This will be implemented later")
         
         
     def select_file(self) -> str:
@@ -102,6 +116,8 @@ class FileSelector(ttk.LabelFrame):
             filetypes=(("CSV", "*.csv"), ("All files", "*.*"))
         )
         if not file_path:
-            sys.exit()
-        return file_path        
+            self.insert_text_in_feedback("Please select a csv file")
+        return file_path    
+    
+      
 
