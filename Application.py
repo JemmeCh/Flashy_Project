@@ -1,25 +1,78 @@
 import sys
+import csv
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
-import csv
+from typing import Literal
+
+# For graphs, I'm using matplotlib
+import matplotlib
+matplotlib.use('TkAgg')
+from matplotlib.backend_bases import key_press_handler
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends._backend_tk import NavigationToolbar2Tk
+from matplotlib.figure import Figure
+from matplotlib.backend_bases import key_press_handler
+
+import numpy as np
 
 class Application(tk.Tk):      
     def __init__(self) -> None:
         super().__init__()
         # Basic window creation
         self.title("FLASHy")
-        self.geometry("800x600")
+        self.geometry("1200x700")
         
+        # Block 1: Information
         self.info_tir = InfoTir(self)
         self.info_tir.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         
+        # Block 2: File Selector
         self.selection = FileSelector(self)
         self.selection.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         
-        self.grid_columnconfigure(0, weight=1) # Allow horizontal expansion
-        self.grid_rowconfigure(0, weight=0) # Restrict vertical mouvement
-        self.grid_rowconfigure(1, weight=0) # Restrict vertical mouvement
+        # Block 3: Graphs, Area under the curve, and Dosage
+        self.graph_view = GraphShowcase(self)
+        self.graph_view.grid(row=2, column=0, sticky="nsew", padx=5, pady=5)
+        
+        # Block 4: Saving analysed data
+        
+        # Menu bar
+        self.menu_bar = MenuBar(self)
+        self.config(menu=self.menu_bar)
+        
+        self.grid_columnconfigure(0, weight=1) # Allow    horizontal mouvement
+        self.grid_rowconfigure(0, weight=0)    # Restrict vertical   mouvement
+        self.grid_rowconfigure(1, weight=0)    # Restrict vertical   mouvement
+        self.grid_rowconfigure(2, weight=1)    # Allow    vertical   mouvement
+        
+    # --- Useful functions for the File selector --- #   
+    def call_analyse_data(self):
+        return self.selection.analyse_data()
+        
+    # ---------------------------------------------- #    
+    
+    # --- Useful functions for the Menu Bar --- #   
+    def call_file_selector(self):
+        return self.selection.select_file()
+    
+    def call_open_data(self):
+        print("To be implemented")
+        
+    def call_save_data(self):
+        print("To be implemented")
+        
+    def call_change_rcd_len(self):
+        print("To be implemented")
+    
+    def call_change_pre_trig(self):
+        print("To be implemented")
+        
+    # Debug    
+    def get_window_dim(self):
+        print(f"Width: {self.winfo_width()}, Height: {self.winfo_height()}")
+    # ----------------------------------------- #
         
 
 
@@ -39,7 +92,7 @@ class InfoTir(ttk.LabelFrame):
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         
-        
+# Used for creating a setting        
 class SettingEntryFrame(ttk.Frame):
     def __init__(self, parent, label:str, init_val:str):
         super().__init__(parent)
@@ -86,14 +139,21 @@ class FileSelector(ttk.LabelFrame):
         self.file_exp.grid(row=0, column=3, sticky="ew")
         
         # Feedback terminal
-        self.feedback = tk.Text(self, height=1, state="disabled")
+        self.feedback = tk.Text(self, height=3, state="disabled")
         self.feedback.grid(row=1,column=0,sticky="new",padx=5,pady=5,
                            columnspan=3)
+        
+        # Analyse data button
+        self.analyse_btn = ttk.Button(self, text="Analyser",
+                                      command=self.analyse_data)
+        self.analyse_btn.grid(row=1,column=3,sticky="new",pady=5)
         
         self.grid_columnconfigure(0, weight=0) # Label doesn't expand
         self.grid_columnconfigure(1, weight=1) # Entry can expand
         self.grid_columnconfigure(2, weight=0) # Confirm button doesn't expand
         self.grid_columnconfigure(3, weight=0) # Select file button doesn't expand
+        self.grid_columnconfigure(3, weight=0) # Analyse button doesn't expand
+
         
         #self.grid_rowconfigure(0, weight=1)
         
@@ -118,6 +178,203 @@ class FileSelector(ttk.LabelFrame):
         if not file_path:
             self.insert_text_in_feedback("Please select a csv file")
         return file_path    
-    
-      
 
+    def analyse_data(self):
+        print("To be implemented")
+  
+  
+class MenuBar(tk.Menu):
+    def __init__(self, parent):
+        super().__init__(parent)
+        
+        # Analyse menu
+        analyse_menu = tk.Menu(self, tearoff=0)
+        analyse_menu.add_command(label="Nouvelle Analyse", 
+                              command=lambda: parent.call_file_selector())
+        analyse_menu.add_command(label="Ouvrir Analyse",
+                              command=lambda: parent.call_open_data())
+        analyse_menu.add_command(label="Sauvegarder Analyse",
+                                 command=lambda: parent.call_save_data())
+        self.add_cascade(label="Analyse", menu=analyse_menu)
+        
+        # Settings menu
+        setting_menu = tk.Menu(self, tearoff=0)
+        setting_menu.add_command(label="Changer Record Lenght",
+                              command=lambda: parent.call_change_rcd_len())
+        setting_menu.add_command(label="Changer Pre Trigger",
+                              command=lambda: parent.call_change_pre_trig())
+        self.add_cascade(label="Préférence", menu=setting_menu)
+        
+        # Debug program
+        debug_menu = tk.Menu(self, tearoff=0)
+        debug_menu.add_command(label="Get window dimentions",
+                               command=lambda: parent.get_window_dim())
+        self.add_cascade(label="Debug", menu=debug_menu)
+        
+        # Close program
+        self.add_command(label="Fermer", command=lambda: self.exit(parent))
+        
+        
+    def exit(self, parent) -> None:
+        # Do a pop-up confirmation
+        check = CustomDialog(parent, "Quitter le programme?", "Oui", "Non")
+        if check.result:
+            parent.quit()
+
+
+# Used for confirming quitting the program via the Menu bar
+class CustomDialog(tk.Toplevel):
+    def __init__(self, parent, message:str, yes_text:str, no_text:str):
+        super().__init__(parent)
+        self.geometry("+100000+100000")
+        self.result = None
+        self.title("Confirmer fermeture") 
+        
+        # Create the label for the message
+        label = tk.Label(self, text=message)
+        label.pack(pady=10)
+
+        # Create Yes button
+        yes_button = ttk.Button(self, text=yes_text, command=self.on_yes)
+        yes_button.pack(side="left", padx=20, pady=20)
+
+        # Create No button
+        no_button = ttk.Button(self, text=no_text, command=self.on_no)
+        no_button.pack(side="right", padx=20, pady=20)
+        
+        # Centered on the parent's window
+        self.center_window(parent)
+        
+        # Wait for the window to close
+        self.transient(parent)
+        self.grab_set()
+        self.wait_window(self)
+        
+    def center_window(self, parent) -> None:
+        self.update_idletasks()  # Ensure window is updated to get the correct size
+        popup_width = self.winfo_reqwidth()
+        popup_height = self.winfo_reqheight()
+
+        # Get the parent window's position and size
+        parent_x = parent.winfo_x()
+        parent_y = parent.winfo_y()
+        parent_width = parent.winfo_width()
+        parent_height = parent.winfo_height()
+
+        # Calculate position for the popup to be centered
+        center_x = parent_x + (parent_width // 2) - (popup_width // 2)
+        center_y = parent_y + (parent_height // 2) - (popup_height // 2)
+
+        # Set the position of the popup window
+        self.geometry(f"+{center_x}+{center_y}")
+
+    def on_yes(self) -> None:
+        self.result = True
+        self.destroy()  # Close the dialog
+
+    def on_no(self) -> None:
+        self.result = False
+        self.destroy()  # Close the dialog
+   
+     
+class GraphShowcase(ttk.Labelframe):
+    def __init__(self, parent) -> None:
+        super().__init__(parent, text="Résultat de l'analyse", padding=(10,10), relief="raised")
+        
+        #TODO: 
+        # - link it to the data
+        
+        # Pulses' forms graph
+        self.pulse_graph = ImbededGraph(self, "Temps (microseconde)", "Voltage (V)", 
+                                          False, 0.25)
+        self.pulse_graph.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+        if hasattr(self.pulse_graph, 'toolbar'):
+            self.pulse_graph.toolbar.grid(row=1, column=0, sticky="ew")
+        
+        # Area per pulse graph
+        self.area_graph = ImbededGraph(self, "Temps (microseconde)", "Voltage (V)", 
+                                          False, 0.25)
+        self.area_graph.canvas.get_tk_widget().grid(row=2, column=0, sticky="nsew")
+        if hasattr(self.area_graph, 'toolbar'):
+            self.area_graph.toolbar.grid(row=3, column=0, sticky="ew", pady=20)
+        
+        # List of results spanning both rows
+        self.list = ListOfResults(self)
+        self.list.grid(row=0,column=1, rowspan=4, sticky="nsew")
+        """ 
+        self.pulse_graph_3.canvas.get_tk_widget().grid(row=0, column=1, rowspan=4, sticky="nsew")
+        if hasattr(self.pulse_graph_3, 'toolbar'):
+            self.pulse_graph_3.toolbar.grid(row=4, column=1, sticky="ew")
+ """
+        # Configure row/column weight for grid responsiveness
+        self.grid_rowconfigure(0, weight=1)  # First graph row
+        self.grid_rowconfigure(2, weight=1)  # Second graph row
+        self.grid_columnconfigure(0, weight=1)  # Left column (both graphs)
+        self.grid_columnconfigure(1, weight=1)  # Right column (spanning list)
+        
+class ListOfResults(ttk.Treeview):
+    def __init__(self, parent):
+        super().__init__(parent, columns=("Pulse", "Aire sous la courbe", "Dose"), 
+                 show="headings")
+        
+        self.column("Pulse", anchor="e",width=15, stretch=True)
+        self.column("Aire sous la courbe", anchor="center",width=25, stretch=True)
+        self.column("Dose", anchor="e",width=25, stretch=True)
+        
+        self.heading("Pulse", text="Pulse")
+        self.heading("Aire sous la courbe", text="Aire sous la courbe")
+        self.heading("Dose", text="Dose")
+        
+        self.grid(row=0,column=0,sticky="nsew")
+        
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_columnconfigure(0, weight=1) 
+        
+    def create_heading(self, parent, text, width) -> tk.Label:
+        label = tk.Label(parent, text=text, wraplength=width, justify="center")
+        label.grid(sticky="ew")
+        return label
+        
+    def update_data(self, data):
+        for item in data:
+            self.insert("", tk.END, values=item)
+        
+            
+       
+class ImbededGraph:
+    def __init__(self, parent, x_label:str, y_label:str, 
+                 toolbar:bool, aspect:float|Literal['auto', 'equal']) -> None:
+        self.fig = Figure(figsize=(6,5))
+        self.ax = self.fig.add_subplot()
+        self.ax.set_xlabel(x_label)
+        self.ax.set_ylabel(y_label)
+        self.fig.tight_layout()
+        self.ax.set_aspect(aspect)
+        
+        # Plot holder
+        self.x = np.arange(25)
+        self.y = np.arange(25)
+        self.line, = self.ax.plot(self.x, self.y)
+        
+        # Creating canvas where plot is drawn
+        self.canvas = FigureCanvasTkAgg(self.fig, parent)
+        self.canvas.draw()
+        
+        # Tool bar
+        if toolbar:
+            self.toolbar = NavigationToolbar2Tk(self.canvas, parent, pack_toolbar=False)
+            self.toolbar.update()
+            self.toolbar.grid(row=1, column=0, sticky="n")
+            
+        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="n")
+        
+        # Some test
+        self.canvas.mpl_connect("key_press_event", self.on_key_press)
+        self.canvas.mpl_connect("key_press_event", key_press_handler)
+            
+        
+    def update_graph(self, data):
+        pass
+    
+    def on_key_press(self, event):
+        print(f"you pressed {event.key}")

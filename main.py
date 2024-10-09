@@ -13,6 +13,8 @@ et le GUI.
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
 from scipy.integrate import trapezoid
 
 from typing import Final, List
