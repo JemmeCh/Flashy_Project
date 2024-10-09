@@ -3,20 +3,23 @@ Projet PHY3030 - FLASHy
 
 Programme d'analyse de pulse pour traitement FLASH 
 à l'aide d'un BCT et d'un digitezer CAEN DT5781.
+
+Ce fichier Python est le controlleur du projet, soit le lien entre l'analyse
+et le GUI. 
 '''
-import csv
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.integrate import trapezoid
-
-import sys
-import tkinter as tk
-from tkinter import filedialog
-
 # TODO IN PART 2 OF PROJECT
 # Use pickle library for reading binary file from digitizer
 
+import csv
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
+from scipy.integrate import trapezoid
+
 from typing import Final, List
+
+from Application import Application
 from time import time
 
 """
@@ -99,12 +102,10 @@ def levelData3(data:np.ndarray):
     # Bring value to zero if lower than threshold
     data[np.abs(data) < threshold] = 0
     return data
-    
 
-def areaUnderCurve(data:np.ndarray, x_axis, dt) -> np.ndarray:
+def areaUnderCurve(data:List[np.ndarray], x_axis, dt) -> np.ndarray:
     return np.array([trapezoid(pulse, x_axis) for pulse in data])
-
-
+    
 def areaUnderCurve2(data:np.ndarray, x_axis, dx) -> np.ndarray:
     # Trapezoid method with matrices
     left = data[:,  :-1]
@@ -121,38 +122,18 @@ def areaUnderCurve2(data:np.ndarray, x_axis, dx) -> np.ndarray:
            - ( switch.astype(int) * (np.abs(left) + np.abs(right)) * dx)
     
     return np.sum(area, axis=1)
-    
-def select_file() -> str:
-    # REMOVE THIS AS SOON AS YOU ADD MORE
-    root = tk.Tk()
-    root.withdraw()
-    # REMOVE THIS AS SOON AS YOU ADD MORE
-    
-    file_path = filedialog.askopenfilename(
-        title="Select the CSV file to analyse",
-        filetypes=(("CSV", "*.csv"), ("All files", "*.*"))
-    )
-    if not file_path:
-        sys.exit()
-    return file_path
-
 
 def main() -> None:
     # TODO: Make it user chosen
     RECORD_LENGTH = 15000 #ns
     PRE_TRIGGER = 5000 #ns
     
-    # CONSTANTS & SETTINGS
-    csv.register_dialect("CoMPASS", delimiter=';')
-    
-    # START
-    file_path = "SDataR_20240516_2.CSV"#select_file()
-    
-    data = readData(file_path)
+    app = Application()
+    data = readData("SDataR_20240516_2.CSV")
     #data = np.array([pulse / 10000 for pulse in data])
     SAMPLE_SIZE: Final[int] = data[0].size
     t_axis, dt = np.linspace(0, RECORD_LENGTH / 1000, SAMPLE_SIZE, retstep=True)
-    
+
     #print(data, "\n")
     
     #testLevelingFunc(data, t_axis)
@@ -161,6 +142,7 @@ def main() -> None:
     #graphData(data, t_axis)
     
     #print(areaUnderCurve(data, t_axis))
+    app.mainloop()
     
     
 def testAreaFunc(data:np.ndarray, t_axis, dt):
