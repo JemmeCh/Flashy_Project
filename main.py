@@ -14,13 +14,14 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('TkAgg')
 from scipy.integrate import trapezoid
 
 from typing import Final, List
 
 from Application import Application
-from time import time
+
+csv.register_dialect("CoMPASS", delimiter=';')
+matplotlib.use('TkAgg')
 
 """
 Reads a CSV file from CoMPASS named file_name. The file comes from 
@@ -61,38 +62,7 @@ def graphData(data:np.ndarray, t_axis):
     plt.ylabel("Tension (V)")
     plt.show()
 
-def levelData(data:np.ndarray) -> np.ndarray:
-    levelData = []
-    
-    for pulse in data:
-        # Bring values close to zero
-        hist, bin_edges = np.histogram(pulse, bins=50) # Adjust bins
-        mode_value = bin_edges[np.argmax(hist)]
-        leveled_pulse = pulse - mode_value
-        
-        # Find a threshold
-        std_dev = np.std(leveled_pulse[np.abs(leveled_pulse) < 3 * np.std(leveled_pulse)])
-        threshold = 0.60 * std_dev # Adjust value
-        
-        leveled_pulse[np.abs(leveled_pulse < threshold)] = 0
-        levelData.append(leveled_pulse)
-    
-    return np.array(levelData)
-
-def levelData2(data:np.ndarray) -> np.ndarray:
-    result = []
-    threshold = 8
-     
-    for pulse in data:
-        # Median of the first 200 samples
-        baseline = np.median(pulse[:200])
-        leveled_pulse = pulse - baseline
-        leveled_pulse[np.abs(leveled_pulse) < threshold] = 0
-        
-        result.append(leveled_pulse)
-    return np.array(result)
-
-def levelData3(data:np.ndarray):
+def levelData(data:np.ndarray):
     threshold = 8
 
     # Calculate de median of each pulse
@@ -102,11 +72,8 @@ def levelData3(data:np.ndarray):
     # Bring value to zero if lower than threshold
     data[np.abs(data) < threshold] = 0
     return data
-
-def areaUnderCurve(data:List[np.ndarray], x_axis, dt) -> np.ndarray:
-    return np.array([trapezoid(pulse, x_axis) for pulse in data])
     
-def areaUnderCurve2(data:np.ndarray, x_axis, dx) -> np.ndarray:
+def areaUnderCurve(data:np.ndarray, x_axis, dx) -> np.ndarray:
     # Trapezoid method with matrices
     left = data[:,  :-1]
     right = data[:, 1:  ]
@@ -144,55 +111,7 @@ def main() -> None:
     #print(areaUnderCurve(data, t_axis))
     app.mainloop()
     
-    
-def testAreaFunc(data:np.ndarray, t_axis, dt):
-    data1 = levelData3(data.copy())
-    data2 = levelData3(data.copy())
-    
-    start = time()
-    data1 = areaUnderCurve(data1, t_axis, dt)
-    end = time()
-    print(f"Utilisant fonction 1: {end - start}")
-    start = time()
-    data2 = areaUnderCurve2(data2, t_axis, dt)
-    end = time()
-    print(f"Utilisant fonction 2: {end - start}")
-    
-    """ print("Data1 =")
-    print(data1)
-    print("Data2 =")
-    print(data2) """
-    
-def testLevelingFunc(data:np.ndarray, t_axis):
-    data1 = data.copy()
-    data2 = data.copy()
-    data3 = data.copy()
-    
-    start = time()
-    data1 = levelData(data1)
-    end = time()
-    print(f"Utilisant fonction 1: {end - start}")
-    start = time()
-    data2 = levelData2(data2)
-    end = time()
-    print(f"Utilisant fonction 2: {end - start}")
-    start = time()
-    data3 = levelData3(data3)
-    end = time()
-    print(f"Utilisant fonction 3: {end - start}")
-    
-    print("Data1 =")
-    print(data1[0].tolist())
-    print("Data2 =")
-    print(data2[0].tolist())
-    print("Data3 =")
-    print(data3[0].tolist())
-    
-    graphData(data1, t_axis)
-    graphData(data2, t_axis)
-    graphData(data3, t_axis)
-    
-    #print((data2[0] == data3[0]).tolist())
+
 
     
 if __name__ == '__main__':

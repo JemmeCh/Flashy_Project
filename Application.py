@@ -8,6 +8,9 @@ from typing import Literal
 
 # For graphs, I'm using matplotlib
 import matplotlib
+from matplotlib import pyplot as plt
+
+from DataAnalyser import DataAnalyser 
 matplotlib.use('TkAgg')
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -20,9 +23,17 @@ import numpy as np
 class Application(tk.Tk):      
     def __init__(self) -> None:
         super().__init__()
+        # Setting the DataAnalyser
+        self.dataAnalyser = DataAnalyser(self)
+        
+        # Parameters of the recording
+        self.RECORD_LENGHT:int = 0
+        #self.SAMPLE_SIZE:int = 0
+        self.PRE_TRIGGER:int = 0
+        
         # Basic window creation
         self.title("FLASHy")
-        self.geometry("1200x700")
+        self.geometry("1200x800")
         
         # Block 1: Information
         self.info_tir = InfoTir(self)
@@ -48,10 +59,20 @@ class Application(tk.Tk):
         self.grid_rowconfigure(2, weight=1)    # Allow    vertical   mouvement
         
     # --- Useful functions for the File selector --- #   
-    def call_analyse_data(self):
-        return self.selection.analyse_data()
-        
-    # ---------------------------------------------- #    
+    def send_feedback(self, text):
+        return self.selection.insert_text_in_feedback(text)
+    # ---------------------------------------------- #  
+    
+    # --- Useful functions for changing/getting experiment parameters --- #
+    def get_rcd_len(self) -> int:
+        return self.RECORD_LENGHT
+    def set_rcd_len(self, x: int) -> None:
+        self.RECORD_LENGHT = x
+    def get_pre_trigger(self) -> int:
+        return self.PRE_TRIGGER
+    def set_pre_trigger(self, x:int) -> None:
+        self.PRE_TRIGGER
+    # ------------------------------------------------------------------- #   
     
     # --- Useful functions for the Menu Bar --- #   
     def call_file_selector(self):
@@ -73,6 +94,10 @@ class Application(tk.Tk):
     def get_window_dim(self):
         print(f"Width: {self.winfo_width()}, Height: {self.winfo_height()}")
     # ----------------------------------------- #
+    
+    # --- Useful functions for the Graph section --- #
+    
+    # ---------------------------------------------- #
         
 
 
@@ -83,16 +108,19 @@ class InfoTir(ttk.LabelFrame):
         # --- Record lenght ---
         self.record_lenght = SettingEntryFrame(self, "Record Lenght", "15 000")
         self.record_lenght.grid(row=0, column=0, sticky="nswe")
+        parent.set_rcd_len(15000)
         
         # --- Pre trigger ---
         self.pre_trigger = SettingEntryFrame(self, "Pre Trigger", "5 000")
         self.pre_trigger.grid(row=1, column=0, sticky="nswe")
+        parent.set_pre_trigger(5000)
         
         self.grid_columnconfigure(0, weight=1) # Allow column to expand
         self.grid_rowconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         
-# Used for creating a setting        
+# Used for creating a parameter
+# TODO: Make it so you can change those values       
 class SettingEntryFrame(ttk.Frame):
     def __init__(self, parent, label:str, init_val:str):
         super().__init__(parent)
@@ -120,6 +148,9 @@ class SettingEntryFrame(ttk.Frame):
 class FileSelector(ttk.LabelFrame):
     def __init__(self, parent):
         super().__init__(parent, text="Sélection de fichier", padding=(10,10), relief="raised")
+        
+        # Used to modify/get other parts of the program
+        self.app = parent
         
         self.file_name = ttk.Label(self, text="Nom du fichier:")
         self.file_name.grid(row=0,column=0,sticky="nw",padx=5,pady=5)
@@ -154,21 +185,14 @@ class FileSelector(ttk.LabelFrame):
         self.grid_columnconfigure(3, weight=0) # Select file button doesn't expand
         self.grid_columnconfigure(3, weight=0) # Analyse button doesn't expand
 
-        
-        #self.grid_rowconfigure(0, weight=1)
-        
-        
-    def insert_text_in_feedback(self, txt:str):
-        self.feedback.config(state="normal")
-        self.feedback.insert(tk.END, txt + "\n")
-        self.feedback.config(state="disabled") 
+        # Initialize class variables
+        self.path_to_data:str = ""
     
     
     def confirm_path(self):
         self.insert_text_in_feedback("This will be implemented later")
-        
-        
-    def select_file(self) -> str:
+            
+    def select_file(self):
         csv.register_dialect("CoMPASS", delimiter=';')
         
         file_path = filedialog.askopenfilename(
@@ -176,11 +200,42 @@ class FileSelector(ttk.LabelFrame):
             filetypes=(("CSV", "*.csv"), ("All files", "*.*"))
         )
         if not file_path:
-            self.insert_text_in_feedback("Please select a csv file")
-        return file_path    
+            self.insert_text_in_feedback("Please select a file")
+            return
+        
+        self.path_to_data = file_path
+        
+        self.insert_text_in_feedback("File selected! Checking if it's a csv...")
 
+        if not self.check_if_csv():
+            self.insert_text_in_feedback("Please select a csv file")
+            return
+
+        # Here, the file is for sure a csv file
+        # Write it on the Entry
+        self.file_path.insert(0, self.path_to_data)
+        # Prompt the user that they can anaylyse the data
+        self.insert_text_in_feedback(f"File {self.path_to_data} is ready to be analysed!")
+        
+    def check_if_csv(self) -> bool:
+        return self.path_to_data.lower().endswith('.csv')
+    
     def analyse_data(self):
+        #TODO: Check if theres a path
+        
+        self.app.dataAnalyser.read_file(self.path_to_data)
+        self.app.dataAnalyser.level_data()
+        self.app.dataAnalyser.calculate_area()
+        self.app.graph_view.update_pulse_graph()
+        # Graphs update
         print("To be implemented")
+        
+    def insert_text_in_feedback(self, txt:str):
+        self.feedback.config(state="normal")
+        self.feedback.insert(tk.END, txt + "\n")
+        self.feedback.see(tk.END)
+        self.feedback.config(state="disabled") 
+    
   
   
 class MenuBar(tk.Menu):
@@ -281,19 +336,21 @@ class GraphShowcase(ttk.Labelframe):
     def __init__(self, parent) -> None:
         super().__init__(parent, text="Résultat de l'analyse", padding=(10,10), relief="raised")
         
+        # Used to modify/get other parts of the program
+        self.app = parent
         #TODO: 
         # - link it to the data
         
         # Pulses' forms graph
-        self.pulse_graph = ImbededGraph(self, "Temps (microseconde)", "Voltage (V)", 
-                                          False, 0.25)
+        self.pulse_graph = PulseGraph(self, "Temps (microseconde)", "Voltage (V)", 
+                                          False)
         self.pulse_graph.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
         if hasattr(self.pulse_graph, 'toolbar'):
             self.pulse_graph.toolbar.grid(row=1, column=0, sticky="ew")
         
         # Area per pulse graph
-        self.area_graph = ImbededGraph(self, "Temps (microseconde)", "Voltage (V)", 
-                                          False, 0.25)
+        self.area_graph = AreaGraph(self, "Temps (microseconde)", "Voltage (V)", 
+                                          False)
         self.area_graph.canvas.get_tk_widget().grid(row=2, column=0, sticky="nsew")
         if hasattr(self.area_graph, 'toolbar'):
             self.area_graph.toolbar.grid(row=3, column=0, sticky="ew", pady=20)
@@ -301,16 +358,30 @@ class GraphShowcase(ttk.Labelframe):
         # List of results spanning both rows
         self.list = ListOfResults(self)
         self.list.grid(row=0,column=1, rowspan=4, sticky="nsew")
-        """ 
-        self.pulse_graph_3.canvas.get_tk_widget().grid(row=0, column=1, rowspan=4, sticky="nsew")
-        if hasattr(self.pulse_graph_3, 'toolbar'):
-            self.pulse_graph_3.toolbar.grid(row=4, column=1, sticky="ew")
- """
+        
         # Configure row/column weight for grid responsiveness
         self.grid_rowconfigure(0, weight=1)  # First graph row
         self.grid_rowconfigure(2, weight=1)  # Second graph row
         self.grid_columnconfigure(0, weight=1)  # Left column (both graphs)
         self.grid_columnconfigure(1, weight=1)  # Right column (spanning list)
+        
+    def update_pulse_graph(self):
+        self.pulse_graph.update_graph()
+    def update_area_graph(self):
+        self.area_graph.update_graph()
+    def update_list(self): #TODO
+        #self.list.update_list()
+        pass
+        
+    def fetch_pulse_info(self):
+        return self.app.dataAnalyser.get_pulse_info()
+    def fetch_t_axis(self):
+        return self.app.dataAnalyser.get_t_axis()
+    def fetch_area_under_curve(self):
+        return self.app.dataAnalyser.get_area_under_curve()
+    def fetch_nbr_of_pulse(self):
+        return self.app.dataAnalyser.get_nbr_of_pulse()
+        
         
 class ListOfResults(ttk.Treeview):
     def __init__(self, parent):
@@ -335,46 +406,99 @@ class ListOfResults(ttk.Treeview):
         label.grid(sticky="ew")
         return label
         
-    def update_data(self, data):
+    def update_list(self, data):
         for item in data:
             self.insert("", tk.END, values=item)
         
-            
-       
-class ImbededGraph:
+               
+class Graph:
     def __init__(self, parent, x_label:str, y_label:str, 
-                 toolbar:bool, aspect:float|Literal['auto', 'equal']) -> None:
-        self.fig = Figure(figsize=(6,5))
-        self.ax = self.fig.add_subplot()
-        self.ax.set_xlabel(x_label)
-        self.ax.set_ylabel(y_label)
-        self.fig.tight_layout()
-        self.ax.set_aspect(aspect)
-        
+                 toolbar:bool) -> None:
+        self.create_plot_canvas(parent,x_label,y_label)
+        self.canvas.draw()
         # Plot holder
         self.x = np.arange(25)
         self.y = np.arange(25)
         self.line, = self.ax.plot(self.x, self.y)
-        
-        # Creating canvas where plot is drawn
-        self.canvas = FigureCanvasTkAgg(self.fig, parent)
-        self.canvas.draw()
+        #self.ax.plot(self.x, self.y)
         
         # Tool bar
         if toolbar:
             self.toolbar = NavigationToolbar2Tk(self.canvas, parent, pack_toolbar=False)
             self.toolbar.update()
             self.toolbar.grid(row=1, column=0, sticky="n")
-            
-        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="n")
         
         # Some test
-        self.canvas.mpl_connect("key_press_event", self.on_key_press)
-        self.canvas.mpl_connect("key_press_event", key_press_handler)
-            
+        #self.canvas.mpl_connect("key_press_event", self.on_key_press)
+        self.canvas.mpl_connect("key_press_event", key_press_handler) # type: ignore
+    
+    def create_plot_canvas(self, parent, x_label:str, y_label:str,):
+        # Create a new figure and axis
+        self.fig = Figure(figsize=(6,5))
+        self.ax = self.fig.add_subplot()
+        self.ax.set_xlabel(x_label)
+        self.ax.set_ylabel(y_label)
+        self.fig.tight_layout()
+        self.ax.set_autoscale_on(True)
+        self.ax.set_adjustable('datalim')
+        self.ax.autoscale(True, 'both')
         
-    def update_graph(self, data):
-        pass
+        # Creating canvas where plot is drawn
+        if hasattr(self, 'canvas'):  # If canvas already exists, destroy it
+            self.canvas.get_tk_widget().destroy()
+
+        self.canvas = FigureCanvasTkAgg(self.fig, master=parent)
+        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+        
+
+    # The other Graph classes must change this
+    def update_graph(self):
+        pass  
     
     def on_key_press(self, event):
         print(f"you pressed {event.key}")
+        
+class PulseGraph(Graph):
+    def __init__(self, parent, x_label:str, y_label:str, 
+                 toolbar:bool):
+        super().__init__(parent, x_label, y_label, toolbar)
+        self.showcase = parent
+        self.x_label = x_label
+        self.y_label = y_label
+        self.toolbar_bool = toolbar
+        
+        self.x = self.showcase.fetch_t_axis()
+        self.y = self.showcase.fetch_pulse_info()
+        
+    def update_graph(self):
+        # Clear the old canvas
+        self.create_plot_canvas(self.showcase,self.x_label,self.y_label)
+        
+        
+        # Get the new values of x and y
+        self.x = self.showcase.fetch_t_axis()
+        self.y = self.showcase.fetch_pulse_info()
+        self.x = np.array(self.x)
+        self.y = np.array(self.y)
+
+        # Update plot
+        self.ax.clear()
+        for pulse in self.y:
+            self.ax.plot(self.x, pulse)
+
+        self.ax.autoscale_view()
+        
+        self.canvas.draw()
+        
+        
+        
+class AreaGraph(Graph):
+    def __init__(self, parent, x_label:str, y_label:str, 
+                 toolbar:bool):
+        super().__init__(parent, x_label, y_label, toolbar)
+        self.showcase = parent
+        self.x = self.showcase.fetch_nbr_of_pulse()
+        self.y = self.showcase.fetch_area_under_curve()
+        
+    def update_graph(self):
+        pass
