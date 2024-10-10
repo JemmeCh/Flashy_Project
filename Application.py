@@ -222,13 +222,18 @@ class FileSelector(ttk.LabelFrame):
     
     def analyse_data(self):
         #TODO: Check if theres a path
-        
+
+        self.insert_text_in_feedback("Reading file...")
         self.app.dataAnalyser.read_file(self.path_to_data)
+        self.insert_text_in_feedback("Leveling data...")
         self.app.dataAnalyser.level_data()
+        self.insert_text_in_feedback("Calculation areas under the curves...")
         self.app.dataAnalyser.calculate_area()
+        self.insert_text_in_feedback("Updating graphs et list...")
         self.app.graph_view.update_pulse_graph()
-        # Graphs update
-        print("To be implemented")
+        self.app.graph_view.update_area_graph()
+        self.app.graph_view.update_list()
+        self.insert_text_in_feedback("Data analysed! Read to save analysis (to be implemented)")
         
     def insert_text_in_feedback(self, txt:str):
         self.feedback.config(state="normal")
@@ -369,9 +374,9 @@ class GraphShowcase(ttk.Labelframe):
         self.pulse_graph.update_graph()
     def update_area_graph(self):
         self.area_graph.update_graph()
-    def update_list(self): #TODO
-        #self.list.update_list()
-        pass
+    def update_list(self): 
+        print("this is called")
+        self.list.update_list()
         
     def fetch_pulse_info(self):
         return self.app.dataAnalyser.get_pulse_info()
@@ -387,6 +392,7 @@ class ListOfResults(ttk.Treeview):
     def __init__(self, parent):
         super().__init__(parent, columns=("Pulse", "Aire sous la courbe", "Dose"), 
                  show="headings")
+        self.showcase = parent
         
         self.column("Pulse", anchor="e",width=15, stretch=True)
         self.column("Aire sous la courbe", anchor="center",width=25, stretch=True)
@@ -406,8 +412,20 @@ class ListOfResults(ttk.Treeview):
         label.grid(sticky="ew")
         return label
         
-    def update_list(self, data):
-        for item in data:
+    def update_list(self):
+        self.areas = self.showcase.fetch_area_under_curve() 
+        self.nbr_of_pulse = self.showcase.fetch_nbr_of_pulse()
+        self.doses = np.arange(self.nbr_of_pulse) # TODO: Calculate this
+        
+        # Packing data to be read by the List
+        # Format: [[1,area1,dose1], [2,area2,dose2], ..., 
+        # [self.nbr_of_pulse,area(self.nbr_of_pulse),dose(self.nbr_of_pulse)]]
+        self.data = [[i + 1, area, dose] for i, (area, dose) in 
+                     enumerate(zip(self.areas, self.doses))]
+        
+        print(self.data)
+        
+        for item in self.data:
             self.insert("", tk.END, values=item)
         
                
@@ -415,7 +433,13 @@ class Graph:
     def __init__(self, parent, x_label:str, y_label:str, 
                  toolbar:bool) -> None:
         self.create_plot_canvas(parent,x_label,y_label)
-        self.canvas.draw()
+        
+        self.showcase = parent
+        self.x_label = x_label
+        self.y_label = y_label
+        self.toolbar_bool = toolbar
+        
+        #self.canvas.draw()
         # Plot holder
         self.x = np.arange(25)
         self.y = np.arange(25)
@@ -448,7 +472,6 @@ class Graph:
             self.canvas.get_tk_widget().destroy()
 
         self.canvas = FigureCanvasTkAgg(self.fig, master=parent)
-        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
         
 
     # The other Graph classes must change this
@@ -462,10 +485,6 @@ class PulseGraph(Graph):
     def __init__(self, parent, x_label:str, y_label:str, 
                  toolbar:bool):
         super().__init__(parent, x_label, y_label, toolbar)
-        self.showcase = parent
-        self.x_label = x_label
-        self.y_label = y_label
-        self.toolbar_bool = toolbar
         
         self.x = self.showcase.fetch_t_axis()
         self.y = self.showcase.fetch_pulse_info()
@@ -473,7 +492,7 @@ class PulseGraph(Graph):
     def update_graph(self):
         # Clear the old canvas
         self.create_plot_canvas(self.showcase,self.x_label,self.y_label)
-        
+        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
         
         # Get the new values of x and y
         self.x = self.showcase.fetch_t_axis()
@@ -489,9 +508,7 @@ class PulseGraph(Graph):
         self.ax.autoscale_view()
         
         self.canvas.draw()
-        
-        
-        
+              
 class AreaGraph(Graph):
     def __init__(self, parent, x_label:str, y_label:str, 
                  toolbar:bool):
@@ -501,4 +518,21 @@ class AreaGraph(Graph):
         self.y = self.showcase.fetch_area_under_curve()
         
     def update_graph(self):
-        pass
+        # Clear the old canvas
+        self.create_plot_canvas(self.showcase,self.x_label,self.y_label)
+        self.canvas.get_tk_widget().grid(row=2, column=0, sticky="nsew")
+
+        
+        # Get the new values of x and y
+        self.x = self.showcase.fetch_nbr_of_pulse()
+        self.y = self.showcase.fetch_area_under_curve()
+        self.x = np.arange(self.x)
+        self.y = np.array(self.y)
+        
+        # Update plot
+        self.ax.clear()
+        self.ax.plot(self.x, self.y,'ro',linestyle='dashed',markersize=10)
+
+        self.ax.autoscale_view()
+        
+        self.canvas.draw()

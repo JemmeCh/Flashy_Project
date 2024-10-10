@@ -14,6 +14,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
+matplotlib.use('TkAgg')
 from scipy.integrate import trapezoid
 
 from typing import Final, List
@@ -21,7 +22,6 @@ from typing import Final, List
 from Application import Application
 
 csv.register_dialect("CoMPASS", delimiter=';')
-matplotlib.use('TkAgg')
 
 """
 Reads a CSV file from CoMPASS named file_name. The file comes from 
@@ -72,7 +72,7 @@ def levelData(data:np.ndarray):
     # Bring value to zero if lower than threshold
     data[np.abs(data) < threshold] = 0
     return data
-    
+
 def areaUnderCurve(data:np.ndarray, x_axis, dx) -> np.ndarray:
     # Trapezoid method with matrices
     left = data[:,  :-1]
