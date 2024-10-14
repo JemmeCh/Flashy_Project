@@ -213,6 +213,7 @@ class FileSelector(ttk.LabelFrame):
 
         # Here, the file is for sure a csv file
         # Write it on the Entry
+        self.file_path.delete(0,tk.END)
         self.file_path.insert(0, self.path_to_data)
         # Prompt the user that they can anaylyse the data
         self.insert_text_in_feedback(f"File {self.path_to_data} is ready to be analysed!")
@@ -375,7 +376,6 @@ class GraphShowcase(ttk.Labelframe):
     def update_area_graph(self):
         self.area_graph.update_graph()
     def update_list(self): 
-        print("this is called")
         self.list.update_list()
         
     def fetch_pulse_info(self):
@@ -394,9 +394,9 @@ class ListOfResults(ttk.Treeview):
                  show="headings")
         self.showcase = parent
         
-        self.column("Pulse", anchor="e",width=15, stretch=True)
+        self.column("Pulse", anchor="center",width=15, stretch=True)
         self.column("Aire sous la courbe", anchor="center",width=25, stretch=True)
-        self.column("Dose", anchor="e",width=25, stretch=True)
+        self.column("Dose", anchor="center",width=25, stretch=True)
         
         self.heading("Pulse", text="Pulse")
         self.heading("Aire sous la courbe", text="Aire sous la courbe")
@@ -413,6 +413,10 @@ class ListOfResults(ttk.Treeview):
         return label
         
     def update_list(self):
+        # Delete old results
+        self.delete(*self.get_children())
+        
+        # Fetch the new data from DataAnalyser
         self.areas = self.showcase.fetch_area_under_curve() 
         self.nbr_of_pulse = self.showcase.fetch_nbr_of_pulse()
         self.doses = np.arange(self.nbr_of_pulse) # TODO: Calculate this
@@ -422,9 +426,7 @@ class ListOfResults(ttk.Treeview):
         # [self.nbr_of_pulse,area(self.nbr_of_pulse),dose(self.nbr_of_pulse)]]
         self.data = [[i + 1, area, dose] for i, (area, dose) in 
                      enumerate(zip(self.areas, self.doses))]
-        
-        print(self.data)
-        
+                
         for item in self.data:
             self.insert("", tk.END, values=item)
         

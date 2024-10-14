@@ -17,6 +17,7 @@ class DataAnalyser:
         self.dt = 0
         self.nbr_of_pulse:int = 0
         self.SAMPLE_SIZE:int = 0
+        self.convertion_factor:float = 0.
     
     def read_file(self, path):
         info = []
@@ -66,6 +67,12 @@ class DataAnalyser:
             - ( switch.astype(int) * (np.abs(left) + np.abs(right)) * self.dt)
         
         self.area_under_curve = np.sum(area, axis=1)
+        self.convert_Vs2nC()
+    
+    def convert_Vs2nC(self):
+        # Facteur de calibration fourni par le fabricant
+        self.convertion_factor = 1 / 33.33
+        self.area_under_curve *= self.convertion_factor
     
     def prep_data(self):
         # Set SAMPLE_SIZE
