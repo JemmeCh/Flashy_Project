@@ -2,4 +2,13 @@
 **/_ideas
 # ignore tests-calculs folder
 _tests-calculs/*
-__pychache__/
+# ignore readme images folder
+**/images-readme/*
+# ignore exe related files
+/build/*
+/dist/*
+main.exe
+main.spec
+# Others
+**/__pychache__/
+/.vscode/*
