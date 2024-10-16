@@ -62,9 +62,7 @@ class DataAnalyser:
         switch = ~(lswitch & rswitch)
     
         # Calculating the area under each trapezoid
-        # The minus is if the curve is below x=0
-        area = (np.abs(left) + np.abs(right)) * self.dt / 2 \
-            - ( switch.astype(int) * (np.abs(left) + np.abs(right)) * self.dt)
+        area = (left + right) * self.dt / 2
         
         self.area_under_curve = np.sum(area, axis=1)
         self.convert_Vs2nC()
