@@ -9,6 +9,7 @@ _tests-calculs/*
 /dist/*
 main.exe
 main.spec
+/Versions/*
 # Others
 **/__pychache__/
 /.vscode/*
