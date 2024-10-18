@@ -12,17 +12,6 @@ class Controller():
         self.RECORD_LENGHT:int = 0
         self.PRE_TRIGGER:int = 0
     
-    # --- Useful functions for changing/getting experiment parameters --- #
-    """ def get_rcd_len(self) -> int:
-        return self.RECORD_LENGHT
-    def set_rcd_len(self, x: int) -> None:
-        self.RECORD_LENGHT = x
-    def get_pre_trigger(self) -> int:
-        return self.PRE_TRIGGER
-    def set_pre_trigger(self, x:int) -> None:
-        self.PRE_TRIGGER """
-    # ------------------------------------------------------------------- #
-    
     # Getting information from the models
     def get_data_analyser(self):
         return self.model_controller.get_data_analyser()

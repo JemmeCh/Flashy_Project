@@ -4,6 +4,8 @@ from View.MainApp.FileSelector import FileSelector
 from View.MainApp.GraphShowcase import GraphShowcase
 from View.MainApp.InfoTir import InfoTir
 from View.MainApp.MenuBar import MenuBar
+from View.MainApp.Feedback import Feedback
+
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -31,13 +33,15 @@ class ViewController(tk.Tk):
         
         # Block 2: File Selector
         self.file_selection = FileSelector(self)
-        self.file_selection.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        self.file_selection.grid(row=0, column=1, sticky="nsew", padx=(0,5), pady=5)
         
         # Block 3: Graphs, Area under the curve, and Dosage
         self.graph_showcase = GraphShowcase(self)
-        self.graph_showcase.grid(row=2, column=0, sticky="nsew", padx=5, pady=5)
+        self.graph_showcase.grid(row=1, column=0, sticky="nsew", padx=5, pady=(0,5), columnspan=2)
         
-        # Block 4: Saving analysed data
+        # Block 4: Feedback to user
+        self.feedback = Feedback(self)
+        self.feedback.grid(row=2, column=0, sticky="nsew", padx=5, pady=5, columnspan=2)
         
         # Menu bar
         self.menu_bar = MenuBar(self)
