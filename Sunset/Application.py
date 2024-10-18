@@ -1,4 +1,3 @@
-import sys
 import csv
 
 import tkinter as tk
@@ -10,7 +9,7 @@ from typing import Literal
 import matplotlib
 from matplotlib import pyplot as plt
 
-from DataAnalyser import DataAnalyser 
+from Model.DataAnalyser import DataAnalyser 
 matplotlib.use('TkAgg')
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -63,7 +62,7 @@ class Application(tk.Tk):
         return self.selection.insert_text_in_feedback(text)
     # ---------------------------------------------- #  
     
-    # --- Useful functions for changing/getting experiment parameters --- #
+    """ """ # --- Useful functions for changing/getting experiment parameters --- #
     def get_rcd_len(self) -> int:
         return self.RECORD_LENGHT
     def set_rcd_len(self, x: int) -> None:
@@ -72,7 +71,7 @@ class Application(tk.Tk):
         return self.PRE_TRIGGER
     def set_pre_trigger(self, x:int) -> None:
         self.PRE_TRIGGER
-    # ------------------------------------------------------------------- #   
+    # ------------------------------------------------------------------- # """  """  
     
     # --- Useful functions for the Menu Bar --- #   
     def call_file_selector(self):
@@ -344,8 +343,6 @@ class GraphShowcase(ttk.Labelframe):
         
         # Used to modify/get other parts of the program
         self.app = parent
-        #TODO: 
-        # - link it to the data
         
         # Pulses' forms graph
         self.pulse_graph = PulseGraph(self, "Temps (microseconde)", "Voltage (V)", 

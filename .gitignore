@@ -12,4 +12,8 @@ main.spec
 /Versions/*
 # Others
 **/__pychache__/
+/Model/__pychache__/*
+/Controller/__pychache__/*
+/View/__pychache__/*
+/View/Graphs/__pychache__/*
 /.vscode/*

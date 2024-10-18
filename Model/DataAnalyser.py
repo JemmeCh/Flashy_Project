@@ -1,16 +1,16 @@
-from typing import Final, List
-from scipy.integrate import trapezoid
 import csv
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib
-matplotlib.use('TkAgg')
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from Controller.ModelController import ModelController
+
 
 
 class DataAnalyser:
-    def __init__(self, app):
+    def __init__(self, model_controller:"ModelController"):
         self.pulse_info:np.ndarray = np.arange(25)
-        self.app = app
+        self.model_controller = model_controller
         self.area_under_curve = np.arange(25)
         self.dose = np.arange(25)
         self.t_axis = np.arange(25)
@@ -34,8 +34,8 @@ class DataAnalyser:
         
         # Change the analyser's data
         self.pulse_info = np.array(info)
-        # Notify the user
-        self.app.send_feedback("Data extracted from file")
+        # Notify the user TODO
+        self.model_controller.send_feedback("Data extracted from file")
         
         self.prep_data()
     
@@ -57,9 +57,9 @@ class DataAnalyser:
         right = self.pulse_info[:, 1:  ]
         
         # Creating the switch to check if we're below x=0
-        lswitch = left  >= 0
-        rswitch = right >= 0 
-        switch = ~(lswitch & rswitch)
+        #lswitch = left  >= 0
+        #rswitch = right >= 0 
+        #switch = ~(lswitch & rswitch)
     
         # Calculating the area under each trapezoid
         area = (left + right) * self.dt / 2
@@ -76,9 +76,9 @@ class DataAnalyser:
         # Set SAMPLE_SIZE
         self.SAMPLE_SIZE = np.shape(self.pulse_info)[1] # Find number of columns
         
-        # Calculate t_axis and dt
+        # Calculate t_axis and dt TODO
         self.t_axis, self.dt = np.linspace(
-            0, self.app.get_rcd_len() / 1000, self.SAMPLE_SIZE, retstep=True)
+            0, self.model_controller.get_rcd_len() / 1000, self.SAMPLE_SIZE, retstep=True)
 
         # Find the number of pulse
         self.nbr_of_pulse = np.shape(self.pulse_info)[0] # Find number of rows
