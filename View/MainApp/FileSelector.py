@@ -84,17 +84,35 @@ class FileSelector(ttk.LabelFrame):
         return self.path_to_data.lower().endswith('.csv')
     
     def analyse_data(self):
-        #TODO: Check if theres a path
-
+        # Check if theres a path
+        if not self.path_to_data:
+            self.insert_text_in_feedback("Please select a file!")
+            return
         self.insert_text_in_feedback("Reading file...")
-        self.view_controller.data_analyser.read_file(self.path_to_data)
+        # Check if there's a problem when reading the CSV
+        try:
+            self.view_controller.data_analyser.read_file(self.path_to_data)
+        except IOError as e:
+            print(f"Error: {e}")
+            print("The file might be in use or locked by another program.")
+            return
+        except StopIteration as e:
+            print(f"Error: {e}")
+            print("Looks like there's no header. Could be that CoMPASS is still running")
+            return
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+            return
         self.insert_text_in_feedback("Leveling data...")
         self.view_controller.data_analyser.level_data()
-        self.insert_text_in_feedback("Calculation areas under the curves...")
+        self.insert_text_in_feedback("Calculating areas under the curves...")
         self.view_controller.data_analyser.calculate_area()
+        self.insert_text_in_feedback("Calculating dosage...")
+        self.view_controller.data_analyser.calculate_dose()
         self.insert_text_in_feedback("Updating graphs et list...")
         self.view_controller.graph_showcase.update_pulse_graph()
         self.view_controller.graph_showcase.update_area_graph()
+        self.view_controller.data_analyser.prepare_list()
         self.view_controller.graph_showcase.update_list()
         self.insert_text_in_feedback("Data analysed! Read to save analysis (to be implemented)")
         

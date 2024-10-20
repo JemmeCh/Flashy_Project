@@ -4,19 +4,26 @@ from View.MainApp.Graphs.Graph import Graph
 
 class PulseGraph(Graph):
     def __init__(self, parent, x_label:str, y_label:str, 
-                 toolbar:bool):
+                 toolbar:bool, gridrow:int, gridcolumn:int):
         self.showcase = parent
         self.x_label = x_label
         self.y_label = y_label
         self.toolbar_bool = toolbar
+        self.gridrow = gridrow
+        self.gridcolumn = gridcolumn
         super().create_plot_canvas()
+        
+        # Place graph
+        if self.toolbar_bool:
+            self.toolbar.grid(row=self.gridrow + 1, column=self.gridcolumn, sticky="n")
+        self.canvas.get_tk_widget().grid(row=self.gridrow, column=self.gridcolumn, sticky="nsew")
         
     def update_graph(self):
         # Clear the old canvas
         self.create_plot_canvas()
         if self.toolbar_bool:
-            self.toolbar.grid(row=1, column=0, sticky="n")
-        self.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+            self.toolbar.grid(row=self.gridrow + 1, column=self.gridcolumn, sticky="n")
+        self.canvas.get_tk_widget().grid(row=self.gridrow, column=self.gridcolumn, sticky="nsew")
         
         # Get the new values of x and y
         self.x = self.showcase.fetch_t_axis()

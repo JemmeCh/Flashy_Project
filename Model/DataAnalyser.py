@@ -1,23 +1,33 @@
 import csv
 import numpy as np
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     from Controller.ModelController import ModelController
 
 
-
 class DataAnalyser:
     def __init__(self, model_controller:"ModelController"):
+        # Contains the sample points for each pulse
         self.pulse_info:np.ndarray = np.arange(25)
-        self.model_controller = model_controller
-        self.area_under_curve = np.arange(25)
-        self.dose = np.arange(25)
-        self.t_axis = np.arange(25)
-        self.dt = 0
-        self.nbr_of_pulse:int = 0
+        # Number of points in each pulse
         self.SAMPLE_SIZE:int = 0
-        self.convertion_factor:float = 0.
+        # Contains the area of each pulse
+        self.area_under_curve = np.arange(25)
+        # Contains the dose delivered by each pulse
+        self.dose = np.arange(25)
+        # The time axis where each point is associated to a sample point
+        self.t_axis = np.arange(25)
+        # The spacing in ns between each sample point
+        self.dt = 0
+        # The number of pulse taken
+        self.nbr_of_pulse:int = 0
+        # Facteur de calibration fourni par le fabricant
+        self.convertion_factor:float = 1 / 33.33
+        # The compiled data with the format [nbr_of_pulse, area_under_curve, dose]
+        self.data = [[]]
+        # For accessing the model model controller. Mostly for future use
+        self.model_controller = model_controller
     
     def read_file(self, path):
         info = []
@@ -39,6 +49,17 @@ class DataAnalyser:
         
         self.prep_data()
     
+    def prep_data(self):
+        # Set SAMPLE_SIZE
+        self.SAMPLE_SIZE = np.shape(self.pulse_info)[1] # Find number of columns
+        
+        # Calculate t_axis and dt
+        self.t_axis, self.dt = np.linspace(
+            0, self.model_controller.get_rcd_len() / 1000, self.SAMPLE_SIZE, retstep=True)
+
+        # Find the number of pulse
+        self.nbr_of_pulse = np.shape(self.pulse_info)[0] # Find number of rows
+    
     # TODO: Change it so the 200 is dynamic
     # Test: works good on October 9
     def level_data(self):
@@ -56,32 +77,33 @@ class DataAnalyser:
         left = self.pulse_info[:,  :-1]
         right = self.pulse_info[:, 1:  ]
         
-        # Creating the switch to check if we're below x=0
-        #lswitch = left  >= 0
-        #rswitch = right >= 0 
-        #switch = ~(lswitch & rswitch)
-    
         # Calculating the area under each trapezoid
         area = (left + right) * self.dt / 2
         
         self.area_under_curve = np.sum(area, axis=1)
         self.convert_Vs2nC()
+
+        # Calculating the total area of all the pulses
+        self.total_area = np.sum(self.area_under_curve)
     
     def convert_Vs2nC(self):
-        # Facteur de calibration fourni par le fabricant
-        self.convertion_factor = 1 / 33.33
-        self.area_under_curve *= self.convertion_factor
+        self.area_under_curve *= self.convertion_factor * 0.1
     
-    def prep_data(self):
-        # Set SAMPLE_SIZE
-        self.SAMPLE_SIZE = np.shape(self.pulse_info)[1] # Find number of columns
+    def calculate_dose(self):
+        # Place holder conversion
+        self.dose = self.area_under_curve * 2
+        # Calculating the total dose
+        self.total_dose = np.sum(self.dose)
         
-        # Calculate t_axis and dt TODO
-        self.t_axis, self.dt = np.linspace(
-            0, self.model_controller.get_rcd_len() / 1000, self.SAMPLE_SIZE, retstep=True)
+    def prepare_list(self):
+        # Packing data to be read by the List
+        # Format: [[1,area1,dose1], [2,area2,dose2], ..., 
+        # [self.nbr_of_pulse,area(self.nbr_of_pulse),dose(self.nbr_of_pulse)]]
+        self.data = [[i + 1, area, dose] for i, (area, dose) in 
+                     enumerate(zip(self.area_under_curve, self.dose))]
 
-        # Find the number of pulse
-        self.nbr_of_pulse = np.shape(self.pulse_info)[0] # Find number of rows
+        # Adding the total label
+        self.data.append(["Total", self.total_area, self.total_dose])
     
     def get_pulse_info(self) -> np.ndarray:
         return self.pulse_info
@@ -91,3 +113,5 @@ class DataAnalyser:
         return self.area_under_curve
     def get_nbr_of_pulse(self) -> int:
         return self.nbr_of_pulse
+    def get_data_list(self) -> list[list[Any]]:
+        return self.data

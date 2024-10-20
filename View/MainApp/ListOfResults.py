@@ -2,8 +2,12 @@ import numpy as np
 import tkinter as tk
 from tkinter import ttk
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from View.MainApp.GraphShowcase import GraphShowcase
+
 class ListOfResults(ttk.Treeview):
-    def __init__(self, parent):
+    def __init__(self, parent:"GraphShowcase"):
         super().__init__(parent, columns=("Pulse", "Aire sous la courbe", "Dose"), 
                  show="headings")
         self.showcase = parent
@@ -31,16 +35,8 @@ class ListOfResults(ttk.Treeview):
         self.delete(*self.get_children())
         
         # Fetch the new data from DataAnalyser
-        self.areas = self.showcase.fetch_area_under_curve() 
-        self.nbr_of_pulse = self.showcase.fetch_nbr_of_pulse()
-        self.doses = np.arange(self.nbr_of_pulse) # TODO: Calculate this
+        self.data = self.showcase.fetch_data_list()
         
-        # Packing data to be read by the List
-        # Format: [[1,area1,dose1], [2,area2,dose2], ..., 
-        # [self.nbr_of_pulse,area(self.nbr_of_pulse),dose(self.nbr_of_pulse)]]
-        self.data = [[i + 1, area, dose] for i, (area, dose) in 
-                     enumerate(zip(self.areas, self.doses))]
-                
         for item in self.data:
             self.insert("", tk.END, values=item)
  

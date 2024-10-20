@@ -71,7 +71,3 @@ class Graph:
     # The other Graph classes must change this
     def update_graph(self):
         pass  
-    
-    def on_key_press(self, event):
-        print(f"you pressed {event.key}")
- 

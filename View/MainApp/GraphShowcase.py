@@ -17,17 +17,17 @@ class GraphShowcase(ttk.Labelframe):
         
         # Pulses' forms graph
         self.pulse_graph = PulseGraph(self, "Temps (microseconde)", "Voltage (V)", 
-                                          True)
-        self.pulse_graph.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
+                                          True, gridrow=0, gridcolumn=0)
+        """ self.pulse_graph.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
         if hasattr(self.pulse_graph, 'toolbar'):
-            self.pulse_graph.toolbar.grid(row=1, column=0, sticky="n")
+            self.pulse_graph.toolbar.grid(row=1, column=0, sticky="n") """
         
         # Area per pulse graph
         self.area_graph = AreaGraph(self, "Temps (microseconde)", "Voltage (V)", 
-                                          True)
-        self.area_graph.canvas.get_tk_widget().grid(row=2, column=0, sticky="nsew")
+                                          True, gridrow=2, gridcolumn=0)
+        """ self.area_graph.canvas.get_tk_widget().grid(row=2, column=0, sticky="nsew")
         if hasattr(self.area_graph, 'toolbar'):
-            self.area_graph.toolbar.grid(row=3, column=0, sticky="n")
+            self.area_graph.toolbar.grid(row=3, column=0, sticky="n") """
         
         # List of results spanning both rows
         self.list = ListOfResults(self)
@@ -54,3 +54,5 @@ class GraphShowcase(ttk.Labelframe):
         return self.view_controller.data_analyser.get_area_under_curve()
     def fetch_nbr_of_pulse(self):
         return self.view_controller.data_analyser.get_nbr_of_pulse()
+    def fetch_data_list(self):
+        return self.view_controller.data_analyser.get_data_list()
