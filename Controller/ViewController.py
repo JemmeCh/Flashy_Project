@@ -1,13 +1,14 @@
 import tkinter as tk
+from tkinter import ttk
 
-from View.MainApp.FileSelector import FileSelector
-from View.MainApp.GraphShowcase import GraphShowcase
-from View.MainApp.InfoTir import InfoTir
-from View.MainApp.MenuBar import MenuBar
-from View.MainApp.Feedback import Feedback
+from View.FileSelector import FileSelector
+from View.GraphShowcase import GraphShowcase
+from View.InfoTir import InfoTir
+from View.MenuBar import MenuBar
+from View.Feedback import Feedback
+from View.Style import FLASHyStyle
 
 from typing import TYPE_CHECKING
-
 if TYPE_CHECKING:
     from Controller.Controller import Controller
 
@@ -16,41 +17,77 @@ if TYPE_CHECKING:
 class ViewController(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
+        self.style = FLASHyStyle(self)
     
-    def set_up(self, controller:"Controller"):
+    def set_up(self, controller:"Controller", version:str):
         self.controller = controller
         
         # Get acces to the models
         self.data_analyser = self.controller.get_data_analyser()
         
         # Basic window creation
-        self.title("FLASHy")
-        self.geometry("1200x800")
+        self.title(f"FLASHy - Version {version}")
+        self.geometry("1150x925")
         
-        # Block 1: Information
-        self.info_tir = InfoTir(self)
-        self.info_tir.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        
-        # Block 2: File Selector
-        self.file_selection = FileSelector(self)
-        self.file_selection.grid(row=0, column=1, sticky="nsew", padx=(0,5), pady=5)
-        
-        # Block 3: Graphs, Area under the curve, and Dosage
-        self.graph_showcase = GraphShowcase(self)
-        self.graph_showcase.grid(row=1, column=0, sticky="nsew", padx=5, pady=(0,5), columnspan=2)
-        
-        # Block 4: Feedback to user
+        # Block 1: Feedback to user
         self.feedback = Feedback(self)
-        self.feedback.grid(row=2, column=0, sticky="nsew", padx=5, pady=5, columnspan=2)
+        self.style.apply_style_tframe(self.feedback)
+        self.feedback.grid(row=0, column=0, sticky="nsew", padx=5, pady=5, columnspan=2)
         
+        # Block 2: Different tabs for different functionnalities
+        self.tabs = ttk.Notebook(self)
+        self.style.apply_style_notebook(self.tabs)
+        self.tabs.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        
+        # Tab 1: Informations and Bypass
+        self.tab1 = ttk.Frame(self, style=self.style.tframe_style)
+        self.tab1.grid(row=0, column=0, sticky="nsew")
+        
+        # Informations
+        self.info_tir = InfoTir(self.tab1, self)
+        self.style.apply_style_tframe(self.info_tir)
+        self.info_tir.grid(row=0, column=0, sticky="nsew", pady=(5,0))
+        
+        # Bypass
+        self.bypass = ttk.Frame(self.tab1, style=self.style.tframe_style)
+        self.bypass.grid(row=1, column=0, sticky="nsew", pady=(5,0))
+        label = ttk.Label(self.bypass, text="BYPASS!!!", style=self.style.label_style)
+        label.grid(row=0, column=0)
+        
+        # Grid configs + adding to notebook
+        self.tab1.grid_columnconfigure(0, weight=1)
+        self.tab1.grid_rowconfigure(0, weight=0)
+        self.tabs.add(self.tab1, text="Informations et Bypass", sticky="nsew")
+        
+        
+        # Tab 2: CSV Reader and Analysis
+        self.tab2 = ttk.Frame(self, style=self.style.tframe_style)
+        self.tab2.grid(row=0, column=0, sticky="nsew")
+        
+        # File Selector
+        self.file_selection = FileSelector(self.tab2, self)
+        self.style.apply_style_tframe(self.file_selection)
+        self.file_selection.grid(row=0, column=0, sticky="nsew", pady=(5,0))
+        
+        # Graphs, Area under the curve, and Dosage
+        self.graph_showcase = GraphShowcase(self.tab2, self)
+        self.style.apply_style_tframe(self.graph_showcase)
+        self.graph_showcase.grid(row=1, column=0, sticky="nsew", pady=(5,0))
+        
+        # Grid configs + adding to notebook
+        self.tab2.grid_columnconfigure(0, weight=1)
+        self.tab2.grid_rowconfigure(0, weight=0)
+        self.tab2.grid_rowconfigure(1, weight=0)
+        self.tabs.add(self.tab2, text="Lecture CSV et Analyse", sticky="nsew")
+        
+             
         # Menu bar
         self.menu_bar = MenuBar(self)
         self.config(menu=self.menu_bar)
         
-        self.grid_columnconfigure(0, weight=1) # Allow    horizontal mouvement
-        self.grid_rowconfigure(0, weight=0)    # Restrict vertical   mouvement
-        self.grid_rowconfigure(1, weight=0)    # Restrict vertical   mouvement
-        self.grid_rowconfigure(2, weight=1)    # Allow    vertical   mouvement
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=0)  
     
     # Functions to change the paramaters of the program
     def set_rcd_len(self, value:int):

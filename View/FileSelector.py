@@ -7,39 +7,43 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from Controller.ViewController import ViewController
 
-class FileSelector(ttk.LabelFrame):
-    def __init__(self, view_controller:"ViewController"):
-        super().__init__(view_controller, text="Sélection de fichier", padding=(10,10), relief="raised")
+class FileSelector(ttk.Frame):
+    def __init__(self, parent, view_controller:"ViewController"):
+        super().__init__(parent, padding=(10,10), relief="raised")
+        
+        self.feedback = view_controller.feedback
         
         # Used to modify/get other parts of the program
         self.view_controller = view_controller
         
-        self.file_name = ttk.Label(self, text="Nom du fichier:")
+        self.file_name = ttk.Label(self, text="Nom du fichier:", style=self.view_controller.style.label_style)
         self.file_name.grid(row=0,column=0,sticky="nw",padx=5,pady=5)
         
         # The user can enter a file path manually
-        self.file_path = ttk.Entry(self)
+        self.file_path = ttk.Entry(self, style=self.view_controller.style.entry_style)
         self.file_path.grid(row=0,column=1, sticky="nwe", padx=5,pady=5)
         
         # Confirm path inserted by user
-        self.confirm_btn = ttk.Button(self, text="Confirmer", 
-                                      command=self.confirm_path)
-        self.confirm_btn.grid(row=0,column=2, sticky="ew")
+        self.confirm_btn = ttk.Button(self, text="Confirmer", style=self.view_controller.style.button_style,
+                                      command=self.confirm_path, width=10)
+        self.confirm_btn.grid(row=0,column=2, sticky="ew", padx=(0,5),pady=5)
         
         # Choose file using file explorer
-        self.file_exp = ttk.Button(self, text="Ouvrir",
-                                   command=self.select_file)
-        self.file_exp.grid(row=0, column=3, sticky="ew")
-        
-        # Feedback terminal
-        self.feedback = tk.Text(self, height=3, state="disabled")
-        self.feedback.grid(row=1,column=0,sticky="new",padx=5,pady=5,
-                           columnspan=3)
+        self.file_exp = ttk.Button(self, text="Ouvrir", style=self.view_controller.style.button_style,
+                                   command=self.select_file, width=10)
+        self.file_exp.grid(row=0, column=3, sticky="ew", padx=(0,5),pady=5)
         
         # Analyse data button
-        self.analyse_btn = ttk.Button(self, text="Analyser",
-                                      command=self.analyse_data)
-        self.analyse_btn.grid(row=1,column=3,sticky="new",pady=5)
+        self.analyse_btn = ttk.Button(self, text="Analyser", style=self.view_controller.style.button_style,
+                                      command=self.analyse_data, width=10)
+        self.analyse_btn.grid(row=0,column=4,sticky="ew",pady=5)
+        
+        # Feedback terminal TODO: move this out of here!!!
+        self.feedback1 = tk.Text(self, height=3, state="disabled")
+        self.feedback1.grid(row=1,column=0,sticky="new",padx=5,pady=5,
+                           columnspan=3)
+        
+        
         
         self.grid_columnconfigure(0, weight=0) # Label doesn't expand
         self.grid_columnconfigure(1, weight=1) # Entry can expand
@@ -117,8 +121,8 @@ class FileSelector(ttk.LabelFrame):
         self.insert_text_in_feedback("Data analysed! Read to save analysis (to be implemented)")
         
     def insert_text_in_feedback(self, txt:str):
-        self.feedback.config(state="normal")
-        self.feedback.insert(tk.END, txt + "\n")
-        self.feedback.see(tk.END)
-        self.feedback.config(state="disabled") 
+        self.feedback1.config(state="normal")
+        self.feedback1.insert(tk.END, txt + "\n")
+        self.feedback1.see(tk.END)
+        self.feedback1.config(state="disabled") 
   

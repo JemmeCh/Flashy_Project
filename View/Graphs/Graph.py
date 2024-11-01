@@ -1,19 +1,18 @@
 import numpy as np
 import matplotlib
-from matplotlib import pyplot as plt
 matplotlib.use('TkAgg')
-from matplotlib.backend_bases import key_press_handler
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.backends._backend_tk import NavigationToolbar2Tk
 from matplotlib.figure import Figure
-from matplotlib.backend_bases import key_press_handler
 from matplotlib import backend_bases
+
+from View.Style import LIGHT_GRAY, DARK_GRAY
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from View.MainApp.GraphShowcase import GraphShowcase
+    from View.GraphShowcase import GraphShowcase
 
-# Here, we modify the toolbar to our liking
+# Modifiying the toolbar
 backend_bases.NavigationToolbar2.toolitems = (
     ('Home', 'Reset original view', 'home', 'home'),
     ('Back', 'Back to  previous view', 'back', 'back'),
@@ -63,9 +62,9 @@ class Graph:
         self.fig.subplots_adjust(top=0.95, right=0.96, bottom=0.15, left=0.1)
         
         # Coloring the canvas
-        self.ax.set_facecolor('#f0f0f0')
-        self.fig.set_facecolor('#f0f0f0')
-        self.fig.set_edgecolor('#e9e9e9')
+        self.ax.set_facecolor(LIGHT_GRAY)
+        self.fig.set_facecolor(LIGHT_GRAY)
+        self.fig.set_edgecolor(DARK_GRAY)
         
 
     # The other Graph classes must change this

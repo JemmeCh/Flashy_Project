@@ -1,16 +1,16 @@
 from tkinter import ttk
 
-from View.MainApp.Graphs.AreaGraph import AreaGraph
-from View.MainApp.Graphs.PulseGraph import PulseGraph
-from View.MainApp.ListOfResults import ListOfResults
+from View.Graphs.AreaGraph import AreaGraph
+from View.Graphs.PulseGraph import PulseGraph
+from View.ListOfResults import ListOfResults
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from Controller.ViewController import ViewController
 
-class GraphShowcase(ttk.Labelframe):
-    def __init__(self, view_controller:"ViewController") -> None:
-        super().__init__(view_controller, text="Résultat de l'analyse", padding=(10,10), relief="raised")
+class GraphShowcase(ttk.Frame):
+    def __init__(self, parent, view_controller:"ViewController") -> None:
+        super().__init__(parent, padding=(10,10), relief="raised")
         
         # Used to modify/get other parts of the program
         self.view_controller = view_controller

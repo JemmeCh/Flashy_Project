@@ -4,7 +4,7 @@ from tkinter import ttk
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from View.MainApp.GraphShowcase import GraphShowcase
+    from View.GraphShowcase import GraphShowcase
 
 class ListOfResults(ttk.Treeview):
     def __init__(self, parent:"GraphShowcase"):
