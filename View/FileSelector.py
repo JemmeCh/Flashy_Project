@@ -37,14 +37,7 @@ class FileSelector(ttk.Frame):
         self.analyse_btn = ttk.Button(self, text="Analyser", style=self.view_controller.style.button_style,
                                       command=self.analyse_data, width=10)
         self.analyse_btn.grid(row=0,column=4,sticky="ew",pady=5)
-        
-        # Feedback terminal TODO: move this out of here!!!
-        self.feedback1 = tk.Text(self, height=3, state="disabled")
-        self.feedback1.grid(row=1,column=0,sticky="new",padx=5,pady=5,
-                           columnspan=3)
-        
-        
-        
+
         self.grid_columnconfigure(0, weight=0) # Label doesn't expand
         self.grid_columnconfigure(1, weight=1) # Entry can expand
         self.grid_columnconfigure(2, weight=0) # Confirm button doesn't expand
@@ -56,7 +49,7 @@ class FileSelector(ttk.Frame):
     
     
     def confirm_path(self):
-        self.insert_text_in_feedback("This will be implemented later")
+        self.feedback.insert_text("This will be implemented later")
             
     def select_file(self):
         csv.register_dialect("CoMPASS", delimiter=';')
@@ -66,15 +59,15 @@ class FileSelector(ttk.Frame):
             filetypes=(("CSV", "*.csv"), ("All files", "*.*"))
         )
         if not file_path:
-            self.insert_text_in_feedback("Please select a file")
+            self.feedback.insert_text("Please select a file")
             return
         
         self.path_to_data = file_path
         
-        self.insert_text_in_feedback("File selected! Checking if it's a csv...")
+        self.feedback.insert_text("File selected! Checking if it's a csv...")
 
         if not self.check_if_csv():
-            self.insert_text_in_feedback("Please select a csv file")
+            self.feedback.insert_text("Please select a csv file")
             return
 
         # Here, the file is for sure a csv file
@@ -82,7 +75,7 @@ class FileSelector(ttk.Frame):
         self.file_path.delete(0,tk.END)
         self.file_path.insert(0, self.path_to_data)
         # Prompt the user that they can anaylyse the data
-        self.insert_text_in_feedback(f"File {self.path_to_data} is ready to be analysed!")
+        self.feedback.insert_text(f"File {self.path_to_data} is ready to be analysed!")
         
     def check_if_csv(self) -> bool:
         return self.path_to_data.lower().endswith('.csv')
@@ -90,39 +83,32 @@ class FileSelector(ttk.Frame):
     def analyse_data(self):
         # Check if theres a path
         if not self.path_to_data:
-            self.insert_text_in_feedback("Please select a file!")
+            self.feedback.insert_text("Please select a file!")
             return
-        self.insert_text_in_feedback("Reading file...")
+        self.feedback.insert_text("Reading file...")
         # Check if there's a problem when reading the CSV
         try:
             self.view_controller.data_analyser.read_file(self.path_to_data)
         except IOError as e:
-            print(f"Error: {e}")
-            print("The file might be in use or locked by another program.")
+            self.feedback.insert_text(f"Error: {e}")
+            self.feedback.insert_text("The file might be in use or locked by another program.")
             return
         except StopIteration as e:
-            print(f"Error: {e}")
-            print("Looks like there's no header. Could be that CoMPASS is still running")
+            self.feedback.insert_text(f"Error: {e}")
+            self.feedback.insert_text("Looks like there's no header. Could be that CoMPASS is still running")
             return
         except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+            self.feedback.insert_text(f"An unexpected error occurred: {e}")
             return
-        self.insert_text_in_feedback("Leveling data...")
+        self.feedback.insert_text("Leveling data...")
         self.view_controller.data_analyser.level_data()
-        self.insert_text_in_feedback("Calculating areas under the curves...")
+        self.feedback.insert_text("Calculating areas under the curves...")
         self.view_controller.data_analyser.calculate_area()
-        self.insert_text_in_feedback("Calculating dosage...")
+        self.feedback.insert_text("Calculating dosage...")
         self.view_controller.data_analyser.calculate_dose()
-        self.insert_text_in_feedback("Updating graphs et list...")
+        self.feedback.insert_text("Updating graphs et list...")
         self.view_controller.graph_showcase.update_pulse_graph()
         self.view_controller.graph_showcase.update_area_graph()
         self.view_controller.data_analyser.prepare_list()
         self.view_controller.graph_showcase.update_list()
-        self.insert_text_in_feedback("Data analysed! Read to save analysis (to be implemented)")
-        
-    def insert_text_in_feedback(self, txt:str):
-        self.feedback1.config(state="normal")
-        self.feedback1.insert(tk.END, txt + "\n")
-        self.feedback1.see(tk.END)
-        self.feedback1.config(state="disabled") 
-  
+        self.feedback.insert_text("Data analysed! Read to save analysis (to be implemented)")

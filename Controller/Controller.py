@@ -11,6 +11,11 @@ class Controller():
         # Settings initialization
         self.RECORD_LENGHT:int = 0
         self.PRE_TRIGGER:int = 0
+        
+        # User can choose how the area is calculated
+        self.AREA_CALCULATION_METHOD = 'trap' # ["naif", "trap"]
+        # User can choose how the pulse is leveled
+        self.LEVELING_METHOD = 'dynamic-median' # ["median", "dynamic-mean", "dynamic-median"]
     
     # Getting information from the models
     def get_data_analyser(self):

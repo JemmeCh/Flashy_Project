@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from Controller.Controller import Controller
 
-# The view controller is the main window of the program and is in charge of the other windows
+# The view controller is the main window of the program
 # 
 class ViewController(tk.Tk):
     def __init__(self) -> None:
@@ -33,6 +33,8 @@ class ViewController(tk.Tk):
         self.feedback = Feedback(self)
         self.style.apply_style_tframe(self.feedback)
         self.feedback.grid(row=0, column=0, sticky="nsew", padx=5, pady=5, columnspan=2)
+        
+        
         
         # Block 2: Different tabs for different functionnalities
         self.tabs = ttk.Notebook(self)
@@ -99,7 +101,7 @@ class ViewController(tk.Tk):
         
     # --- Useful functions for the File selector --- #   
     def send_feedback(self, text):
-        return self.file_selection.insert_text_in_feedback(text)
+        return self.feedback.insert_text(text)
     # ---------------------------------------------- #
     
     # --- Useful functions for the Menu Bar --- #   
@@ -107,18 +109,18 @@ class ViewController(tk.Tk):
         return self.file_selection.select_file()
     
     def call_open_data(self):
-        print("To be implemented")
+        self.feedback.insert_text("To be implemented")
         
     def call_save_data(self):
-        print("To be implemented")
+        self.feedback.insert_text("To be implemented")
         
     def call_change_rcd_len(self):
-        print("To be implemented")
+        self.feedback.insert_text("To be implemented")
     
     def call_change_pre_trig(self):
-        print("To be implemented")
+        self.feedback.insert_text("To be implemented")
         
     # Debug    
     def get_window_dim(self):
-        print(f"Width: {self.winfo_width()}, Height: {self.winfo_height()}")
+        self.feedback.insert_text(f"Width: {self.winfo_width()}, Height: {self.winfo_height()}")
     # ----------------------------------------- #

@@ -57,16 +57,10 @@ def areaUnderCurve2(data:np.ndarray, x_axis, dx) -> np.ndarray:
     # Trapezoid method with matrices
     left = data[:,  :-1]
     right = data[:, 1:  ]
-    
-    # Creating the switch to check if we're below x=0
-    lswitch = left  >= 0
-    rswitch = right >= 0 
-    switch = ~(lswitch & rswitch)
    
     # Calculating the area under each trapezoid
     # The minus is if the curve is below x=0
-    area = (np.abs(left) + np.abs(right)) * dx / 2 \
-           - ( switch.astype(int) * (np.abs(left) + np.abs(right)) * dx)
+    area = (left + right) * dx / 2 
     
     return np.sum(area, axis=1)
 
