@@ -19,3 +19,5 @@ View/MainApp/__pycache__/
 __pycache__/
 # vscode
 /.vscode/*
+# ignore caen related files
+/CAENXMLParserLog.txt
