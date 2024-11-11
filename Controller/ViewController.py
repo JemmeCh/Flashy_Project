@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+from View.Bypass import Bypass
 from View.FileSelector import FileSelector
 from View.GraphShowcase import GraphShowcase
 from View.InfoTir import InfoTir
@@ -24,6 +25,7 @@ class ViewController(tk.Tk):
         
         # Get acces to the models
         self.data_analyser = self.controller.get_data_analyser()
+        self.digitizer = self.controller.get_digitizer()
         
         # Basic window creation
         self.title(f"FLASHy - Version {version}")
@@ -45,16 +47,16 @@ class ViewController(tk.Tk):
         self.tab1 = ttk.Frame(self, style=self.style.tframe_style)
         self.tab1.grid(row=0, column=0, sticky="nsew")
         
+        # Bypass
+        self.bypass = Bypass(self.tab1, self)
+        self.bypass.grid(row=0, column=0, sticky="nsew", pady=(5,0))
+        #label = ttk.Label(self.bypass, text="BYPASS!!!", style=self.style.label_style)
+        #label.grid(row=0, column=0)
+        
         # Informations
         self.info_tir = InfoTir(self.tab1, self)
         self.style.apply_style_tframe(self.info_tir)
-        self.info_tir.grid(row=0, column=0, sticky="nsew", pady=(5,0))
-        
-        # Bypass
-        self.bypass = ttk.Frame(self.tab1, style=self.style.tframe_style)
-        self.bypass.grid(row=1, column=0, sticky="nsew", pady=(5,0))
-        label = ttk.Label(self.bypass, text="BYPASS!!!", style=self.style.label_style)
-        label.grid(row=0, column=0)
+        self.info_tir.grid(row=1, column=0, sticky="nsew", pady=(5,0))
         
         # Grid configs + adding to notebook
         self.tab1.grid_columnconfigure(0, weight=1)
@@ -92,17 +94,17 @@ class ViewController(tk.Tk):
         self.grid_rowconfigure(0, weight=0)  
     
     # Functions to change the paramaters of the program
-    def set_rcd_len(self, value:int):
+    def set_rcd_len(self, value:str):
         self.controller.RECORD_LENGHT = value
-    def set_pre_trigger(self, value:int):
+    def set_pre_trigger(self, value:str):
         self.controller.PRE_TRIGGER = value
      
      
         
-    # --- Useful functions for the File selector --- #   
+    # --- Useful functions to send feedback to user --- #   
     def send_feedback(self, text):
         return self.feedback.insert_text(text)
-    # ---------------------------------------------- #
+    # ------------------------------------------------- #
     
     # --- Useful functions for the Menu Bar --- #   
     def call_file_selector(self):

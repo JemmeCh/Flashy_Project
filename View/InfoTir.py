@@ -7,17 +7,18 @@ if TYPE_CHECKING:
 class InfoTir(ttk.Frame):
     def __init__(self, parent, view_controller:"ViewController"):
         super().__init__(parent, padding=(10,10), relief="raised")
+        # Acces to view_controller stuff
         self.style = view_controller.style
         
         # --- Record lenght ---
-        self.record_lenght = SettingEntryFrame(self, "Record Lenght", "15 000")
+        self.record_lenght = SettingEntryFrame(self, "Record Lenght", '15000')
         self.record_lenght.grid(row=0, column=0, sticky="nswe")
-        view_controller.set_rcd_len(15000)
+        view_controller.set_rcd_len('15000')
         
         # --- Pre trigger ---
-        self.pre_trigger = SettingEntryFrame(self, "Pre Trigger", "5 000")
+        self.pre_trigger = SettingEntryFrame(self, "Pre Trigger", "5000")
         self.pre_trigger.grid(row=1, column=0, sticky="nswe")
-        view_controller.set_pre_trigger(5000)
+        view_controller.set_pre_trigger('5000')
         
         self.grid_columnconfigure(0, weight=1) # Allow column to expand
         self.grid_rowconfigure(0, weight=1)

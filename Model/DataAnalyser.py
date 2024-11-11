@@ -55,7 +55,7 @@ class DataAnalyser:
         
         # Calculate t_axis and dt
         self.t_axis, self.dt = np.linspace(
-            0, self.model_controller.get_rcd_len() / 1000, self.SAMPLE_SIZE, retstep=True)
+            0, int(self.model_controller.get_rcd_len()) / 1000, self.SAMPLE_SIZE, retstep=True)
 
         # Find the number of pulse
         self.nbr_of_pulse = np.shape(self.pulse_info)[0] # Find number of rows
@@ -175,6 +175,71 @@ class DataAnalyser:
 
         # Adding the total label
         self.data.append(["Total", self.total_area, self.total_dose])
+    
+    def analyse_dig_data(self, data, n_ch:int):
+        # As of November 10th, this is the data format sent
+        """ data_format = [
+                {
+                    'name': 'EVENT_SIZE',
+                    'type': 'SIZE_T',
+                },
+                {
+                    'name': 'TIMESTAMP',
+                    'type': 'U64',
+                },
+                {
+                    'name': 'WAVEFORM',
+                    'type': 'U16',
+                    'dim': 2,
+                    'shape': [n_ch, reclen],
+                },
+                {
+                    'name': 'WAVEFORM_SIZE',
+                    'type': 'U64',
+                    'dim': 1,
+                    'shape': [n_ch],
+                },
+            ] """
+        self.model_controller.send_feedback("Data analyser received new data! Attempting to analyse it...")
+        # Get reference to data fields
+        # I think this is the samples of all pulses for each channel
+        self.waveform = data[2].value
+        # I think this is the size of every pulse
+        self.waveform_size = data[3].value
+        
+        # Changing pulse_info
+        try:
+            for i in range(n_ch):
+                if i == 0: # We only use the first channel
+                    self.pulse_info = np.array(waveform[i])
+                    self.SAMPLE_SIZE = self.waveform_size[i]
+        except Exception as e:
+            self.model_controller.send_feedback(f"An unexpected error occurred: {e}")
+            self.model_controller.send_feedback(f"Printing the data received in terminal")
+            print(self.waveform)
+            print(self.waveform_size)
+            return
+                
+        # Calculate t_axis and dt
+        self.t_axis, self.dt = np.linspace(
+            0, int(self.model_controller.get_rcd_len()) / 1000, self.SAMPLE_SIZE, retstep=True)
+
+        # Find the number of pulse
+        self.nbr_of_pulse = np.shape(self.pulse_info)[0] # Find number of rows
+        
+        # Do the rest
+        self.model_controller.send_feedback("Leveling data...")
+        self.level_data()
+        self.model_controller.send_feedback("Calculating areas under the curves...")
+        self.calculate_area()
+        self.model_controller.send_feedback("Calculating dosage...")
+        self.calculate_dose()
+        self.model_controller.send_feedback("Updating graphs et list...")
+        self.prepare_list()
+        self.model_controller.update_pulse_graph()
+        self.model_controller.update_area_graph()
+        self.model_controller.update_list()
+        self.model_controller.send_feedback("Data analysed! Read to save analysis (to be implemented)")
     
     def get_pulse_info(self) -> np.ndarray:
         return self.pulse_info
