@@ -211,7 +211,7 @@ class DataAnalyser:
         try:
             for i in range(n_ch):
                 if i == 0: # We only use the first channel
-                    self.pulse_info = np.array(waveform[i])
+                    self.pulse_info = np.array(self.waveform[i])
                     self.SAMPLE_SIZE = self.waveform_size[i]
         except Exception as e:
             self.model_controller.send_feedback(f"An unexpected error occurred: {e}")
