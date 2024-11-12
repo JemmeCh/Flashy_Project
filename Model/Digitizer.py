@@ -6,6 +6,8 @@ from Model.Error import Error
 # To install the module: pip install caen-felib
 from caen_felib import lib, device, error
 
+print(f'CAEN FELib wrapper loaded (lib version {lib.version})')
+
 if TYPE_CHECKING:
     from Controller.ModelController import ModelController
    
@@ -53,7 +55,6 @@ class Digitizer:
             return
         
         self.send_feedback("Attempting to connect to digitizer...")
-        self.model_controller.controller.isGETTING_BASIC_INFO = True
         """ test_data = {
                     'model_name': 'name',
                     'family_code': 'familycode',
@@ -65,8 +66,10 @@ class Digitizer:
                     'max_rawdata_size': 9000
                 }
         self.dig_info_panel.dispatch_data(test_data) """
-        
+        #print(self.uri)
         with device.connect(self.uri) as dig:
+            self.send_feedback("Digitizer connected! Retreiving basic info...")
+            self.model_controller.controller.isGETTING_BASIC_INFO = True
             # Change status
             self.change_aqc_panel_status("Connecté")
             
@@ -105,11 +108,12 @@ class Digitizer:
             
             # Close digitizer
             self.model_controller.controller.isGETTING_BASIC_INFO = False
+            self.send_feedback("Info retreived successfully!")
     
     def arm_digitizer(self):
         # Check if the digitizer has been connected
         if not self.model_controller.controller.hasDIGITIZERCONNECTED:
-            self.send_feedback("There is no digitizer connected")
+            self.send_feedback("There is no digitizer connected!")
             return
         # Check if the digitizer can be used
         if not self.model_controller.controller.can_use_dig():
@@ -121,8 +125,7 @@ class Digitizer:
         #TODO: The check box will make the record data click-able
         
         with device.connect(self.uri):
-            self.send_feedback("I dont really understand how this would work... \
-                Im currently reseting the board every time data is being recorded")
+            self.send_feedback("I dont really understand how this would works... Im currently reseting the board every time data is being recorded")
             
     def record_data(self):
         # Check if the digitizer has been connected
@@ -136,8 +139,8 @@ class Digitizer:
             self.controller.view_controller.bypass.data_aqc_panel.record_button.stop_recording()
             return
         
-        self.controller.isRECORDING = True
         with device.connect(self.uri) as dig:
+            self.controller.isRECORDING = True
             # Reset
             dig.cmd.RESET()
             
@@ -178,20 +181,19 @@ class Digitizer:
                     'type': 'U64',
                 },
                 {
-                    'name': 'WAVEFORM',
+                    'name': 'WAVEFORM_SIZE', # This gives the amount of samples
+                    'type': 'SIZE_T',
+                    'dim': 0
+                },
+                {
+                    'name': 'WAVEFORM', # Supposed to give the samples doesnt work lol
                     'type': 'U16',
                     'dim': 2,
                     'shape': [n_ch, reclen],
                 },
-                {
-                    'name': 'WAVEFORM_SIZE',
-                    'type': 'U64',
-                    'dim': 1,
-                    'shape': [n_ch],
-                },
             ]
-            decoded_endpoints_path = fw_type.strip('-')
-            endpoint = dig.endpoint[decoded_endpoints_path]
+            decoded_endpoints_path = fw_type.replace('-', '')
+            endpoint = dig.endpoint[decoded_endpoints_path] # Try dig.endpoint['raw']
             data = endpoint.set_read_data_format(data_format)
             
             # Get reference to data fields
@@ -219,4 +221,5 @@ class Digitizer:
             dig.cmd.disarmacquisition()
             
             # Send data to be analyzed by DataAnalyser
+            self.send_feedback("Sending data to analyser...")
             self.data_analyser.analyse_dig_data(data, n_ch)

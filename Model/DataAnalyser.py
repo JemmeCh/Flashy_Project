@@ -203,9 +203,9 @@ class DataAnalyser:
         self.model_controller.send_feedback("Data analyser received new data! Attempting to analyse it...")
         # Get reference to data fields
         # I think this is the samples of all pulses for each channel
-        self.waveform = data[2].value
+        self.waveform = data[3].value
         # I think this is the size of every pulse
-        self.waveform_size = data[3].value
+        self.waveform_size = data[2].value
         
         # Changing pulse_info
         try:

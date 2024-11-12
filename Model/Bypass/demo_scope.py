@@ -86,8 +86,8 @@ with device.connect(dig1_uri) as dig:
             'shape': [n_ch],
         },
     ]
-    decoded_endpoint_path = fw_type.strip('-')  # decoded endpoint path is just firmware type without -
-    endpoint = dig.endpoint[decoded_endpoint_path]
+    decoded_endpoint_path = fw_type.replace('-','')  # decoded endpoint path is just firmware type without -
+    endpoint = dig.endpoint[decoded_endpoint_path] # Try dig.endpoint['raw']
     data = endpoint.set_read_data_format(data_format)
 
     # Get reference to data fields
