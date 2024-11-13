@@ -192,7 +192,7 @@ class DigitizerInfoPanel(ttk.Frame):
                 self.bypass_frame.send_feedback(f"Method '{element}' doesn't exist. Value is {value}")
 
     def get_basic_dig_info(self):
-        t1 = threading.Thread(target=self.bypass_frame.get_basic_dig_info)
+        t1 = threading.Thread(target=self.bypass_frame.get_basic_dig_info, daemon=True)
         t1.start()
         
         
@@ -283,7 +283,7 @@ class DataAQCPanel(ttk.Frame):
         self.status_text.config(state='readonly')
         
     def arm_digitizer(self):
-        t1 = threading.Thread(target=self.bypass_frame.arm_digitizer)
+        t1 = threading.Thread(target=self.bypass_frame.arm_digitizer, daemon=True)
         t1.start()
     
     def save_csv(self):
@@ -323,7 +323,7 @@ class Recordbutton(ttk.Button):
         self.isRECORDING = True
         self.config(text='Arrêter mesure')
         self.send_feedback("Début de l'enregistrement...")
-        self.t1 = threading.Thread(target=self.record_data)
+        self.t1 = threading.Thread(target=self.record_data, daemon=True)
         self.t1.start()
         
     def stop_recording(self):

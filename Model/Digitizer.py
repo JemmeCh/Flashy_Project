@@ -1,6 +1,7 @@
 import numpy as np
 from typing import TYPE_CHECKING, Any, Dict
 
+import matplotlib.pyplot as plt
 from Model.Error import Error
 
 # To install the module: pip install caen-felib
@@ -149,6 +150,8 @@ class Digitizer:
             adc_samplrate_msps = float(dig.par.ADC_SAMPLRATE.value)
             sampling_period_ns = int(1e3 / adc_samplrate_msps)
             fw_type = dig.par.FWTYPE.value
+            n_analog_traces = int(dig.par.NUMANALOGTRACES.value) # new
+            n_digital_traces = int(dig.par.NUMDIGITALTRACES.value) # new
             
             # Configuration parameters
             # TODO: Make them user chosen
@@ -170,15 +173,18 @@ class Digitizer:
             reclen_ns = int(dig.par.RECLEN.value)  # Read back RECLEN to check if there have been rounding
             reclen = int(reclen_ns / sampling_period_ns)
             
+            # Configure probe types (new)
+            analog_probe_1_node = dig.vtrace[0]
+            analog_probe_1_node.par.VTRACE_PROBE.value = 'VPROBE_INPUT'
+            digital_probe_1_node = dig.vtrace[n_analog_traces + 0]
+            digital_probe_1_node.par.VTRACE_PROBE.value = 'VPROBE_TRIGGER'
+            
             # Configure endpoints
-            data_format = [
+            data_format_probe = [
                 {
-                    'name': 'EVENT_SIZE',
-                    'type': 'SIZE_T',
-                },
-                {
-                    'name': 'TIMESTAMP',
-                    'type': 'U64',
+                    'name': 'CHANNEL',
+                    'type': 'U8',
+                    'dim' : 0
                 },
                 {
                     'name': 'WAVEFORM_SIZE', # This gives the amount of samples
@@ -186,29 +192,79 @@ class Digitizer:
                     'dim': 0
                 },
                 {
-                    'name': 'WAVEFORM', # Supposed to give the samples doesnt work lol
+                    'name': 'TIMESTAMP_NS', # No ns is TIMESTAMP
+                    'type': 'DOUBLE', # U64
+                }, # Idea one: use probing to see if it gets me the samples
+                {
+                    'name': 'ANALOG_PROBE_1',
+                    'type': 'I16',
+                    'dim': 1,
+                    'shape': [reclen]
+                },
+                {
+                    'name': 'ANALOG_PROBE_1_TYPE',
+                    'type': 'I32',
+                    'dim': 0
+                },
+                {
+                    'name': 'DIGITAL_PROBE_1',
+                    'type': 'U8',
+                    'dim': 1,
+                    'shape': [reclen]
+                },
+                {
+                    'name': 'DIGITAL_PROBE_1_TYPE',
+                    'type': 'I32',
+                    'dim': 0
+                },
+            ]
+            '''{ Not supported on dpp-pha software
+                    'name': 'WAVEFORM',
                     'type': 'U16',
                     'dim': 2,
                     'shape': [n_ch, reclen],
+                },'''
+                
+            data_format_raw = [
+                {
+                    "name": "DATA",
+                    "type": "U8",
+                    "dim": 1,
+                    "shape": [reclen]
                 },
+                {
+                    "name": "SIZE",
+                    "type": "SIZE_T",
+                    "dim": 0
+                }
             ]
             decoded_endpoints_path = fw_type.replace('-', '')
-            endpoint = dig.endpoint[decoded_endpoints_path] # Try dig.endpoint['raw']
-            data = endpoint.set_read_data_format(data_format)
+            endpoint_probe = dig.endpoint[decoded_endpoints_path] # Try dig.endpoint['raw']
+            data_probe = endpoint_probe.set_read_data_format(data_format_probe)
             
-            # Get reference to data fields
-            #event_size = data[0].value
-            #timestamp = data[1].value
-            #waveform = data[2].value
-            #waveform_size = data[3].value
+            endpoint_raw = dig.endpoint['raw']
+            data_raw = endpoint_raw.set_read_data_format(data_format_raw)
             
+            """  # Get reference to data fields
+            channel = data_probe[0].value
+            waveform_size = data_probe[1].value
+            timestamp = data_probe[2].value
+            analog_probe_1 = data_probe[3].value
+            analog_probe_1_type = data_probe[4].value  # Integer value described in Supported Endpoints > Probe type meaning
+            digital_probe_1 = data_probe[5].value
+            digital_probe_1_type = data_probe[6].value  # Integer value described in Supported Endpoints > Probe type meaning
+             """
+            # Raw data collection activation
+            dig.endpoint.par.activeendpoint.value = 'raw'  
+                      
             # Start acquisition
             dig.cmd.ARMACQUISITION()
-            
+            self.send_feedback("Starting Acquisition...")
             while self.controller.isRECORDING:
                 dig.cmd.SENDSWTRIGGER()
                 try:
-                    endpoint.read_data(10, data)
+                    #endpoint_probe.read_data(10, data_probe)
+                    endpoint_raw.read_data(10, data_probe)
                 except error.Error as ex:
                     if ex.code == error.ErrorCode.TIMEOUT:
                         continue
@@ -218,8 +274,13 @@ class Digitizer:
                         raise ex
             
             # Stop acquisition
-            dig.cmd.disarmacquisition()
+            dig.cmd.DISARMACQUISITION()
+            self.send_feedback("Stopping Acquisition...")
+            
+            for i in data_probe:
+                print(i)
+            #print(data_raw)
             
             # Send data to be analyzed by DataAnalyser
             self.send_feedback("Sending data to analyser...")
-            self.data_analyser.analyse_dig_data(data, n_ch)
+            self.data_analyser.analyse_dig_data(data_raw, n_ch)

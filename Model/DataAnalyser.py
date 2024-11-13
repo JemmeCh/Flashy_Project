@@ -178,28 +178,6 @@ class DataAnalyser:
     
     def analyse_dig_data(self, data, n_ch:int):
         # As of November 10th, this is the data format sent
-        """ data_format = [
-                {
-                    'name': 'EVENT_SIZE',
-                    'type': 'SIZE_T',
-                },
-                {
-                    'name': 'TIMESTAMP',
-                    'type': 'U64',
-                },
-                {
-                    'name': 'WAVEFORM',
-                    'type': 'U16',
-                    'dim': 2,
-                    'shape': [n_ch, reclen],
-                },
-                {
-                    'name': 'WAVEFORM_SIZE',
-                    'type': 'U64',
-                    'dim': 1,
-                    'shape': [n_ch],
-                },
-            ] """
         self.model_controller.send_feedback("Data analyser received new data! Attempting to analyse it...")
         # Get reference to data fields
         # I think this is the samples of all pulses for each channel
@@ -207,17 +185,23 @@ class DataAnalyser:
         # I think this is the size of every pulse
         self.waveform_size = data[2].value
         
+        """ print(self.waveform.tolist())
+        print(self.waveform.size)
+        print(self.waveform_size) """
+        
+        if self.waveform_size == 0.0:
+            self.model_controller.send_feedback('No data was recorded')
+            return 0
+        
         # Changing pulse_info
         try:
             for i in range(n_ch):
                 if i == 0: # We only use the first channel
                     self.pulse_info = np.array(self.waveform[i])
-                    self.SAMPLE_SIZE = self.waveform_size[i]
+                    self.SAMPLE_SIZE = self.waveform.size
         except Exception as e:
             self.model_controller.send_feedback(f"An unexpected error occurred: {e}")
             self.model_controller.send_feedback(f"Printing the data received in terminal")
-            print(self.waveform)
-            print(self.waveform_size)
             return
                 
         # Calculate t_axis and dt
@@ -240,7 +224,8 @@ class DataAnalyser:
         self.model_controller.update_area_graph()
         self.model_controller.update_list()
         self.model_controller.send_feedback("Data analysed! Read to save analysis (to be implemented)")
-    
+        print("reach end")
+
     def get_pulse_info(self) -> np.ndarray:
         return self.pulse_info
     def get_t_axis(self) -> np.ndarray:
