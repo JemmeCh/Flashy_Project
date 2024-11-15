@@ -9,6 +9,7 @@ import caen_felib
 import matplotlib.pyplot as plt
 import numpy as np
 import keyboard
+import time
 
 # To install the module: pip install caen-felib
 from caen_felib import lib, device, error
@@ -119,9 +120,10 @@ with device.connect(dig1_uri) as dig:
             'dim': 0
         }
     ]
-    decoded_endpoint_path = fw_type.replace('-', '')  # decoded endpoint path is just firmware type without -
-    endpoint = dig.endpoint[decoded_endpoint_path]
+    endpoint = dig.endpoint['raw']
     data = endpoint.set_read_data_format(data_format)
+    # Raw data collection activation
+    dig.endpoint.par.activeendpoint.value = 'raw'
 
     # Get reference to data fields
     channel = data[0].value
@@ -190,12 +192,23 @@ with device.connect(dig1_uri) as dig:
     dig.cmd.DISARMACQUISITION()
     
     k = 1
+    lines = []
     for i in datas:
-        print(f'Pulse {k}. Here is digit and anal probes: ---------------------------------------------------')
+        title = f'Pulse {k}. Flag, Analogue probe and Digital probe: ---------------------------------------------------'
         k+=1
-        anal = i[3].value
-        digit = i[5].value
-
-        print(digit.tolist())
-        print(anal.tolist())
+        flag = i[8].value
+        anal = i[3].value.tolist()
+        digit = i[5].value.tolist()
         
+        line = f"{title}\nFlag: {flag}\nAnalogue proble:\n{anal}\nDigital Probe:\n{digit}\n"
+        print(line)
+        lines.append(line)
+    
+    # Write data
+    time = time.asctime(time.localtime()).replace(' ','-')
+    time = time.replace(':','_')
+    name_file = f"test-rawdpp_endpoints-{time}.txt"
+    file = open(name_file, "w")
+    for line in lines:
+        file.write(line)
+    file.close()
