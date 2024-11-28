@@ -91,12 +91,6 @@ class ViewController(tk.Tk):
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(0, weight=0)  
     
-    # Functions to change the paramaters of the program
-    def set_rcd_len(self, value:str):
-        self.controller.RECORD_LENGHT = value
-    def set_pre_trigger(self, value:str):
-        self.controller.PRE_TRIGGER = value
-     
      
         
     # --- Useful functions to send feedback to user --- #   

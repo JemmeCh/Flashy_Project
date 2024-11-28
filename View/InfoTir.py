@@ -3,6 +3,7 @@ from tkinter import ttk
 import numpy as np
 from typing import TYPE_CHECKING
 
+from pytest import param
 from uri_template import expand
 
 if TYPE_CHECKING:
@@ -33,7 +34,8 @@ class InfoTir(ttk.Frame):
         # Tab 1: Input
         self.input_frame = ttk.Frame(self, style=self.tframe_style)
         self.input_frame.grid(row=0, column=0, sticky="nsew")
-        self.input_tree = ParameterTreeview(self.input_frame, columns=self.heading_CoMPASS,
+        self.input_tree = ParameterTreeview(self.input_frame, self.view_controller,
+                                            columns=self.heading_CoMPASS,
                                             show="headings", editable_columns=self.editable_columns_CoMPASS)
         self.input_tree.grid(row=0, column=0, sticky="nsew")
         self.tabs.add(self.input_frame, text="Input", sticky="nsew")
@@ -44,7 +46,8 @@ class InfoTir(ttk.Frame):
         # Tab 2: Analyse
         self.analyse_frame = ttk.Frame(self, style=self.tframe_style)
         self.analyse_frame.grid(row=0, column=0, sticky="nsew")
-        self.analyse_tree = ParameterTreeview(self.analyse_frame, columns=self.heading_FLASHy,
+        self.analyse_tree = ParameterTreeview(self.analyse_frame, self.view_controller,
+                                              columns=self.heading_FLASHy,
                                             show="headings", editable_columns=self.editable_columns_FLASHy)
         self.analyse_tree.grid(row=0, column=0, sticky="nsew")
         self.tabs.add(self.analyse_frame, text="Analyse", sticky="nsew")
@@ -72,7 +75,6 @@ class InfoTir(ttk.Frame):
         ]
         for row in input_parameters:
             self.input_tree.insert("", "end", values=row)
-            
         self.input_tree.set_matrix_map(
             [
                 ["Title", "Entry", "Entry", "Entry"],
@@ -94,7 +96,6 @@ class InfoTir(ttk.Frame):
         ]
         for row in analyse_parameters:
             self.analyse_tree.insert("", "end", values=row)
-
         self.analyse_tree.set_matrix_map(
             [
                 ["Title", ("naif", "trap")],
@@ -105,13 +106,18 @@ class InfoTir(ttk.Frame):
                 ["Title", "Entry"]
             ]
         )
+        
         # Grid configuration
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
         
 class ParameterTreeview(ttk.Treeview):
-    def __init__(self, parent, editable_columns=None, **kwargs):
+    def __init__(self, parent, view_controller:"ViewController"=None, editable_columns=None, **kwargs): # type: ignore
         super().__init__(parent, **kwargs)
+        self.view_controller = view_controller
+        if self.view_controller:
+            self.feedback = view_controller.send_feedback
+            self.controller = view_controller.controller
         self.editing_widget = None
         
         # Store editable columns
@@ -182,11 +188,18 @@ class ParameterTreeview(ttk.Treeview):
             return
         
         row_id, col_id = self.editing
-        col_index = int(col_id.replace("#", "")) - 1
+        self.col_index = int(col_id.replace("#", "")) - 1
+        self.row_index = int(row_id.replace("I", "")) - 1
         
-        new_value = self.editing_widget.get() # type: ignore
+        self.new_value = self.editing_widget.get() # type: ignore
+        
+        if self.new_value not in self.matrix_map[self.row_index][self.col_index]:
+            print("new values not in choices, try again")
+            return
+        
         values = list(self.item(row_id, "values"))
-        values[col_index] = new_value
+        self.old_value = values[self.col_index]
+        values[self.col_index] = self.new_value
         self.item(row_id, values=values)
 
         # Cleanup
@@ -195,7 +208,7 @@ class ParameterTreeview(ttk.Treeview):
     def delayed_finish_combobox(self, event):
         try:
             if self.focus_get() != self.editing_widget:
-                self.after(100, self.cleanup)
+                self.after(100, self.finish_edit_combobox(event)) # type: ignore
         except KeyError: # Supress the annoying error 
             pass
             
@@ -204,10 +217,12 @@ class ParameterTreeview(ttk.Treeview):
             return
         
         row_id, col_id = self.editing
-        col_index = int(col_id.replace("#", "")) - 1
-        new_value = self.editing_widget.get() # type: ignore
+        self.col_index = int(col_id.replace("#", "")) - 1
+        self.row_index = int(row_id.replace("I", "")) - 1
+        self.new_value = self.editing_widget.get() # type: ignore
         values = list(self.item(row_id, "values"))
-        values[col_index] = new_value
+        self.old_value = values[self.col_index]
+        values[self.col_index] = self.new_value
         self.item(row_id, values=values)
 
         # Cleanup
@@ -220,6 +235,23 @@ class ParameterTreeview(ttk.Treeview):
         if self.editing_widget:
             self.editing_widget.destroy()
             self.editing_widget = None
+            
+            # Send new value to controller
+            row_id, col_id = self.editing # type:ignore
+            self.col_index = int(col_id.replace("#", "")) - 1
+            parameter_modified = list(self.item(row_id, "values"))[0]
+            if self.view_controller:
+                # Check if the parameter can be modified
+                if self.controller.map_parameters.__contains__(parameter_modified):
+                    self.controller.map_parameters[parameter_modified] = self.new_value
+                    self.feedback(f"Parameter '{parameter_modified}' set to {self.new_value}")
+                else:
+                    self.feedback(f"'{parameter_modified}' has no equivalent in the Controller class. You need to map it in the source code (and make it change the program's behavior accordingly)")
+                    values = list(self.item(row_id, "values"))
+                    values[self.col_index] = self.old_value
+                    self.item(row_id, values=values)
+
+            
         self.editing = None
 
     def set_matrix_map(self, matrix_map):
@@ -267,53 +299,3 @@ if __name__ == "__main__":
     tree.set_matrix_map(matrix_map)
     
     root.mainloop()
-
-    
-    
-    
-    
-    
-"""     def __init__(self, parent, view_controller:"ViewController"):
-        super().__init__(parent, padding=(10,10), relief="raised")
-        # Acces to view_controller stuff
-        self.style = view_controller.style
-        
-        # --- Record lenght ---
-        self.record_lenght = SettingEntryFrame(self, "Record Lenght", '15000')
-        self.record_lenght.grid(row=0, column=0, sticky="nswe")
-        view_controller.set_rcd_len('15000')
-        
-        # --- Pre trigger ---
-        self.pre_trigger = SettingEntryFrame(self, "Pre Trigger", "5000")
-        self.pre_trigger.grid(row=1, column=0, sticky="nswe")
-        view_controller.set_pre_trigger('5000')
-        
-        self.grid_columnconfigure(0, weight=1) # Allow column to expand
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_rowconfigure(1, weight=1)
-
-# Used for creating a parameter
-# TODO: Make it so you can change those values       
-class SettingEntryFrame(ttk.Frame):
-    def __init__(self, parent:InfoTir, label:str, init_val:str):
-        super().__init__(parent, style=parent.style.tframe_style)
-        
-        label_width = 15 # Align the labels
-        
-        self.label_recLen = ttk.Label(self, text=label, width=label_width, style=parent.style.label_style)
-        self.label_recLen.grid(row=0, column=0, sticky="w",padx=5, pady=5)
-        
-        self.record_lenght = ttk.Entry(self, style=parent.style.entry_style)
-        self.record_lenght.insert(0, init_val)
-        self.record_lenght.config(state="readonly") 
-        self.record_lenght.grid(row=0, column=1, sticky="ew", padx=5, pady=5)
-        
-        self.unit_recLen = ttk.Label(self, text="ns", style=parent.style.label_style)
-        self.unit_recLen.grid(row=0, column=2, sticky="w",padx=5, pady=5)
-
-        self.grid_columnconfigure(0, weight=0) # Fixed width
-        self.grid_columnconfigure(1, weight=1) # Expand
-        self.grid_columnconfigure(2, weight=0) # Fixed width
-        
-        self.grid_rowconfigure(0, weight=1)
- """

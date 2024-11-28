@@ -10,15 +10,24 @@ class Controller():
         self.view_controller = view_controller
         self.model_controller = model_controller
         self.error_handling = Error(self)
+
+        """
+        Maps the name in the ParameterTreeviews (each tab) to the Controller's parameters
+        TODO: This is where you add parameters if needed
+        NOTE: This is what the program uses to function properly (aka different parts of the 
+        program talking to eachother).
         
-        # Settings initialization
-        self.RECORD_LENGHT:str = '15000'
-        self.PRE_TRIGGER:str = '5000'
-        
-        # User can choose how the area is calculated
-        self.AREA_CALCULATION_METHOD = 'trap' # ["naif", "trap"]
-        # User can choose how the pulse is leveled
-        self.LEVELING_METHOD = 'dynamic-median' # ["median", "dynamic-mean", "dynamic-median"]
+        Some default values have been placed (From CoMPASS configuration)
+        """
+        self.map_parameters = {
+            # Input
+            "Record Lenght (ns)": '15000', # From x to y
+            "Pre-trigger (ns)": '5000', # From x to y
+            
+            # Analyse
+            "Méthode du calcul d'aire": 'trap', # ["naif", "trap"]
+            "Méthode de mise à niveau": 'dynamic-median', # ["median", "dynamic-mean", "dynamic-median"]
+        }
         
         # Bool that determines the state of the program
         self.isCONNECTING_TO_DIG:bool = False
@@ -61,3 +70,10 @@ class Controller():
         self.view_controller.bypass.dig_info_panel.dispatch_data(data)
     def change_aqc_panel_status(self, message:str):
         self.view_controller.bypass.data_aqc_panel.change_aqc_panel_status(message)
+    
+    def get_RECORD_LENGHT(self):
+        return self.map_parameters["Record Lenght (ns)"]
+    def get_AREA_CALCULATION_METHOD(self):
+        return self.map_parameters["Méthode du calcul d'aire"]
+    def get_LEVELING_METHOD(self):
+        return self.map_parameters["Méthode de mise à niveau"]

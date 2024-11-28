@@ -25,11 +25,11 @@ class ModelController():
         
     # The following functions are for communicating with the views
     def get_rcd_len(self):
-        return self.controller.RECORD_LENGHT
+        return self.controller.get_RECORD_LENGHT()
     def get_AREA_CALCULATION_METHOD(self):
-        return self.controller.AREA_CALCULATION_METHOD
+        return self.controller.get_AREA_CALCULATION_METHOD()
     def get_LEVELING_METHOD(self):
-        return self.controller.LEVELING_METHOD
+        return self.controller.get_LEVELING_METHOD()
     
     def send_feedback(self, message:str):
         self.controller.send_feedback(message)

@@ -26,7 +26,7 @@ class DataAnalyser:
         self.convertion_factor:float = 1 / 33.33
         # The compiled data with the format [nbr_of_pulse, area_under_curve, dose]
         self.data = [[]]
-        # For accessing the model model controller. Mostly for future use
+        # For accessing the model controller
         self.model_controller = model_controller
     
     def read_file(self, path):
