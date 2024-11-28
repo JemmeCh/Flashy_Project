@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import keyboard
 import time
+import pickle
 
 # To install the module: pip install caen-felib
 from caen_felib import lib, device, error
@@ -78,6 +79,11 @@ with device.connect(dig1_uri) as dig:
             'dim' : 0
         },
         {
+            'name': 'FLAGS',
+            'type': 'U32',
+            'dim': 0
+        },
+        {
             'name': 'TIMESTAMP',
             'type': 'U64',
             'dim': 0,
@@ -114,11 +120,6 @@ with device.connect(dig1_uri) as dig:
             'type': 'SIZE_T',
             'dim': 0
         },
-        {
-            'name': 'FLAGS',
-            'type': 'U32',
-            'dim': 0
-        }
     ]
     decoded_endpoint_path = fw_type.replace('-', '')  # decoded endpoint path is just firmware type without -
     endpoint = dig.endpoint[decoded_endpoint_path]
@@ -126,14 +127,14 @@ with device.connect(dig1_uri) as dig:
 
     # Get reference to data fields
     channel = data[0].value
-    timestamp = data[1].value
-    energy = data[2].value
-    analog_probe_1 = data[3].value
-    analog_probe_1_type = data[4].value  # Integer value described in Supported Endpoints > Probe type meaning
-    digital_probe_1 = data[5].value
-    digital_probe_1_type = data[6].value  # Integer value described in Supported Endpoints > Probe type meaning
-    waveform_size = data[7].value
-    flags = data[8].value
+    flags = data[1].value
+    timestamp = data[2].value
+    energy = data[3].value
+    analog_probe_1 = data[4].value
+    analog_probe_1_type = data[5].value  # Integer value described in Supported Endpoints > Probe type meaning
+    digital_probe_1 = data[6].value
+    digital_probe_1_type = data[7].value  # Integer value described in Supported Endpoints > Probe type meaning
+    waveform_size = data[8].value
 
     # Configure plot
     plt.ion()
@@ -147,11 +148,16 @@ with device.connect(dig1_uri) as dig:
 
     # Start acquisition
     dig.cmd.ARMACQUISITION()
-
-    datas = []
     print("armed")
     k = 1
     running = True
+    
+    # Save file as running
+    time = time.asctime(time.localtime()).replace(' ','-')
+    time = time.replace(':','_')
+    name_file = f"test-raw_endpoints-{time}.dat"
+    file = open(name_file, "wb")
+    
     while running:
         if keyboard.is_pressed('q'):  # Check if 'q' key is pressed
             print("You pressed 'q'. Exiting loop...")
@@ -160,13 +166,11 @@ with device.connect(dig1_uri) as dig:
         # Send software trigger
         dig.cmd.SENDSWTRIGGER()
         try:
-            endpoint.read_data(10, data)
-            # Will save the data if the probe is triggered
-            #print(hex(flags))
-            if hex(flags) == '0x8000':
+            pickle.dump(endpoint.read_data(10, data), file)
+            print(hex(flags))
+            if hex(flags) == '0x480':
                 print(f"Pulse detected! Number {k}")
                 k+=1
-                datas.append(data)
         except error.Error as ex:
             if ex.code == error.ErrorCode.TIMEOUT:
                 print('timeout')
@@ -189,25 +193,33 @@ with device.connect(dig1_uri) as dig:
         figure.canvas.flush_events()
 
     dig.cmd.DISARMACQUISITION()
-    
-    k = 1
-    lines = []
-    for i in datas:
-        title = f'Pulse {k}. Flag, Analogue probe and Digital probe: ---------------------------------------------------'
-        k+=1
-        flag = i[8].value
-        anal = i[3].value.tolist()
-        digit = i[5].value.tolist()
-        
-        line = f"{title}\nFlag: {flag}\nAnalogue proble:\n{anal}\nDigital Probe:\n{digit}\n"
-        print(line)
-        lines.append(line)
-    
-    # Write data
-    time = time.asctime(time.localtime()).replace(' ','-')
-    time = time.replace(':','_')
-    name_file = f"test-dpp_endpoints-{time}.txt"
-    file = open(name_file, "w")
-    for line in lines:
-        file.write(line)
     file.close()
+    
+# TODO:
+#   - Ouvrir le file
+#   - Retirer toutes les lignes ou les flags sont des tirs
+#   - Afficher le data pour voir si c'est bon
+
+# Note: 
+# - Every pickle.dump(data, file_name) call, it creates a new line
+# - The moment you do pickle.load(file_name), you cant read that line again
+# - See pickle-test.py
+
+file = open(name_file, "rb")
+output = []
+pulses = []
+k = 1
+while True:
+    try:
+        output.append(pickle.load(file))
+    except Exception as e:
+        break
+for element in output:
+    flag = element[1].value
+    if hex(flag) == '0x480':
+        k += 1
+        title = f'Pulse {k}. Analogue probe: ---------------------------------------------------'
+        anal = element[4].value.tolist()
+        line = f"{title}\n{anal}"
+        print(line)
+        pulses.append(element)

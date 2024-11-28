@@ -12,8 +12,8 @@ class Controller():
         self.error_handling = Error(self)
         
         # Settings initialization
-        self.RECORD_LENGHT:str = '0'
-        self.PRE_TRIGGER:str = '0'
+        self.RECORD_LENGHT:str = '15000'
+        self.PRE_TRIGGER:str = '5000'
         
         # User can choose how the area is calculated
         self.AREA_CALCULATION_METHOD = 'trap' # ["naif", "trap"]

@@ -16,7 +16,7 @@ FONT = ("Arial", 12, "normal")
 class FLASHyStyle(ttk.Style):
     def __init__(self, root) -> None:
         super().__init__(root)
-        self.theme_use("default")
+        self.theme_use("alt")
         
         self.notebook_style = "CustomNotebook"
         self.maintabs_style = "CustomNotebook.Tab"
@@ -63,8 +63,8 @@ class FLASHyStyle(ttk.Style):
         # Map additional states such as selected and hover (active)
         self.map(
             self.maintabs_style,
-            background=[("selected", LIGHT_GRAY), ("active", LIGHT_GRAY)]
-            #foreground=[("selected", BLACK), ("active", BLACK)]
+            background=[("selected", LIGHT_GRAY), ("active", LIGHT_GRAY)],
+            foreground=[("selected", BLACK), ("active", BLACK)]
         )
     
     def configure_tframe(self):
@@ -86,7 +86,8 @@ class FLASHyStyle(ttk.Style):
         
         self.map(
             self.button_style,
-            background=[("active", LIGHT_GRAY)]
+            background=[("active", LIGHT_GRAY)],
+            relief=[("pressed", 'sunken')]
         )
         
     def configure_label(self):

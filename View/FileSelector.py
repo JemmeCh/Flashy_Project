@@ -1,4 +1,5 @@
 import csv
+import threading
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
@@ -35,7 +36,7 @@ class FileSelector(ttk.Frame):
         
         # Analyse data button
         self.analyse_btn = ttk.Button(self, text="Analyser", style=self.view_controller.style.button_style,
-                                      command=self.analyse_data, width=10)
+                                      command=self.analyse_data_thread, width=10)
         self.analyse_btn.grid(row=0,column=4,sticky="ew",pady=5)
 
         self.grid_columnconfigure(0, weight=0) # Label doesn't expand
@@ -79,6 +80,22 @@ class FileSelector(ttk.Frame):
         
     def check_if_csv(self) -> bool:
         return self.path_to_data.lower().endswith('.csv')
+    
+    def analyse_data_thread(self):
+        """
+        TODO:
+        Si on utilise un Thread pour l'analyse des pulses en se moment, le programme va
+        updater les graphiques et la liste en live, ce qui implique que l'utilisateur voit
+        des trucs dégeulasses en live. Ça ne change rien à l'efficacité, mais le programme
+        ne freeze pas. 
+        
+        Objectif: trouver une manière pour que les trucs dégeullases n'arrivent pas et que 
+                  le programme ne freeze pas.
+        
+        t1 = threading.Thread(target=self.analyse_data, daemon=True)
+        t1.start()
+        """
+        self.analyse_data()
     
     def analyse_data(self):
         # Check if theres a path

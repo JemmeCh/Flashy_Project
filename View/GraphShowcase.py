@@ -16,18 +16,12 @@ class GraphShowcase(ttk.Frame):
         self.view_controller = view_controller
         
         # Pulses' forms graph
-        self.pulse_graph = PulseGraph(self, "Temps (microseconde)", "Voltage (V)", 
+        self.pulse_graph = PulseGraph(self, "Temps (µs)", "Voltage (V)", 
                                           True, gridrow=0, gridcolumn=0)
-        """ self.pulse_graph.canvas.get_tk_widget().grid(row=0, column=0, sticky="nsew")
-        if hasattr(self.pulse_graph, 'toolbar'):
-            self.pulse_graph.toolbar.grid(row=1, column=0, sticky="n") """
         
         # Area per pulse graph
-        self.area_graph = AreaGraph(self, "Temps (microseconde)", "Voltage (V)", 
+        self.area_graph = AreaGraph(self, "Nombre de pulse", "Aires (nC)", 
                                           True, gridrow=2, gridcolumn=0)
-        """ self.area_graph.canvas.get_tk_widget().grid(row=2, column=0, sticky="nsew")
-        if hasattr(self.area_graph, 'toolbar'):
-            self.area_graph.toolbar.grid(row=3, column=0, sticky="n") """
         
         # List of results spanning both rows
         self.list = ListOfResults(self)

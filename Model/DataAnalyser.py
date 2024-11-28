@@ -54,8 +54,9 @@ class DataAnalyser:
         self.SAMPLE_SIZE = np.shape(self.pulse_info)[1] # Find number of columns
         
         # Calculate t_axis and dt
+        # *0.001 pour [ns] --> [µs]
         self.t_axis, self.dt = np.linspace(
-            0, int(self.model_controller.get_rcd_len()) / 1000, self.SAMPLE_SIZE, retstep=True)
+            0, int(self.model_controller.get_rcd_len()) * 0.001, self.SAMPLE_SIZE, retstep=True)
 
         # Find the number of pulse
         self.nbr_of_pulse = np.shape(self.pulse_info)[0] # Find number of rows
@@ -71,6 +72,9 @@ class DataAnalyser:
                 self.derivation_method(choice)
             case _:
                 self.derivation_method('dynamic-mean')
+                
+        # The pulses are not in V but in V * 10^4
+        self.pulse_info = self.pulse_info / 10000
     
     def median_method(self):
         threshold = 8
@@ -92,7 +96,7 @@ class DataAnalyser:
         deriver = (right - left) / variation
         
         # Find the threshold of the derivative
-        deriver_tr = deriver[np.arange(10), np.abs(self.pulse_info).min(axis=1).astype(int)]
+        deriver_tr = deriver[np.arange(self.nbr_of_pulse), np.abs(self.pulse_info).min(axis=1).astype(int)]
         
         threshold = 1.0 # This is found manually
         dervier_mask = np.abs(deriver) > threshold
@@ -158,7 +162,12 @@ class DataAnalyser:
         self.total_area = np.sum(self.area_under_curve)
     
     def convert_Vs2nC(self):
-        self.area_under_curve *= self.convertion_factor * 0.1
+        # [V*µs] --> [V*s]
+        self.area_under_curve *= (1e6**2)
+        # [V*s] --> [C]
+        self.area_under_curve *= self.convertion_factor
+        # [C] --> [nC] 
+        self.area_under_curve *= 1e-9
     
     def calculate_dose(self):
         # Place holder conversion TODO #################################

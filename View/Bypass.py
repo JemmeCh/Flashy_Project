@@ -47,7 +47,7 @@ class Bypass(ttk.Frame):
         self.grid_rowconfigure(4, weight=1)
         self.grid_rowconfigure(5, weight=1)        
     
-
+"""SECTION 1: INFO ON DIGITIZER"""
 class DigitizerInfoPanel(ttk.Frame):
     """ttk.Frame containing all the information about the digitizer. 
     All fields are not modifiable by the user (READ_ONLY paramaters)
@@ -72,51 +72,45 @@ class DigitizerInfoPanel(ttk.Frame):
         self.grid_rowconfigure(0, weight=1)
         
         # Model name
-        self.model_name = ttk.Entry(self, style=self.entry_style, state='readonly')
+        self.model_name = BoardInfoContainer(self, "Model name", style=self.entry_style)
         self.model_name.grid(row=1, column=0, sticky='new')
         self.grid_rowconfigure(1, weight=1)
         self.grid_columnconfigure(0, weight=1)
         
         # Family code
-        self.family_code = ttk.Entry(self, style=self.entry_style, state='readonly')
+        self.family_code = BoardInfoContainer(self, "Family code", style=self.entry_style)
         self.family_code.grid(row=1, column=1, sticky='new')
         self.grid_columnconfigure(1, weight=1)
         
         # Serial Number
-        self.serial_num = ttk.Entry(self, style=self.entry_style, state='readonly')
+        self.serial_num = BoardInfoContainer(self, "Serial Number", style=self.entry_style)
         self.serial_num.grid(row=1, column=2, sticky='new')
         self.grid_columnconfigure(2, weight=1)
         
         # ADC n bits
-        self.adc_n_bits = ttk.Entry(self, style=self.entry_style, state='readonly')
+        self.adc_n_bits = BoardInfoContainer(self, "ADC n bits", style=self.entry_style)
         self.adc_n_bits.grid(row=2, column=0, sticky='new')
         self.grid_rowconfigure(2, weight=1)
         
         # ADC sample rate (in Msps)
-        self.adc_samplrate_msps = ttk.Entry(self, style=self.entry_style, state='readonly')
+        self.adc_samplrate_msps = BoardInfoContainer(self, "Sample rate (in Msps)", style=self.entry_style)
         self.adc_samplrate_msps.grid(row=2, column=1, sticky='new')
         
         # Sampling period (in ns)
-        self.sampling_period_ns = ttk.Entry(self, style=self.entry_style, state='readonly')
+        self.sampling_period_ns = BoardInfoContainer(self, "Sampling (in ns)", style=self.entry_style)
         self.sampling_period_ns.grid(row=2, column=2, sticky='new')
         
         # Firware type
-        self.fw_type = ttk.Entry(self, style=self.entry_style, state='readonly')
+        self.fw_type = BoardInfoContainer(self, "Firmware type", style=self.entry_style)
         self.fw_type.grid(row=3, column=0, sticky='new')
         self.grid_rowconfigure(3, weight=1)
         
         # Max raw data size
-        self.max_rawdata_size = ttk.Entry(self, style=self.entry_style, state='readonly')
+        self.max_rawdata_size = BoardInfoContainer(self, "Max raw data size", style=self.entry_style)
         self.max_rawdata_size.grid(row=3, column=1, sticky='new',
                                      columnspan=2)
         
-        # DDP type
-        
         # ID
-        
-        # Sampling rate
-        
-        # ADC bits
         
         # Link
         
@@ -131,7 +125,7 @@ class DigitizerInfoPanel(ttk.Frame):
         self.connect_btn = ttk.Button(self, style=self.button_style, width=10,
                                       command=self.get_basic_dig_info, 
                                       text="Connecter au Digitizer")
-        self.connect_btn.grid(row=5, column=0, columnspan=5, sticky="nsew")
+        self.connect_btn.grid(row=5, column=0, columnspan=5, sticky="nsew", pady=(5,0))
         
         # Configuration of the whole panel
         self.grid_columnconfigure(0, weight=1)
@@ -155,21 +149,21 @@ class DigitizerInfoPanel(ttk.Frame):
         
         # Define the functions for each element
         def change_model_name(value: str):
-            update_entry(self.model_name, value)
+            update_entry(self.model_name.entry, value)
         def change_family_code(value: str):
-            update_entry(self.family_code, value)
+            update_entry(self.family_code.entry, value)
         def change_fw_type(value: str):
-            update_entry(self.fw_type, value)
+            update_entry(self.fw_type.entry, value)
         def change_serial_num(value: int):
-            update_entry(self.serial_num, value)
+            update_entry(self.serial_num.entry, value)
         def change_adc_n_bits(value: int):
-            update_entry(self.adc_n_bits, value)
+            update_entry(self.adc_n_bits.entry, value)
         def change_adc_samplrate_msps(value: float):
-            update_entry(self.adc_samplrate_msps, value)
+            update_entry(self.adc_samplrate_msps.entry, value)
         def change_sampling_period_ns(value: int):
-            update_entry(self.sampling_period_ns, value)
+            update_entry(self.sampling_period_ns.entry, value)
         def change_max_rawdata_size(value: float):
-            update_entry(self.max_rawdata_size, value)
+            update_entry(self.max_rawdata_size.entry, value)
 
         # Map element names to functions
         function_map = {
@@ -194,10 +188,28 @@ class DigitizerInfoPanel(ttk.Frame):
     def get_basic_dig_info(self):
         t1 = threading.Thread(target=self.bypass_frame.get_basic_dig_info, daemon=True)
         t1.start()
+               
+class BoardInfoContainer(ttk.Frame):
+    def __init__(self, frame:DigitizerInfoPanel, label:str, *args, **kwargs):
+        """Creates a board information container of format
+            Label: Entry
+        """
+        super().__init__(frame, *args, **kwargs)
+        self.frame = frame
         
+        # Label
+        self.label = ttk.Label(self, style=self.frame.label_style, text=label, width=20)
+        self.label.grid(row=0,column=0,sticky="nsew")
         
+        # Entry
+        self.entry = ttk.Entry(self, style=self.frame.entry_style, state='readonly')
+        self.entry.grid(row=0,column=1,sticky="nsew")
         
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=1)
 
+"""SECTION 2: STATUS AND DATA ACQUISITION"""
 class DataAQCPanel(ttk.Frame):
     def __init__(self, bypass_frame:"Bypass", style:"FLASHyStyle"):
         super().__init__(bypass_frame, style=style.tframe_style)
@@ -241,15 +253,14 @@ class DataAQCPanel(ttk.Frame):
                                        text="Armer Digitizer:")
         self.arm_dig_label.grid(row=0, column=0,sticky="w",padx=(0,5))
         self.arm_dig_check = Checkbox(self.arm_dig_frame, # TODO: style
-                                             command=self.arm_digitizer)
+                                             command=self.arm_digitizer,
+                                             state="disabled")
         self.arm_dig_check.grid(row=0, column=1,sticky='ew')
         
         self.arm_dig_frame.grid(row=2, column=0, sticky='new')
         self.arm_dig_frame.grid_rowconfigure(0, weight=1)
         self.arm_dig_frame.grid_columnconfigure(0, weight=0)
         self.arm_dig_frame.grid_columnconfigure(1, weight=1)
-        
-        # Run ID + increment
         
         # Record button + save raw csv checkbox
         # Format is [(button) Sauvegarder CSV: (checkbox)]
@@ -262,7 +273,9 @@ class DataAQCPanel(ttk.Frame):
         self.record_checkbox = Checkbox(self.record_frame, # TODO: style
                                                command=self.save_csv, text='Sauvegarder CSV',
                                                )
-        self.record_checkbox.grid(row=0,column=1,sticky='nw')
+        self.record_checkbox.grid(row=0,column=1,sticky='nw',pady=(3,0))
+        
+        # Run ID + increment
         
         self.record_frame.grid(row=4, column=0, sticky='nsew')
         self.record_frame.grid_rowconfigure(0, weight=1)
@@ -287,8 +300,7 @@ class DataAQCPanel(ttk.Frame):
         t1.start()
     
     def save_csv(self):
-        self.bypass_frame.send_feedback("To be implemented")
-    
+        self.bypass_frame.send_feedback("To be implemented")   
 
 class Checkbox(ttk.Checkbutton):
     def __init__(self, *args, **kwargs):
@@ -331,3 +343,118 @@ class Recordbutton(ttk.Button):
         self.controller.isRECORDING = False
         self.config(text='Commencer mesure')
         self.send_feedback("Enregistrement terminé!")
+        
+""" SECTION 3: DIGITIZER'S PARAMETERS
+class DigParameters(ttk.Frame):
+    def __init__(self, bypass_frame:"Bypass", style:"FLASHyStyle"):
+        super().__init__(bypass_frame, style=style.tframe_style)
+        # Style used
+        self.label_style = style.label_style
+        self.button_style = style.button_style
+        self.entry_style = style.entry_style
+        self.tframe_style = style.tframe_style
+        self.apply_style_notebook = style.apply_style_notebook
+        
+        self.bypass_frame = bypass_frame
+        self.view_controller = bypass_frame.view_controller
+        
+        self.tabs = ttk.Notebook(self)
+        self.apply_style_notebook(self.tabs)
+        self.tabs.grid(row=0, column=0, sticky="new")
+        
+        # Tab 1: Input
+        self.input_frame = ttk.Frame(self, style=self.tframe_style)
+        self.input_frame.grid(row=0, column=0, sticky="nsew")
+        self.input_tree = ParameterTreeview(self.input_frame)
+        self.input_tree.grid(row=0, column=0, sticky="nsew")
+        self.tabs.add(self.input_frame, text="Input", sticky="nsew")
+        
+class ParameterTreeview(ttk.Treeview):
+    def __init__(self, parent, editable_columns=None, **kwargs):
+        super().__init__(parent, **kwargs)
+        
+        # Store editable columns
+        self.editable_columns = editable_columns
+        # Track the currently edited cell
+        self.editing = None 
+        
+        # Add editing behavior
+        self.bind("<Double-1>", self.start_edit)
+
+    def start_edit(self, event):
+        region = self.identify("region", event.x, event.y)
+        if region != "cell":
+            return
+        
+        row_id = self.identify_row(event.y)
+        col_id = self.identify_column(event.x)
+        col_index = int(col_id.replace("#", "")) - 1  # Convert column ID to 0-based index
+
+        # Skip non-editable columns
+        if self.editable_columns is not None \
+            and col_index not in self.editable_columns:
+            return
+        
+        # Set up for Entry widget
+        self.editing = (row_id, col_id)
+        current_value = self.item(row_id, "values")[col_index]
+        x, y, width, height = self.bbox(row_id, col_id)
+
+        # Create an Entry widget for editing
+        self.entry = tk.Entry(self, width=width) # type: ignore
+        self.entry.place(x=x, y=y, width=width, height=height)
+        self.entry.insert(0, current_value)
+        self.entry.focus()
+        
+        # To stop editing Entry
+        self.entry.bind("<Return>", self.finish_edit)
+        self.entry.bind("<FocusOut>", self.finish_edit)
+        self.entry.bind("<Escape>", self.finish_edit)
+
+    def finish_edit(self, event):
+        if not self.editing:
+            return
+        
+        row_id, col_id = self.editing
+        col_index = int(col_id.replace("#", "")) - 1
+        new_value = self.entry.get()
+        values = list(self.item(row_id, "values"))
+        values[col_index] = new_value
+        self.item(row_id, values=values)
+
+        # Cleanup
+        self.entry.destroy()
+        self.editing = None
+
+    def set_editable_columns(self, editable_columns):
+        self.editable_columns = editable_columns
+
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Editable Treeview Example")
+    root.geometry("500x400")
+    
+    columns = ("Parameter", "Value1", "Value2", "Value3")
+    tree = ParameterTreeview(root, columns=columns, 
+                             show="headings", 
+                             editable_columns=[1, 2])
+    
+    # Configure columns
+    for col in columns:
+        tree.heading(col, text=col)
+        tree.column(col, width=100, anchor="center")
+    tree.pack(fill="both", expand=True)
+    
+    # Populate with data
+    data = [
+        ("Parameter A", "123", "456", "789"),
+        ("Parameter B", "234", "567", "890"),
+        ("Parameter C", "345", "678", "901"),
+    ]
+    for row in data:
+        tree.insert("", "end", values=row)
+    
+    root.mainloop()
+ """

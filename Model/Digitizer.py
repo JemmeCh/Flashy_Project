@@ -66,7 +66,7 @@ class Digitizer:
                     'sampling_period_ns': 10,
                     'max_rawdata_size': 9000
                 }
-        self.dig_info_panel.dispatch_data(test_data) """
+        self.dispatch_data(test_data) """
         #print(self.uri)
         with device.connect(self.uri) as dig:
             self.send_feedback("Digitizer connected! Retreiving basic info...")

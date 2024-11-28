@@ -2,6 +2,7 @@ import numpy as np
 from caen_felib import lib, device, error
 import keyboard
 import time
+import pickle
 
 ### CONNECTION PARAMETERS ###
 connection_type = 'usb'
@@ -67,39 +68,32 @@ with device.connect(dig1_uri) as dig:
             "type": "SIZE_T",
             "dim": 0
         },
-        {
-            'name': 'FLAGS',
-            'type': 'U32',
-            'dim': 0
-        }
     ]
     endpoint_raw = dig.endpoint['raw']
     data_raw = endpoint_raw.set_read_data_format(data_format_raw)
     # Raw data collection activation
     dig.endpoint.par.activeendpoint.value = 'raw'
-    
-    flags = data_raw[2].value        
-    
+        
     # Start acquisition
     dig.cmd.ARMACQUISITION()
     print("armed")
     k = 1
-    datas = []
     running = True
+    
+    # Save file as running
+    time = time.asctime(time.localtime()).replace(' ','-')
+    time = time.replace(':','_')
+    name_file = f"test-raw_endpoints-{time}.dat"
+    file = open(name_file, "wb")
+    
     while running:
         if keyboard.is_pressed('q'):  # Check if 'q' key is pressed
             print("You pressed 'q'. Exiting loop...")
             running = False  # Set the running condition to False
             
         dig.cmd.SENDSWTRIGGER()
-        # Will save the data if the probe is triggered
-        #print(hex(flags))
-        if hex(flags) == '0x8000':
-            print(f"Pulse detected! Number {k}")
-            k+=1
-            datas.append(data_raw)
         try:    
-            endpoint_raw.read_data(10, data_raw)
+            pickle.dump(endpoint_raw.read_data(10, data_raw), file)
         except error.Error as ex:
             if ex.code == error.ErrorCode.TIMEOUT:
                 print('continue')
@@ -112,25 +106,4 @@ with device.connect(dig1_uri) as dig:
     
     # Stop acquisition
     dig.cmd.DISARMACQUISITION()
-    
-    k = 1
-    lines = []
-    for i in datas:
-        title = f'Pulse {k}. Flag, Data and Size: ---------------------------------------------------'
-        k+=1
-        flag = hex(i[2].value)
-        data = bin(i[0].value)
-        size = bin(i[1].value)
-        
-        line = f"{title}\nFlag: {flag}\nData:\n{data}\nSize:\n{size}\n"
-        print(line)
-        lines.append(line)
-    
-    # Write data
-    time = time.asctime(time.localtime()).replace(' ','-')
-    time = time.replace(':','_')
-    name_file = f"test-raw_endpoints-{time}.txt"
-    file = open(name_file, "w")
-    for line in lines:
-        file.write(line)
     file.close()

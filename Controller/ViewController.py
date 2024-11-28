@@ -50,8 +50,6 @@ class ViewController(tk.Tk):
         # Bypass
         self.bypass = Bypass(self.tab1, self)
         self.bypass.grid(row=0, column=0, sticky="nsew", pady=(5,0))
-        #label = ttk.Label(self.bypass, text="BYPASS!!!", style=self.style.label_style)
-        #label.grid(row=0, column=0)
         
         # Informations
         self.info_tir = InfoTir(self.tab1, self)
