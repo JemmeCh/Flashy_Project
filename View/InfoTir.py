@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import numpy as np
 from typing import TYPE_CHECKING
 
 from uri_template import expand
@@ -72,6 +73,16 @@ class InfoTir(ttk.Frame):
         for row in input_parameters:
             self.input_tree.insert("", "end", values=row)
             
+        self.input_tree.set_matrix_map(
+            [
+                ["Title", "Entry", "Entry", "Entry"],
+                ["Title", "Entry", "Entry", "Entry"],
+                ["Title", ("Positive", "Negative(?)"), ("Positive", "Negative(?)"), ("Positive", "Negative(?)")],
+                ["Title", "Entry", "Entry", "Entry"],
+                ["Title", ("Please leave it at 3x", "1x", "3x", "5x", "10x"), ("Please leave it at 3x", "1x", "3x", "5x", "10x"), ("Please leave it at 3x", "1x", "3x", "5x", "10x")],
+            ]
+        )
+        
         # Make analyse parameters
         analyse_parameters = [
             ("Méthode du calcul d'aire", "trap"),
@@ -83,7 +94,17 @@ class InfoTir(ttk.Frame):
         ]
         for row in analyse_parameters:
             self.analyse_tree.insert("", "end", values=row)
-            
+
+        self.analyse_tree.set_matrix_map(
+            [
+                ["Title", ("naif", "trap")],
+                ["Title", ("median", "dynamic-mean", "dynamic-median")],
+                ["Title", ("Please dont change me", "Pulse", "Aire")],
+                ["Title", ("Please dont change me", "Pulse", "Aire")],
+                ["Title", "Entry"],
+                ["Title", "Entry"]
+            ]
+        )
         # Grid configuration
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -91,6 +112,7 @@ class InfoTir(ttk.Frame):
 class ParameterTreeview(ttk.Treeview):
     def __init__(self, parent, editable_columns=None, **kwargs):
         super().__init__(parent, **kwargs)
+        self.editing_widget = None
         
         # Store editable columns
         self.editable_columns = editable_columns
@@ -107,6 +129,7 @@ class ParameterTreeview(ttk.Treeview):
         
         row_id = self.identify_row(event.y)
         col_id = self.identify_column(event.x)
+        row_index = int(row_id.replace("I", "")) - 1  # Convert row    ID to 0-based index
         col_index = int(col_id.replace("#", "")) - 1  # Convert column ID to 0-based index
 
         # Skip non-editable columns
@@ -114,40 +137,97 @@ class ParameterTreeview(ttk.Treeview):
             and col_index not in self.editable_columns:
             return
         
-        # Set up for Entry widget
         self.editing = (row_id, col_id)
         current_value = self.item(row_id, "values")[col_index]
         x, y, width, height = self.bbox(row_id, col_id)
-
-        # Create an Entry widget for editing
-        self.entry = tk.Entry(self, width=width) # type: ignore
-        self.entry.place(x=x, y=y, width=width, height=height)
-        self.entry.insert(0, current_value)
-        self.entry.focus()
         
-        # To stop editing Entry
-        self.bind_widget(self.entry, self.finish_edit_entry)
+        # Set up which widget to use
+        choice = self.matrix_map[row_index][col_index]
+        if choice == "Title":
+            print("...what have you done for this to happen")
+        elif choice == "Entry":
+            self.editing_widget = self.create_entry_widget(current_value, x, y, width, height)
+            self.bind_entry_events()
+        else:
+            self.editing_widget = self.create_combobox_widget(choice, current_value, x, y, width, height)
+            self.bind_combobox_events()
 
+    def create_entry_widget(self, current_value, x, y, width, height):
+        entry = tk.Entry(self, width=width)  # type: ignore
+        entry.place(x=x, y=y, width=width, height=height)
+        entry.insert(0, current_value)
+        entry.focus()
+        return entry
+
+    def bind_entry_events(self):
+        self.editing_widget.bind("<Return>", self.finish_edit_entry) # type: ignore
+        self.editing_widget.bind("<FocusOut>", self.cancel_edit) # type: ignore
+        self.editing_widget.bind("<Escape>", self.cancel_edit) # type: ignore
+
+    def create_combobox_widget(self, options, current_value, x, y, width, height):
+        combobox = ttk.Combobox(self, width=width, values=options)  # type: ignore
+        combobox.place(x=x, y=y, width=width, height=height)
+        combobox.set(current_value)
+        combobox.focus()
+        return combobox
+
+    def bind_combobox_events(self):
+        self.editing_widget.bind("<<ComboboxSelected>>", self.finish_edit_combobox) # type: ignore
+        self.editing_widget.bind("<Return>", self.finish_edit_combobox) # type: ignore
+        self.editing_widget.bind("<FocusOut>", self.delayed_finish_combobox) # type: ignore
+        self.editing_widget.bind("<Escape>", self.cancel_edit) # type: ignore
+             
+    def finish_edit_combobox(self, event):
+        if not self.editing:
+            return
+        
+        row_id, col_id = self.editing
+        col_index = int(col_id.replace("#", "")) - 1
+        
+        new_value = self.editing_widget.get() # type: ignore
+        values = list(self.item(row_id, "values"))
+        values[col_index] = new_value
+        self.item(row_id, values=values)
+
+        # Cleanup
+        self.cleanup()
+    
+    def delayed_finish_combobox(self, event):
+        try:
+            if self.focus_get() != self.editing_widget:
+                self.after(100, self.cleanup)
+        except KeyError: # Supress the annoying error 
+            pass
+            
     def finish_edit_entry(self, event):
         if not self.editing:
             return
         
         row_id, col_id = self.editing
         col_index = int(col_id.replace("#", "")) - 1
-        new_value = self.entry.get()
+        new_value = self.editing_widget.get() # type: ignore
         values = list(self.item(row_id, "values"))
         values[col_index] = new_value
         self.item(row_id, values=values)
 
         # Cleanup
-        self.entry.destroy()
+        self.cleanup()
+        
+    def cancel_edit(self, event):
+        self.cleanup()
+        
+    def cleanup(self):
+        if self.editing_widget:
+            self.editing_widget.destroy()
+            self.editing_widget = None
         self.editing = None
 
-    def bind_widget(self, widget, function):
-        widget.bind("<Return>", function)
-        widget.bind("<FocusOut>", function)
-        widget.bind("<Escape>", function)
-
+    def set_matrix_map(self, matrix_map):
+        self.nbr_rows = len(self.get_children())  # Count of rows (exclude header)
+        self.nbr_columns = len(self["columns"])  # Count of columns
+        
+        self.matrix_map = matrix_map
+    
     def set_editable_columns(self, editable_columns):
         self.editable_columns = editable_columns
 
@@ -177,6 +257,14 @@ if __name__ == "__main__":
     ]
     for row in data:
         tree.insert("", "end", values=row)
+    matrix_map =[
+        ["Title", "Entry", "Entry", "Entry"],
+        ["Title", "Entry", "Entry", "Entry"],
+        ["Title", ("1", "2"), ("3", "4"), ("5", "6")]
+    ]
+    
+    # Create matrix map of entrys or option menu
+    tree.set_matrix_map(matrix_map)
     
     root.mainloop()
 
