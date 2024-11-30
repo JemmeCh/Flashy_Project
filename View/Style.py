@@ -8,12 +8,24 @@ LIGHT_GRAY = "#f0f0f0"
 GRAY = "#bdbdbd"
 DARK_GRAY = "#636363"
 BLACK = "#000000"
+WHITE = "#FFFFFF"
 BUTTON = "#E1E1E1"
 
 # Font
 FONT = ("Arial", 12, "normal")
 
 class FLASHyStyle(ttk.Style):
+    # Useful colors
+    LIGHT_GRAY = "#f0f0f0"
+    GRAY = "#bdbdbd"
+    DARK_GRAY = "#636363"
+    BLACK = "#000000"
+    WHITE = "#FFFFFF"
+    BUTTON = "#E1E1E1"
+    
+    # Font
+    FONT = ("Arial", 12, "normal")
+    
     def __init__(self, root) -> None:
         super().__init__(root)
         self.theme_use("alt")

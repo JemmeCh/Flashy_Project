@@ -6,6 +6,11 @@ from typing import TYPE_CHECKING
 from pytest import param
 from uri_template import expand
 
+if __name__ == "__main__":
+    from Style import FLASHyStyle
+else:
+    from View.Style import FLASHyStyle
+
 if TYPE_CHECKING:
     from Controller.ViewController import ViewController
 
@@ -35,7 +40,7 @@ class InfoTir(ttk.Frame):
         self.input_frame = ttk.Frame(self, style=self.tframe_style)
         self.input_frame.grid(row=0, column=0, sticky="nsew")
         self.input_tree = ParameterTreeview(self.input_frame, self.view_controller,
-                                            columns=self.heading_CoMPASS,
+                                            columns=self.heading_CoMPASS, selectmode='none',
                                             show="headings", editable_columns=self.editable_columns_CoMPASS)
         self.input_tree.grid(row=0, column=0, sticky="nsew")
         self.tabs.add(self.input_frame, text="Input", sticky="nsew")
@@ -47,7 +52,7 @@ class InfoTir(ttk.Frame):
         self.analyse_frame = ttk.Frame(self, style=self.tframe_style)
         self.analyse_frame.grid(row=0, column=0, sticky="nsew")
         self.analyse_tree = ParameterTreeview(self.analyse_frame, self.view_controller,
-                                              columns=self.heading_FLASHy,
+                                              columns=self.heading_FLASHy,selectmode='none',
                                             show="headings", editable_columns=self.editable_columns_FLASHy)
         self.analyse_tree.grid(row=0, column=0, sticky="nsew")
         self.tabs.add(self.analyse_frame, text="Analyse", sticky="nsew")
@@ -118,16 +123,36 @@ class ParameterTreeview(ttk.Treeview):
         if self.view_controller:
             self.feedback = view_controller.send_feedback
             self.controller = view_controller.controller
+            self.style = view_controller.style
+        else:
+            self.style = FLASHyStyle(parent)
         self.editing_widget = None
+        
+        # Right-click menu definition
+        self.menu = tk.Menu(self, tearoff=0)
+        self.menu.add_command(label="Utiliser Board (CH0 et CH1)", command=lambda: self.set_parameter('Board'))
+        self.menu.add_command(label="Utiliser CH0 seulement", command=lambda: self.set_parameter('CH0'))
+        self.menu.add_command(label="Utiliser CH1 seulement", command=lambda: self.set_parameter('CH1'))
+        self.menu.add_command(label="Utiliser valeur par défaut", command=lambda: self.set_parameter('default'))
         
         # Store editable columns
         self.editable_columns = editable_columns
         # Track the currently edited cell
         self.editing = None 
+        # Track the right click target
+        self.right_click_target = None
         
         # Add editing behavior
         self.bind("<Double-1>", self.start_edit)
-
+        self.bind("<Button-3>", self.show_context_menu)
+        
+        # Set up tags
+        self.tag_configure('Board', background=self.style.WHITE)
+        self.tag_configure('CH0', background=self.style.LIGHT_GRAY)
+        self.tag_configure('CH1', background=self.style.GRAY)
+        self.tag_configure('default', background=self.style.BLACK)
+        
+    """Functions for editing a parameter"""
     def start_edit(self, event):
         region = self.identify("region", event.x, event.y)
         if region != "cell":
@@ -141,6 +166,13 @@ class ParameterTreeview(ttk.Treeview):
         # Skip non-editable columns
         if self.editable_columns is not None \
             and col_index not in self.editable_columns:
+            return
+        
+        if self._has_default_tag(row_id):
+            if self.view_controller:
+                self.feedback("This parameter is deactivated")
+            else:
+                print("This parameter is deactivated")
             return
         
         self.editing = (row_id, col_id)
@@ -191,15 +223,16 @@ class ParameterTreeview(ttk.Treeview):
         self.col_index = int(col_id.replace("#", "")) - 1
         self.row_index = int(row_id.replace("I", "")) - 1
         
-        self.new_value = self.editing_widget.get() # type: ignore
+        new_value = self.editing_widget.get() # type: ignore
         
-        if self.new_value not in self.matrix_map[self.row_index][self.col_index]:
+        # Check if the value is in the choices
+        if new_value not in self.matrix_map[self.row_index][self.col_index]:
             print("new values not in choices, try again")
             return
         
         values = list(self.item(row_id, "values"))
         self.old_value = values[self.col_index]
-        values[self.col_index] = self.new_value
+        values[self.col_index] = new_value
         self.item(row_id, values=values)
 
         # Cleanup
@@ -219,20 +252,23 @@ class ParameterTreeview(ttk.Treeview):
         row_id, col_id = self.editing
         self.col_index = int(col_id.replace("#", "")) - 1
         self.row_index = int(row_id.replace("I", "")) - 1
-        self.new_value = self.editing_widget.get() # type: ignore
+        new_value = self.editing_widget.get() # type: ignore
         values = list(self.item(row_id, "values"))
         self.old_value = values[self.col_index]
-        values[self.col_index] = self.new_value
+        values[self.col_index] = new_value
         self.item(row_id, values=values)
 
         # Cleanup
         self.cleanup()
         
     def cancel_edit(self, event):
+        if self.editing_widget:
+            self.old_value = self.editing_widget.get()
         self.cleanup()
         
     def cleanup(self):
         if self.editing_widget:
+            new_value = self.editing_widget.get()
             self.editing_widget.destroy()
             self.editing_widget = None
             
@@ -243,27 +279,80 @@ class ParameterTreeview(ttk.Treeview):
             if self.view_controller:
                 # Check if the parameter can be modified
                 if self.controller.map_parameters.__contains__(parameter_modified):
-                    self.controller.map_parameters[parameter_modified] = self.new_value
-                    self.feedback(f"Parameter '{parameter_modified}' set to {self.new_value}")
+                    self.controller.map_parameters[parameter_modified] = new_value
+                    self.feedback(f"Parameter '{parameter_modified}' set to {new_value}")
                 else:
                     self.feedback(f"'{parameter_modified}' has no equivalent in the Controller class. You need to map it in the source code (and make it change the program's behavior accordingly)")
                     values = list(self.item(row_id, "values"))
                     values[self.col_index] = self.old_value
                     self.item(row_id, values=values)
-
-            
+        # Reset for further uses
+        self.old_value = ""
         self.editing = None
+    
+    """Functions for the context menu"""
+    def show_context_menu(self, event):
+        row_id = self.identify_row(event.y)
+        col_id = self.identify_column(event.x)
+        col_index = int(col_id.replace("#", "")) - 1
+        row_index = int(row_id.replace("I", "")) - 1
 
+        title = self.matrix_map[row_index][col_index]
+
+        # Check if the user right clicked the parameter column
+        if title == "Title":
+            self.right_click_target = (row_id, col_id)
+            self.menu.post(event.x_root, event.y_root)
+            
+    def set_parameter(self, selection):
+        if self.right_click_target:
+            row_id, _ = self.right_click_target
+            row_index = int(row_id.replace("I", "")) - 1
+            
+            # Change color of the background according to the selection
+            # ['default': black, 'Board': white, 'CH0': light_gray, 'CH1': gray]
+            if selection == 'Board':
+                self.item(self.right_click_target[0], tags='Board')
+                self.row_tags[row_index] = 'Board' 
+            elif selection == 'CH0':
+                self.item(self.right_click_target[0], tags='CH0')
+                self.row_tags[row_index] = 'CH0'
+            elif selection == 'CH1':
+                self.item(self.right_click_target[0], tags='CH1')
+                self.row_tags[row_index] = 'CH1'
+            else: # 'default'
+                self.item(self.right_click_target[0], tags='default')
+                self.row_tags[row_index] = 'default'
+            self.right_click_target = None
+    
+    def _has_default_tag(self, row_id:str) -> bool:
+        """
+        True --> has the tag 'default' or no tag \n
+        False --> doesn't have the 'default' tag """
+        try:
+            tag = self.item(row_id, option='tags')[0]
+            return True if tag == 'default' else False
+        except IndexError:
+            print("This item has no tags")
+            return True
+                    
     def set_matrix_map(self, matrix_map):
         self.nbr_rows = len(self.get_children())  # Count of rows (exclude header)
         self.nbr_columns = len(self["columns"])  # Count of columns
         
         self.matrix_map = matrix_map
+        
+        # Set the tags
+        self.row_tags:list[str] = []
+        for row in self.get_children():
+            self.item(row, tags='Board')
+            self.row_tags.append('Board')
     
     def set_editable_columns(self, editable_columns):
         self.editable_columns = editable_columns
 
-
+    def get_row_tags(self) -> list[str]:
+        return self.row_tags
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -273,7 +362,8 @@ if __name__ == "__main__":
     columns = ("Parameter", "Value1", "Value2", "Value3")
     tree = ParameterTreeview(root, columns=columns, 
                              show="headings", 
-                             editable_columns=[1, 2])
+                             editable_columns=[1, 2],
+                              selectmode='none')
     
     # Configure columns
     for col in columns:
