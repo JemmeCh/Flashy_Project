@@ -25,9 +25,10 @@ class FileSelector(ttk.Frame):
         self.file_path.grid(row=0,column=1, sticky="nwe", padx=5,pady=5)
         
         # Confirm path inserted by user
-        self.confirm_btn = ttk.Button(self, text="Confirmer", style=self.view_controller.style.button_style,
-                                      command=self.confirm_path, width=10)
-        self.confirm_btn.grid(row=0,column=2, sticky="ew", padx=(0,5),pady=5)
+        # If you want, you can add it back and create its proper behavior :)
+        #self.confirm_btn = ttk.Button(self, text="Confirmer", style=self.view_controller.style.button_style,
+        #                              command=self.confirm_path, width=10)
+        #self.confirm_btn.grid(row=0,column=2, sticky="ew", padx=(0,5),pady=5)
         
         # Choose file using file explorer
         self.file_exp = ttk.Button(self, text="Ouvrir", style=self.view_controller.style.button_style,

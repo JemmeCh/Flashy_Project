@@ -3,9 +3,6 @@ from tkinter import ttk
 import numpy as np
 from typing import TYPE_CHECKING
 
-from pytest import param
-from uri_template import expand
-
 if __name__ == "__main__":
     from Style import FLASHyStyle
 else:

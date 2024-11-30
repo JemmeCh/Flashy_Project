@@ -21,3 +21,6 @@ __pycache__/
 /.vscode/*
 # ignore caen related files
 /CAENXMLParserLog.txt
+# others
+/.VSCodeCounter/**
+/Sunset/**
