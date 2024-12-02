@@ -12,10 +12,6 @@ main.spec
 /Versions/*
 # pychache
 */__pychache__/**
-Controller/__pycache__/
-Model/__pycache__/
-View/MainApp/Graphs/__pycache__/
-View/MainApp/__pycache__/
 __pycache__/
 # vscode
 /.vscode/*
@@ -24,3 +20,4 @@ __pycache__/
 # others
 /.VSCodeCounter/**
 /Sunset/**
+pickle.dat

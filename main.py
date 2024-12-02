@@ -7,9 +7,9 @@ Programme d'analyse de pulse pour traitement FLASH
 # TODO IN PART 2 OF PROJECT
 # Use pickle library for reading binary file from digitizer
 
-from Controller.Controller import Controller
-from Controller.ViewController import ViewController
-from Controller.ModelController import ModelController
+from src.Controller.Controller import Controller
+from src.Controller.ViewController import ViewController
+from src.Controller.ModelController import ModelController
 
 
 def main() -> None:
