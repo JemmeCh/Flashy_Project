@@ -11,6 +11,7 @@ from View.Style import FLASHyStyle
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
+    from Controller.Controller import Parameter
     from Controller.Controller import Controller
 
 # The view controller is the main window of the program
@@ -118,3 +119,14 @@ class ViewController(tk.Tk):
     def get_window_dim(self):
         self.feedback.insert_text(f"Width: {self.winfo_width()}, Height: {self.winfo_height()}")
     # ----------------------------------------- #
+    
+    def get_input_parameters(self) -> dict[str, "Parameter"]:
+        return self.controller.input_parameters
+    def get_discr_parameters(self) -> dict[str, "Parameter"]:
+        return self.controller.discr_parameters
+    def get_analyse_parameters(self) -> dict[str, "Parameter"]:
+        return self.controller.analyse_parameters
+    def get_trapezoid_parameters(self) -> dict[str, "Parameter"]:
+        return self.controller.trapezoid_parameters
+    """ def get_spectra_parameters(self) -> dict[str, "Parameter"]:
+        return self.controller.spectra_parameters """
