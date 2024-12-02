@@ -113,7 +113,7 @@ class Controller():
                 type='FLASHy', widget_type='entry'),
         }
         
-        self.parameters_tuple = (self.input_parameters, self.discr_parameters, self.analyse_parameters)
+        self.parameters_tuple = (self.input_parameters, self.discr_parameters, self.trapezoid_parameters, self.analyse_parameters)
         
         # Bool that determines the state of the program
         self.isCONNECTING_TO_DIG:bool = False
@@ -123,6 +123,9 @@ class Controller():
         self.isRECORDING:bool = False
         
         self.hasDIGITIZERCONNECTED: bool = False
+        
+        # Which channel are we using? 
+        self.channel_use = 'CH0' # ['CH0', 'CH1', 'both']
     
     # Getting information from the models
     def get_data_analyser(self) -> DataAnalyser:
@@ -144,14 +147,13 @@ class Controller():
         self.isTAKING_DATA:bool = False
         self.isCHANGING_SETTINGS:bool = False
         self.isGETTING_BASIC_INFO: bool = False
+        if self.isRECORDING:
+            self.view_controller.bypass.data_aqc_panel.record_button.stop_recording()    
         self.isRECORDING = False
     
     # From models to views
     def send_feedback(self, message:str):
         self.view_controller.send_feedback(message)
-    # TODO: Change these so its like send_feedback    
-    def change_aqc_panel_message(self):
-        self.view_controller.bypass.data_aqc_panel.status_text
     def dispatch_data(self, data:Dict[str, Any]):
         self.view_controller.bypass.dig_info_panel.dispatch_data(data)
     def change_aqc_panel_status(self, message:str):
@@ -177,9 +179,11 @@ class Controller():
     
     def set_parameter_value(self, name:str, value:str, index:int):
         self._set_parameter(name, 'set_row', value, index)
-    
     def set_parameter_state(self, name:str, state:Literal['board', 'CH0', 'CH1', 'default']):
         self._set_parameter(name, 'change_state', state)
+    
+    def get_dig_parameters(self) -> Dict[str, "Parameter"]:
+        return self.input_parameters | self.discr_parameters | self.trapezoid_parameters
     
 # Stores everything related to parameters
 class Parameter:
@@ -200,6 +204,7 @@ class Parameter:
             self.state = 'board' # Possible states : ['board', 'CH0', 'CH1', 'default']
             self.row = [self.name, value, value, value]
         else:
+            self.state = 'choice'
             self.row = [self.name, value]
     
     # Channel logic
@@ -207,6 +212,8 @@ class Parameter:
         if self.type == 'dig' and new_state in {'board', 'CH0', 'CH1', 'default'}: # Must be a digitizer parameter
             self.state = new_state
     
+    def get_name(self) -> str:
+        return self.name
     def get_description(self) -> str:
         return self.description
     def set_choices(self, choices:tuple[str, ...]):
@@ -225,6 +232,10 @@ class Parameter:
         self.row[index] = value
     def get_state(self) -> str:
         return self.state
-        
+    def get_parameter(self) -> List[str]:
+        value = self.row[1:]
+        value.append(self.state)
+        return value
+            
     def __str__(self) -> str:
-        return f"Name: {self.name}. Values: {self.row}, "
+        return f"Name: {self.name}. State: {self.state}. Values: {self.row}"

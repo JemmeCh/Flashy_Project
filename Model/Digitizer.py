@@ -11,6 +11,7 @@ print(f'CAEN FELib wrapper loaded (lib version {lib.version})')
 
 if TYPE_CHECKING:
     from Controller.ModelController import ModelController
+    from Controller.Controller import Parameter
    
 class Digitizer:
     def __init__(self, model_controller:"ModelController"):
@@ -48,13 +49,23 @@ class Digitizer:
         dig1_query = f'link_num={link_number}&conet_node={conet_node}&vme_base_address={vme_base_address}'
         dig1_path = connection_type
         self.uri = f'{dig1_scheme}://{dig1_authority}/{dig1_path}?{dig1_query}'
+
+    def ping_digitizer(self):
+        try:
+            with device.connect(self.uri):
+                return False
+        except Exception:
+            self.model_controller.controller.hasDIGITIZERCONNECTED = False
+            self.model_controller.controller.change_aqc_panel_status('Déconnecté')
+            return True
        
     def get_basic_dig_info(self):
         # Check if the digitizer can be used
         if not self.model_controller.controller.can_use_dig():
             self.send_feedback("The digitizer is being used!")
             return
-        
+        if self.ping_digitizer():
+            self.send_feedback("Couldn't connect to digitizer!")
         self.send_feedback("Attempting to connect to digitizer...")
         """ test_data = {
                     'model_name': 'name',
@@ -76,8 +87,6 @@ class Digitizer:
             
             # First connection
             self.model_controller.controller.hasDIGITIZERCONNECTED = True
-            # TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO 
-            # Make it so the program detects when digitizer is unpluged
             
             # Reset
             dig.cmd.RESET()
@@ -130,18 +139,34 @@ class Digitizer:
             
     def record_data(self):
         # Check if the digitizer has been connected
-        if not self.model_controller.controller.hasDIGITIZERCONNECTED:
+        """ if not self.model_controller.controller.hasDIGITIZERCONNECTED and self.ping_digitizer():
             self.send_feedback("There is no digitizer connected")
             self.controller.view_controller.bypass.data_aqc_panel.record_button.stop_recording()
-            return
+            return """
         # Check if the digitizer can be used
         if not self.model_controller.controller.can_use_dig():
             self.send_feedback("The digitizer is being used!")
             self.controller.view_controller.bypass.data_aqc_panel.record_button.stop_recording()
             return
-        
+        self.controller.isRECORDING = True
+        self.send_feedback("Digitizer can be used! Fetching paramters...")
+        dig_parameters = self.controller.get_dig_parameters()
+        # get_parameter() returns [value for board, value for CH0, value for CH1, state]
+        """PLEASE GO THINK ABOUT THIS CAUSE WTF"""
+        board_parameters : Dict[str, "Parameter"] = {}
+        CH0_parameters   : Dict[str, "Parameter"] = {}
+        CH1_parameters   : Dict[str, "Parameter"] = {}
+        for parameter in dig_parameters.values():
+            state = parameter.get_state()
+            match state:
+                case 'board':
+                    board_parameters[parameter.get_name()] = parameter
+                case 'CH0':
+                    CH0_parameters.update((parameter.get_name(), parameter))
+                case 'CH1':
+                    CH1_parameters.update((parameter.get_name(), parameter))
+            
         with device.connect(self.uri) as dig:
-            self.controller.isRECORDING = True
             # Reset
             dig.cmd.RESET()
             
