@@ -1,6 +1,6 @@
 import numpy as np
 
-from View.Graphs.Graph import Graph
+from src.View.Graphs.Graph import Graph
 
 class PulseGraph(Graph):
     def __init__(self, parent, x_label:str, y_label:str, 

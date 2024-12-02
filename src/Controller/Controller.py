@@ -2,11 +2,11 @@ from typing import Any, Dict, List, Literal, Tuple
 
 from traitlets import default
 
-from Controller.ModelController import ModelController
-from Controller.ViewController import ViewController
-from Model.DataAnalyser import DataAnalyser
-from Model.Digitizer import Digitizer
-from Model.Error import Error
+from src.Controller.ModelController import ModelController
+from src.Controller.ViewController import ViewController
+from src.Model.DataAnalyser import DataAnalyser
+from src.Model.Digitizer import Digitizer
+from src.Model.Error import Error
 
 # This class contains all the different settings of the program and
 # is used as a link between the models and the views

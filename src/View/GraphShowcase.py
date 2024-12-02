@@ -1,12 +1,12 @@
 from tkinter import ttk
 
-from View.Graphs.AreaGraph import AreaGraph
-from View.Graphs.PulseGraph import PulseGraph
-from View.ListOfResults import ListOfResults
+from src.View.Graphs.AreaGraph import AreaGraph
+from src.View.Graphs.PulseGraph import PulseGraph
+from src.View.ListOfResults import ListOfResults
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from Controller.ViewController import ViewController
+    from src.Controller.ViewController import ViewController
 
 class GraphShowcase(ttk.Frame):
     def __init__(self, parent, view_controller:"ViewController") -> None:

@@ -2,7 +2,7 @@ import numpy as np
 from typing import TYPE_CHECKING, Any, Dict
 
 import matplotlib.pyplot as plt
-from Model.Error import Error
+from src.Model.Error import Error
 
 # To install the module: pip install caen-felib
 from caen_felib import lib, device, error

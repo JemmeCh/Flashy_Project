@@ -2,7 +2,7 @@ from caen_felib import error
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from Controller.Controller import Controller    
+    from src.Controller.Controller import Controller    
 
 class Error:
     def __init__(self, controller:"Controller") -> None:

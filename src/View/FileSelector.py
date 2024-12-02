@@ -6,7 +6,7 @@ from tkinter import filedialog
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from Controller.ViewController import ViewController
+    from src.Controller.ViewController import ViewController
 
 class FileSelector(ttk.Frame):
     def __init__(self, parent, view_controller:"ViewController"):

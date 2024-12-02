@@ -5,11 +5,11 @@ from typing import TYPE_CHECKING, Literal, Tuple
 if __name__ == "__main__":
     from Style import FLASHyStyle
 else:
-    from View.Style import FLASHyStyle
+    from src.View.Style import FLASHyStyle
 
 if TYPE_CHECKING:
-    from Controller.Controller import Controller
-    from Controller.ViewController import ViewController
+    from src.Controller.Controller import Controller
+    from src.Controller.ViewController import ViewController
 
 class InfoTir(ttk.Frame):
     def __init__(self, parent, view_controller:"ViewController"):

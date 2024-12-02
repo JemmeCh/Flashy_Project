@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from datetime import datetime 
 
 if TYPE_CHECKING:
-    from Controller.ViewController import ViewController
+    from src.Controller.ViewController import ViewController
     
 class Feedback(ttk.Frame):
     def __init__(self, view_controller:"ViewController") -> None:

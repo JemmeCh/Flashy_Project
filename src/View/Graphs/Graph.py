@@ -6,11 +6,11 @@ from matplotlib.backends._backend_tk import NavigationToolbar2Tk
 from matplotlib.figure import Figure
 from matplotlib import backend_bases
 
-from View.Style import LIGHT_GRAY, DARK_GRAY
+from src.View.Style import LIGHT_GRAY, DARK_GRAY
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from View.GraphShowcase import GraphShowcase
+    from src.View.GraphShowcase import GraphShowcase
 
 # Modifiying the toolbar
 backend_bases.NavigationToolbar2.toolitems = (

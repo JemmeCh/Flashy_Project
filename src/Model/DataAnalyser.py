@@ -3,7 +3,7 @@ import numpy as np
 
 from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
-    from Controller.ModelController import ModelController
+    from src.Controller.ModelController import ModelController
 
 
 class DataAnalyser:

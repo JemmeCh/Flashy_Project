@@ -1,18 +1,18 @@
 import tkinter as tk
 from tkinter import ttk
 
-from View.Bypass import Bypass
-from View.FileSelector import FileSelector
-from View.GraphShowcase import GraphShowcase
-from View.InfoTir import InfoTir
-from View.MenuBar import MenuBar
-from View.Feedback import Feedback
-from View.Style import FLASHyStyle
+from src.View.Bypass import Bypass
+from src.View.FileSelector import FileSelector
+from src.View.GraphShowcase import GraphShowcase
+from src.View.InfoTir import InfoTir
+from src.View.MenuBar import MenuBar
+from src.View.Feedback import Feedback
+from src.View.Style import FLASHyStyle
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from Controller.Controller import Parameter
-    from Controller.Controller import Controller
+    from src.Controller.Controller import Parameter
+    from src.Controller.Controller import Controller
 
 # The view controller is the main window of the program
 # 

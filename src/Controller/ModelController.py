@@ -1,9 +1,9 @@
-from Model.Digitizer import Digitizer
-from Model.DataAnalyser import DataAnalyser
+from src.Model.Digitizer import Digitizer
+from src.Model.DataAnalyser import DataAnalyser
 
 from typing import TYPE_CHECKING, Any, Dict
 if TYPE_CHECKING:
-    from Controller.Controller import Controller
+    from src.Controller.Controller import Controller
 
 # This class is for taking care of the communication between the different models
 # For example, the SaveFile needs to access the DataAnalyser

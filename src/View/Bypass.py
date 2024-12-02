@@ -8,8 +8,8 @@ import threading
 from caen_felib import lib, device, error
 
 if TYPE_CHECKING:
-    from Controller.ViewController import ViewController
-    from View.Style import FLASHyStyle
+    from src.Controller.ViewController import ViewController
+    from src.View.Style import FLASHyStyle
     
 class Bypass(ttk.Frame):
     def __init__(self, parent, view_controller:"ViewController"):
