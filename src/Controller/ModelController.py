@@ -4,9 +4,9 @@ from src.Model.DataAnalyser import DataAnalyser
 from typing import TYPE_CHECKING, Any, Dict
 if TYPE_CHECKING:
     from src.Controller.Controller import Controller
+    from src.View.GraphShowcase import GraphShowcase
 
 # This class is for taking care of the communication between the different models
-# For example, the SaveFile needs to access the DataAnalyser
 # It's also a link between the controller and the models for updating the views
 class ModelController():
     def __init__(self) -> None:
@@ -15,11 +15,20 @@ class ModelController():
     def set_up(self, controller: "Controller"):
         self.controller = controller
         self.data_analyser = DataAnalyser(self) 
+        self.ch0_analyser = DataAnalyser(self)
+        self.ch1_analyser = DataAnalyser(self)
+        self.raw_analyser = DataAnalyser(self)
         self.digitizer = Digitizer(self)
     
     # Getting information from the data analyser
     def get_data_analyser(self):
         return self.data_analyser
+    def get_ch0_analyser(self):
+        return self.ch0_analyser
+    def get_ch1_analyser(self):
+        return self.ch1_analyser
+    def get_raw_analyser(self):
+        return self.raw_analyser
     def get_digitizer(self):
         return self.digitizer
         
@@ -37,10 +46,13 @@ class ModelController():
         self.controller.dispatch_data(data)
     def change_aqc_panel_status(self, message:str):
         self.controller.change_aqc_panel_status(message)
-    # TODO: Make this like the others
     def update_pulse_graph(self):
         self.controller.view_controller.graph_showcase.update_pulse_graph()
     def update_area_graph(self):
         self.controller.view_controller.graph_showcase.update_area_graph()
     def update_list(self):
         self.controller.view_controller.graph_showcase.update_list()
+    
+    """Functions for updating the graph showcases"""    
+    def analyse_data(self, graph_showcase:"GraphShowcase", analyser:DataAnalyser, data):
+        analyser.analyse_data(graph_showcase, data)

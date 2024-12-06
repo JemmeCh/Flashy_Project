@@ -5,12 +5,14 @@ from tkinter import ttk
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from src.View.GraphShowcase import GraphShowcase
+    from src.Model.DataAnalyser import DataAnalyser
 
 class ListOfResults(ttk.Treeview):
-    def __init__(self, parent:"GraphShowcase"):
+    def __init__(self, parent:"GraphShowcase", analyser:"DataAnalyser"):
         super().__init__(parent, columns=("Pulse", "Aire sous la courbe", "Dose"), 
                  show="headings")
         self.showcase = parent
+        self.analyser = analyser
         
         self.column("Pulse", anchor="center",width=15, stretch=True)
         self.column("Aire sous la courbe", anchor="center",width=25, stretch=True)
@@ -35,7 +37,7 @@ class ListOfResults(ttk.Treeview):
         self.delete(*self.get_children())
         
         # Fetch the new data from DataAnalyser
-        self.data = self.showcase.fetch_data_list()
+        self.data = self.analyser.get_data_list() #showcase.fetch_data_list()
         
         for item in self.data:
             self.insert("", tk.END, values=item)

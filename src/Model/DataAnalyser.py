@@ -1,9 +1,11 @@
 import csv
 import numpy as np
+import pickle
 
 from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     from src.Controller.ModelController import ModelController
+    from src.View.GraphShowcase import GraphShowcase
 
 
 class DataAnalyser:
@@ -29,25 +31,99 @@ class DataAnalyser:
         # For accessing the model controller
         self.model_controller = model_controller
     
-    def read_file(self, path):
+    def determine_dialect(self, path):
+        with open(path, 'r') as file:
+            first_line = file.readline()
+            file.seek(0)
+            try:
+                dialect = csv.Sniffer().sniff(first_line)
+                return dialect
+            except csv.Error:
+                csv.register_dialect("CoMPASS", delimiter=';')
+                return csv.get_dialect("CoMPASS")
+    
+    def read_csv(self, path:str):
         info = []
-
-        with open(path, newline='') as f:
-            reader = csv.reader(f, dialect='CoMPASS')
-            # Skip header :
-            # ['BOARD;CHANNEL;TIMETAG;ENERGY;CALIB_ENERGY;FLAGS;PROBE_CODE;SAMPLES']
-            next(f)
-            for row in reader:
-                # Isolate SAMPLES
-                row = np.array(row[7:], dtype=int)
-                info.append(row)
+        dialect = self.determine_dialect(path)
+        
+        if dialect.delimiter == ';':
+            self.model_controller.send_feedback("CoMPASS csv detected!")
+            with open(path, newline='') as f:
+                # CoMPASS
+                # ['BOARD;CHANNEL;TIMETAG;ENERGY;CALIB_ENERGY;FLAGS;PROBE_CODE;SAMPLES']
+                reader = csv.reader(f, dialect=dialect)
+                next(f)
+                for row in reader:
+                    # Isolate SAMPLES
+                    row = np.array(row[7:], dtype=int)
+                    info.append(row)
+        elif dialect.delimiter == ',':
+            self.model_controller.send_feedback("FLASHy csv detected!")
+            # FlASHy
+            # ['Channel,Flag,Waveform_size,Samples']
+            with open(path, newline='') as f:
+                reader = csv.reader(f, dialect=dialect)
+                next(f)
+                for row in reader:
+                    # Isolate SAMPLES
+                    samples_str:str = row[-1].replace('[', "").replace(']','')
+                    samples = samples_str.split(",")
+                    row = np.array(samples, dtype=int)
+                    info.append(row)
+        return info
+    
+    def read_raw(self, path:str):
+        info = []
+        file = open(path, 'rb')
+        while True:
+            try:
+                new_pulse = pickle.load(file)
+                info.append(new_pulse[-1])
+            except Exception as e:
+                break
+        file.close()
+        return info
+    
+    def clean_data(self, data):
+        # The goal is to remove the data that doesn't have pulses
+        # Using standard deviation and range
+        pulse_std = np.std(data, axis=1)
+        pulse_range = np.ptp(data, axis=1)
+        
+        # Defined threshold 
+        std_thres = 10
+        range_thres = 10
+        
+        valid_pulses = (pulse_std > std_thres) & (pulse_range > range_thres)
+        
+        return data[valid_pulses]
+    
+    def read_file(self, path:str):
+        # Determine if its a .dat or .csv file
+        if path.endswith(".csv"):
+            info = self.read_csv(path)
+        elif path.endswith(".dat"):
+            self.model_controller.send_feedback("To be implemented")
+            #info = self.read_raw(path)
+            return False
+        else: # File format can't be analysed
+            self.model_controller.send_feedback("Not a .csv or .dat file!")
+            return False
+        
+        if len(info) == 0: # Check if the array is empty
+            self.model_controller.send_feedback("No data to analyse!")
+            return False
+        
+        # Remove flat with noise data
+        clean_info = self.clean_data(np.array(info))
         
         # Change the analyser's data
-        self.pulse_info = np.array(info)
+        self.pulse_info = np.array(clean_info)
         # Notify the user
         self.model_controller.send_feedback("Data extracted from file")
         
         self.prep_data()
+        return True
     
     def prep_data(self):
         # Set SAMPLE_SIZE
@@ -185,34 +261,23 @@ class DataAnalyser:
         # Adding the total label
         self.data.append(["Total", self.total_area, self.total_dose])
     
-    def analyse_dig_data(self, data, n_ch:int):
-        # As of November 10th, this is the data format sent
-        self.model_controller.send_feedback("Data analyser received new data! Attempting to analyse it...")
-        # Get reference to data fields
-        # I think this is the samples of all pulses for each channel
-        self.waveform = data[3].value
-        # I think this is the size of every pulse
-        self.waveform_size = data[2].value
+    def analyse_data(self, graph_showcase:"GraphShowcase", data):
+        """
+        data: contient toute les pulses avec mean > 2000
+        [[
+            channel.copy(), flags.copy(), 
+            waveform_size.copy(), analog_probe_1.copy()
+        ], ...]
+        """
+        # Extract the information we need
+        self.SAMPLE_SIZE = int(data[0][2])
+        raw_pulses = []
+        for pulses_info in data:
+            raw_pulses.append(pulses_info[3])
+        # Clean data    
+        clean_pulses = self.clean_data(np.array(raw_pulses))
+        self.pulse_info = clean_pulses
         
-        """ print(self.waveform.tolist())
-        print(self.waveform.size)
-        print(self.waveform_size) """
-        
-        if self.waveform_size == 0.0:
-            self.model_controller.send_feedback('No data was recorded')
-            return 0
-        
-        # Changing pulse_info
-        try:
-            for i in range(n_ch):
-                if i == 0: # We only use the first channel
-                    self.pulse_info = np.array(self.waveform[i])
-                    self.SAMPLE_SIZE = self.waveform.size
-        except Exception as e:
-            self.model_controller.send_feedback(f"An unexpected error occurred: {e}")
-            self.model_controller.send_feedback(f"Printing the data received in terminal")
-            return
-                
         # Calculate t_axis and dt
         self.t_axis, self.dt = np.linspace(
             0, int(self.model_controller.get_rcd_len()) / 1000, self.SAMPLE_SIZE, retstep=True)
@@ -229,11 +294,10 @@ class DataAnalyser:
         self.calculate_dose()
         self.model_controller.send_feedback("Updating graphs et list...")
         self.prepare_list()
-        self.model_controller.update_pulse_graph()
-        self.model_controller.update_area_graph()
-        self.model_controller.update_list()
-        self.model_controller.send_feedback("Data analysed! Read to save analysis (to be implemented)")
-        print("reach end")
+        graph_showcase.update_pulse_graph()
+        graph_showcase.update_area_graph()
+        graph_showcase.update_list()
+        self.model_controller.send_feedback("Data analysed!")
 
     def get_pulse_info(self) -> np.ndarray:
         return self.pulse_info

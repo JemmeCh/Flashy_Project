@@ -2,10 +2,16 @@ import numpy as np
 
 from src.View.Graphs.Graph import Graph
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from src.View.GraphShowcase import GraphShowcase
+    from src.Model.DataAnalyser import DataAnalyser
+
 class PulseGraph(Graph):
-    def __init__(self, parent, x_label:str, y_label:str, 
-                 toolbar:bool, gridrow:int, gridcolumn:int):
+    def __init__(self, parent:"GraphShowcase", x_label:str, y_label:str, 
+                 toolbar:bool, analyser:"DataAnalyser", gridrow:int, gridcolumn:int):
         self.showcase = parent
+        self.analyser = analyser
         self.x_label = x_label
         self.y_label = y_label
         self.toolbar_bool = toolbar
@@ -26,8 +32,8 @@ class PulseGraph(Graph):
         self.canvas.get_tk_widget().grid(row=self.gridrow, column=self.gridcolumn, sticky="nsew")
         
         # Get the new values of x and y
-        self.x = self.showcase.fetch_t_axis()
-        self.y = self.showcase.fetch_pulse_info()
+        self.x = self.analyser.get_t_axis() #showcase.fetch_t_axis()
+        self.y = self.analyser.get_pulse_info() #showcase.fetch_pulse_info()
         self.x = np.array(self.x)
         self.y = np.array(self.y)
 

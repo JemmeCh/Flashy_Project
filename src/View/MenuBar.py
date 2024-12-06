@@ -4,6 +4,7 @@ from tkinter import ttk
 class MenuBar(tk.Menu):
     def __init__(self, parent):
         super().__init__(parent)
+        self.view_controller = parent
         
         # Analyse menu
         analyse_menu = tk.Menu(self, tearoff=0)
@@ -37,6 +38,7 @@ class MenuBar(tk.Menu):
         # Do a pop-up confirmation
         check = CustomDialog(parent, "Quitter le programme?", "Oui", "Non")
         if check.result:
+            self.view_controller.cotnroller.save_parameters()
             parent.quit()
 
 

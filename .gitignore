@@ -21,3 +21,6 @@ __pycache__/
 /.VSCodeCounter/**
 /Sunset/**
 pickle.dat
+DAQ/**
+Feedback/**
+parameters.txt

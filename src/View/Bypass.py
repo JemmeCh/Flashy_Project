@@ -262,7 +262,24 @@ class DataAQCPanel(ttk.Frame):
         self.arm_dig_frame.grid_columnconfigure(0, weight=0)
         self.arm_dig_frame.grid_columnconfigure(1, weight=1)
         
-        # Name file system
+        # Run ID + increment
+        self.name_frame = ttk.Frame(self, style=self.tframe_style)
+        
+        self.name_label = ttk.Label(self.name_frame, style=self.label_style,
+                                    text='Nom:')
+        self.name_label.grid(row=0, column=0, sticky='w', padx=(0,5))
+        self.name_entry = ttk.Entry(self.name_frame, style=self.entry_style)
+        self.name_entry.insert(0, self.bypass_frame.view_controller.get_name_of_shoot())
+        self.name_entry.grid(row=0, column=1, sticky='ew', padx=(0,5))
+        self.name_btn = ttk.Button(self.name_frame, style=self.button_style,
+                                   text='Confirmer', command=self.confirm_name)
+        self.name_btn.grid(row=0, column=2, sticky='ew')
+        
+        self.name_frame.grid(row=4, column=0, sticky='nwe', pady=(0,5))
+        self.name_frame.grid_rowconfigure(0, weight=1)
+        self.name_frame.grid_columnconfigure(0, weight=1)
+        self.name_frame.grid_columnconfigure(1, weight=1)
+        self.name_frame.grid_columnconfigure(2, weight=1)
         
         # Record button
         self.record_frame = ttk.Frame(self, style=self.tframe_style)
@@ -270,15 +287,11 @@ class DataAQCPanel(ttk.Frame):
         self.record_button = Recordbutton(self.record_frame, self.bypass_frame,
                                         style=self.button_style,
                                         text="Commencer mesure")
-        self.record_button.grid(row=0, column=0,sticky='nwe')
+        self.record_button.grid(row=0, column=0,sticky='nsew')
         
-        
-        # Run ID + increment
-        
-        self.record_frame.grid(row=4, column=0, sticky='nsew')
+        self.record_frame.grid(row=5, column=0, sticky='nsew', pady=(0,5))
         self.record_frame.grid_rowconfigure(0, weight=1)
         self.record_frame.grid_columnconfigure(0, weight=1)
-        self.record_frame.grid_columnconfigure(1, weight=1)
         
         # Configuration of the whole panel
         self.grid_columnconfigure(0, weight=1)
@@ -286,6 +299,8 @@ class DataAQCPanel(ttk.Frame):
         self.grid_rowconfigure(1, weight=1)
         self.grid_rowconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
+        self.grid_rowconfigure(4, weight=1)
+        self.grid_rowconfigure(5, weight=1)
         
     def change_aqc_panel_status(self, message:str):
         self.status_text.config(state='normal')
@@ -296,6 +311,14 @@ class DataAQCPanel(ttk.Frame):
     def arm_digitizer(self):
         t1 = threading.Thread(target=self.bypass_frame.arm_digitizer, daemon=True)
         t1.start() 
+        
+    def confirm_name(self):
+        new_name = self.name_entry.get().strip()
+        if new_name != '':
+            self.bypass_frame.view_controller.set_name_of_shoot(new_name)
+        else:
+            self.bypass_frame.send_feedback("Please put a name!")
+            self.name_entry.insert(0, self.bypass_frame.view_controller.get_name_of_shoot())
 
 class Checkbox(ttk.Checkbutton):
     def __init__(self, *args, **kwargs):

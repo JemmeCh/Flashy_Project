@@ -1,5 +1,4 @@
 import csv
-import threading
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
@@ -7,11 +6,15 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from src.Controller.ViewController import ViewController
+    from src.Model.DataAnalyser import DataAnalyser
+    from src.View.GraphShowcase import GraphShowcase
 
 class FileSelector(ttk.Frame):
-    def __init__(self, parent, view_controller:"ViewController"):
+    def __init__(self, parent, 
+                 view_controller:"ViewController", analyser:"DataAnalyser", graph_showcase:"GraphShowcase"):
         super().__init__(parent, padding=(10,10), relief="raised")
-        
+        self.analyser = analyser
+        self.graph_showcase = graph_showcase
         self.feedback = view_controller.feedback
         
         # Used to modify/get other parts of the program
@@ -54,11 +57,9 @@ class FileSelector(ttk.Frame):
         self.feedback.insert_text("This will be implemented later")
             
     def select_file(self):
-        csv.register_dialect("CoMPASS", delimiter=';')
-        
         file_path = filedialog.askopenfilename(
-            title="Select the CSV file to analyse",
-            filetypes=(("CSV", "*.csv"), ("All files", "*.*"))
+            title="Select the file to analyse",
+            filetypes=(("CSV", "*.csv"), ("Raw", "*.dat"), ("All files", "*.*"))
         )
         if not file_path:
             self.feedback.insert_text("Please select a file")
@@ -66,17 +67,12 @@ class FileSelector(ttk.Frame):
         
         self.path_to_data = file_path
         
-        self.feedback.insert_text("File selected! Checking if it's a csv...")
+        self.feedback.insert_text("File selected!")
 
-        if not self.check_if_csv():
-            self.feedback.insert_text("Please select a csv file")
-            return
-
-        # Here, the file is for sure a csv file
         # Write it on the Entry
         self.file_path.delete(0,tk.END)
         self.file_path.insert(0, self.path_to_data)
-        # Prompt the user that they can anaylyse the data
+        # Prompt the user that they can analyse the data
         self.feedback.insert_text(f"File {self.path_to_data} is ready to be analysed!")
         
     def check_if_csv(self) -> bool:
@@ -104,9 +100,11 @@ class FileSelector(ttk.Frame):
             self.feedback.insert_text("Please select a file!")
             return
         self.feedback.insert_text("Reading file...")
-        # Check if there's a problem when reading the CSV
+        # Check if there's a problem when reading the file
         try:
-            self.view_controller.data_analyser.read_file(self.path_to_data)
+            result = self.analyser.read_file(self.path_to_data)
+            if not result:
+                return
         except IOError as e:
             self.feedback.insert_text(f"Error: {e}")
             self.feedback.insert_text("The file might be in use or locked by another program.")
@@ -117,16 +115,18 @@ class FileSelector(ttk.Frame):
             return
         except Exception as e:
             self.feedback.insert_text(f"An unexpected error occurred: {e}")
+            raise e
             return
+        
         self.feedback.insert_text("Leveling data...")
-        self.view_controller.data_analyser.level_data()
+        self.analyser.level_data()
         self.feedback.insert_text("Calculating areas under the curves...")
-        self.view_controller.data_analyser.calculate_area()
+        self.analyser.calculate_area()
         self.feedback.insert_text("Calculating dosage...")
-        self.view_controller.data_analyser.calculate_dose()
+        self.analyser.calculate_dose()
         self.feedback.insert_text("Updating graphs et list...")
-        self.view_controller.graph_showcase.update_pulse_graph()
-        self.view_controller.graph_showcase.update_area_graph()
-        self.view_controller.data_analyser.prepare_list()
-        self.view_controller.graph_showcase.update_list()
-        self.feedback.insert_text("Data analysed! Read to save analysis (to be implemented)")
+        self.graph_showcase.update_pulse_graph()
+        self.graph_showcase.update_area_graph()
+        self.analyser.prepare_list()
+        self.graph_showcase.update_list()
+        self.feedback.insert_text("Data analysed!")

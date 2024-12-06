@@ -19,7 +19,7 @@ def main() -> None:
     
     # Set up the links between the controllers
     model_controller.set_up(main_controller)
-    view_controller.set_up(main_controller, "0.8")
+    view_controller.set_up(main_controller, "0.9")
     
     # Start program
     view_controller.mainloop()

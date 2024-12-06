@@ -10,6 +10,7 @@ class Feedback(ttk.Frame):
     def __init__(self, view_controller:"ViewController") -> None:
         super().__init__(view_controller, padding=(10,10), relief="raised")
         self.style = view_controller.style
+        self.view_controller = view_controller
         
         self.test = ttk.Label(self, text="Feedback", style=self.style.label_style)
         self.test.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
@@ -41,6 +42,4 @@ class Feedback(ttk.Frame):
     def save_to_txt(self):
         # Extract text from entry
         log = self.feedback.get("1.0", tk.END)
-        
-        
-        
+        self.view_controller.save_to_txt(log)
