@@ -315,10 +315,18 @@ class DataAQCPanel(ttk.Frame):
     def confirm_name(self):
         new_name = self.name_entry.get().strip()
         if new_name != '':
-            self.bypass_frame.view_controller.set_name_of_shoot(new_name)
+            if not self.bypass_frame.view_controller.controller.isRECORDING:
+                self.bypass_frame.view_controller.set_name_of_shoot(new_name)
+                self.bypass_frame.send_feedback(f"Name of shoot set to '{new_name}'")
+                return
+            else: # Data is being recorded
+                self.bypass_frame.view_controller.send_feedback(f'Data is being recorded!')
+                self.name_entry.insert(0, self.bypass_frame.view_controller.get_name_of_shoot())
+                return
         else:
             self.bypass_frame.send_feedback("Please put a name!")
             self.name_entry.insert(0, self.bypass_frame.view_controller.get_name_of_shoot())
+            return
 
 class Checkbox(ttk.Checkbutton):
     def __init__(self, *args, **kwargs):

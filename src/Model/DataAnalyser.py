@@ -100,9 +100,9 @@ class DataAnalyser:
     
     def read_file(self, path:str):
         # Determine if its a .dat or .csv file
-        if path.endswith(".csv"):
+        if path.lower().endswith(".csv"):
             info = self.read_csv(path)
-        elif path.endswith(".dat"):
+        elif path.lower().endswith(".dat"):
             self.model_controller.send_feedback("To be implemented")
             #info = self.read_raw(path)
             return False

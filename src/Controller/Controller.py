@@ -26,8 +26,7 @@ class Controller():
 
         # Get/Generate parameters
         self.load_parameters_on_open()
-        #print(self.get_dig_parameters())
-        
+                
         # Variables for everything related to saving stuff
         time = datetime.now()
         date = fr"{time.day}-{time.month}-{time.year}"
@@ -37,6 +36,11 @@ class Controller():
         self.path_to_feedback = 'Feedback'
         self.incremented_name = 'default_1'
         self.path_of_shoot = os.path.join(self.path_to_instance, self.incremented_name)
+        
+        try: 
+            os.mkdir("DAQ")
+        except FileExistsError:
+            print("DAQ folder already exists")
         
         self.create_instance_directory()
         self.create_shoot_directory()
@@ -242,10 +246,17 @@ class Controller():
         # Save raw data for debugging 
         for read in all_detect:
             #self.send_feedback(read)
-            if read[0] == '0': # CH0
-                CH0.append(read)
-            elif read[0] == '1': # CH1
-                CH1.append(read)
+            channel = str(read[0])
+            flag = str(read[1])
+            waveform_size = str(read[2])
+            samples = read[3]
+            
+            struct = [channel, flag, waveform_size, samples]
+            
+            if struct[0] == '0': # CH0
+                CH0.append(struct)
+            elif struct[0] == '1': # CH1
+                CH1.append(struct)
             else:
                 self.send_feedback("Pulse was not in CH0 or CH1?!")
                 self.send_feedback(read)
@@ -288,10 +299,14 @@ class Controller():
             self.send_feedback(f"Unexpected error while saving CH1 ({e.__str__()}). Stopping program")
             raise e
         
+        # Save shoot parameters
+        self.save_shoot_parameters()
+        
         # Prepare for next shoot    
         self.increment_name_of_shoot()
-        self.send_feedback("Shoot finised! Check CH0 and CH1 tabs for results")
-    
+        self.send_feedback("Shoot finished! Check CH0 and CH1 tabs for results")
+        return
+        
     """Functions for saving and loading parameters"""
     def generate_default_parameters(self):
         """
@@ -393,8 +408,8 @@ class Controller():
 
         self.parameters_tuple = (self.input_parameters, self.discr_parameters, self.trapezoid_parameters, self.analyse_parameters)
 
-    def save_parameters(self):
-        file_name_par = 'parameters.txt'
+    def save_parameters(self, path:str='parameters.txt'):
+        file_name_par = path
         with open(file_name_par, 'w') as f:
             header = 'Paramètres\n'
             
@@ -470,7 +485,7 @@ class Controller():
             # Get info from file
             all_parameters = self.parse_data('parameters.txt')
             
-            print('loading par')
+            print('Loading parameters')
             
             input_par_dicts   = all_parameters.get('Input')
             discr_par_dicts   = all_parameters.get('Discriminator')
@@ -519,11 +534,15 @@ class Controller():
             self.trapezoid_parameters = trap_par
             self.analyse_parameters   = analyse_par
             
+            self.parameters_tuple = (self.input_parameters, self.discr_parameters, self.trapezoid_parameters, self.analyse_parameters)
+            
         except FileNotFoundError: # The file doesn't exist
             print('default par')
             self.generate_default_parameters()
-    def save_shoot_settings(self):
-        pass        
+    def save_shoot_parameters(self):
+        # Create path to save to
+        path = os.path.join(self.path_of_shoot, 'shoot_parameters.txt')
+        self.save_parameters(path)  
     
     
 # Stores everything related to parameters

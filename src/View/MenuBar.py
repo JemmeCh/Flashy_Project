@@ -31,20 +31,21 @@ class MenuBar(tk.Menu):
         self.add_cascade(label="Debug", menu=debug_menu)
         
         # Close program
-        self.add_command(label="Fermer", command=lambda: self.exit(parent))
+        self.add_command(label="Fermer", command=lambda: self.exit(self.view_controller))
         
         
-    def exit(self, parent) -> None:
+    def exit(self, view_controller) -> None:
         # Do a pop-up confirmation
-        check = CustomDialog(parent, "Quitter le programme?", "Oui", "Non")
+        check = CustomDialog(view_controller, "Quitter le programme?", "Oui", "Non")
         if check.result:
-            self.view_controller.cotnroller.save_parameters()
-            parent.quit()
+            self.view_controller.controller.save_parameters()
+            view_controller.quit()
 
 
 # Used for confirming quitting the program via the Menu bar
 class CustomDialog(tk.Toplevel):
     def __init__(self, parent, message:str, yes_text:str, no_text:str):
+        self.view_controller = parent
         super().__init__(parent)
         self.geometry("+100000+100000")
         self.result = None

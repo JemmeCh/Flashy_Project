@@ -67,17 +67,7 @@ class Digitizer:
         if self.ping_digitizer():
             self.send_feedback("Couldn't connect to digitizer!")
         self.send_feedback("Attempting to connect to digitizer...")
-        """ test_data = {
-                    'model_name': 'name',
-                    'family_code': 'familycode',
-                    'fw_type': 'fw_type',
-                    'serial_num': 1234,
-                    'adc_n_bits': 12,
-                    'adc_samplrate_msps': 1000,
-                    'sampling_period_ns': 10,
-                    'max_rawdata_size': 9000
-                }
-        self.dispatch_data(test_data) """
+
         with device.connect(self.uri) as dig:
             self.send_feedback("Digitizer connected! Retreiving basic info...")
             self.model_controller.controller.isGETTING_BASIC_INFO = True
@@ -118,8 +108,10 @@ class Digitizer:
             # Close digitizer
             self.model_controller.controller.isGETTING_BASIC_INFO = False
             self.send_feedback("Info retreived successfully!")
+        return
     
     def arm_digitizer(self):
+        """Useless"""
         # Check if the digitizer has been connected
         if not self.model_controller.controller.hasDIGITIZERCONNECTED:
             self.send_feedback("There is no digitizer connected!")
@@ -136,18 +128,22 @@ class Digitizer:
         with device.connect(self.uri):
             self.send_feedback("I dont really understand how this would works... Im currently reseting the board every time data is being recorded")
 
+    def _on_close_plot(self, event):
+        # When closing oonline plot, has the same effect of clicking the button
+        self.controller.view_controller.bypass.data_aqc_panel.record_button.stop_recording()
+    
     def record_data(self):
         # Check if the digitizer has been connected
-        """ I forgot what this does lol or why its commented out
         if not self.model_controller.controller.hasDIGITIZERCONNECTED and self.ping_digitizer():
             self.send_feedback("There is no digitizer connected")
             self.controller.view_controller.bypass.data_aqc_panel.record_button.stop_recording()
-            return """
+            return
         # Check if the digitizer can be used
         if not self.model_controller.controller.can_use_dig():
             self.send_feedback("The digitizer is being used!")
             self.controller.view_controller.bypass.data_aqc_panel.record_button.stop_recording()
             return
+        
         self.controller.isRECORDING = True
         self.send_feedback("Digitizer can be used! Fetching paramters...")
         dig_parameters = self.controller.get_dig_parameters() # Contains all parameters
@@ -188,27 +184,6 @@ class Digitizer:
             sampling_period_ns = int(1e3 / adc_samplrate_msps)
             fw_type = dig.par.FWTYPE.value
 
-            """ # Configuration parameters (see Notion page: Test au CHUM - 5)
-            # Get from the controller in the futur
-            # General
-            reclen_ns = 15000  # in ns
-            # CH specific (Not the empty spaces and not the ??? ones)
-            pretrg_ns = 5000  # in ns
-            polarity = "POLARITY_POSITIVE"
-            dc_offset = 10 # in percentage # Max 100, min 0
-            coarse_gain = "COARSE_GAIN_X3" 
-            threshold = 2000 # in lsb (whats that???)
-            trg_holdoff = 480 # in ns
-            trap_risetime = 200 # in ns
-            baseline_nsample = "BLINE_NSMEAN_32768" 
-            #fast_disc = "RCCR2_SMTH_1"
-            #trap_flattop = 1000 # in ns
-            #trap_polezero = 50000 # in ns
-            #peak_holdoff = 960 # in ns
-            #energy_fine_gain = 1.000 # no units in CoMPASS
-            
-            #print(dig.get_child_nodes("/ch/0/par/CH_CGAIN/")) """
-            
             # Configure digitizer
             dig.par.RECLEN.value        = dig_parameters['Record Lenght (ns)'].get_row()[1]
             dig.par.TRG_SW_ENABLE.value = 'TRUE'  # Enable software triggers_board parameter
@@ -222,28 +197,13 @@ class Digitizer:
             
             ch0 = dig.get_node("/ch/0/par/")
             ch1 = dig.get_node("/ch/1/par/")
-            for dig_name, value in CH0_parameters:
-                node = ch0.get_node(dig_name)
+            for dig_name, value in CH0_parameters.items():
+                node = ch0.get_node('/'+dig_name)
                 node.value = str(value)
-            for dig_name, value in CH1_parameters:
-                node = ch1.get_node(dig_name)
+            for dig_name, value in CH1_parameters.items():
+                node = ch1.get_node('/'+dig_name)
                 node.value = str(value)
                         
-            """ Old way of doing it (if the tests on December 6th doesnt work, we cry and do this)
-            ch.par.CH_PRETRG.value       = f'{pretrg_ns}'
-            ch.par.CH_POLARITY.value     =    polarity
-            ch.par.CH_DCOFFSET.value     = f'{dc_offset}' 
-            ch.par.CH_CGAIN.value        =    coarse_gain
-            ch.par.CH_THRESHOLD.value    = f'{threshold}'
-            ch.par.CH_TRG_HOLDOFF.value  = f'{trg_holdoff}'
-            ch.par.CH_TRAP_TRISE.value   = f'{trap_risetime}'
-            ch.par.CH_BLINE_NSMEAN.value = f'{baseline_nsample}'
-            #ch.par.CH_RCCR2_SMOOTH.value = f'{fast_disc}'
-            #ch.par.CH_TRAP_TFLAT.value   = f'{trap_flattop}'
-            #ch.par.CH_TDELAY.value       = f'{trap_polezero}' --> caen_felib.error.Error: generic error: [json.exception.out_of_range.403] key 'ch_tdelay' not found
-            #ch.par.CH_PEAK_HOLDOFF.value = f'{peak_holdoff}'
-            #ch.par.CH_FGAIN.value        = f'{energy_fine_gain}' """
-            
             dig.cmd.CALIBRATEADC()
             
             # Compute record length in samples
@@ -325,13 +285,14 @@ class Digitizer:
             
             # Configure plot
             plt.ion()
-            figure, ax = plt.subplots(figsize=(10, 8))
+            figure, ax = plt.subplots(figsize=(5, 4))
             lines = []
             for i in range(2):
                 line, = ax.plot([], [])
                 lines.append(line)
             ax.set_xlim(0, reclen - 1)
             ax.set_ylim(0, 2 ** adc_n_bits - 1)  
+            figure.canvas.mpl_connect('close_event', self._on_close_plot)
                       
             # Start acquisition
             dig.cmd.ARMACQUISITION()
@@ -378,3 +339,4 @@ class Digitizer:
             
             # Save data and continue process
             self.controller.post_acquisition(all_detect)
+            return
