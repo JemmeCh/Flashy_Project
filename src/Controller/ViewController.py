@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 # 
 class ViewController(tk.Tk):
     def __init__(self) -> None:
-        super().__init__()
+        self.root = super().__init__()
         self.style = FLASHyStyle(self)
     
     def set_up(self, controller:"Controller", version:str):
@@ -194,8 +194,25 @@ class ViewController(tk.Tk):
     # ------------------------------------------------- #
     
     # --- Useful functions for the Menu Bar --- #   
-    def call_file_selector(self):
-        return self.file_selection.select_file()
+    def call_analyse_csv(self):
+        self.file_selection.select_file()
+        self.file_selection.analyse_data_thread()
+        
+    def call_analyse_raw(self):
+        self.file_selection_raw.select_file()
+        self.file_selection_raw.analyse_data_thread()
+        
+    def call_mesure(self):
+        if not self.controller.isRECORDING:
+            self.bypass.data_aqc_panel.record_button.start_recording()
+        else:
+            self.feedback.insert_text("Already recording!")
+    
+    def call_stop_mesure(self):
+        if self.controller.isRECORDING:
+            self.bypass.data_aqc_panel.record_button.stop_recording()
+        else:
+            self.feedback.insert_text("Not recording!")
     
     def call_open_data(self):
         self.feedback.insert_text("To be implemented")
