@@ -12,6 +12,12 @@ class MenuBar(tk.Menu):
         super().__init__(parent)
         self.view_controller = parent
         
+        # File menu
+        file_menu = tk.Menu(self, tearoff=0)
+        file_menu.add_command(label="Choisir projet",
+                              command=lambda: parent.call_set_project_path())
+        self.add_cascade(label="Fichier", menu=file_menu)
+        
         # Analyse menu
         analyse_menu = tk.Menu(self, tearoff=0)
         analyse_menu.add_command(label="Nouvelle Analyse - CSV", 

@@ -135,8 +135,8 @@ class ViewController(tk.Tk):
         self.tabs.add(self.tab5, text="Lecture RAW", sticky="nsew")
         
         # Test
-        #btn = ttk.Button(self, command=self.test, text='test data')
-        #btn.grid(row=5,column=0, sticky='nswe')
+        btn = ttk.Button(self, command=self.test, text='test data')
+        btn.grid(row=5,column=0, sticky='nswe')
         
         # Menu bar
         self.menu_bar = MenuBar(self)
@@ -184,6 +184,7 @@ class ViewController(tk.Tk):
         check = CustomDialog(self, "Quitter le programme?", "Oui", "Non")
         if check.result:
             self.controller.save_parameters()
+            self.controller.save_internal_parameters()
             self.quit()
         
     # --- Useful functions to send feedback to user --- #   
@@ -191,6 +192,8 @@ class ViewController(tk.Tk):
         return self.feedback.insert_text(text)
     def save_to_txt(self, text:str):
         self.controller.save_to_txt(text)
+    def set_feedback_project_tag(self, path:str):
+        self.feedback.set_project_tag(path)
     # ------------------------------------------------- #
     
     # --- Useful functions for the Menu Bar --- #   
@@ -214,17 +217,8 @@ class ViewController(tk.Tk):
         else:
             self.feedback.insert_text("Not recording!")
     
-    def call_open_data(self):
-        self.feedback.insert_text("To be implemented")
-        
-    def call_save_data(self):
-        self.feedback.insert_text("To be implemented")
-        
-    def call_change_rcd_len(self):
-        self.feedback.insert_text("To be implemented")
-    
-    def call_change_pre_trig(self):
-        self.feedback.insert_text("To be implemented")
+    def call_set_project_path(self):
+        self.controller.set_project_path()
         
     # Debug    
     def get_window_dim(self):

@@ -24,3 +24,4 @@ pickle.dat
 DAQ/**
 Feedback/**
 parameters.txt
+internal_parameters.txt

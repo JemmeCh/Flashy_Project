@@ -39,6 +39,12 @@ class ModelController():
         return self.controller.get_AREA_CALCULATION_METHOD()
     def get_LEVELING_METHOD(self):
         return self.controller.get_LEVELING_METHOD()
+    def get_dose_factor(self):
+        return self.controller.get_DOSE_FACTOR()
+    def get_COARSEGAIN(self):
+        return self.controller.get_COARSEGAIN()
+    def get_ADC_NBIT(self):
+        return self.controller.get_ADC_NBIT()
     
     def send_feedback(self, message:str):
         self.controller.send_feedback(message)

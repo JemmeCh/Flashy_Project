@@ -149,8 +149,8 @@ class DataAnalyser:
             case _:
                 self.derivation_method('dynamic-mean')
                 
-        # The pulses are not in V but in V * 10^4
-        self.pulse_info = self.pulse_info / 10000
+        # The pulses are not in V but in LSB (see documentation for details)
+        self.convert_LSB2V()
     
     def median_method(self):
         threshold = 8
@@ -210,8 +210,8 @@ class DataAnalyser:
         match choice:
             case 'trap':
                 self.trapezoid_area()
-            case 'naif':
-                self.naif_area()
+            case 'approx-HRM':
+                self.HRM_area()
             case _:
                 self.trapezoid_area()
                 
@@ -229,13 +229,20 @@ class DataAnalyser:
         # Calculating the total area of all the pulses
         self.total_area = np.sum(self.area_under_curve)
         
-    # Arthur's method: usefull if the resolution is high
-    def naif_area(self):
+    # Arthur's method: High Resolution Method Approximation
+    def HRM_area(self):
         self.area_under_curve = np.sum(self.pulse_info, axis=1) * self.dt
         self.convert_Vs2nC()
         
         # Calculating the total area of all the pulses
         self.total_area = np.sum(self.area_under_curve)
+    
+    def convert_LSB2V(self):
+        coarse_gain:float = self.model_controller.get_COARSEGAIN()
+        adc_n_bits:int = self.model_controller.get_ADC_NBIT()
+        convertion_factor = coarse_gain / (2 ** adc_n_bits)
+        # [LSB] --> [V]
+        self.pulse_info *= convertion_factor
     
     def convert_Vs2nC(self):
         # [V*µs] --> [V*s]
@@ -246,8 +253,9 @@ class DataAnalyser:
         self.area_under_curve *= 1e-9
     
     def calculate_dose(self):
-        # Place holder conversion TODO #################################
-        self.dose = self.area_under_curve * 2
+        # Get controller convertion factor
+        convertion_factor:float = self.model_controller.get_dose_factor()
+        self.dose = self.area_under_curve * convertion_factor
         # Calculating the total dose
         self.total_dose = np.sum(self.dose)
         

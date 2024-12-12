@@ -9,6 +9,7 @@ import csv
 import re
 from collections import defaultdict
 from ast import literal_eval
+from tkinter import filedialog
 
 from src.Controller.ModelController import ModelController
 from src.Controller.ViewController import ViewController
@@ -26,24 +27,7 @@ class Controller():
 
         # Get/Generate parameters
         self.load_parameters_on_open()
-                
-        # Variables for everything related to saving stuff
-        time = datetime.now()
-        date = fr"{time.day}-{time.month}-{time.year}"
-        self.path_to_instance = os.path.join("DAQ", f'open_on_{date}')
-        self.increment = 1
-        self.name_of_shoot = f'default'
-        self.path_to_feedback = 'Feedback'
-        self.incremented_name = 'default_1'
-        self.path_of_shoot = os.path.join(self.path_to_instance, self.incremented_name)
-        
-        try: 
-            os.mkdir("DAQ")
-        except FileExistsError:
-            print("DAQ folder already exists")
-        
-        self.create_instance_directory()
-        self.create_shoot_directory()
+        self.load_internal_parameters_on_open()
 
         # Bool that determines the state of the program
         self.isCONNECTING_TO_DIG:bool = False
@@ -57,6 +41,9 @@ class Controller():
         # Which channel are we using? 
         self.channel_use = 'CH0' # ['CH0', 'CH1', 'both']
         
+        # Set basic parameters
+        self.ADC_NBIT:int = 14 # For DT5781
+        
     
     # Getting information from the models
     def get_data_analyser(self) -> DataAnalyser:
@@ -69,6 +56,9 @@ class Controller():
         return self.model_controller.get_raw_analyser()
     def get_digitizer(self) -> Digitizer:
         return self.model_controller.get_digitizer()
+    
+    def set_ADC_NBIT(self, val:int):
+        self.ADC_NBIT = val
         
     # Determines if the digitizer can be used
     def can_use_dig(self):
@@ -102,6 +92,23 @@ class Controller():
         return self.analyse_parameters["Méthode du calcul d'aire"].get_row()[1]
     def get_LEVELING_METHOD(self) -> str:
         return self.analyse_parameters["Méthode de mise à niveau"].get_row()[1]
+    def get_DOSE_FACTOR(self) -> float:
+        return float(self.analyse_parameters["Facteur de conversion: [nC] --> [cGy]"].get_row()[1])
+    def get_COARSEGAIN(self) -> float:
+        # Maps the according option to its value
+        # 10Vpp‐3Vpp‐1Vpp‐0.3Vpp
+        coarse_map:dict[str,float] = {
+            "COARSE_GAIN_X1"  : 10,   # 10  Vpp
+            "COARSE_GAIN_X3"  : 3,    # 3   Vpp
+            "COARSE_GAIN_X10" : 1,    # 1   Vpp
+            "COARSE_GAIN_X33" : 0.3,  # 0.3 Vpp
+        }
+        # Get board setting NOTE: Change this logic if you want to use CH1
+        choice = self.input_parameters["Coarse gain"].get_row()[1]
+        
+        return coarse_map[choice]
+    def get_ADC_NBIT(self) -> int:
+        return self.ADC_NBIT
     
     """ Functions for changing parameters """
     def _set_parameter(self, name:str, action:str, *args):
@@ -303,8 +310,8 @@ class Controller():
         self.save_shoot_parameters()
         
         # Prepare for next shoot    
+        self.send_feedback(f"Shoot finished! Check CH0 and CH1 tabs for results. Results are saved at '{self.path_of_shoot}'")
         self.increment_name_of_shoot()
-        self.send_feedback("Shoot finished! Check CH0 and CH1 tabs for results")
         return
         
     """Functions for saving and loading parameters"""
@@ -387,8 +394,8 @@ class Controller():
         # Tab -1 : Analyse
         self.analyse_parameters = {
             "Méthode du calcul d'aire": Parameter(
-                "Méthode du calcul d'aire", 'trap', "'trap': Utilise la méthode des trapèzes\n'naif': Somme de toutes les points multipliée par dt (Utiliser seulement pour des hautes résolutions)",
-                type='FLASHy', widget_type='combobox', choices=('trap', 'naif')),
+                "Méthode du calcul d'aire", 'trap', "'trap': Utilise la méthode des trapèzes\n'approx-HRM': Somme de toutes les points multipliée par dt (High Resolution Method)",
+                type='FLASHy', widget_type='combobox', choices=('trap', 'approx-HRM')),
             "Méthode de mise à niveau": Parameter(
                 "Méthode de mise à niveau", 'dynamic-median', "'median': Prend les 200 premiers points et utilise sa médianne pour mettre à zéro\n'dynamic-median': Calcule la dérivée du pulse pour trouver le début et la fin du pulse. Trouve la médianne des points hors-pulse et l'utilise pour mettre à zéro.\n'dynamic-mean':  Calcule la dérivée du pulse pour trouver le début et la fin du pulse. Trouve la moyenne des points hors-pulse et l'utilise pour mettre à zéro.",
                 type='FLASHy', widget_type='combobox', choices=("median", "dynamic-mean", "dynamic-median")),
@@ -407,7 +414,6 @@ class Controller():
         }
 
         self.parameters_tuple = (self.input_parameters, self.discr_parameters, self.trapezoid_parameters, self.analyse_parameters)
-
     def save_parameters(self, path:str='parameters.txt'):
         file_name_par = path
         with open(file_name_par, 'w') as f:
@@ -537,13 +543,88 @@ class Controller():
             self.parameters_tuple = (self.input_parameters, self.discr_parameters, self.trapezoid_parameters, self.analyse_parameters)
             
         except FileNotFoundError: # The file doesn't exist
-            print('default par')
+            print('Default parameters')
             self.generate_default_parameters()
     def save_shoot_parameters(self):
         # Create path to save to
         path = os.path.join(self.path_of_shoot, 'shoot_parameters.txt')
         self.save_parameters(path)  
     
+    def generate_default_internal_parameters(self):
+        # Variables for everything related to saving stuff
+        time = datetime.now()
+        date = fr"{time.day}-{time.month}-{time.year}"
+        
+        self.project_path     = 'DAQ'
+        self.path_to_instance = os.path.join(self.project_path, f'open_on_{date}')
+        self.increment        = 1
+        self.name_of_shoot    = f'default'
+        self.path_to_feedback = 'Feedback'
+        self.incremented_name = 'default_1'
+        self.path_of_shoot    = os.path.join(self.path_to_instance, self.incremented_name)
+    def parse_internal_par(self, path):
+        all_parameters = {}
+        with open(path, 'r') as f:
+            for line in f.readlines():
+                split = line.strip('\n').split(';')
+                all_parameters[split[0]] = split[1]
+        return all_parameters     
+    def load_internal_parameters_on_open(self):
+        try:
+            all_parameters = self.parse_internal_par('internal_parameters.txt')
+            
+            print("Loading internal parameters")
+            
+            time = datetime.now()
+            date = fr"{time.day}-{time.month}-{time.year}"
+            
+            self.project_path     = all_parameters.get('project_path')
+            self.path_to_instance = os.path.join(self.project_path, f'open_on_{date}')
+            self.increment        = int(all_parameters.get('increment'))
+            self.name_of_shoot    = all_parameters.get('name_of_shoot')
+            self.path_to_feedback = all_parameters.get('path_to_feedback')
+            self.incremented_name = all_parameters.get('incremented_name')
+            self.path_of_shoot    = os.path.join(self.path_to_instance, self.incremented_name)
+            
+        except FileNotFoundError: # The file doesn't exist
+            print('Default internal parameters')
+            self.generate_default_internal_parameters()
+        
+        self.create_instance_directory()
+        self.create_shoot_directory()
+    def save_internal_parameters(self):
+        file_name_par = 'internal_parameters.txt'
+        with open(file_name_par, 'w') as f:
+            f.write(f'project_path;{self.project_path}\n')
+            f.write(f'increment;{self.increment}\n')
+            f.write(f'name_of_shoot;{self.name_of_shoot}\n')
+            f.write(f'path_to_feedback;{self.path_to_feedback}\n')
+            f.write(f'incremented_name;{self.incremented_name}\n')
+    def set_project_path(self):
+        project_path = filedialog.askdirectory(
+            title="Select path to save data to",
+        )
+        if not project_path:
+            self.send_feedback("Please select a folder")
+            return
+        self.send_feedback(f"Saving project at '{project_path}'")
+
+        time = datetime.now()
+        date = fr"{time.day}-{time.month}-{time.year}"
+        
+        self.project_path     = project_path
+        self.path_to_instance = os.path.join(self.project_path, f'open_on_{date}')
+        #self.increment        = all_parameters.get('increment')
+        #self.name_of_shoot    = all_parameters.get('name_of_shoot')
+        self.path_to_feedback = os.path.join(self.project_path, "Feedback")
+        #self.incremented_name = all_parameters.get('incremented_name')
+        self.path_of_shoot    = os.path.join(self.path_to_instance, self.incremented_name)
+        
+        self.create_instance_directory()
+        self.create_shoot_directory()
+        
+        # Change feedback
+        self.view_controller.set_feedback_project_tag(project_path)
     
 # Stores everything related to parameters
 class Parameter:

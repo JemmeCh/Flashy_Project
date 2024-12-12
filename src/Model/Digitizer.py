@@ -90,6 +90,9 @@ class Digitizer:
             sampling_period_ns:int = int(1e3 / adc_samplrate_msps)
             max_rawdata_size:float = float(dig.par.MAXRAWDATASIZE.value) # number
             
+            # Set adc_n_bits for the analysers
+            self.controller.set_ADC_NBIT(adc_n_bits)
+            
             # Pack information
             data = {
                 'model_name': name,
