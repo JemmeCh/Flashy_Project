@@ -342,4 +342,4 @@ class Digitizer:
             
             # Save data and continue process
             self.controller.post_acquisition(all_detect)
-            return
+        return

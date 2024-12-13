@@ -224,13 +224,12 @@ class Controller():
         # Extract samples only
         for new_pulse in channel_pulses:
             # Clean data
-            form = np.reshape(new_pulse[3], (1, int(new_pulse[-2])))
+            form = np.reshape(new_pulse[3].copy(), (1, int(new_pulse[-2])))
             clean = self.get_data_analyser().clean_data(form)
             if not len(clean) == 0: # Select only pulses
-                reconstruct = [new_pulse[0], new_pulse[1], new_pulse[2], clean]
-                pulses.append(reconstruct)
+                pulses.append(new_pulse)
         self.save_to_csv(pulses, channel)
-        return pulses
+        return pulses[1:]
     
     """Function for when data has been collected"""
     def post_acquisition(self, all_detect):
@@ -252,7 +251,7 @@ class Controller():
             channel = str(read[0])
             flag = str(read[1])
             waveform_size = str(read[2])
-            samples = read[3]
+            samples = read[3].copy()
             
             struct = [channel, flag, waveform_size, samples]
             
@@ -264,6 +263,7 @@ class Controller():
                 self.send_feedback("Pulse was not in CH0 or CH1?!")
                 self.send_feedback(read)
         
+        #print('CH0 before triage')
         #print(CH0)
         #print(CH1)
         
@@ -274,6 +274,9 @@ class Controller():
         # Parse through data to find pulses + save to csv
         self.triage_data(CH0.copy(), 'CH0')
         self.triage_data(CH1.copy(), 'CH1')
+        
+        #print('CH) after triage')
+        #print(CH0)
         
         # Change dedicated graphs and lists
         try:

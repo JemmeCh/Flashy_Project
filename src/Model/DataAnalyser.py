@@ -200,9 +200,6 @@ class DataAnalyser:
                 baselines = np.nanmean(pulse_info_mask, axis=1)
         
         self.pulse_info = self.pulse_info - baselines[:, np.newaxis]
-        # The pulse should be 0 around a certain threshold like original level_data
-        tozero_threshold = 8
-        self.pulse_info[np.abs(self.pulse_info) < tozero_threshold] = 0
              
     def calculate_area(self):
         # Choosing which calculation method to use
@@ -282,10 +279,9 @@ class DataAnalyser:
         raw_pulses = []
         for pulses_info in data:
             raw_pulses.append(pulses_info[3])
-        # Clean data    
+        # Clean data
         clean_pulses = self.clean_data(np.array(raw_pulses))
         self.pulse_info = clean_pulses
-        
         # Calculate t_axis and dt
         self.t_axis, self.dt = np.linspace(
             0, int(self.model_controller.get_rcd_len()) / 1000, self.SAMPLE_SIZE, retstep=True)
