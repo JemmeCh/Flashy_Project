@@ -107,7 +107,7 @@ class MenuBar(tk.Menu):
              "image": os.path.join("images", "record-1.png")},
             {"title": "Connection au Digitizer",
              "text" : "D'abord, connecter le digitizer à votre ordinateur et cliquer sur 'Connecter au Digitizer'. Si tout va bien, des informations sur le Digitizer seront affichées",
-             "image": os.path.join("ìmages", "record-2.png")},
+             "image": os.path.join("images", "record-2.png")},
             {"title": "Début de la prise de mesure",
              "text" : "Ensuite, renommer le shoot au besoin. Notez que les noms ne sont pas enregistrés après la fermeture du programme, ce qui veut dire qu'il faut renommer à l'ouverture pour éviter d'effacer des anciennes mesures.\n"+
                       "De plus, vous pouvez garder le même nom pour plusieurs prises de mesure puisque FLASHy incrémente automatiquement le nom. Par exemple, si vous nommez vos shoots 'test', les fichiers seront 'test_1', 'test_2', ect.\n"+
