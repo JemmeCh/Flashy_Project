@@ -137,8 +137,6 @@ class Controller():
             pass # The program was closed and reopen. We want to use the same directory
         except PermissionError:
             print(f"Permission denied: Unable to create '{self.path_to_instance}'.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
     def create_shoot_directory(self):
         try:
             os.mkdir(self.path_of_shoot)
@@ -146,8 +144,6 @@ class Controller():
             pass # The program was closed and reopen. We want to use the same directory
         except PermissionError:
             print(f"Permission denied: Unable to create '{self.path_of_shoot}'.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
     def set_name_of_shoot(self, name:str):
         # Tries to create directory
         potential_name = f'{name}_{str(1)}'
@@ -586,12 +582,19 @@ class Controller():
             self.incremented_name = all_parameters.get('incremented_name')
             self.path_of_shoot    = os.path.join(self.path_to_instance, self.incremented_name)
             
-        except FileNotFoundError: # The file doesn't exist
+        except FileNotFoundError: # The internal parameter file doesn't exist
             print('Default internal parameters')
             self.generate_default_internal_parameters()
         
-        self.create_instance_directory()
-        self.create_shoot_directory()
+        try: 
+            self.create_instance_directory()
+            self.create_shoot_directory()
+        except FileNotFoundError: # The project directory got deleted
+            print("Can't find project directory, creating default")
+            self.generate_default_internal_parameters()
+            self.create_instance_directory()
+            self.create_shoot_directory()
+            
     def save_internal_parameters(self):
         file_name_par = 'internal_parameters.txt'
         with open(file_name_par, 'w') as f:
