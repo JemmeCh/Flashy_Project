@@ -1,6 +1,7 @@
 import csv
 import numpy as np
 import pickle
+from datetime import datetime
 
 from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
@@ -146,6 +147,8 @@ class DataAnalyser:
                 self.derivation_method(choice)
             case 'dynamic-median':
                 self.derivation_method(choice)
+            case 'cummulative-sum':
+                self.cumulative_sum()
             case _:
                 self.derivation_method('dynamic-mean')
                 
@@ -174,11 +177,24 @@ class DataAnalyser:
         # Find the threshold of the derivative
         deriver_tr = deriver[np.arange(self.nbr_of_pulse), np.abs(self.pulse_info).min(axis=1).astype(int)]
         
-        threshold = 1.0 # This is found manually
+        threshold = 5.0 # 2025-07-07: 1.0 -> 5.0 due to NaN slice
         dervier_mask = np.abs(deriver) > threshold
-        left_bond  = np.argmax(dervier_mask, axis=1)
-        right_bond = np.nanargmax(np.where(
-            dervier_mask[::-1], np.arange(dervier_mask.shape[1]), np.nan)[::-1], axis=1)
+        try:
+            left_bond  = np.argmax(dervier_mask, axis=1)
+            right_bond = np.nanargmax(np.where(
+                dervier_mask[::-1], np.arange(dervier_mask.shape[1]), np.nan)[::-1], axis=1)
+        except ValueError as e: # For exception of type 'ValueError: All-NaN slice encountered'
+            print(e)
+            self.model_controller.send_feedback("Fallback to 'cummulative-sum' method")
+            self.cumulative_sum()
+            return
+        except Exception as e:
+            print(e)
+            self.model_controller.send_feedback("Other error encountered... Saving data for debugging")
+            self._save_data_on_error()
+            self.model_controller.send_feedback("Fallback to 'cummulative-sum' method")
+            self.cumulative_sum()
+            return
         
         # Isolate the pulse and set its derivative to inf
         col_indices = np.arange(deriver.shape[1])
@@ -199,8 +215,36 @@ class DataAnalyser:
             case _:
                 baselines = np.nanmean(pulse_info_mask, axis=1)
         
+        if any(~np.isnan(baselines)):
+            # TODO: Dynamically change threshold
+            self.model_controller.send_feedback("Warning: NaN baseline detected during 'derivation_method'! Adjust 'threshold' in source code")
+            print("Info on NaN baseline: \nAppears to level the pulse (and does so), but corrupts the data. This doesn't affect other calculations, but is not optimal. \nLeft as is for now, but will need a way to change 'threshold' in GUI")
+        
         self.pulse_info = self.pulse_info - baselines[:, np.newaxis]
-             
+
+    def cumulative_sum(self):
+        # Cumulative sum and its derivatives
+        cum_signal = np.cumsum(self.pulse_info, axis=1)
+        first_deriv = np.diff(cum_signal, axis=1)
+        second_deriv = np.diff(first_deriv, axis=1)
+        
+        # Detect pulse regions
+        threshold = 15.0
+        change_mask = np.abs(second_deriv) > threshold
+        
+        left_bond = np.argmax(change_mask, axis=1)
+        right_bond = change_mask.shape[1] - 1 - np.argmax(change_mask[:, ::-1], axis=1)
+        
+        # Mask pulse regions (set to NaN) in original data
+        col_indices = np.arange(self.pulse_info.shape[1] - 2)
+        pulse_mask = (col_indices >= left_bond[:, None]) & (col_indices <= right_bond[:, None])
+        baseline_data = np.where(~pulse_mask, self.pulse_info[:, :-2], np.nan)
+        
+        # Compute baseline (mean of non-pulse regions)
+        baselines = np.nanmean(baseline_data, axis=1)
+        
+        self.pulse_info = self.pulse_info - baselines[:, np.newaxis]
+
     def calculate_area(self):
         # Choosing which calculation method to use
         choice = self.model_controller.get_AREA_CALCULATION_METHOD()
@@ -313,3 +357,10 @@ class DataAnalyser:
         return self.nbr_of_pulse
     def get_data_list(self) -> list[list[Any]]:
         return self.data
+
+    def _save_data_on_error(self):
+        time = datetime.now()
+        hour = f"{time:%H-%M-%S}"
+        date = fr"{time.day}-{time.month}-{time.year}"
+        file_name = f'data_{date}_{hour}.npy'
+        np.save(f"Feedback/{file_name}", self.pulse_info)

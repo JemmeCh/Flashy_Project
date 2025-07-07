@@ -397,7 +397,7 @@ class Controller():
                 type='FLASHy', widget_type='combobox', choices=('trap', 'approx-HRM')),
             "Méthode de mise à niveau": Parameter(
                 "Méthode de mise à niveau", 'dynamic-median', "'median': Prend les 200 premiers points et utilise sa médianne pour mettre à zéro\n'dynamic-median': Calcule la dérivée du pulse pour trouver le début et la fin du pulse. Trouve la médianne des points hors-pulse et l'utilise pour mettre à zéro.\n'dynamic-mean':  Calcule la dérivée du pulse pour trouver le début et la fin du pulse. Trouve la moyenne des points hors-pulse et l'utilise pour mettre à zéro.",
-                type='FLASHy', widget_type='combobox', choices=("median", "dynamic-mean", "dynamic-median")),
+                type='FLASHy', widget_type='combobox', choices=("median", "dynamic-mean", "dynamic-median", "cummulative-sum")),
             "Graphique 1": Parameter(
                 "Graphique 1", "Pulse", "Choix pour ce que le grahique 1 montre\nPulse: Affiche le voltage (en V) de chaque pulse selon le temps (en µs)\nAire: Affiche l'aire sous la courbe du pulse correspondant (en nC)",
                 type='FLASHy', widget_type='combobox', choices=('Pulse', 'Aire')),
