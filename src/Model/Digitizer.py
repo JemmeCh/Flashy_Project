@@ -196,7 +196,10 @@ class Digitizer:
             for i, ch in enumerate(dig.ch):
                 # Enable only channel 0. In the future (if you need to use both or the other channel,
                 # this is what you have to change)
-                ch.par.CH_ENABLED.value      =  'TRUE' if i == 0 else 'FALSE'
+                # ch.par.CH_ENABLED.value      =  'TRUE' if i == 0 else 'FALSE'
+                # November 27, 2025: Experimental feature: all channels are enabled
+                #                    High chance of breaking everything 
+                ch.par.CH_ENABLED.value        =  'TRUE' 
             
             ch0 = dig.get_node("/ch/0/par/")
             ch1 = dig.get_node("/ch/1/par/")
@@ -296,7 +299,7 @@ class Digitizer:
             ax.set_xlim(0, reclen - 1)
             ax.set_ylim(0, 2 ** adc_n_bits - 1)  
             figure.canvas.mpl_connect('close_event', self._on_close_plot)
-                      
+            
             # Start acquisition
             dig.cmd.ARMACQUISITION()
             k = 1

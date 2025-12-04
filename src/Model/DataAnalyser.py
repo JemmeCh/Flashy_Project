@@ -264,19 +264,19 @@ class DataAnalyser:
         # Calculating the area under each trapezoid
         area = (left + right) * self.dt / 2
         
-        self.area_under_curve = np.sum(area, axis=1)
+        self.area_under_curve = np.nansum(area, axis=1)
         self.convert_Vs2nC()
 
         # Calculating the total area of all the pulses
-        self.total_area = np.sum(self.area_under_curve)
+        self.total_area = np.nansum(self.area_under_curve)
         
     # Arthur's method: High Resolution Method Approximation
     def HRM_area(self):
-        self.area_under_curve = np.sum(self.pulse_info, axis=1) * self.dt
+        self.area_under_curve = np.nansum(self.pulse_info, axis=1) * self.dt
         self.convert_Vs2nC()
         
         # Calculating the total area of all the pulses
-        self.total_area = np.sum(self.area_under_curve)
+        self.total_area = np.nansum(self.area_under_curve)
     
     def convert_LSB2V(self):
         coarse_gain:float = self.model_controller.get_COARSEGAIN()
@@ -298,7 +298,7 @@ class DataAnalyser:
         convertion_factor:float = self.model_controller.get_dose_factor()
         self.dose = self.area_under_curve * convertion_factor
         # Calculating the total dose
-        self.total_dose = np.sum(self.dose)
+        self.total_dose = np.nansum(self.dose)
         
     def prepare_list(self):
         # Packing data to be read by the List
