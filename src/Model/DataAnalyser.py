@@ -215,7 +215,7 @@ class DataAnalyser:
             case _:
                 baselines = np.nanmean(pulse_info_mask, axis=1)
         
-        if any(~np.isnan(baselines)):
+        if any(np.isnan(baselines)):
             # TODO: Dynamically change threshold
             self.model_controller.send_feedback("Warning: NaN baseline detected during 'derivation_method'! Adjust 'threshold' in source code")
             print("Info on NaN baseline: \nAppears to level the pulse (and does so), but corrupts the data. This doesn't affect other calculations, but is not optimal. \nLeft as is for now, but will need a way to change 'threshold' in GUI")

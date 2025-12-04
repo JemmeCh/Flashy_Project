@@ -10,7 +10,11 @@ _tests-calculs/*
 main.exe
 main.spec
 /Versions/*
-# pychache
+# venv
+venv/
+env/
+.venv/
+*.pyc
 */__pychache__/**
 __pycache__/
 # vscode
