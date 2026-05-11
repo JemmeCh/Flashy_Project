@@ -159,13 +159,39 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Analyse de données venant de CoMPASS (CSV)
-    - [x] Affichage de graphes matplotlib
-    - [x] Liste de résultat
-    - [ ] Enregistrement des analyses
-    - [ ] Calcul de dose
-- [ ] Lecture directe du digitizer
-    - [ ] À venir...
+### Primaire
+- [] Upgrade du GUI à Qt (PySide6 avec QtDesigner)
+    - [] Re-imaginer le GUI 
+        - Doit tenir compte de l'expansion à plusieurs détecteurs
+        - Chaque détecteur va avoir sa propre classe pour expansion future / third party
+        - Créer un standard/modèle pour chaque détecteur
+    - [] Refactor le code original
+        - But: préparer la transition + refamiliariser avec code
+    - [] Rendre le nouveau GUI visuellement fonctionnel (sans fonctionnalité)
+        - Prévoir threading et ségrégation Vue/Modèle
+        - Doit contenir les choses déjà implémentées
+    - [] Le nouveau GUI fonctionne correctement
+        - Tester avec tests offline et online (en labo)
+        - La lecture en directe est dans la même fenêtre
+- [] Ajouter nouveau détecteur
+    - [] Lire et comprendre documentation du Flash Diamond
+    - [] Ajouter GUI pour 
+    - [] Ajouter paramétrisation
+    - [] Ajouter lecture en direct
+    - [] Ajouter enregistrement de données
+- [] NOUVELLE FONCTIONNALITÉ - analyse rudimentaire de faisceau 
+    - [] Comparaison de détecteur?
+    - [] Instant dose rate on the fly
+    - [] À venir...
+
+### Secondaires
+- [] Revamp le logging
+    - [] Voir anciens projets et re-imaginer
+    - [] Implémenter
+- [] Logo pour FLASHy 
+- [] Thèmes et paramètres de l'application
+- [] Meilleure sauvegarde des données d'utilisateurs 
+- [] Améliorer "Tutoriel" + "À propos"
 
 See the [open issues](https://github.com/Popitopi130/Flashy_Project/issues) for a full list of proposed features (and known issues).
 
