@@ -77,7 +77,9 @@
 
 La radiothérapie à ultra-haut débit de dose, ou radiothérapie FLASH, permet de traiter le cancer en délivrant des doses très élevées de radiation en quelques millisecondes. Les traitements pour le cancer actuels durent plusieurs minutes, et la radiothérapie FLASH, malgré un court temps d’exposition, semble être autant efficace en plus de réduire les dommages causées aux tissus sains avoisinant la ou les tumeurs. Le CHUM est équipé d’un appareil de radiothérapie FLASH, soit une première au Canada, et notre groupe de chercheur a la responsabilité de développer des nouveaux détecteurs compatibles avec cet appareil.
 
-L’objectif du projet de fin de session est de créer un programme capable d’analyser les données enregistrées par les détecteurs dans le but de vérifier que le faisceau est la forme désirée. Le programme doit être capable de comprendre les signaux reçus, les analyser et former des graphiques décrivant les faisceaux détectés.
+Ce projet a d'abord débuté en automne 2024 dans le cadre d'un projet de fin de session de baccalauréat. L’objectif du projet était de créer un programme capable d’analyser les données enregistrées par les détecteurs dans le but de vérifier que le faisceau est la forme désirée. Le programme doit être capable de comprendre les signaux reçus, les analyser et former des graphiques décrivant les faisceaux détectés.
+
+Maintenant, FLASHy deviendra un programme extensible capable de gérer plusieurs types de détecteur tel que la Flash Microdiamand. 
 
 <!--
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
@@ -105,21 +107,21 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 
 <!-- GETTING STARTED -->
-## Utilisation
 <!-- 
+## Utilisation
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 -->
-### Prérequis
 <!-- 
+### Prérequis
 This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
   ```
 -->
-### Installation
 <!-- 
+### Installation
 1. Get a free API Key at [https://example.com](https://example.com)
 2. Clone the repo
    ```sh
@@ -138,19 +140,19 @@ This is an example of how to list things you need to use the software and how to
    git remote set-url origin Popitopi130/Flashy_Project
    git remote -v # confirm the changes
    ```
--->
 <p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
+-->
 
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
 <!-- 
+## Usage
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
--->
 <p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
+-->
 
 
 
@@ -171,9 +173,9 @@ See the [open issues](https://github.com/Popitopi130/Flashy_Project/issues) for 
 
 
 
-<!-- CONTRIBUTING -->
+<!-- CONTRIBUTING --> 
+<!--
 ## Contributeurs.trices
-<!-- 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
@@ -184,8 +186,8 @@ Don't forget to give the project a star! Thanks again!
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
--->
 <p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
+-->
 
 ### Top Contributeurs.trices:
 
@@ -196,11 +198,11 @@ Don't forget to give the project a star! Thanks again!
 
 
 <!-- LICENSE -->
-## License
 <!-- 
+## License
 Distributed under the MIT License. See `LICENSE.txt` for more information.
--->
 <p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
+-->
 
 
 
