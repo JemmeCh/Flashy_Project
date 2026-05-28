@@ -158,40 +158,26 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <!-- ROADMAP -->
 ## Roadmap
-
+<!-- Détail sur BookStack  -->
 ### Primaire
-- [] Upgrade du GUI à Qt (PySide6 avec QtDesigner)
-    - [] Re-imaginer le GUI 
-        - Doit tenir compte de l'expansion à plusieurs détecteurs
-        - Chaque détecteur va avoir sa propre classe pour expansion future / third party
-        - Créer un standard/modèle pour chaque détecteur
-    - [] Refactor le code original
-        - But: préparer la transition + refamiliariser avec code
-    - [] Rendre le nouveau GUI visuellement fonctionnel (sans fonctionnalité)
-        - Prévoir threading et ségrégation Vue/Modèle
-        - Doit contenir les choses déjà implémentées
-    - [] Le nouveau GUI fonctionne correctement
-        - Tester avec tests offline et online (en labo)
-        - La lecture en directe est dans la même fenêtre
-- [] Ajouter nouveau détecteur
-    - [] Lire et comprendre documentation du Flash Diamond
-    - [] Ajouter GUI pour 
-    - [] Ajouter paramétrisation
-    - [] Ajouter lecture en direct
-    - [] Ajouter enregistrement de données
-- [] NOUVELLE FONCTIONNALITÉ - analyse rudimentaire de faisceau 
-    - [] Comparaison de détecteur?
-    - [] Instant dose rate on the fly
-    - [] À venir...
+- [ ] Upgrade du GUI à Qt (PySide6 avec QtDesigner) 
+- [ ] Ajouter nouveau détecteur 
+- [ ] NOUVELLE FONCTIONNALITÉ - analyse rudimentaire de faisceau 
+- [ ] NOUVELLE FONCTIONNALITÉ - support de fichiers/stream TDMS
 
 ### Secondaires
-- [] Revamp le logging
-    - [] Voir anciens projets et re-imaginer
-    - [] Implémenter
-- [] Logo pour FLASHy 
-- [] Thèmes et paramètres de l'application
-- [] Meilleure sauvegarde des données d'utilisateurs 
-- [] Améliorer "Tutoriel" + "À propos"
+- [ ] Revamp le logging 
+- [ ] Revamp la gestion d'erreur
+- [ ] Logo pour FLASHy
+- [ ] Thèmes et paramètres de l'application
+- [ ] Meilleure sauvegarde des données d'utilisateurs
+- [ ] Améliorer "Tutoriel" + "À propos" 
+
+### Bug Fix
+- [ ] 1.0.3 crash --&gt; comparer les deux versions pour avoir diff et corriger ou rollback
+- [ ] "Info on NaN..." apparait tt le temps dans stdout (1.0.2) --&gt; investiguer
+- [ ] FLASHy a crash: cause inconnu (mémoire saturée ou leak?) --&gt; la memoire augmente a chaque acquisition: la mémoire sature!!! Va de 180Mo à 270Mo à 180Mo apres certains temps (hein) --&gt; Les plots de lecture directe ne se ferment pas correctement --&gt; .close() la figure
+- [ ] Interessant: CPU usage quand lecture directe = 25.5% (0.1% idol) sur i5-8500 --&gt; pourquoi?
 
 See the [open issues](https://github.com/Popitopi130/Flashy_Project/issues) for a full list of proposed features (and known issues).
 
@@ -254,6 +240,10 @@ Lien au projet: [https://github.com/Popitopi130/Flashy_Project](https://github.c
 <p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
 
 
+<!-- AI -->
+## Utilisation de LLM (Large Language Models)
+
+Des LLMs, courament intelligences artificielles, ont été utilisés pour aider lors de la conception de l'architecture de FLASHy (Version >1.0.3) et la maintenance du standard MVVM à travers le projet. Ils n'ont pas été utilisé pour générer du code.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
