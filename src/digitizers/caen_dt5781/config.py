@@ -23,10 +23,5 @@ class CaenDT5781Config(msgspec.Struct):
     
     def get_adc_to_volts_factor(self, channel_id: int) -> float:
         channel = self.channels[channel_id]
-        convertion_factor = channel.coarse_gain / (2**self.adc_nbits)
+        convertion_factor = channel.get_value('coarse_gain') / (2**self.adc_nbits)
         return convertion_factor
-    
-    # NOTE: Is this useful? why not digitizer.channels[0].coarse_gain = value ?
-    def change_coarse_gain(self, value: Literal['10.0', '3.0', '1.0', '0.3'], channel_id: int) -> None:
-        channel = self.channels[channel_id]
-        channel.coarse_gain = float(value)

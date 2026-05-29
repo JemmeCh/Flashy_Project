@@ -1,7 +1,7 @@
 import msgspec
 from typing import Union
 
-from src.detectors.bergoz_bct import BergozBCT
+from src.detectors.bergoz_bct.bergoz_bct import BergozBCT
 
 Detector = Union[BergozBCT]
 

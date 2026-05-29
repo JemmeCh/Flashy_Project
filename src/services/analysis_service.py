@@ -2,13 +2,12 @@ import numpy as np
 
 from src.services.data_loader import DataLoader
 from src.services.pulse_processor import PulseProcessor
-from src.models.data_config import ProcessingConfig
-from src.models.analysis_result import AnalysisResult
+from src.models.processing_config import ProcessingConfig
+from src.models.analysis.result import AnalysisResult
 from src.models.batch_pulses import BatchPulses
 
 from typing import TYPE_CHECKING, Any, List
-if TYPE_CHECKING:
-    from src.models.data_config import AnalysisConfig
+from src.models.analysis.config import AnalysisConfig
 
 class AnalysisService(object):
     def analyse_all_tdms_file(self, filename: str, analysis_config: "AnalysisConfig | None" = None) -> AnalysisResult:
@@ -80,12 +79,12 @@ class AnalysisService(object):
         pulses = np.array(pulses_list)
         batch_pulses = BatchPulses(
             pulses=pulses,
-            analysis_level_method=processing_config.analysis.level_method,
-            analysis_area_calc_method=processing_config.analysis.area_calc_method,
-            analysis_nC2cGy_factor=processing_config.analysis.nC2cGy_factor,
+            analysis_level_method=processing_config.analysis.get_value('level_method'),
+            analysis_area_calc_method=processing_config.analysis.get_value('area_calc_method'),
+            analysis_nC2cGy_factor=processing_config.analysis.get_value('nC2cGy_factor'),
             digitizer_sampeling_period_ns=processing_config.acquisition.digitizer.sampling_period_ns,
             digitizer_ADC2V_factor=processing_config.acquisition.digitizer.get_adc_to_volts_factor(channel_id),
-            detector_Vns2nC_factor=processing_config.acquisition.detector_assignments[channel_id].detector.get_vns_to_nc_factor()
+            detector_Vns2nC_factor=processing_config.acquisition.detector_assignments[channel_id].detector.get_value('Vs2C_factor')
         )
         return batch_pulses
     
@@ -136,7 +135,7 @@ def main():
     analysis_service = AnalysisService()
     
     # Test TDMS
-    results = analysis_service.analyse_all_tdms_file('example_data/TDMS-CH0-pulses_2.tdms')
+    results = analysis_service.analyse_all_tdms_file('write_test.tdms')
     print(results.pulse_batches)
     
     # Test FLASHy 1.0

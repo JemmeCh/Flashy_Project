@@ -1,7 +1,7 @@
 from PySide6.QtCore import QThread, Signal
 
 from src.digitizers.caen_dt5781.acquisition import CaenDT5781Acquisition
-from src.models.data_config import AcquisitionConfig
+from src.models.processing_config import AcquisitionConfig
 
 class CaenCT5781AcquisitionWorker(QThread):
     event_dump = Signal(list)

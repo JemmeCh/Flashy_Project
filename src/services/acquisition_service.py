@@ -4,12 +4,12 @@ import queue
 import copy
 from typing import TYPE_CHECKING, Any, Literal, List
 if TYPE_CHECKING:
-    from src.models.data_config import ProcessingConfig
+    from src.models.processing_config import ProcessingConfig
 
 from src.digitizers.caen_dt5781.worker import CaenCT5781AcquisitionWorker
 from src.digitizers.caen_dt5781.acquisition import CaenDT5781Acquisition
 from src.services.analysis_worker import AnalysisWorker
-from src.models.analysis_result import AnalysisResult
+from src.models.analysis.result import AnalysisResult
 from src.models.batch_pulses import BatchPulses
 
 
@@ -141,19 +141,19 @@ class AcquisitionService(QObject):
     # =======================================================================
     
     def _create_result_batch(self, channel_id: int):
-        reclen_ns = self.processing_config.acquisition.digitizer.channels[0].rdc_len
+        reclen_ns = self.processing_config.acquisition.digitizer.channels[0].get_value('rdc_len')
         sampling_period_ns = self.processing_config.acquisition.digitizer.sampling_period_ns
         shape = (0, int(reclen_ns / sampling_period_ns))
         pulses = np.zeros(shape=shape)
         batch_pulses = BatchPulses(
             pulses=pulses,
             raw_valid_pulses=pulses,
-            analysis_level_method=self.processing_config.analysis.level_method,
-            analysis_area_calc_method=self.processing_config.analysis.area_calc_method,
-            analysis_nC2cGy_factor=self.processing_config.analysis.nC2cGy_factor,
+            analysis_level_method=self.processing_config.analysis.get_value('level_method'),
+            analysis_area_calc_method=self.processing_config.analysis.get_value('area_calc_method'),
+            analysis_nC2cGy_factor=self.processing_config.analysis.get_value('nC2cGy_factor'),
             digitizer_sampeling_period_ns=self.processing_config.acquisition.digitizer.sampling_period_ns,
             digitizer_ADC2V_factor=self.processing_config.acquisition.digitizer.get_adc_to_volts_factor(channel_id),
-            detector_Vns2nC_factor=self.processing_config.acquisition.detector_assignments[channel_id].detector.get_vns_to_nc_factor()
+            detector_Vns2nC_factor=self.processing_config.acquisition.detector_assignments[channel_id].detector.get_value('Vs2C_factor')
         )
         return batch_pulses
     
@@ -176,11 +176,12 @@ class AcquisitionService(QObject):
 
 
 def main():
-    from src.models.data_config import AcquisitionConfig, AnalysisConfig, ProcessingConfig
+    from src.models.processing_config import AcquisitionConfig, ProcessingConfig
+    from src.models.analysis.config import AnalysisConfig
     from src.digitizers.caen_dt5781.channel import CaenDT5781Channel
     from src.digitizers.caen_dt5781.config import CaenDT5781Config
     from src.detectors.detector import DetectorAssignment
-    from src.detectors.bergoz_bct import BergozBCT
+    from src.detectors.bergoz_bct.bergoz_bct import BergozBCT
     
     from PySide6.QtWidgets import QApplication
     import keyboard
@@ -189,24 +190,27 @@ def main():
     path = 'write_test.tdms'
     #####################################################################
     
-    acquisition_config = AcquisitionConfig(
+    t_bergoz = BergozBCT.create_default()
+    t_caen_ch0 = CaenDT5781Channel.create_default(channel_id=0)
+    t_caen_ch1 = CaenDT5781Channel.create_default(channel_id=1)
+    t_analysis = AnalysisConfig.create_default()
+    processing_config = ProcessingConfig(
+        acquisition=AcquisitionConfig(
             digitizer=CaenDT5781Config(
-                [CaenDT5781Channel(0), CaenDT5781Channel(1)],
+                [t_caen_ch0, t_caen_ch1],
             ),
             detector_assignments=[
                 DetectorAssignment(
-                    detector=BergozBCT(),
+                    detector=t_bergoz,
                     digitizer_channel=0
                     ),
                 DetectorAssignment(
-                    detector=BergozBCT(),
+                    detector=t_bergoz,
                     digitizer_channel=1
                     ),
             ]
-        )
-    processing_config = ProcessingConfig(
-        acquisition=acquisition_config,
-        analysis=AnalysisConfig()
+        ),
+        analysis=t_analysis
     )
     
     app = QApplication()

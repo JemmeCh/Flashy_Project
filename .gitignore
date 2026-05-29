@@ -31,3 +31,4 @@ Feedback/**
 parameters.txt
 internal_parameters.txt
 *.json
+write_test.tdms

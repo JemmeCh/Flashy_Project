@@ -2,10 +2,10 @@ from PySide6.QtCore import QObject, QThread, Signal
 import queue
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from src.models.data_config import ProcessingConfig
+    from src.models.processing_config import ProcessingConfig
 
 from src.services.analysis_service import AnalysisService
-from src.models.analysis_result import AnalysisResult
+from src.models.analysis.result import AnalysisResult
 
 class AnalysisWorker(QThread):
     analysis_complete = Signal(AnalysisResult)

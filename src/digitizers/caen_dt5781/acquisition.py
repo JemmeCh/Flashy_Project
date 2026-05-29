@@ -4,8 +4,9 @@ from functools import wraps
 from caen_felib import lib, device, error
 print(f'CAEN FELib wrapper loaded (lib version {lib.version})')
 
-from src.models.data_config import AcquisitionConfig
+from src.models.processing_config import AcquisitionConfig
 from src.digitizers.caen_dt5781.channel import CaenDT5781Channel
+import src.models.parameters.parameter_registry as reg 
 
 
 def handle_CAEN_exceptions(func):
@@ -156,7 +157,7 @@ class CaenDT5781Acquisition:
         fw_type = dig.par.FWTYPE.value
         
         # Configure digitizer
-        dig.par.RECLEN.value        = str(digitizer_channels[0].rdc_len)
+        dig.par.RECLEN.value        = str(digitizer_channels[0].get_value('rdc_len'))
         dig.par.TRG_SW_ENABLE.value = 'TRUE'  # Enable software triggers_board parameter
         dig.par.STARTMODE.value     = 'START_MODE_SW'  # Set software start mode_board parameter
         dig.par.WAVEFORMS.value     = 'TRUE'  # Enable waveforms
@@ -165,10 +166,15 @@ class CaenDT5781Acquisition:
             ch.par.CH_ENABLED.value = 'TRUE' if digitizer_channels[i].enabled else 'FALSE'
         for i, channel in enumerate(digitizer_channels):
             chX = dig.get_node(f"/ch/{i}/par/")
-            for field_name, digitizer_name in channel.iter_digitizer_definitions():
+            for key, definition in reg.iter_caen5781_parameters():
+                digitizer_name = definition.hardware_name
+                assert type(digitizer_name) == str
                 if digitizer_name == "RECLEN": continue
+                
+                raw_value = channel.values[key]
+                digitizer_value = reg.convert_to_caen5781_value(definition, raw_value)
                 node = chX.get_node('/'+digitizer_name)
-                node.value = str(channel.get_field_value(field_name))
+                node.value = str(digitizer_value)
         
         dig.cmd.CALIBRATEADC()
         

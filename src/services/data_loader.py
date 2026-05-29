@@ -6,7 +6,8 @@ import json
 
 from typing import Any, List
 
-from src.models.data_config import AcquisitionConfig, AnalysisConfig
+from src.models.processing_config import AcquisitionConfig
+from src.models.analysis.config import AnalysisConfig
 from src.models.user_config import UserConfig
 from src.detectors.detector import DetectorAssignment
 
@@ -75,7 +76,7 @@ class DataLoader(object):
         """Read a legacy CSV file from past shoots using default configuration (FLASHy 1.0)"""
         from src.digitizers.caen_dt5781.config import CaenDT5781Config 
         from src.digitizers.caen_dt5781.channel import CaenDT5781Channel
-        from src.detectors.bergoz_bct import BergozBCT
+        from src.detectors.bergoz_bct.bergoz_bct import BergozBCT
         
         # Determine if its .csv file
         if path.lower().endswith(".csv"):
@@ -99,16 +100,16 @@ class DataLoader(object):
         # Make default processing config
         acquisition_config = AcquisitionConfig(
             digitizer=CaenDT5781Config(
-                [CaenDT5781Channel(0)],
+                [CaenDT5781Channel.create_default(channel_id=0)],
             ),
             detector_assignments=[
                 DetectorAssignment(
-                    detector=BergozBCT(),
+                    detector=BergozBCT.create_default(),
                     digitizer_channel=0
                     )
                 ]
         )
-        analysis_config = AnalysisConfig()
+        analysis_config = AnalysisConfig.create_default()
         
         return acquisition_config, analysis_config, data
     
@@ -172,11 +173,12 @@ class DataLoader(object):
 
 
 def main():
-    path = ''
+    path = 'write_test.tdms'
     data_loader = DataLoader()
     acquisition_config, analysis_config, data = data_loader.read_all_tdms_file(path)
     #print(data['CH0'][0]['properties'])
     #print(analysis_config)
+    #print(acquisition_config)
     #for thing, thing2 in data.items():
     #    print(thing)
     #    print(thing2)
