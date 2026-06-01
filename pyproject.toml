@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flashy"
+version = "1.0.3"
+description = "FLASHy - Pulse analyser for FLASH-RT"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Jean-Emmanuel Chouinard", email = "blank@blank.com"},
+]
+requires-python = ">=3.8"
+dependencies = [
+    "matplotlib>=3.10",
+    "numpy>=2.0",
+    "msgspec>=0.21",
+    "nptdms>=1.10",
+    "PySide6>=6.11",
+]
+
+[project.optional-dependencies]
+caen = [
+    # CAEN FELib Python bind
+    # You need to download the CAEN FELib and the CAEN Dig1 implementation from their website
+    # https://www.caen.it/products/caen-felib-library/
+    "caen_felib>=1.4.0",
+]
+dev = [
+    "keyboard>=0.13.5",
+]
+docs = [
+    "sphinx>=7.3.7",
+    "sphinx-rtd-theme>=2.0.0",
+]
+
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+flashy = [
+    "images/*",
+    "example_data/*",
+]
+
+# CLI command
+[project.scripts]
+flashy = "flashy.app:main"

@@ -1,10 +1,6 @@
 # ignore _xxxxx folder
 **/_ideas
 **/_shoots
-# ignore tests-calculs folder
-_tests-calculs/*
-# ignore readme images folder
-**/images-readme/*
 # ignore exe related files
 /build/*
 /dist/*
@@ -18,6 +14,7 @@ env/
 *.pyc
 */__pychache__/**
 __pycache__/
+*.egg-info
 # vscode
 /.vscode/*
 # ignore caen related files
