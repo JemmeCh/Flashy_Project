@@ -10,14 +10,13 @@ def parse_equation(value: str) -> float:
     """
     Safely evaluate an equation.
     
-    Args:
-        value (str): The equation to evaluate.
+    :param value: The equation to evaluate.
+    :type value: str
     
-    Raises:
-        SyntaxError: The equation is unsafe to parse.
+    :raises SyntaxError: If the equation is unsafe to parse.
     
-    Returns:
-        result (float): The answer.
+    :returns: The evaluated result.
+    :rtype: float
     """
     # Source - https://stackoverflow.com/a/64471342
     # Posted by KoKlA

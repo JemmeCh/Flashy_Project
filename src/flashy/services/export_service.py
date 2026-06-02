@@ -21,13 +21,17 @@ class DataExporter:
         processing_config: "ProcessingConfig",
         acquisition_type: str = 'run'
     ) -> None:
-        """Writes a TDMS file to `path_file` of the data acquired during a shoot.
+        """
+        Write acquired data to a TDMS file.
         
-        Args:
-            data (List[BatchPulses]): List of BatchPulses. Each element of the list represents data acquired by a channel of the digitizer.
-            file_path (str): File to write to.
-            processing_config (ProcessingConfig): Processing configuration used during the acquisition.
-            acquisition_type (str, optional): Specifies the context of why the file was saved. Defaults to 'run'.
+        :param data: List of `BatchPulses`, one per digitizer channel.
+        :type data: List[BatchPulses]
+        :param file_path: Destination file path.
+        :type file_path: str
+        :param processing_config: Processing configuration used during acquisition.
+        :type processing_config: ProcessingConfig
+        :param acquisition_type: Context describing why the file was saved.
+        :type acquisition_type: str
         """
         config_json = json.dumps(msgspec.to_builtins(processing_config))
         total_events = 0
@@ -62,12 +66,14 @@ class DataExporter:
                     writer.write_segment(channels_to_write)
     
     def write_partial_rawdata_to_tdms(self, data_chunk: List[List[Any]], file_path: str, processing_config: "ProcessingConfig"):
+        """:meta private:"""
         # TODO: For long runs in the future 
         # Check if file has already config in it
         # Use TdmsWriter(file_path, mode='a') to append data
         pass
     
     def write_all_analysedata_to_tdms(self, ):
+        """:meta private:"""
         # TODO: implement
         # Write to existing tdms file (need to check if exists + contains processing_config in root)
         # X-CLEAN
@@ -75,6 +81,7 @@ class DataExporter:
         pass
     
     def write_partial_analysedata_to_tdms(self, ):
+        """:meta private:"""
         # TODO: For long runs in the future 
         # Write to existing tdms file (need to check if exists + contains processing_config in root)
         # X-CLEAN
@@ -90,11 +97,13 @@ class DataExporter:
         user_config: "UserConfig", 
         processing_config: "ProcessingConfig"
     ) -> None:
-        """Save configuration to file when closing the program.
+        """
+        Save configuration to a JSON file when closing the program.
         
-        Args:
-            user_config (UserConfig): Current user configuration
-            processing_config (ProcessingConfig): Current processing configuration
+        :param user_config: Current user configuration.
+        :type user_config: UserConfig
+        :param processing_config: Current processing configuration.
+        :type processing_config: ProcessingConfig
         """
         filename_json: str = 'config.json'
         
@@ -118,14 +127,22 @@ class DataExporter:
         processing_config: "ProcessingConfig",
         acquisition_type: str = 'run'
     ) -> None:
-        """NOT USED!!! Replaced by `write_post_acquisition_to_tdms` with new data format.\n
-        Writes all pulses to a TDMS file
+        """
+        Legacy method for writing raw pulse data to a TDMS file.
         
-        Args:
-            data (List[List[Any]]): Data to write to disk.
-            file_path (str): Path to written file
-            processing_config (ProcessingConfig): Current processing configuration
-            acquisition_type (str, optional): Specifies the context of why the file was saved. Defaults to 'run'.
+        .. warning::
+            
+            This method is not used anymore. It has been replaced by
+            `write_post_acquisition_to_tdms` with a new data format.
+        
+        :param data: Raw pulse data to write to disk.
+        :type data: List[List[Any]]
+        :param file_path: Destination file path.
+        :type file_path: str
+        :param processing_config: Processing configuration used during acquisition.
+        :type processing_config: ProcessingConfig
+        :param acquisition_type: Context describing why the file was saved.
+        :type acquisition_type: str
         """
         config_json = json.dumps(msgspec.to_builtins(processing_config))    # NOTE: Change this to only msgspec func..?
         with TdmsWriter(file_path) as writer:
@@ -166,6 +183,7 @@ class DataExporter:
 
 
 def main():
+    """:meta private:"""
     from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
     from flashy.models.analysis.config import AnalysisConfig
     from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel

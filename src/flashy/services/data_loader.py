@@ -17,10 +17,12 @@ from flashy.detectors.detector import DetectorAssignment
 
 class DataLoader:
     """
-    Service to read files and output what was read.\n
-    The functions of this class should return an `AcquisitionConfig` instance and an `AnalysisConfig` (except old csv reading)
-    with the data seperated per channel. That way, the `AnalysisService` can construct a `ProcessingConfig` with those
-    two or use another analysis configuration specified by the user.
+    Service for reading data files and returning parsed content.
+    
+    The methods of this class return an `AcquisitionConfig` and an `AnalysisConfig`
+    (except legacy CSV reading), with data separated per channel. This allows the
+    `AnalysisService` to construct a `ProcessingConfig` from these components or
+    use a user-provided analysis configuration.
     """
     
     # =======================================================================
@@ -29,14 +31,16 @@ class DataLoader:
     
     def read_all_tdms_file(self, filename: str) -> tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]]:
         """
-        Reads a TDMS file at `filename` and returns everything in it.
+        Read a TDMS file and return its contents.
         
-        Args:
-            filename (str): Path to the TDMS file.
+        :param filename: Path to the TDMS file.
+        :type filename: str
         
-        Returns:
-            data (tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]]): The acquisition and 
-            analysis configuration used when the file was saved. The `dict` contains each channel's readings
+        :returns: A tuple containing:
+                    - Acquisition configuration used when saving
+                    - Analysis configuration used when saving
+                    - Dictionary of channel data
+        :rtype: tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]]
         """
         tdms_file = TdmsFile.read(filename)
         
@@ -61,6 +65,7 @@ class DataLoader:
         return (acquisition_config, analysis_config, data)
     
     def read_partial_tdms_file(self):
+        """:meta private:"""
         # NOTE: If file is too big to load into memory, implement this
         pass
     
@@ -72,8 +77,8 @@ class DataLoader:
         """
         Read the configuration file generated when the program was previously closed (`config.json`).
         
-        Returns:
-            config (tuple[UserConfig, ProcessingConfig]): The configuration previously used.
+        :returns: Previously saved user and processing configuration.
+        :rtype: tuple[UserConfig, ProcessingConfig]
         """
         filename_json: str = 'config.json'
         
@@ -91,17 +96,20 @@ class DataLoader:
     
     def legacy_read_csv_file(self, path: str) -> tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]] | None:
         """
-        Read a legacy CSV file from past shoots using default configuration (FLASHy 1.0).
+        Read a legacy CSV file from past shoots using the default FLASHy 1.0 configuration.
         
-        Args:
-            path (str): Path to CSV file.
+        :param path: Path to the CSV file.
+        :type path: str
         
-        Returns:
-            tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]] | None: The analysis and 
-            acquisition configurations are the default used by FLASHy 1.0. The `dict` is the pulse data.
-        ### TODO:
-        - Custom error instead of None
-        - Signals for debug/feedback
+        :returns: A tuple containing:
+                    - Acquisition configuration (default FLASHy 1.0)
+                    - Analysis configuration (default FLASHy 1.0)
+                    - Dictionary containing pulse data per channel
+        :rtype: tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]] | None
+        
+        .. todo::
+            - Replace None return with a custom exception
+            - Add debugging/feedback signals
         """
         from flashy.digitizers.caen_dt5781.config import CaenDT5781Config 
         from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
@@ -202,6 +210,7 @@ class DataLoader:
 
 
 def main():
+    """:meta private:"""
     path = 'write_test.tdms'
     data_loader = DataLoader()
     acquisition_config, analysis_config, data = data_loader.read_all_tdms_file(path)

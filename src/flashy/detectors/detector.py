@@ -9,8 +9,9 @@ class DetectorAssignment(msgspec.Struct):
     """
     Dataclass containing the detector and its assigned channel.
     
-    ### Inherits:
-        `msgspec.Struct`
+    :inherits: :py:class:`msgspec.Struct`
     """
     detector: Detector
+    """Detector to be assigned."""
     digitizer_channel: int
+    """Associated digitizer channel"""

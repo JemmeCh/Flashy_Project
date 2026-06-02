@@ -19,14 +19,15 @@ class AnalysisService:
         analysis_config: "AnalysisConfig | None" = None
     ) -> AnalysisResult:
         """
-        Analyse the data contained in a TDMS file.
+        Analyse data contained in a TDMS file.
         
-        Args:
-            path (str): Path to the TDMS file.
-            analysis_config (AnalysisConfig | None, optional): Analysis configuration to use. Defaults to None (default configuration).
+        :param filename: Path to the TDMS file.
+        :type filename: str
+        :param analysis_config: Analysis configuration to use. If None, a default configuration is used.
+        :type analysis_config: AnalysisConfig | None, optional
         
-        Returns:
-            AnalysisResult: Results of the analysis of the file's pulses using the chosen analysis configuration.
+        :returns: Results of the analysis of the file's pulses.
+        :rtype: AnalysisResult
         """
         # Get file data
         data_loader = DataLoader()
@@ -63,17 +64,18 @@ class AnalysisService:
         processing_config: "ProcessingConfig"
     ) -> AnalysisResult:
         """
-        Method used by `AnalysisWorker` for real-time pulse analysis.
+        Perform real-time pulse analysis (used by `AnalysisWorker`).
         
-        Args:
-            batch (list[np.ndarray]): Unordered list of pulses to analyse.
-            processing_config (ProcessingConfig): Current processing configuration
+        :param batch: Unordered list of pulses to analyse.
+        :type batch: list[np.ndarray]
+        :param processing_config: Current processing configuration.
+        :type processing_config: ProcessingConfig
         
-        Returns:
-            result (AnalysisResult): Results of the analysis of the pulses.
+        :returns: Results of the analysis of the pulses.
+        :rtype: AnalysisResult
         
-        ### TODO:
-        - Move 'order per channel' to future `Normalizer` class
+        .. todo::
+            - Move "order per channel" logic to a future `Normalizer` class
         """
         # Order per channel
         data = {}
@@ -138,17 +140,23 @@ class AnalysisService:
         analysis_config: "AnalysisConfig | None" = None
     ) -> AnalysisResult | None:
         """
-        Analyse the data contained in a CSV file using the default `ProcessingConfig`.\n
-        WARNING: This works only for the Bergoz BCT with CeanDT5781 since it was exclusively used by FLASHy 1.0.
+        Analyse data contained in a CSV file using the default `ProcessingConfig`.
         
-        Args:
-            path (str): Path to the CSV file.
-            analysis_config (AnalysisConfig | None, optional): Analysis configuration to use. Defaults to None (default configuration).
+        .. warning::
         
-        Returns:
-            result (AnalysisResult | None): Results of the analysis of the file's pulses using the chosen analysis configuration.
-        ### TODO: 
-        - Raise custom error
+            This method is legacy and only works for the Bergoz BCT with CAEN DT5781,
+            as it was exclusively used by FLASHy 1.0.
+        
+        :param path: Path to the CSV file.
+        :type path: str
+        :param analysis_config: Analysis configuration to use. If None, a default configuration is used.
+        :type analysis_config: AnalysisConfig | None, optional
+        
+        :returns: Analysis results of the file's pulses, or None if analysis fails.
+        :rtype: AnalysisResult | None
+        
+        .. todo::
+            - Raise a custom exception instead of returning None
         """
         
         # Read Legacy CSV file
@@ -187,6 +195,7 @@ class AnalysisService:
 
 
 def main():
+    """:meta private:"""
     analysis_service = AnalysisService()
     
     # Test TDMS

@@ -6,11 +6,15 @@ from flashy.models.parameters.container import ParameterContainer
 
 class BergozBCT(ParameterContainer):
     """
-    Dataclass containing Bergoz'S BCT's configuration
+    Dataclass containing Bergoz's BCT configuration.
     
-    ### Inherits:
-        `ParameterContainer`
+    :inherits: ParameterContainer
     """
     DEFINITIONS = BERGOZBCT_DEFINITIONS
+    """
+    Parameter definitions for Bergoz's BCT (See :py:data:`~flashy.detectors.bergoz_bct.definition.BERGOZBCT_DEFINITIONS`). 
     
+    :meta hide-value:
+    """
     type: Literal["bergoz_bct"] = 'bergoz_bct'
+    """Fixed identifier of this detector."""

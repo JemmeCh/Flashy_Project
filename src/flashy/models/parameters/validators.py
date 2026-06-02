@@ -18,6 +18,7 @@ if TYPE_CHECKING:
 # =======================================================================
 
 def assert_choices(func):
+    """:meta private:"""
     @wraps(func)
     def wrapper(definition: "ParameterDefinition", *args):
         assert definition.choices, "Using combo box validation without choices"
@@ -25,6 +26,7 @@ def assert_choices(func):
     return wrapper
 
 def assert_valid_range(func):
+    """:meta private:"""
     @wraps(func)
     def wrapper(definition: "ParameterDefinition", *args):
         assert definition.valid_range, "Using valid range validation without range"
@@ -35,6 +37,7 @@ def assert_valid_range(func):
     return wrapper
 
 def assert_step(func):
+    """:meta private:"""
     @wraps(func)
     def wrapper(definition: "ParameterDefinition", *args):
         assert definition.step, "Using step validation without step"
@@ -51,14 +54,13 @@ def validate_combo_box(
     value: Any
 ) -> None:
     """
-    Validate if the input is in the choices.
+    Validate that the input is one of the allowed choices.
     
-    Args:
-        definition (ParameterDefinition): The parameter's metadata.
-        value (Any): Input.
-    
-    Raises:
-        e (ValueError): The value isn't correct.
+    :param definition: The parameter metadata.
+    :type definition: :py:class:`~flashy.models.parameters.definition.ParameterDefinition`
+    :param value: Input value.
+    :type value: Any
+    :raises ValueError: If the value is not in the allowed choices.
     """
     if value not in definition.choices:
         raise ValueError(f"{value} not in allowed choices: {definition.choices}")
@@ -70,14 +72,13 @@ def validate_valid_range(
     value: Any
 )-> None:
     """
-    Validate if the input is in the range of the parameter's range.
+    Validate that the input is within the allowed range.
     
-    Args:
-        definition (ParameterDefinition): The parameter's metadata.
-        value (Any): Input.
-    
-    Raises:
-        e (ValueError): The value isn't correct.
+    :param definition: The parameter metadata.
+    :type definition: :py:class:`~flashy.models.parameters.definition.ParameterDefinition`
+    :param value: Input value.
+    :type value: Any
+    :raises ValueError: If the value is outside the valid range.
     """
     low, high = definition.valid_range  #type:ignore
     if not (low <= float(value) <= high):
@@ -90,14 +91,13 @@ def validate_multiple_of_step(
     value: Any
 ) -> None:
     """
-    Validate if the input is a multiple of the parameter's multiple.
+    Validate that the input is a multiple of the defined step.
     
-    Args:
-        definition (ParameterDefinition): The parameter's metadata.
-        value (Any): Input.
-    
-    Raises:
-        e (ValueError): The value isn't correct.
+    :param definition: The parameter metadata.
+    :type definition: :py:class:`~flashy.models.parameters.definition.ParameterDefinition`
+    :param value: Input value.
+    :type value: Any
+    :raises ValueError: If the value is not a multiple of the step.
     """
     step = Decimal(str(definition.step))
     value_d = Decimal(str(value))
@@ -111,16 +111,13 @@ def validate_range_and_step(
     value: Any
 ) -> None:
     """
-    Validate 
-    1. If the input is a multiple of the parameter's multiple
-    2. If the input is in the range of the parameter's range
+    Validate both range and step constraints.
     
-    Args:
-        definition (ParameterDefinition): The parameter's metadata.
-        value (Any): Input.
-    
-    Raises:
-        e (ValueError): The value isn't correct.
+    :param definition: The parameter metadata.
+    :type definition: :py:class:`~flashy.models.parameters.definition.ParameterDefinition`
+    :param value: Input value.
+    :type value: Any
+    :raises ValueError: If the value violates range or step constraints.
     """
     validate_valid_range(definition, value)
     validate_multiple_of_step(definition, value)

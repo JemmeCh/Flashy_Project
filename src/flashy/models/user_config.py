@@ -5,25 +5,30 @@ from typing import Literal
 
 class UserConfig(msgspec.Struct):
     """
-    Dataclass containing the user's configuration.
+    User configuration container.
     
-    ### Inherits:
-        `msgspec.Struct`
+    :inherits: msgspec.Struct
     
-    ### TODO:
-    - Maybe revamp this when implementing the GUI since the method's names are weird/old/outdated.
+    .. todo::
+        - Maybe revamp this when implementing the GUI since the method's names are weird/old/outdated.
     """
     project_path: str = ''
+    """Root project path used for loading/saving data."""
     name_of_shoot: str = ''
+    """Name of the acquisition session or "shoot"."""
     increment_name: str = ""
+    """Suffix used when generating incremented file or run names."""
     path_of_shoot: str = ""
+    """Full path where the current shoot data is stored."""
     
     increment: int = 1
+    """Increment index used for run/versioning."""
     path_to_logs: Literal['logs'] = "logs"
+    """Relative or fixed path where logs are stored."""
     
     def __post_init__(self):
         """
-        Ensures that all the values exists. If not, uses the defaults.
+        Ensure all configuration values are initialized with defaults when missing.
         """
         if not self.project_path:
             self.project_path = 'DAQ'
@@ -36,7 +41,9 @@ class UserConfig(msgspec.Struct):
     
     def increment_name_of_shoot(self):
         """
-        Increment the shoot's name
+        Increment the shoot name and create the corresponding directory.
+        
+        :raises FileExistsError: If the target directory already exists.
         """
         self.increment += 1
         self.incremented_name = f'{self.name_of_shoot}_{str(self.increment)}'
@@ -49,15 +56,12 @@ class UserConfig(msgspec.Struct):
     
     def set_name_of_shoot(self, name: str):
         """
-        Change the name of the shoot.
+        Set a new shoot name and initialize its directory.
         
-        Args:
-            name (str): The new name.
-        
-        Raises:
-            e (FileExistsError): Previous shoots of that name exists. To protect previous data, the name won't be changed.
+        :param name: New shoot name.
+        :type name: str
+        :raises FileExistsError: If a directory for this shoot already exists.
         """
-        
         potential_name = f'{name}_{str(1)}'
         try:
             path_of_shoot = os.path.join(self.project_path, potential_name)

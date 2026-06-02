@@ -8,11 +8,12 @@ class CaenDT5781AcquisitionWorker(QThread):
     Wrapper class for the acquisition service to be used in a seperate thread.\n
     Specific to Caen's DT5781 digitizer.
     
-    ### Inherits:
-        `PySide6.QtCore.QThread`
+    :inherits: `PySide6.QtCore.QThread`
     """
     event_dump = Signal(list)
+    """:meta private:"""
     error = Signal(str)# NOTE: Check if usefull
+    """:meta private:"""
     
     def __init__(
         self, 
@@ -25,7 +26,7 @@ class CaenDT5781AcquisitionWorker(QThread):
     
     def run(self):
         """
-        Run method: starts the acquisition of new data.
+        Start the acquisition of new data.
         """
         # Check if there's a config
         if not self.config:
@@ -43,6 +44,6 @@ class CaenDT5781AcquisitionWorker(QThread):
     
     def stop(self):
         """
-        Stops the `run` method as requested by main thread.
+        Stop the acquisition as requested by the main thread.
         """
         self.acquisition.stop()

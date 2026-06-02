@@ -13,6 +13,7 @@ from flashy.Controller.ModelController import ModelController
 
 
 def main() -> None:
+    """:meta private:"""
     view_controller = ViewController()
     model_controller = ModelController()
     main_controller = Controller(view_controller, model_controller)

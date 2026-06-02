@@ -64,3 +64,8 @@ ANALYSIS_DEFINITIONS = {
         parser=parse_equation
     ),
 }
+"""
+Parameter definitions for analysis.
+
+:meta hide-value:
+"""

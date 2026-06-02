@@ -3,28 +3,29 @@ from flashy.models.batch_pulses import BatchPulses
 
 class PulseProcessor:
     """
-    Service containing the `process_pulses` method for processing N pulses at the same time.\n
-    Used mainly by `AnalysisService`.
+    Service responsible for processing batches of pulses. This service exposes the `process_pulses` 
+    method used primarily by `AnalysisService`.
     """
     def process_pulses(self, batch: BatchPulses) -> BatchPulses:
         """
-        Process a BatchPulses following its internal data.\n
-        In the event of no pulse detected by the `_clean_data` method, the function will return the input.\n
+        Process a `BatchPulses` instance according to its configuration.
         
-        ### Processing pipeline
-        - Select valid pulses : FOR ALL
-        - Send valid to disk  : FOR ALL
-        - Level data          : SPECIFIC TO ANALYSIS (level_method)
-        - Convert LSB --> V   : SPECIFIC TO DIGITIZER (coarse_gain & adc_n_bit)
-        - Calculate area      : SPECIFIC TO ANALYSIS (area_calc_method) & DIGITIZER (sampeling_period_ns)
-        - Convert V*mus --> nC: SPECIFIC TO DETECTOR (Vs2C_factor)
-        - Convert nC --> cGy  : SPECIFIC TO ANALYSIS (nC2cGy_factor)
+        If no valid pulse is detected by `_clean_data`, the original batch is returned unchanged.
         
-        Args:
-            batch (BatchPulses): BatchPulses containing pulses.
+        Processing pipeline:
+            - Select valid pulses (ALL)
+            - Send valid pulses to disk (ALL)
+            - Level data (analysis-specific)
+            - Convert LSB → V (digitizer-specific: gain & ADC resolution)
+            - Compute area (analysis + digitizer sampling period)
+            - Convert V·µs → nC (detector-specific calibration factor)
+            - Convert nC → cGy (analysis-specific calibration factor)
         
-        Returns:
-            result (BatchPulses): BatchPulses containing the pulses with its analysed results or the input.
+        :param batch: Batch of pulses to process.
+        :type batch: BatchPulses
+        
+        :returns: Processed batch containing analysed pulse results (or original batch if no valid pulses).
+        :rtype: BatchPulses
         """
         # Select valid pulses
         valid = self._clean_data(batch.pulses)

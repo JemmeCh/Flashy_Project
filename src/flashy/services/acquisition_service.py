@@ -15,29 +15,48 @@ from flashy.models.batch_pulses import BatchPulses
 
 class AcquisitionService(QObject):
     """
-    Service to acquire new data in a different thread.\n
-    Each instance of `AcquisitionService` will create three (3) analysis worker thread that will wait for data to be
-    added to a queue for analysis. The `begin_acquisition` function will start a worker thread of the selected
-    digitizer. 
+    Central service responsible for managing acquisition and analysis pipelines.
     
-    ### Inherits:
-        `PySide6.QtCore.QObject`
+    This class orchestrates:
+    - Acquisition worker threads (digitizer-specific)
+    - Analysis worker threads (parallel processing)
+    - Queue-based communication between acquisition and analysis stages
     
-    ### TODO:
+    Each instance spawns multiple :py:class:`AnalysisWorker` threads that process
+    incoming data asynchronously.
+    
+    The ``begin_acquisition`` method starts a new acquisition session using
+    the selected digitizer backend.
+    
+    :inherits: :py:class:`PySide6.QtCore.QObject`
+    
+    .. todo::
         - Debugging signals
     """
     acquisition_started = Signal()
+    """Emitted when acquisition starts."""
     acquisition_finished = Signal()
+    """Emitted when acquisition completes successfully."""
     acquisition_error = Signal(str)
+    """Emitted when an error occurs during acquisition."""
     stop_requested = Signal()
+    """Emitted when acquisition stop is requested."""
     
     def __init__(
         self, 
         processing_config: "ProcessingConfig"
     )-> None:
+        """
+        Initialize the acquisition service.
+        
+        :param processing_config: Global processing configuration used for
+            acquisition, analysis, and detector setup.
+        :type processing_config: ProcessingConfig
+        """
         super().__init__()
         # Setup internal variables
         self.processing_config: "ProcessingConfig" = copy.deepcopy(processing_config)
+        """Deep-copied processing configuration used internally."""
         
         nbr_of_channels = len(self.processing_config.acquisition.digitizer.channels)
         acquisition_results = []
@@ -45,44 +64,55 @@ class AcquisitionService(QObject):
             ch_batch = self._create_result_batch(i)
             acquisition_results.append(ch_batch)
         self.acquisition_results: List[BatchPulses] = acquisition_results
+        """Accumulated analysis results per channel."""
         
         # Acquisition setup
         self._current_worker = None
+        """Active acquisition worker thread."""
         self._current_acquisition = None
+        """Active acquisition backend instance."""
         
         # Analysis setup
         self.analysis_todo_queue = queue.Queue(maxsize=50)
-        self.analysis_workers: List[AnalysisWorker] = []
+        """Queue of raw acquisition batches waiting for analysis."""
+        self._analysis_workers: List[AnalysisWorker] = []
+        """Pool of analysis worker threads."""
         for _ in range(3):
             worker = AnalysisWorker(
                 analysis_queue=self.analysis_todo_queue,
                 config=self.processing_config
             )
             worker.analysis_complete.connect(self.analysis_complete)
-            self.analysis_workers.append(worker)
+            self._analysis_workers.append(worker)
             worker.start()
         
-        # Debugging stuff
+        # Debugging counters
         self.discard_todo = 0
+        """Number of discarded batches due to full analysis queue."""
         self.printed_todo_queue = False
+        """Flag preventing repeated queue-full warnings."""
         self.discard_comp = 0
+        """Number of discarded completed analysis results."""
         self.printed_comp_queue = False
+        """Flag preventing repeated completion warnings."""
     
     def get_basic_dig_info(
         self, 
         digitizer: Literal['caen_dt5781']
     ) -> dict[str, Any]:
         """
-        Get basic info of the digitizer. Will stop the current acquisition worker thread.
+        Retrieve basic information from the selected digitizer.
         
-        Args:
-            digitizer (Literal[&#39;caen_dt5781&#39;]): Digitizer to be used. 
+        This method stops any currently running acquisition worker before
+        querying the hardware.
         
-        Raises:
-            value_error (ValueError): If the board information wasn't retrieved, this exception is raised.
+        :param digitizer: Digitizer backend identifier.
+        :type digitizer: Literal["caen_dt5781"]
         
-        Returns:
-            dig_info (dict[str, Any]): Board information of the digitizer in a `dict`.
+        :returns: Dictionary containing digitizer metadata.
+        :rtype: dict[str, Any]
+        
+        :raises ValueError: If the digitizer information cannot be retrieved.
         """
         self._stop_current_worker()
         
@@ -101,10 +131,12 @@ class AcquisitionService(QObject):
         digitizer: Literal['caen_dt5781']
     ) -> None:
         """
-        Starts acquisition in the background with a new worker thread. Will stop current worker thread.
+        Start a new acquisition session in a background worker thread.
         
-        Args:
-            digitizer (Literal[&#39;caen_dt5781&#39;]): Digitizer to be used.
+        Any currently running acquisition is stopped before starting a new one.
+        
+        :param digitizer: Digitizer backend to use.
+        :type digitizer: Literal["caen_dt5781"]
         """
         self._stop_current_worker()
         
@@ -132,7 +164,7 @@ class AcquisitionService(QObject):
         self.acquisition_started.emit()
     
     # =======================================================================
-    # Slots
+    # Qt Slots
     # =======================================================================
     
     @Slot(list)
@@ -141,10 +173,10 @@ class AcquisitionService(QObject):
         batch: list
     ) -> None:
         """
-        Called via an `event_dump` Signal. Adds incoming data to the queue. 
+        Receive raw acquisition batches and enqueue them for analysis.
         
-        Args:
-            batch (list): List of new unordered pulses.
+        :param batch: List of raw pulses.
+        :type batch: list
         """
         try:
             self.analysis_todo_queue.put_nowait(batch)
@@ -161,10 +193,10 @@ class AcquisitionService(QObject):
         analysis_result: "AnalysisResult"
     ) -> None:
         """
-        Called via an `analysis_complete` Signal. Adds analysis result to the acquisition results.
+        Handle completed analysis results and store them in memory.
         
-        Args:
-            analysis_result (AnalysisResult): Analysis results received.
+        :param analysis_result: Processed analysis output.
+        :type analysis_result: AnalysisResult
         """
         for i, pulse_batch in enumerate(analysis_result.pulse_batches):
             if pulse_batch.has_pulses and not pulse_batch.discard_flag:
@@ -178,15 +210,18 @@ class AcquisitionService(QObject):
                 self.acquisition_results[i] = result_batch
     
     @Slot()
-    def stop_acquisition(self):
+    def stop_acquisition(self) -> None:
         """
-        Called via an `stop_requested` Signal. Stops the acquisition worker thread.
+        Request the current acquisition worker to stop.
         """
         if self._current_worker:
             self._current_worker.stop()
     
     @Slot()
     def _on_worker_finished(self) -> None:
+        """
+        Cleanup acquisition worker after completion.
+        """
         #print('deleting worker')
         if self._current_worker:
             self._current_worker.deleteLater()
@@ -222,15 +257,16 @@ class AcquisitionService(QObject):
     
     def shutdown(self):
         """
-        Stops all worker threads (acquisition and analysis).\n
-        Recommended: Call this function after the `stop_requested` method is called.
+        Gracefully shutdown all acquisition and analysis workers.
+        
+        This should be called when the application exits or acquisition ends.
         """
         self._stop_current_worker()
-        for worker in self.analysis_workers:
+        for worker in self._analysis_workers:
             worker.stop()        
-        for worker in self.analysis_workers:
+        for worker in self._analysis_workers:
             worker.wait()
-        self.analysis_workers.clear()
+        self._analysis_workers.clear()
         
         # Debug prints
         #print(f"Discarded to analyse: {self.discard_todo}")
@@ -238,6 +274,7 @@ class AcquisitionService(QObject):
 
 
 def main():
+    """:meta private:"""
     from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
     from flashy.models.analysis.config import AnalysisConfig
     from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
@@ -297,12 +334,14 @@ def main():
     show_results(acq.acquisition_results)
 
 def save_results(results: List[BatchPulses], path: str, processing_config):
+    """:meta private:"""
     from flashy.services.export_service import DataExporter
     
     exporter = DataExporter()
     exporter.write_post_acquisition_to_tdms(results, path, processing_config, acquisition_type='mock')
 
 def show_results(results: List[BatchPulses]):
+    """:meta private:"""
     import numpy as np
     import matplotlib.pyplot as plt
     

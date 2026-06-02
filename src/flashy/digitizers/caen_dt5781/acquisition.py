@@ -1,8 +1,7 @@
 from typing import  Any, List
 from functools import wraps
 
-from caen_felib import lib, device, error
-print(f'CAEN FELib wrapper loaded (lib version {lib.version})')
+from caen_felib import device, error
 
 from flashy.models.processing_config import AcquisitionConfig
 from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
@@ -10,6 +9,7 @@ import flashy.models.parameters.registry as reg
 
 # TODO: change how errors are handled
 def handle_CAEN_exceptions(func):
+    """:meta private:"""
     @wraps(func)
     def wrapper(self, *args, **kwargs):
         try:
@@ -44,14 +44,12 @@ class CaenDT5781Acquisition:
         """
         Retrieve the digitizer's board information.
         
-        Raises: 
-            e (ConnectionError): Couldn't connect to the digitizer.
+        :raises ConnectionError: If the digitizer cannot be reached.
+        :returns: The board's information.
+        :rtype: dict[str, Any]
         
-        Returns:
-            result (dict[str, Any]): The board's information.
-        
-        ### TODO
-        - Signals for debugging/feedback
+        .. todo::
+            - Signals for debugging/feedback
         """
         self._stop_requested = False
         if not self._can_use_digitizer():
@@ -93,19 +91,18 @@ class CaenDT5781Acquisition:
     @handle_CAEN_exceptions
     def run(self, acquisition_config: AcquisitionConfig):
         """
-        Begins the acquisition of new data using the digitizer.
+        Begin the acquisition of new data using the digitizer.
         
-        Args:
-            acquisition_config (AcquisitionConfig): The to-be-used acquisition configuration.
+        :param acquisition_config: The acquisition configuration to use.
+        :type acquisition_config: AcquisitionConfig
         
-        Raises:
-            ex: An unknowed digitizer error.
+        :raises Exception: If an unknown digitizer error occurs.
         
-        Returns:
-            all_detect (list): If the signals aren't setup, the method returns all detected events.
+        :returns: All detected events if the signals are not set up.
+        :rtype: list
         
-        ### TODO
-        - Signals for debugging/feedback
+        .. todo::
+            - Signals for debugging/feedback
         """
         self._stop_requested = False
         print('Attempting to connect to digitizer...')

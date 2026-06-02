@@ -6,7 +6,11 @@ class AnalysisConfig(ParameterContainer):
     """
     Dataclass for the analysis' configuration.
     
-    ### Inherits:
-        `ParameterContainer`
+    :inherits: ParameterContainer
     """
     DEFINITIONS = ANALYSIS_DEFINITIONS
+    """
+    Parameter definitions for analysis (See :py:data:`~flashy.models.analysis.definition.ANALYSIS_DEFINITIONS`).
+    
+    :meta hide-value:
+    """

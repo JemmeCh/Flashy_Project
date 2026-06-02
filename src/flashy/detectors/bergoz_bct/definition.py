@@ -13,3 +13,8 @@ BERGOZBCT_DEFINITIONS = {
         parser=parse_equation
     ),
 }
+"""
+Parameter definitions for Bergoz's BCT.
+
+:meta hide-value:
+"""

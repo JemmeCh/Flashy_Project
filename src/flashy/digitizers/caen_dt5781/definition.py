@@ -265,3 +265,8 @@ CAENDT5781_CHANNEL_DEFINITIONS = {
         validator=validate_range_and_step,
     ),
 }
+"""
+Parameter definitions for Caen's DT5781 digitizer channels. 
+
+:meta hide-value:
+"""
