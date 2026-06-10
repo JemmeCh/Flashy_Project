@@ -4,24 +4,41 @@ from flashy.services.data_loader import DataLoader
 from flashy.services.pulse_processor import PulseProcessor
 from flashy.models.processing_config import ProcessingConfig
 from flashy.models.analysis.result import AnalysisResult
-from flashy.models.batch_pulses import BatchPulses
+from flashy.services.normalizer import Normalizer
 
-from typing import Any, List
-from flashy.models.analysis.config import AnalysisConfig
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from flashy.models.analysis.config import AnalysisConfig
 
 class AnalysisService:
     """
     Service to analyse pulses in different formats.
     """
-    def analyse_all_tdms_file(
-        self, 
-        filename: str, 
+    def __init__(self) -> None:
+        self._normalizer = Normalizer()
+        self._loader = DataLoader()
+        self._processor = PulseProcessor()
+    
+    def analyse_file(
+        self,
+        filename: str,
         analysis_config: "AnalysisConfig | None" = None
     ) -> AnalysisResult:
         """
-        Analyse data contained in a TDMS file.
+        Analyse data contained in a file. 
         
-        :param filename: Path to the TDMS file.
+        Supported file types are the following:
+        
+        - ``.tdms``
+        - ``.csv`` (legacy)
+        
+        .. warning::
+        
+            Legacy file types only work for the Bergoz BCT with CAEN DT5781,
+            as it was exclusively used by FLASHy 1.0. They will use the default 
+            acquisition and analysis configuration of FLASHy 1.0.
+        
+        :param filename: Path to the file.
         :type filename: str
         :param analysis_config: Analysis configuration to use. If None, a default configuration is used.
         :type analysis_config: AnalysisConfig | None, optional
@@ -30,8 +47,7 @@ class AnalysisService:
         :rtype: AnalysisResult
         """
         # Get file data
-        data_loader = DataLoader()
-        acquisition_config, file_analysis_config, data = data_loader.read_all_tdms_file(filename)
+        acquisition_config, file_analysis_config, data = self._loader.read_file(filename)
         
         # Choice of analysis configuration to be used for analysis
         if analysis_config:
@@ -45,11 +61,13 @@ class AnalysisService:
         
         # Process BatchPulses for each channel
         result_list = []
-        pulse_processor = PulseProcessor()
         for i, (_, events) in enumerate(data.items()):
-            result = self._create_batch(events, processing_config, channel_id=i)
-            batch_result = pulse_processor.process_pulses(result)
-            result_list.append(batch_result)
+            batch = self._normalizer.on_load_create_batch(
+                events, 
+                processing_config, 
+                channel_id=i
+            )
+            result_list.append(self._processor.process_pulses(batch))
         
         # Package results + return
         analysis_result = AnalysisResult(
@@ -91,10 +109,13 @@ class AnalysisService:
         
         # Process BatchPulses for each channel
         result_list = []
-        pulse_processor = PulseProcessor()
         for i, (_, events) in enumerate(data.items()):
-            result = self._create_batch(events, processing_config, channel_id=i)
-            batch_result = pulse_processor.process_pulses(result)
+            result = self._normalizer.on_load_create_batch(
+                events, 
+                processing_config, 
+                channel_id=i
+            )
+            batch_result = self._processor.process_pulses(result)
             result_list.append(batch_result)
         
         # Package results + return
@@ -103,95 +124,6 @@ class AnalysisService:
             config=processing_config
         )
         return analysis_result
-    
-    # =======================================================================
-    # Helper methods
-    # =======================================================================
-    
-    # TODO: Move to future Normalizer class
-    def _create_batch(
-        self, 
-        events: List[dict[str, Any]], 
-        processing_config: ProcessingConfig, 
-        channel_id: int
-    ) -> BatchPulses:
-        pulses_list = []
-        for event in events:
-            pulses_list.append(event['samples'])
-        pulses = np.array(pulses_list)
-        batch_pulses = BatchPulses(
-            pulses=pulses,
-            analysis_level_method=processing_config.analysis.get_value('level_method'),
-            analysis_area_calc_method=processing_config.analysis.get_value('area_calc_method'),
-            analysis_nC2cGy_factor=processing_config.analysis.get_value('nC2cGy_factor'),
-            digitizer_sampeling_period_ns=processing_config.acquisition.digitizer.sampling_period_ns,
-            digitizer_ADC2V_factor=processing_config.acquisition.digitizer.get_adc_to_volts_factor(channel_id),
-            detector_Vns2nC_factor=processing_config.acquisition.detector_assignments[channel_id].detector.get_value('Vs2C_factor')
-        )
-        return batch_pulses
-    
-    # =======================================================================
-    # Legacy CSV file analyser
-    # =======================================================================
-    
-    def legacy_analyse_csv_file(
-        self, 
-        path: str, 
-        analysis_config: "AnalysisConfig | None" = None
-    ) -> AnalysisResult | None:
-        """
-        Analyse data contained in a CSV file using the default `ProcessingConfig`.
-        
-        .. warning::
-        
-            This method is legacy and only works for the Bergoz BCT with CAEN DT5781,
-            as it was exclusively used by FLASHy 1.0.
-        
-        :param path: Path to the CSV file.
-        :type path: str
-        :param analysis_config: Analysis configuration to use. If None, a default configuration is used.
-        :type analysis_config: AnalysisConfig | None, optional
-        
-        :returns: Analysis results of the file's pulses, or None if analysis fails.
-        :rtype: AnalysisResult | None
-        
-        .. todo::
-            - Raise a custom exception instead of returning None
-        """
-        
-        # Read Legacy CSV file
-        data_loader = DataLoader()
-        # TODO: Raise custom error
-        from_file = data_loader.legacy_read_csv_file(path)
-        if from_file is None:
-            print("None was returned from DataLoader")
-            return None
-        acquisition_config, file_analysis_config, data = from_file
-        
-        # Choice of analysis configuration to be used for analysis
-        if analysis_config:
-            to_use_analysis_config = analysis_config
-        else:
-            to_use_analysis_config = file_analysis_config
-        processing_config = ProcessingConfig(
-            acquisition=acquisition_config,
-            analysis=to_use_analysis_config
-        )
-        
-        # Process BatchPulses for each channel
-        result_list = []
-        pulse_processor = PulseProcessor()
-        for i, (_, events) in enumerate(data.items()):
-            batch = self._create_batch(events, processing_config, channel_id=i)
-            result_list.append(pulse_processor.process_pulses(batch))
-        
-        # Package results + return
-        analysis_result = AnalysisResult(
-            pulse_batches=result_list,
-            config=processing_config
-        )
-        return analysis_result
-
 
 
 def main():
@@ -199,18 +131,18 @@ def main():
     analysis_service = AnalysisService()
     
     # Test TDMS
-    results = analysis_service.analyse_all_tdms_file('write_test.tdms')
+    results = analysis_service.analyse_file('write_test.tdms')
     print(results.pulse_batches)
     
     # Test FLASHy 1.0
-    """ results = analysis_service.legacy_analyse_csv_file('example_data/LEGACY-FLASHy1_0-pulses_2.csv')
+    """ results = analysis_service.analyse_file('example_data/LEGACY-FLASHy1_0-pulses_2.csv')
     if results is None:
         print(f'result is {type(results)} type')
         return
     print(results.pulse_batches) """
     
     # Test CoMPASS 
-    """ results = analysis_service.legacy_analyse_csv_file('example_data/LEGACY-CoMPASS-pulses_5.CSV')
+    """ results = analysis_service.analyse_file('example_data/LEGACY-CoMPASS-pulses_5.CSV')
     if results is None:
         print(f'result is {type(results)} type')
         return

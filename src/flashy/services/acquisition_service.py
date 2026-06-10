@@ -11,6 +11,7 @@ from flashy.digitizers.caen_dt5781.acquisition import CaenDT5781Acquisition
 from flashy.services.analysis_worker import AnalysisWorker
 from flashy.models.analysis.result import AnalysisResult
 from flashy.models.batch_pulses import BatchPulses
+from flashy.services.normalizer import Normalizer
 
 
 class AcquisitionService(QObject):
@@ -54,6 +55,8 @@ class AcquisitionService(QObject):
         :type processing_config: ProcessingConfig
         """
         super().__init__()
+        self.normalizer = Normalizer()
+        
         # Setup internal variables
         self.processing_config: "ProcessingConfig" = copy.deepcopy(processing_config)
         """Deep-copied processing configuration used internally."""
@@ -61,7 +64,10 @@ class AcquisitionService(QObject):
         nbr_of_channels = len(self.processing_config.acquisition.digitizer.channels)
         acquisition_results = []
         for i in range(nbr_of_channels):
-            ch_batch = self._create_result_batch(i)
+            ch_batch = self.normalizer.create_acquisition_result_batch(
+                processing_config=self.processing_config,
+                channel_id=i
+            )
             acquisition_results.append(ch_batch)
         self.acquisition_results: List[BatchPulses] = acquisition_results
         """Accumulated analysis results per channel."""
@@ -232,23 +238,6 @@ class AcquisitionService(QObject):
     # =======================================================================
     # Helper methods 
     # =======================================================================
-    
-    def _create_result_batch(self, channel_id: int):
-        reclen_ns = self.processing_config.acquisition.digitizer.channels[0].get_value('rdc_len')
-        sampling_period_ns = self.processing_config.acquisition.digitizer.sampling_period_ns
-        shape = (0, int(reclen_ns / sampling_period_ns))
-        pulses = np.zeros(shape=shape)
-        batch_pulses = BatchPulses(
-            pulses=pulses,
-            raw_valid_pulses=pulses,
-            analysis_level_method=self.processing_config.analysis.get_value('level_method'),
-            analysis_area_calc_method=self.processing_config.analysis.get_value('area_calc_method'),
-            analysis_nC2cGy_factor=self.processing_config.analysis.get_value('nC2cGy_factor'),
-            digitizer_sampeling_period_ns=self.processing_config.acquisition.digitizer.sampling_period_ns,
-            digitizer_ADC2V_factor=self.processing_config.acquisition.digitizer.get_adc_to_volts_factor(channel_id),
-            detector_Vns2nC_factor=self.processing_config.acquisition.detector_assignments[channel_id].detector.get_value('Vs2C_factor')
-        )
-        return batch_pulses
     
     def _stop_current_worker(self) -> None:
         if self._current_worker and self._current_worker.isRunning():

@@ -13,7 +13,6 @@ from flashy.detectors.detector import DetectorAssignment
 
 # TODO: 
 # - In read_file: needs to check which channel it is for correct rdc_len (recent: what is blud talking about?)
-# - Raise errors instead of returning None
 
 class DataLoader:
     """
@@ -24,6 +23,14 @@ class DataLoader:
     `AnalysisService` to construct a `ProcessingConfig` from these components or
     use a user-provided analysis configuration.
     """
+    def read_file(self, filename: str) -> tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]]:
+        if filename.lower().endswith('.tdms'):
+            result = self.read_all_tdms_file(filename)
+        elif filename.lower().endswith(".csv"):
+            result = self.legacy_read_csv_file(filename)
+        else: # File format can't be analysed
+            raise NotImplementedError("This file type is not supported.")
+        return result
     
     # =======================================================================
     # Read TDMS files
@@ -94,9 +101,14 @@ class DataLoader:
     # Legacy CSV file reader
     # =======================================================================
     
-    def legacy_read_csv_file(self, path: str) -> tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]] | None:
+    def legacy_read_csv_file(self, path: str) -> tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]]:
         """
         Read a legacy CSV file from past shoots using the default FLASHy 1.0 configuration.
+        
+        .. warning::
+        
+            This method is legacy and only works for the Bergoz BCT with CAEN DT5781,
+            as it was exclusively used by FLASHy 1.0.
         
         :param path: Path to the CSV file.
         :type path: str
@@ -105,31 +117,20 @@ class DataLoader:
                     - Acquisition configuration (default FLASHy 1.0)
                     - Analysis configuration (default FLASHy 1.0)
                     - Dictionary containing pulse data per channel
-        :rtype: tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]] | None
+        :rtype: tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]]
         
         .. todo::
-            - Replace None return with a custom exception
             - Add debugging/feedback signals
         """
         from flashy.digitizers.caen_dt5781.config import CaenDT5781Config 
         from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
         from flashy.detectors.bergoz_bct.bergoz_bct import BergozBCT
         
-        # Determine if its .csv file
-        if path.lower().endswith(".csv"):
-            info = self._legacy_read_csv(path)
-        else: # File format can't be analysed
-            # TODO: SIGNAL
-            # self.model_controller.send_feedback("Not a .csv or .dat file!")
-            print("Not a .csv or .dat file!")
-            # TODO: Raise custom error
-            return None
+        info = self._legacy_read_csv(path)
         if len(info) == 0: # Check if the array is empty
             # TODO: SIGNAL
             # self.model_controller.send_feedback("No data to analyse!")
-            print("No data to analyse!")
-            # TODO: Raise custom error
-            return None
+            raise ValueError("No data to analyse!")
         
         # Format pulses into standard
         data = self._legacy_format_pulses(info)

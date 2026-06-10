@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ResultPanelWidget</class>
+ <widget class="QWidget" name="ResultPanelWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ResultPanelWidget</string>
+  </property>
+  <layout class="QGridLayout" name="layout_ResultPanel">
+   <property name="leftMargin">
+    <number>6</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>6</number>
+   </property>
+   <property name="bottomMargin">
+    <number>6</number>
+   </property>
+   <property name="spacing">
+    <number>6</number>
+   </property>
+   <item row="0" column="0">
+    <widget class="PlotWidget" name="graph_top"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QWidget" name="ResultTablePlaceholder" native="true"/>
+   </item>
+   <item row="0" column="1" rowspan="2">
+    <widget class="PlotWidget" name="graph_right"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="PlotWidget" name="graph_bot"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
