@@ -62,9 +62,6 @@
       <item>
        <widget class="QWidget" name="ControlsWidgetPlaceholder" native="true"/>
       </item>
-      <item>
-       <widget class="QWidget" name="FeedbackWidgetPlaceholder" native="true"/>
-      </item>
      </layout>
     </widget>
    </item>

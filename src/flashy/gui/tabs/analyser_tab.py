@@ -1,8 +1,6 @@
 from PySide6 import QtWidgets as qtw
 
 from flashy.gui.ui.ui_analyser_tab import Ui_TabAnalyser
-
-from flashy.gui.widgets.feedback_widget import FeedbackWidget
 from flashy.gui.widgets.analyser_controls_widget import AnalyserControlsWidget
 from flashy.gui.widgets.result_panel_widget import ResultPanelWidget
 
@@ -11,27 +9,27 @@ from flashy.services.analysis_service import AnalysisService
 from flashy.presenters.analyser import PresenterAnalyser
 
 class TabAnalyser(qtw.QWidget, Ui_TabAnalyser):
-    def __init__(self, parent=None):
+    def __init__(
+        self, 
+        parent = None,
+    ):
         super().__init__(parent)
         self.setupUi(self)
         
         # Replace placeholder widgets with custom widgets
         self.w_analyser_controls = AnalyserControlsWidget()
-        self.w_feedback = FeedbackWidget()
         self.w_result_panel = ResultPanelWidget()
         
         self.layout_LeftPanel.replaceWidget(self.ControlsWidgetPlaceholder, self.w_analyser_controls)
-        self.layout_LeftPanel.replaceWidget(self.FeedbackWidgetPlaceholder, self.w_feedback)
         self.layout_ResultPanel.replaceWidget(self.ResultPanelPlaceholder, self.w_result_panel)
         
-        self.FeedbackWidgetPlaceholder.setParent(None)
         self.ControlsWidgetPlaceholder.setParent(None)
         self.ResultPanelPlaceholder.setParent(None)
         
         # Initiate services
         self.serv_analyser = AnalysisService()
         
-        # Initiate controlers
+        # Initiate presenters
         self.pres_analyser = PresenterAnalyser(
             controls=self.w_analyser_controls,
             result_panel=self.w_result_panel,

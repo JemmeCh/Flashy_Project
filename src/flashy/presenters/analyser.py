@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from flashy.gui.widgets.result_panel_widget import ResultPanelWidget
 
 from flashy.services.analysis_service import AnalysisService
+from flashy.services.logger.logger_service import get_logger
 
 
 class PresenterAnalyser(qtw.QWidget):
@@ -15,11 +16,12 @@ class PresenterAnalyser(qtw.QWidget):
         self,
         controls: "AnalyserControlsWidget",
         result_panel: "ResultPanelWidget",
-        analysis_service: "AnalysisService | None" = None,
+        analysis_service: AnalysisService | None = None,
     ):
         super().__init__()
         self._controls = controls
         self._result_panel = result_panel
+        self._logger = get_logger()
         
         if analysis_service: self._analyser = analysis_service
         else: self._analyser = AnalysisService()
@@ -32,6 +34,6 @@ class PresenterAnalyser(qtw.QWidget):
         try:
             analysis_results = self._analyser.analyse_file(filename)
             self._result_panel.change_results(analysis_results)
+            self._logger.info(f"Analysis of {filename} finished!")
         except Exception as e:
-            # TODO: emit the error to a error handler
-            print(str(e))
+            self._logger.exception("File couldn't be analysed correctly")

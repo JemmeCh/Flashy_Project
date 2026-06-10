@@ -1,11 +1,15 @@
 import numpy as np
 from flashy.models.batch_pulses import BatchPulses
+from flashy.services.logger.logger_service import get_logger
 
 class PulseProcessor:
     """
     Service responsible for processing batches of pulses. This service exposes the `process_pulses` 
     method used primarily by `AnalysisService`.
     """
+    def __init__(self) -> None:
+        self._logger = get_logger()
+    
     def process_pulses(self, batch: BatchPulses) -> BatchPulses:
         """
         Process a `BatchPulses` instance according to its configuration.
@@ -161,15 +165,11 @@ class PulseProcessor:
             right_bond = np.nanargmax(np.where(
                 dervier_mask[::-1], np.arange(dervier_mask.shape[1]), np.nan)[::-1], axis=1)
         except ValueError as e: # For exception of type 'ValueError: All-NaN slice encountered'
-            print(e)
-            #self.model_controller.send_feedback("Fallback to 'cummulative-sum' method")
+            self._logger.warning("Derivative method error (All-NaN slice). Fallback to 'cummulative-sum' method")
             lowered_pulses = self._cumulative_sum(pulses)
             return lowered_pulses
         except Exception as e:
-            print(e)
-            #self.model_controller.send_feedback("Other error encountered... Saving data for debugging")
-            #self._save_data_on_error()
-            #self.model_controller.send_feedback("Fallback to 'cummulative-sum' method")
+            self._logger.exception("Derivative method error (Unknowned). Fallback to 'cummulative-sum' method")
             lowered_pulses = self._cumulative_sum(pulses)
             return lowered_pulses
         
@@ -193,9 +193,8 @@ class PulseProcessor:
                 baselines = np.nanmean(pulse_info_mask, axis=1)
         
         if any(np.isnan(baselines)):
-            # TODO: Dynamically change threshold + SIGNAL
-            #self.model_controller.send_feedback("Warning: NaN baseline detected during 'derivation_method'! Adjust 'threshold' in source code")
-            print("Info on NaN baseline: \nAppears to level the pulse (and does so), but corrupts the data. This doesn't affect other calculations, but is not optimal. \nLeft as is for now, but will need a way to change 'threshold' in GUI")
+            # TODO: Dynamically change threshold
+            self._logger.warning("NaN baseline detected during 'derivation_method'! Adjust 'threshold' (to be implemented)\nInfo on NaN baseline: Appears to level the pulse (and does so), but corrupts the data. This doesn't affect other calculations, but is not optimal. Left as is for now, but will need a way to change 'threshold' in GUI")
         
         lowered_pulses = pulses - baselines[:, np.newaxis]
         return lowered_pulses

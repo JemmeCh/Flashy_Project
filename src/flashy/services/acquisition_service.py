@@ -12,6 +12,7 @@ from flashy.services.analysis_worker import AnalysisWorker
 from flashy.models.analysis.result import AnalysisResult
 from flashy.models.batch_pulses import BatchPulses
 from flashy.services.normalizer import Normalizer
+from flashy.services.logger.logger_service import get_logger
 
 
 class AcquisitionService(QObject):
@@ -56,6 +57,7 @@ class AcquisitionService(QObject):
         """
         super().__init__()
         self.normalizer = Normalizer()
+        self._logger = get_logger()
         
         # Setup internal variables
         self.processing_config: "ProcessingConfig" = copy.deepcopy(processing_config)

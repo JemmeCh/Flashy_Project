@@ -7,6 +7,7 @@ from PySide6 import QtGui as qtg
 from flashy.gui.ui.ui_analyser_controls import Ui_AnalyserControlsWidget
 from flashy.models.file_system import FileSystemModel
 from flashy.gui.theme import FLASHy_THEME
+from flashy.services.logger.logger_service import get_logger
 
 class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
     pressed_analyse_file = qtc.Signal(str)
@@ -15,6 +16,7 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setupUi(self)
+        self._logger = get_logger()
         
         # Setup tree view
         self.model = FileSystemModel()
@@ -47,6 +49,7 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
             raise ValueError(f"New root is invalid ({str(root_index)})")
         
         self.tv_root_dir.setRootIndex(root_index)
+        self._logger.info(f"Directory changed to {new_root}")
     
     
     @qtc.Slot()
@@ -54,7 +57,10 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
         dialog = qtw.QFileDialog()
         dialog.setFileMode(qtw.QFileDialog.FileMode.Directory)
         if dialog.exec():
-            self.change_treeview(dialog.selectedFiles()[0])
+            try:
+                self.change_treeview(dialog.selectedFiles()[0])
+            except Exception as e:
+                self._logger.exception("Failed to change root directory")
     
     @qtc.Slot()
     def select_file(self):
@@ -65,8 +71,7 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
     
     @qtc.Slot()
     def analyse_file(self):
-        try: 
-            self.pressed_analyse_file.emit(self.full_file_path)
-        except AttributeError:
-            # TODO: emit the error to a error handler
-            print('No file selected')
+        if not hasattr(self, "full_file_path"):
+            self._logger.warning("No file selected")
+            return
+        self.pressed_analyse_file.emit(self.full_file_path)

@@ -27,5 +27,5 @@ DAQ/**
 Feedback/**
 parameters.txt
 internal_parameters.txt
-*.json
+config.json
 write_test.tdms

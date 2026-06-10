@@ -12,14 +12,11 @@ class TabDT5781(qtw.QWidget, Ui_TabDT5781):
         self.setupUi(self)
         
         # Replace placeholder widgets with custom widgets
-        self.w_analyser_controls = DT5781ControlsWidget()
-        self.w_feedback = FeedbackWidget()
+        self.w_dt5781_controls = DT5781ControlsWidget()
         self.w_result_panel = ResultPanelWidget()
         
-        self.layout_LeftPanel.replaceWidget(self.ControlsWidgetPlaceholder, DT5781ControlsWidget())
-        self.layout_LeftPanel.replaceWidget(self.FeedbackWidgetPlaceholder, FeedbackWidget())
+        self.layout_LeftPanel.replaceWidget(self.ControlsWidgetPlaceholder, self.w_dt5781_controls)
         self.layout_ResultPanel.replaceWidget(self.ResultPanelPlaceholder, self.w_result_panel)
         
-        self.FeedbackWidgetPlaceholder.setParent(None)
         self.ControlsWidgetPlaceholder.setParent(None)
         self.ResultPanelPlaceholder.setParent(None)

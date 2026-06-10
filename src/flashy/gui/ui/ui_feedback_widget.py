@@ -23,17 +23,17 @@ class Ui_FeedbackWidget(object):
     def setupUi(self, FeedbackWidget):
         if not FeedbackWidget.objectName():
             FeedbackWidget.setObjectName(u"FeedbackWidget")
-        FeedbackWidget.resize(300, 100)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        FeedbackWidget.resize(300, 200)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(FeedbackWidget.sizePolicy().hasHeightForWidth())
         FeedbackWidget.setSizePolicy(sizePolicy)
-        FeedbackWidget.setMinimumSize(QSize(300, 100))
+        FeedbackWidget.setMinimumSize(QSize(0, 200))
         self.gridLayout = QGridLayout(FeedbackWidget)
-        self.gridLayout.setSpacing(0)
+        self.gridLayout.setSpacing(6)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setContentsMargins(6, 6, 6, 6)
         self.Feedback = QGroupBox(FeedbackWidget)
         self.Feedback.setObjectName(u"Feedback")
         self.verticalLayout = QVBoxLayout(self.Feedback)
@@ -63,6 +63,7 @@ class Ui_FeedbackWidget(object):
     def retranslateUi(self, FeedbackWidget):
         FeedbackWidget.setWindowTitle(QCoreApplication.translate("FeedbackWidget", u"FeedbackWidget", None))
         self.Feedback.setTitle(QCoreApplication.translate("FeedbackWidget", u"Feedback", None))
-        self.plainTextEdit.setPlainText(QCoreApplication.translate("FeedbackWidget", u"XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDhjkdshfjkjkjkjkjksdhiuhiasufhvsa8pfiasfhjhasdfhhjsadfsdafjewaiultfihdscvhjhshjfwuyeruyf", None))
+        self.plainTextEdit.setPlainText("")
+        self.plainTextEdit.setPlaceholderText(QCoreApplication.translate("FeedbackWidget", u"Welcome to FLASHy!", None))
     # retranslateUi
 

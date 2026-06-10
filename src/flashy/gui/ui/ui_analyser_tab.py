@@ -51,11 +51,6 @@ class Ui_TabAnalyser(object):
 
         self.layout_LeftPanel.addWidget(self.ControlsWidgetPlaceholder)
 
-        self.FeedbackWidgetPlaceholder = QWidget(self.LeftPanel)
-        self.FeedbackWidgetPlaceholder.setObjectName(u"FeedbackWidgetPlaceholder")
-
-        self.layout_LeftPanel.addWidget(self.FeedbackWidgetPlaceholder)
-
 
         self.gridLayout.addWidget(self.LeftPanel, 0, 0, 1, 1)
 

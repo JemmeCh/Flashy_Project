@@ -5,6 +5,8 @@ import json
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Any
 
+from src.flashy.services.logger.logger_service import get_logger
+
 if TYPE_CHECKING:
     from flashy.models.processing_config import ProcessingConfig
     from flashy.models.user_config import UserConfig
@@ -14,6 +16,9 @@ class DataExporter:
     """
     Service to export data to disk.
     """
+    def __init__(self) -> None:
+        self._logger = get_logger()
+    
     def write_post_acquisition_to_tdms(
         self, 
         data: List["BatchPulses"], 
@@ -64,6 +69,7 @@ class DataExporter:
                         )
                     ]
                     writer.write_segment(channels_to_write)
+        self._logger.info(f"File saved successfully at {file_path}")
     
     def write_partial_rawdata_to_tdms(self, data_chunk: List[List[Any]], file_path: str, processing_config: "ProcessingConfig"):
         """:meta private:"""
@@ -115,6 +121,7 @@ class DataExporter:
         }
         with open(filename_json, 'w', encoding='utf-8') as f:
             json.dump(to_save, f, ensure_ascii=False, indent=4)
+        self._logger.info("Configuration saved to disk")
     
     # =======================================================================
     # NOT USED

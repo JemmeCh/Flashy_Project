@@ -24,14 +24,14 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1000, 600)
-        MainWindow.setMinimumSize(QSize(1000, 600))
+        MainWindow.resize(1200, 800)
+        MainWindow.setMinimumSize(QSize(1200, 800))
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.gridLayout = QGridLayout(self.centralwidget)
-        self.gridLayout.setSpacing(1)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(1, 1, 1, 1)
+        self.layout_window = QGridLayout(self.centralwidget)
+        self.layout_window.setSpacing(1)
+        self.layout_window.setObjectName(u"layout_window")
+        self.layout_window.setContentsMargins(1, 1, 1, 1)
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
         self.tab_analyser = QWidget()
@@ -71,12 +71,18 @@ class Ui_MainWindow(object):
 
         self.tabWidget.addTab(self.tab_ADE, "")
 
-        self.gridLayout.addWidget(self.tabWidget, 0, 0, 1, 1)
+        self.layout_window.addWidget(self.tabWidget, 0, 0, 1, 1)
+
+        self.FeedbackPlaceholder = QWidget(self.centralwidget)
+        self.FeedbackPlaceholder.setObjectName(u"FeedbackPlaceholder")
+        self.FeedbackPlaceholder.setMinimumSize(QSize(0, 200))
+
+        self.layout_window.addWidget(self.FeedbackPlaceholder, 1, 0, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1000, 33))
+        self.menubar.setGeometry(QRect(0, 0, 1200, 33))
         self.menuFiles = QMenu(self.menubar)
         self.menuFiles.setObjectName(u"menuFiles")
         self.menuAnalyse = QMenu(self.menubar)
@@ -86,9 +92,9 @@ class Ui_MainWindow(object):
         self.menuClose = QMenu(self.menubar)
         self.menuClose.setObjectName(u"menuClose")
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
-        MainWindow.setStatusBar(self.statusbar)
+        self.status_bar = QStatusBar(MainWindow)
+        self.status_bar.setObjectName(u"status_bar")
+        MainWindow.setStatusBar(self.status_bar)
 
         self.menubar.addAction(self.menuFiles.menuAction())
         self.menubar.addAction(self.menuAnalyse.menuAction())

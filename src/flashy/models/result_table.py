@@ -2,6 +2,8 @@ from PySide6 import QtCore as qtc
 from PySide6 import QtWidgets as qtw
 from PySide6 import QtGui as qtg
 
+from typing import override
+
 
 class ResultTableModel(qtc.QAbstractTableModel):
     def __init__(self, rows):
@@ -26,13 +28,16 @@ class ResultTableModel(qtc.QAbstractTableModel):
                 ]
             self._rows.append(totals)
     
+    @override
     def rowCount(self, parent=None):
         if self._rows: return len(self._rows)
         else: return 0
     
+    @override
     def columnCount(self, parent=None):
         return len(self._headers)
     
+    @override
     def headerData(self, section: int, orientation: qtc.Qt.Orientation, role: int): #type:ignore
         if role != qtc.Qt.ItemDataRole.DisplayRole:
             return None
@@ -44,6 +49,7 @@ class ResultTableModel(qtc.QAbstractTableModel):
                 return 'T'
             return str(section + 1)
     
+    @override
     def data(self, index: qtc.QModelIndex, role=qtc.Qt.ItemDataRole.DisplayRole): #type:ignore
         if not index.isValid():
             return None

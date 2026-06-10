@@ -10,6 +10,7 @@ from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
 from flashy.models.analysis.config import AnalysisConfig
 from flashy.models.user_config import UserConfig
 from flashy.detectors.detector import DetectorAssignment
+from flashy.services.logger.logger_service import get_logger
 
 # TODO: 
 # - In read_file: needs to check which channel it is for correct rdc_len (recent: what is blud talking about?)
@@ -23,6 +24,9 @@ class DataLoader:
     `AnalysisService` to construct a `ProcessingConfig` from these components or
     use a user-provided analysis configuration.
     """
+    def __init__(self) -> None:
+        self._logger = get_logger()
+    
     def read_file(self, filename: str) -> tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]]:
         if filename.lower().endswith('.tdms'):
             result = self.read_all_tdms_file(filename)
@@ -162,15 +166,12 @@ class DataLoader:
                 csv.register_dialect("CoMPASS", delimiter=';')
                 return csv.get_dialect("CoMPASS")
     
-    # TODO: SIGNALS..?
     def _legacy_read_csv(self, path: str) -> list[np.ndarray]:
         info: list[np.ndarray] = []
         dialect = self._legacy_determine_dialect(path)
         
         if dialect.delimiter == ';':
-            # TODO: SIGNAL
-            # self.model_controller.send_feedback("CoMPASS csv detected!")
-            print("CoMPASS csv detected!")
+            self._logger.info("CoMPASS csv detected!")
             with open(path, newline='') as f:
                 # CoMPASS
                 # ['BOARD;CHANNEL;TIMETAG;ENERGY;CALIB_ENERGY;FLAGS;PROBE_CODE;SAMPLES']
@@ -181,9 +182,7 @@ class DataLoader:
                     row = np.array(row[7:], dtype=int)
                     info.append(row)
         elif dialect.delimiter == ',':
-            # TODO: SIGNAL
-            # self.model_controller.send_feedback("FLASHy csv detected!")
-            print("FLASHy csv detected!")
+            self._logger.info("FLASHy csv detected!")
             # FlASHy
             # ['Channel,Flag,Waveform_size,Samples']
             with open(path, newline='') as f:

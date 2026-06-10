@@ -5,6 +5,7 @@ from flashy.services.pulse_processor import PulseProcessor
 from flashy.models.processing_config import ProcessingConfig
 from flashy.models.analysis.result import AnalysisResult
 from flashy.services.normalizer import Normalizer
+from flashy.services.logger.logger_service import get_logger
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -18,6 +19,7 @@ class AnalysisService:
         self._normalizer = Normalizer()
         self._loader = DataLoader()
         self._processor = PulseProcessor()
+        self._logger = get_logger()
     
     def analyse_file(
         self,
@@ -47,7 +49,10 @@ class AnalysisService:
         :rtype: AnalysisResult
         """
         # Get file data
-        acquisition_config, file_analysis_config, data = self._loader.read_file(filename)
+        try:
+            acquisition_config, file_analysis_config, data = self._loader.read_file(filename)
+        except Exception as e:
+            raise e
         
         # Choice of analysis configuration to be used for analysis
         if analysis_config:
@@ -129,6 +134,9 @@ class AnalysisService:
 def main():
     """:meta private:"""
     analysis_service = AnalysisService()
+    
+    """ # Test error
+    results = analysis_service.analyse_file('README.md') """
     
     # Test TDMS
     results = analysis_service.analyse_file('write_test.tdms')
