@@ -24,8 +24,8 @@ class Ui_DT5781ControlsWidget(object):
     def setupUi(self, DT5781ControlsWidget):
         if not DT5781ControlsWidget.objectName():
             DT5781ControlsWidget.setObjectName(u"DT5781ControlsWidget")
-        DT5781ControlsWidget.resize(300, 386)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
+        DT5781ControlsWidget.resize(460, 475)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(DT5781ControlsWidget.sizePolicy().hasHeightForWidth())

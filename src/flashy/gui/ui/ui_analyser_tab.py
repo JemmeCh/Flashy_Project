@@ -22,7 +22,7 @@ class Ui_TabAnalyser(object):
     def setupUi(self, TabAnalyser):
         if not TabAnalyser.objectName():
             TabAnalyser.setObjectName(u"TabAnalyser")
-        TabAnalyser.resize(951, 409)
+        TabAnalyser.resize(943, 390)
         self.gridLayout = QGridLayout(TabAnalyser)
         self.gridLayout.setSpacing(6)
         self.gridLayout.setObjectName(u"gridLayout")
@@ -41,7 +41,7 @@ class Ui_TabAnalyser(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.LeftPanel.sizePolicy().hasHeightForWidth())
         self.LeftPanel.setSizePolicy(sizePolicy)
-        self.LeftPanel.setMinimumSize(QSize(300, 0))
+        self.LeftPanel.setMinimumSize(QSize(500, 0))
         self.layout_LeftPanel = QVBoxLayout(self.LeftPanel)
         self.layout_LeftPanel.setSpacing(0)
         self.layout_LeftPanel.setObjectName(u"layout_LeftPanel")

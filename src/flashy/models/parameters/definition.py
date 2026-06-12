@@ -17,7 +17,7 @@ class ParameterDefinition(msgspec.Struct, frozen=True):
     """Human-readable parameter name."""
     description: str
     """Detailed description of the parameter and its behavior."""
-    group: str
+    path: str
     """Logical grouping used for UI or organization."""
     # NOTE: Caen5781 specifically wants only str (at Caen5781Acquisition._setup_digitizer)
     value_type: type

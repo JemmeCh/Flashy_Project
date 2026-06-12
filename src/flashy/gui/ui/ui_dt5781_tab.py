@@ -22,7 +22,7 @@ class Ui_TabDT5781(object):
     def setupUi(self, TabDT5781):
         if not TabDT5781.objectName():
             TabDT5781.setObjectName(u"TabDT5781")
-        TabDT5781.resize(951, 444)
+        TabDT5781.resize(943, 425)
         self.gridLayout = QGridLayout(TabDT5781)
         self.gridLayout.setSpacing(6)
         self.gridLayout.setObjectName(u"gridLayout")
@@ -34,7 +34,7 @@ class Ui_TabDT5781(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.LeftPanel.sizePolicy().hasHeightForWidth())
         self.LeftPanel.setSizePolicy(sizePolicy)
-        self.LeftPanel.setMinimumSize(QSize(300, 0))
+        self.LeftPanel.setMinimumSize(QSize(500, 0))
         self.layout_LeftPanel = QVBoxLayout(self.LeftPanel)
         self.layout_LeftPanel.setSpacing(0)
         self.layout_LeftPanel.setObjectName(u"layout_LeftPanel")

@@ -24,8 +24,8 @@ class Ui_AnalyserControlsWidget(object):
     def setupUi(self, AnalyserControlsWidget):
         if not AnalyserControlsWidget.objectName():
             AnalyserControlsWidget.setObjectName(u"AnalyserControlsWidget")
-        AnalyserControlsWidget.resize(300, 307)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
+        AnalyserControlsWidget.resize(496, 471)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(AnalyserControlsWidget.sizePolicy().hasHeightForWidth())
@@ -99,10 +99,14 @@ class Ui_AnalyserControlsWidget(object):
         self.layout_AnalyserParameters = QGridLayout(self.tab_parameters)
         self.layout_AnalyserParameters.setObjectName(u"layout_AnalyserParameters")
         self.layout_AnalyserParameters.setContentsMargins(6, 6, 6, 6)
-        self.AnalyserParametersPlaceholder = QWidget(self.tab_parameters)
-        self.AnalyserParametersPlaceholder.setObjectName(u"AnalyserParametersPlaceholder")
+        self.tv_parameters = QTreeView(self.tab_parameters)
+        self.tv_parameters.setObjectName(u"tv_parameters")
+        self.tv_parameters.setAlternatingRowColors(True)
+        self.tv_parameters.header().setVisible(True)
+        self.tv_parameters.header().setMinimumSectionSize(10)
+        self.tv_parameters.header().setDefaultSectionSize(10)
 
-        self.layout_AnalyserParameters.addWidget(self.AnalyserParametersPlaceholder, 0, 0, 1, 1)
+        self.layout_AnalyserParameters.addWidget(self.tv_parameters, 0, 0, 1, 1)
 
         self.tabWidget.addTab(self.tab_parameters, "")
 
@@ -111,7 +115,7 @@ class Ui_AnalyserControlsWidget(object):
 
         self.retranslateUi(AnalyserControlsWidget)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(AnalyserControlsWidget)
