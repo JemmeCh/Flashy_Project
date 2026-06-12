@@ -13,14 +13,16 @@ class TabDT5781(qtw.QWidget, Ui_TabDT5781):
     def __init__(
         self, 
         root_node: "TreeNode",
+        user_config,
         parent = None,
     ):
         super().__init__(parent)
         self.setupUi(self)
         self._root_node = root_node
+        self._user_config = user_config
         
         # Replace placeholder widgets with custom widgets
-        self.w_dt5781_controls = DT5781ControlsWidget(self._root_node)
+        self.w_dt5781_controls = DT5781ControlsWidget(self._root_node, user_config)
         self.w_result_panel = ResultPanelWidget()
         
         self.layout_LeftPanel.replaceWidget(self.ControlsWidgetPlaceholder, self.w_dt5781_controls)

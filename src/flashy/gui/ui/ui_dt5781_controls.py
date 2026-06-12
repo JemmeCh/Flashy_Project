@@ -16,15 +16,14 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QGroupBox,
-    QLCDNumber, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QSpacerItem, QTabWidget, QVBoxLayout,
-    QWidget)
+    QLabel, QLineEdit, QPushButton, QSizePolicy,
+    QSpacerItem, QTabWidget, QVBoxLayout, QWidget)
 
 class Ui_DT5781ControlsWidget(object):
     def setupUi(self, DT5781ControlsWidget):
         if not DT5781ControlsWidget.objectName():
             DT5781ControlsWidget.setObjectName(u"DT5781ControlsWidget")
-        DT5781ControlsWidget.resize(460, 475)
+        DT5781ControlsWidget.resize(460, 562)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -124,12 +123,6 @@ class Ui_DT5781ControlsWidget(object):
         self.layout_digitizer = QGridLayout(self.gb_digitizer)
         self.layout_digitizer.setObjectName(u"layout_digitizer")
         self.layout_digitizer.setContentsMargins(6, 6, 6, 6)
-        self.le_status = QLineEdit(self.gb_digitizer)
-        self.le_status.setObjectName(u"le_status")
-        self.le_status.setReadOnly(True)
-
-        self.layout_digitizer.addWidget(self.le_status, 0, 2, 1, 1)
-
         self.pb_acquisition = QPushButton(self.gb_digitizer)
         self.pb_acquisition.setObjectName(u"pb_acquisition")
 
@@ -140,11 +133,16 @@ class Ui_DT5781ControlsWidget(object):
 
         self.layout_digitizer.addWidget(self.label_status, 0, 0, 1, 1)
 
-        self.LCDTimerPlaceholder = QLCDNumber(self.gb_digitizer)
+        self.le_status = QLineEdit(self.gb_digitizer)
+        self.le_status.setObjectName(u"le_status")
+        self.le_status.setReadOnly(True)
+
+        self.layout_digitizer.addWidget(self.le_status, 0, 2, 1, 1)
+
+        self.LCDTimerPlaceholder = QWidget(self.gb_digitizer)
         self.LCDTimerPlaceholder.setObjectName(u"LCDTimerPlaceholder")
-        self.LCDTimerPlaceholder.setSmallDecimalPoint(False)
-        self.LCDTimerPlaceholder.setDigitCount(9)
-        self.LCDTimerPlaceholder.setProperty(u"value", 0.000000000000000)
+        sizePolicy.setHeightForWidth(self.LCDTimerPlaceholder.sizePolicy().hasHeightForWidth())
+        self.LCDTimerPlaceholder.setSizePolicy(sizePolicy)
 
         self.layout_digitizer.addWidget(self.LCDTimerPlaceholder, 2, 0, 1, 3)
 
@@ -173,7 +171,7 @@ class Ui_DT5781ControlsWidget(object):
 
         self.retranslateUi(DT5781ControlsWidget)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(DT5781ControlsWidget)
@@ -190,6 +188,7 @@ class Ui_DT5781ControlsWidget(object):
         self.gb_digitizer.setTitle(QCoreApplication.translate("DT5781ControlsWidget", u"Digitizer", None))
         self.pb_acquisition.setText(QCoreApplication.translate("DT5781ControlsWidget", u"Begin Acquisition", None))
         self.label_status.setText(QCoreApplication.translate("DT5781ControlsWidget", u"Status:", None))
+        self.le_status.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_acquisition), QCoreApplication.translate("DT5781ControlsWidget", u"Acquisition", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_parameters), QCoreApplication.translate("DT5781ControlsWidget", u"Parameters", None))
     # retranslateUi

@@ -63,6 +63,20 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
         self.tv_root_dir.setRootIndex(root_index)
         self._logger.info(f"Directory changed to {new_root}")
     
+    # ==========================
+    # External Slots
+    # ==========================
+    
+    @qtc.Slot()
+    def analyse_file(self):
+        if not hasattr(self, "full_file_path"):
+            self._logger.warning("No file selected")
+            return
+        self.pressed_analyse_file.emit(self.full_file_path)
+    
+    # ==========================
+    # Internal Slots
+    # ==========================
     
     @qtc.Slot()
     def change_root_directory(self):
@@ -80,13 +94,6 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
         self.full_file_path = self.file_model.filePath(selected)
         self.filename = self.file_model.fileName(selected)
         self.le_selected_file.setText(self.filename)
-    
-    @qtc.Slot()
-    def analyse_file(self):
-        if not hasattr(self, "full_file_path"):
-            self._logger.warning("No file selected")
-            return
-        self.pressed_analyse_file.emit(self.full_file_path)
 
 
 if __name__ == '__main__':

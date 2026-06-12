@@ -111,7 +111,7 @@ class Ui_AnalyserControlsWidget(object):
 
         self.retranslateUi(AnalyserControlsWidget)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(AnalyserControlsWidget)

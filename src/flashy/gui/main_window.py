@@ -30,7 +30,7 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
         
         # Replace placeholder with custom widgets
         self.w_tab_analyser = TabAnalyser(self._root_node)
-        self.w_tab_dt5781 = TabDT5781(self._root_node)
+        self.w_tab_dt5781 = TabDT5781(self._root_node, self._user_config)
         self.w_feedback = FeedbackWidget()
         
         self.layout_TabAnalyser.replaceWidget(self.TabAnalyserPlaceholder, self.w_tab_analyser)
