@@ -21,7 +21,7 @@ ANALYSIS_DEFINITIONS = {
         description="'median': Prend les 200 premiers points et utilise sa médianne pour mettre à zéro\n'dynamic-median': Calcule la dérivée du pulse pour trouver le début et la fin du pulse. Trouve la médianne des points hors-pulse et l'utilise pour mettre à zéro.\n'dynamic-mean':  Calcule la dérivée du pulse pour trouver le début et la fin du pulse. Trouve la moyenne des points hors-pulse et l'utilise pour mettre à zéro.",
         path='Algorithms',
         value_type=str,
-        default='dynamic_median',
+        default='dynamic-median',
         widget_type="combobox",
         choices=("median", "dynamic-mean", "dynamic-median", "cummulative-sum"),
         valid_range=None,
@@ -39,7 +39,8 @@ ANALYSIS_DEFINITIONS = {
         valid_range=None,
         parser=parse_equation
     ),
-    "graph1": ParameterDefinition(
+}
+""" "graph1": ParameterDefinition(
         key="graph1",
         name="Graphique 1",
         description="Choix pour ce que le grahique 1 montre\nPulse: Affiche le voltage (en V) de chaque pulse selon le temps (en µs)\nAire: Affiche l'aire sous la courbe du pulse correspondant (en nC)",
@@ -62,8 +63,7 @@ ANALYSIS_DEFINITIONS = {
         choices=("Pulse", "Aire"),
         valid_range=None,
         validator=validate_combo_box
-    ),
-}
+    ), """
 """
 Parameter definitions for analysis.
 

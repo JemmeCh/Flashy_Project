@@ -41,7 +41,6 @@ def add_container_parameters(parent_node: TreeNode, container):
         group_node.add_child(node)
 
 def construct_tree(config: "ProcessingConfig", root_name: str = 'root'):
-    
     # Root
     root_node = TreeNode(
         name=root_name,

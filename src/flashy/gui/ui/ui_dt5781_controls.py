@@ -158,13 +158,13 @@ class Ui_DT5781ControlsWidget(object):
         self.tabWidget.addTab(self.tab_acquisition, "")
         self.tab_parameters = QWidget()
         self.tab_parameters.setObjectName(u"tab_parameters")
-        self.gridLayout = QGridLayout(self.tab_parameters)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(6, 6, 6, 6)
-        self.DT5781ParametersPlaceholder = QWidget(self.tab_parameters)
-        self.DT5781ParametersPlaceholder.setObjectName(u"DT5781ParametersPlaceholder")
+        self.layout_Parameters = QGridLayout(self.tab_parameters)
+        self.layout_Parameters.setObjectName(u"layout_Parameters")
+        self.layout_Parameters.setContentsMargins(6, 6, 6, 6)
+        self.ParameterTreeViewPlaceholder = QWidget(self.tab_parameters)
+        self.ParameterTreeViewPlaceholder.setObjectName(u"ParameterTreeViewPlaceholder")
 
-        self.gridLayout.addWidget(self.DT5781ParametersPlaceholder, 0, 0, 1, 1)
+        self.layout_Parameters.addWidget(self.ParameterTreeViewPlaceholder, 0, 0, 1, 1)
 
         self.tabWidget.addTab(self.tab_parameters, "")
 
@@ -173,7 +173,7 @@ class Ui_DT5781ControlsWidget(object):
 
         self.retranslateUi(DT5781ControlsWidget)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(DT5781ControlsWidget)

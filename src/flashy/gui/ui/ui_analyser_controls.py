@@ -99,14 +99,10 @@ class Ui_AnalyserControlsWidget(object):
         self.layout_AnalyserParameters = QGridLayout(self.tab_parameters)
         self.layout_AnalyserParameters.setObjectName(u"layout_AnalyserParameters")
         self.layout_AnalyserParameters.setContentsMargins(6, 6, 6, 6)
-        self.tv_parameters = QTreeView(self.tab_parameters)
-        self.tv_parameters.setObjectName(u"tv_parameters")
-        self.tv_parameters.setAlternatingRowColors(True)
-        self.tv_parameters.header().setVisible(True)
-        self.tv_parameters.header().setMinimumSectionSize(10)
-        self.tv_parameters.header().setDefaultSectionSize(10)
+        self.ParameterTreeViewPlaceholder = QWidget(self.tab_parameters)
+        self.ParameterTreeViewPlaceholder.setObjectName(u"ParameterTreeViewPlaceholder")
 
-        self.layout_AnalyserParameters.addWidget(self.tv_parameters, 0, 0, 1, 1)
+        self.layout_AnalyserParameters.addWidget(self.ParameterTreeViewPlaceholder, 1, 0, 1, 1)
 
         self.tabWidget.addTab(self.tab_parameters, "")
 

@@ -99,6 +99,7 @@ class DataLoader:
         processing_config_dict = all_dict['processing_config']
         user_config = msgspec.convert(user_config_dict, type=UserConfig)
         processing_config = msgspec.convert(processing_config_dict, type=ProcessingConfig)
+        # TODO: Verify that the data is valid
         return user_config, processing_config
     
     # =======================================================================

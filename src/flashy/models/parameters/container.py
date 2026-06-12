@@ -95,6 +95,7 @@ class ParameterContainer(msgspec.Struct):
         :rtype: None
         
         :raises KeyError: If the key is not defined in ``DEFINITIONS``.
+        :raises Exception: If ``definition.transform`` doesn't work.
         """
         definition = self.get_definition(key)
         self.values[key] = definition.transform(raw_value)

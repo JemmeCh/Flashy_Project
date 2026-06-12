@@ -2,6 +2,8 @@ from PySide6 import QtCore as qtc
 from PySide6 import QtWidgets as qtw
 from PySide6 import QtGui as qtg
 
+from flashy.services.logger.logger_service import get_logger
+
 from typing import TYPE_CHECKING, Any, override
 if TYPE_CHECKING:
     from flashy.models.tree.node import TreeNode
@@ -16,6 +18,8 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
             "Value",
             "Status"
         ]
+        
+        self._logger = get_logger()
     
     @override
     def rowCount(self, /, parent: qtc.QModelIndex | qtc.QPersistentModelIndex = qtc.QModelIndex()) -> int:
@@ -28,7 +32,6 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
     @override
     def columnCount(self, /, parent: qtc.QModelIndex | qtc.QPersistentModelIndex = qtc.QModelIndex()) -> int:
         # TODO:
-        # - description column
         # - units column
         # - status column (hardware sync)
         return 3
@@ -57,6 +60,25 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
         return self.createIndex(parent_node.row(), 0, parent_node)
     
     @override
+    def flags(self, index: qtc.QModelIndex | qtc.QPersistentModelIndex) -> qtc.Qt.ItemFlag:
+        if not index.isValid():
+            return qtc.Qt.ItemFlag.NoItemFlags
+        
+        col = index.column()
+        node = index.internalPointer()
+        if col != 1 or not node.is_parameter:
+            return (
+                qtc.Qt.ItemFlag.ItemIsSelectable
+                | qtc.Qt.ItemFlag.ItemIsEnabled
+            )
+        
+        return (
+            qtc.Qt.ItemFlag.ItemIsSelectable
+            | qtc.Qt.ItemFlag.ItemIsEnabled
+            | qtc.Qt.ItemFlag.ItemIsEditable
+        )
+    
+    @override
     def headerData(self, section: int, orientation: qtc.Qt.Orientation, /, role: int) -> Any: #type:ignore
         if role != qtc.Qt.ItemDataRole.DisplayRole:
             return None
@@ -73,14 +95,34 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
         row = index.row()
         column = index.column()
         
-        if role == qtc.Qt.ItemDataRole.DisplayRole:
+        if role == qtc.Qt.ItemDataRole.DisplayRole or role == qtc.Qt.ItemDataRole.EditRole:
             if column == 0: return node.display_name()
             elif column == 1: 
                 if node.is_parameter: return node.get_value()
                 else: return ''
             else: return None
         elif role == qtc.Qt.ItemDataRole.ToolTipRole:
-            if node.is_parameter: return node.description()
+            if node.is_parameter and column == 0: return node.description()
             else: return None
         else:
             return None
+    
+    @override
+    def setData(self, index: qtc.QModelIndex | qtc.QPersistentModelIndex, value: Any, /, role: int) -> bool: #type:ignore
+        if not index.isValid():
+            return False
+        node = index.internalPointer()
+        if node.is_parameter:
+            if node.get_value() == value:
+                return False
+            try:                
+                node.set_value(value)
+                self.dataChanged.emit(index, index, [qtc.Qt.ItemDataRole.EditRole])
+                self._logger.info(f"Parameter '{node.name}' set to '{value}'.")
+                return True
+            except Exception as e:
+                self._logger.warning(str(e))
+                return False
+        else: return False
+    
+    

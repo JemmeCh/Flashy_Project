@@ -50,7 +50,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_acquisition">
       <attribute name="title">
@@ -239,7 +239,7 @@
       <attribute name="title">
        <string>Parameters</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout">
+      <layout class="QGridLayout" name="layout_Parameters">
        <property name="leftMargin">
         <number>6</number>
        </property>
@@ -253,7 +253,7 @@
         <number>6</number>
        </property>
        <item row="0" column="0">
-        <widget class="QWidget" name="DT5781ParametersPlaceholder" native="true"/>
+        <widget class="QWidget" name="ParameterTreeViewPlaceholder" native="true"/>
        </item>
       </layout>
      </widget>
