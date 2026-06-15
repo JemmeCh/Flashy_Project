@@ -1,6 +1,6 @@
 import logging
 
-from src.flashy.services.logger.emitter import emitter
+from flashy.services.logger.emitter import emitter
 
 class QtHandler(logging.Handler):
     def __init__(self):

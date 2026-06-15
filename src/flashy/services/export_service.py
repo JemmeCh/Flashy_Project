@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 from typing import TYPE_CHECKING, List, Any
 
-from src.flashy.services.logger.logger_service import get_logger
+from flashy.services.logger.logger_service import get_logger
 
 if TYPE_CHECKING:
     from flashy.models.processing_config import ProcessingConfig

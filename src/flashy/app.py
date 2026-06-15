@@ -1,31 +1,29 @@
-'''
-Projet PHY3030 - FLASHy 
+import sys
 
-Programme d'analyse de pulse pour traitement FLASH 
-à l'aide d'un BCT et d'un digitezer CAEN DT5781. 
-'''
-# TODO IN PART 2 OF PROJECT
-# Use pickle library for reading binary file from digitizer
+from PySide6 import QtCore as qtc
+from PySide6 import QtWidgets as qtw
+from PySide6 import QtGui as qtg
 
-from flashy.Controller.Controller import Controller
-from flashy.Controller.ViewController import ViewController
-from flashy.Controller.ModelController import ModelController
+
+from flashy.app_context import AppContext
+from flashy.gui.theme import FLASHy_THEME
+from flashy.gui.main_window import MainWindow
 
 
 def main() -> None:
     """:meta private:"""
-    view_controller = ViewController()
-    model_controller = ModelController()
-    main_controller = Controller(view_controller, model_controller)
+    app_context = AppContext()
+    qtw.QApplication.setStyle("Fusion")
     
-    # Set up the links between the controllers
-    model_controller.set_up(main_controller)
-    view_controller.set_up(main_controller, "1.0.3")
+    app = qtw.QApplication(sys.argv)
+    app.setPalette(FLASHy_THEME)
     
-    # Start program
-    view_controller.mainloop()
+    window = MainWindow(app_context)
+    window.show()
     
+    app.aboutToQuit.connect(window.on_quit)
     
+    sys.exit(app.exec())
+
 if __name__ == '__main__':
     main()
-    

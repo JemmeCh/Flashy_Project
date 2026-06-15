@@ -4,25 +4,23 @@ from flashy.gui.ui.ui_analyser_tab import Ui_TabAnalyser
 from flashy.gui.widgets.analyser_controls_widget import AnalyserControlsWidget
 from flashy.gui.widgets.result_panel_widget import ResultPanelWidget
 
-from flashy.services.analysis_service import AnalysisService
 from flashy.presenters.analyser import PresenterAnalyser
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from flashy.models.tree.node import TreeNode
+    from flashy.app_context import AppContext
 
 class TabAnalyser(qtw.QWidget, Ui_TabAnalyser):
     def __init__(
         self, 
-        root_node: "TreeNode",
+        app_context: "AppContext",
         parent = None,
     ):
         super().__init__(parent)
         self.setupUi(self)
-        self._root_node = root_node
         
         # Replace placeholder widgets with custom widgets
-        self.w_analyser_controls = AnalyserControlsWidget(self._root_node)
+        self.w_analyser_controls = AnalyserControlsWidget(app_context)
         self.w_result_panel = ResultPanelWidget()
         
         self.layout_LeftPanel.replaceWidget(self.ControlsWidgetPlaceholder, self.w_analyser_controls)
@@ -31,37 +29,28 @@ class TabAnalyser(qtw.QWidget, Ui_TabAnalyser):
         self.ControlsWidgetPlaceholder.setParent(None)
         self.ResultPanelPlaceholder.setParent(None)
         
-        # Initiate services
-        self.serv_analyser = AnalysisService()
-        
-        # Initiate presenters
-        self.pres_analyser = PresenterAnalyser(
-            controls=self.w_analyser_controls,
-            result_panel=self.w_result_panel,
-            analysis_service=self.serv_analyser,
+        # Initiate presenter + connections
+        self.pres_analyser = PresenterAnalyser(app_context)
+        self.pres_analyser.results_ready.connect(
+            self.w_result_panel.change_results
+        )
+        self.w_analyser_controls.pressed_analyse_file.connect(
+            self.pres_analyser.analyse_file
         )
 
 if __name__ == '__main__':
     import sys
-    import pyqtgraph as pg
     
-    from flashy.presenters.analyser import PresenterAnalyser
-    from flashy.models.tree.constructor import _make_test_config, construct_tree
     from flashy.gui.theme import FLASHy_THEME
+    from flashy.app_context import AppContext
     qtw.QApplication.setStyle("Fusion")
     
-    root_node = construct_tree(_make_test_config())
-    
-    pg.setConfigOptions(
-        #leftButtonPan=False,
-        foreground=(0, 0, 0, 255),
-        background=(255, 255, 255, 255)
-    )
+    app_context = AppContext()
     
     app = qtw.QApplication(sys.argv)
     app.setPalette(FLASHy_THEME)
     
-    tab = TabAnalyser(root_node)
+    tab = TabAnalyser(app_context)
     tab.show()
     
     sys.exit(app.exec())

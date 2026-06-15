@@ -11,7 +11,7 @@
             "datefmt": "%Y-%m-%dT%H:%M:%S%z"
         },
         "json": {
-            "()": "src.flashy.services.logger.json_formatter.JSONFormatter",
+            "()": "flashy.services.logger.json_formatter.JSONFormatter",
             "fmt_keys": {
                 "level": "levelname",
                 "message": "message",
@@ -47,7 +47,7 @@
             "backupCount": 3
         },
         "qt": {
-            "()": "src.flashy.services.logger.qt_handler.QtHandler",
+            "()": "flashy.services.logger.qt_handler.QtHandler",
             "level": "DEBUG",
             "formatter": "simple"
         }

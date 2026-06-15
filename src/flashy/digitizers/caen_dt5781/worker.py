@@ -12,8 +12,6 @@ class CaenDT5781AcquisitionWorker(QThread):
     """
     event_dump = Signal(list)
     """:meta private:"""
-    error = Signal(str)# NOTE: Check if usefull
-    """:meta private:"""
     
     def __init__(
         self, 
@@ -32,13 +30,12 @@ class CaenDT5781AcquisitionWorker(QThread):
         if not self.config:
             raise ValueError("Please add a config at instantiation")
         
-        # Connect callback to signals
-        self.acquisition.event_dump_callback = self.event_dump.emit # type:ignore
-        self.acquisition.error_callback = self.error.emit # type:ignore
-        
         # Run acquisition
         try:
-            self.acquisition.run(self.config)
+            self.acquisition.run(
+                self.config,
+                self.event_dump
+            )
         finally:
             pass
     

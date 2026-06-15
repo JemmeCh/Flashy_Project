@@ -11,7 +11,7 @@ from flashy.services.logger.logger_service import get_logger
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from flashy.models.tree.node import TreeNode
+    from flashy.app_context import AppContext
 
 class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
     pressed_analyse_file = qtc.Signal(str)
@@ -19,16 +19,15 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
     
     def __init__(
         self, 
-        root_node: "TreeNode", 
+        app_context: "AppContext", 
         parent=None
     ):
         super().__init__(parent)
         self.setupUi(self)
         self._logger = get_logger()
-        self._root_node = root_node
         
         # Replace placeholder with custom widgets
-        self.tv_parameters = ParameterTreeView(self._root_node)
+        self.tv_parameters = ParameterTreeView(app_context.root_tree)
         self.layout_AnalyserParameters.replaceWidget(self.ParameterTreeViewPlaceholder, self.tv_parameters)
         self.ParameterTreeViewPlaceholder.setParent(None)
         
@@ -45,10 +44,14 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
         self.tv_root_dir.setColumnHidden(3, True)
         self.tv_root_dir.header().setSectionResizeMode(qtw.QHeaderView.ResizeMode.ResizeToContents)
         
-        # Connections
+        # Internal connections
         self.pb_root_directory.clicked.connect(self.change_root_directory)
         self.pb_analyse.clicked.connect(self.analyse_file)
         self.tv_root_dir.clicked.connect(self.select_file)
+    
+    # ==========================
+    # Helper Functions
+    # ==========================
     
     def change_treeview(self, new_root: str | None = None):
         if new_root:
@@ -98,18 +101,18 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
 
 if __name__ == '__main__':
     import sys
-    from flashy.models.tree.constructor import _make_test_config, construct_tree
     from flashy.gui.theme import FLASHy_THEME
+    from flashy.app_context import AppContext
     qtw.QApplication.setStyle("Fusion")
     
-    root_node = construct_tree(_make_test_config())
+    app_context = AppContext()
     
     app = qtw.QApplication(sys.argv)
     app.setPalette(FLASHy_THEME)
     
     #wid = qtw.QWidget()
     #layout = qtw.QHBoxLayout()  # Horizontal = side-by-side
-    w1 = AnalyserControlsWidget(root_node)
+    w1 = AnalyserControlsWidget(app_context)
     #w2 = AnalyserControlsWidget(root_node)
     
     #layout.addWidget(w1)

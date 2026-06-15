@@ -39,8 +39,6 @@ class AcquisitionService(QObject):
     """Emitted when acquisition starts."""
     acquisition_finished = Signal()
     """Emitted when acquisition completes successfully."""
-    acquisition_error = Signal(str)
-    """Emitted when an error occurs during acquisition."""
     stop_requested = Signal()
     """Emitted when acquisition stop is requested."""
     
@@ -60,8 +58,7 @@ class AcquisitionService(QObject):
         self._logger = get_logger()
         
         # Setup internal variables
-        self.processing_config: "ProcessingConfig" = copy.deepcopy(processing_config)
-        """Deep-copied processing configuration used internally."""
+        self.processing_config: "ProcessingConfig" = processing_config
         
         nbr_of_channels = len(self.processing_config.acquisition.digitizer.channels)
         acquisition_results = []
@@ -151,12 +148,14 @@ class AcquisitionService(QObject):
         match digitizer:
             case 'caen_dt5781':
                 self._current_acquisition = CaenDT5781Acquisition()
+                self._current_acquisition.set_state_callback() # insert signal here
                 self._current_worker = CaenDT5781AcquisitionWorker(
                     acquisition=self._current_acquisition,
                     config=self.processing_config.acquisition
                 )
             case _:
                 self._current_acquisition = CaenDT5781Acquisition()
+                self._current_acquisition.set_state_callback()
                 self._current_worker = CaenDT5781AcquisitionWorker(
                     acquisition=self._current_acquisition,
                     config=acquisition_config
@@ -164,7 +163,6 @@ class AcquisitionService(QObject):
         
         # Signals
         self._current_worker.event_dump.connect(self.acquisition_event_dump)
-        self._current_worker.error.connect(self.acquisition_error)
         self._current_worker.finished.connect(self._on_worker_finished)
         
         # Start
@@ -230,7 +228,6 @@ class AcquisitionService(QObject):
         """
         Cleanup acquisition worker after completion.
         """
-        #print('deleting worker')
         if self._current_worker:
             self._current_worker.deleteLater()
             self._current_worker = None
@@ -309,7 +306,6 @@ def main():
     
     acq.acquisition_finished.connect(app.quit)
     acq.acquisition_started.connect(lambda: print("Acquisition started"))
-    acq.acquisition_error.connect(lambda err: print(f"ERROR: {err}"))
     acq.acquisition_finished.connect(lambda: print("Acquisition finished"))
     acq.stop_requested.connect(acq.stop_acquisition)
     

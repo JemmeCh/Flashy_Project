@@ -4,33 +4,29 @@ from PySide6 import QtCore as qtc
 from PySide6 import QtWidgets as qtw
 from PySide6 import QtGui as qtg
 
-from flashy.gui.theme import FLASHy_THEME
-
 from flashy.gui.ui.ui_flashy_window import Ui_MainWindow
 from flashy.gui.tabs.analyser_tab import TabAnalyser
 from flashy.gui.tabs.dt5781_tab import TabDT5781
 from flashy.gui.widgets.feedback_widget import FeedbackWidget
 
-from flashy.services.data_loader import DataLoader
-from flashy.services.export_service import DataExporter
-from flashy.services.logger.logger_service import setup_logging
-from flashy.models.tree.constructor import construct_tree
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from flashy.app_context import AppContext
 
 
 class MainWindow(qtw.QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(
+        self,
+        app_context: "AppContext"
+    ):
         super().__init__()
         self.setupUi(self)
-        # Services
-        self._loader = DataLoader()
-        self._exporter = DataExporter()
         
-        self._user_config, self._processing_config = self._loader.read_config_json_file()
-        self._root_node = construct_tree(self._processing_config)
+        self._app = app_context
         
         # Replace placeholder with custom widgets
-        self.w_tab_analyser = TabAnalyser(self._root_node)
-        self.w_tab_dt5781 = TabDT5781(self._root_node, self._user_config)
+        self.w_tab_analyser = TabAnalyser(self._app)
+        self.w_tab_dt5781 = TabDT5781(self._app)
         self.w_feedback = FeedbackWidget()
         
         self.layout_TabAnalyser.replaceWidget(self.TabAnalyserPlaceholder, self.w_tab_analyser)
@@ -50,18 +46,21 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
     
     @qtc.Slot()
     def on_quit(self):
-        self._exporter.save_config_to_json(self._user_config, self._processing_config)
-
+        self._app.serv_exporter.save_config_to_json(
+            self._app.user_config, self._app.processing_config
+        )
 
 
 def main():
+    from flashy.app_context import AppContext
+    from flashy.gui.theme import FLASHy_THEME
     qtw.QApplication.setStyle("Fusion")
-    setup_logging()
+    app_context = AppContext()
     
     app = qtw.QApplication(sys.argv)
     app.setPalette(FLASHy_THEME)
     
-    window = MainWindow()
+    window = MainWindow(app_context)
     window.show()
     
     app.aboutToQuit.connect(window.on_quit)
