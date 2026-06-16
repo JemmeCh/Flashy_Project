@@ -1,5 +1,7 @@
-from PySide6.QtCore import QObject, Signal, Slot
-import numpy as np
+from PySide6 import QtCore as qtc
+from PySide6 import QtWidgets as qtw
+from PySide6 import QtGui as qtg
+
 import queue
 import copy
 from typing import TYPE_CHECKING, Any, Literal, List
@@ -15,7 +17,7 @@ from flashy.services.normalizer import Normalizer
 from flashy.services.logger.logger_service import get_logger
 
 
-class AcquisitionService(QObject):
+class AcquisitionService(qtc.QObject):
     """
     Central service responsible for managing acquisition and analysis pipelines.
     
@@ -35,12 +37,14 @@ class AcquisitionService(QObject):
     .. todo::
         - Debugging signals
     """
-    acquisition_started = Signal()
-    """Emitted when acquisition starts."""
-    acquisition_finished = Signal()
-    """Emitted when acquisition completes successfully."""
-    stop_requested = Signal()
     """Emitted when acquisition stop is requested."""
+    results_changed = qtc.Signal(List[BatchPulses])
+    """Emitted when acquisition stop is requested."""
+    
+    # Debug
+    _acquisition_started = qtc.Signal()
+    _acquisition_finished = qtc.Signal()
+    _stop_requested = qtc.Signal()
     
     def __init__(
         self, 
@@ -133,6 +137,7 @@ class AcquisitionService(QObject):
     
     def begin_acquisition(
         self, 
+        signal_state_changed, 
         digitizer: Literal['caen_dt5781']
     ) -> None:
         """
@@ -148,18 +153,17 @@ class AcquisitionService(QObject):
         match digitizer:
             case 'caen_dt5781':
                 self._current_acquisition = CaenDT5781Acquisition()
-                self._current_acquisition.set_state_callback() # insert signal here
                 self._current_worker = CaenDT5781AcquisitionWorker(
                     acquisition=self._current_acquisition,
                     config=self.processing_config.acquisition
                 )
             case _:
                 self._current_acquisition = CaenDT5781Acquisition()
-                self._current_acquisition.set_state_callback()
                 self._current_worker = CaenDT5781AcquisitionWorker(
                     acquisition=self._current_acquisition,
                     config=acquisition_config
                 )
+        self._set_state_callback(signal_state_changed)
         
         # Signals
         self._current_worker.event_dump.connect(self.acquisition_event_dump)
@@ -167,13 +171,15 @@ class AcquisitionService(QObject):
         
         # Start
         self._current_worker.start()
-        self.acquisition_started.emit()
+        
+        # Debug
+        self._acquisition_started.emit()
     
     # =======================================================================
     # Qt Slots
     # =======================================================================
     
-    @Slot(list)
+    @qtc.Slot(list)
     def acquisition_event_dump(
         self, 
         batch: list
@@ -193,7 +199,7 @@ class AcquisitionService(QObject):
             self.discard_todo += 1
             pass
     
-    @Slot(AnalysisResult)
+    @qtc.Slot(AnalysisResult)
     def analysis_complete(
         self, 
         analysis_result: "AnalysisResult"
@@ -204,8 +210,10 @@ class AcquisitionService(QObject):
         :param analysis_result: Processed analysis output.
         :type analysis_result: AnalysisResult
         """
+        change = False
         for i, pulse_batch in enumerate(analysis_result.pulse_batches):
             if pulse_batch.has_pulses and not pulse_batch.discard_flag:
+                change = True
                 result_batch = self.acquisition_results[i]
                 result_batch.add_pulses(
                     pulse_batch.pulses,
@@ -214,8 +222,9 @@ class AcquisitionService(QObject):
                     pulse_batch.doses,
                 )
                 self.acquisition_results[i] = result_batch
+        if change: self.results_changed.emit(copy.deepcopy(self.acquisition_results))
     
-    @Slot()
+    @qtc.Slot()
     def stop_acquisition(self) -> None:
         """
         Request the current acquisition worker to stop.
@@ -223,7 +232,7 @@ class AcquisitionService(QObject):
         if self._current_worker:
             self._current_worker.stop()
     
-    @Slot()
+    @qtc.Slot()
     def _on_worker_finished(self) -> None:
         """
         Cleanup acquisition worker after completion.
@@ -232,11 +241,22 @@ class AcquisitionService(QObject):
             self._current_worker.deleteLater()
             self._current_worker = None
             self._current_acquisition = None
-        self.acquisition_finished.emit()
+        
+        # Debug
+        self._acquisition_finished.emit()
     
     # =======================================================================
     # Helper methods 
     # =======================================================================
+    
+    def _set_state_callback(self, func):
+        if self._current_acquisition:
+            try:
+                self._current_acquisition.set_state_callback(func)
+            except Exception:
+                self._logger.exception("The state callback couldn't be set.")
+        else:
+            self._logger.warning("No current acquisition.")
     
     def _stop_current_worker(self) -> None:
         if self._current_worker and self._current_worker.isRunning():
@@ -302,15 +322,18 @@ def main():
     
     app = QApplication()
     acq = AcquisitionService(processing_config)
-    keyboard.on_press_key("q", lambda event: acq.stop_requested.emit())
+    keyboard.on_press_key("q", lambda event: acq._stop_requested.emit())
     
-    acq.acquisition_finished.connect(app.quit)
-    acq.acquisition_started.connect(lambda: print("Acquisition started"))
-    acq.acquisition_finished.connect(lambda: print("Acquisition finished"))
-    acq.stop_requested.connect(acq.stop_acquisition)
+    acq._acquisition_finished.connect(app.quit)
+    acq._acquisition_started.connect(lambda: print("Acquisition started"))
+    acq._acquisition_finished.connect(lambda: print("Acquisition finished"))
+    acq._stop_requested.connect(acq.stop_acquisition)
     
     
-    acq.begin_acquisition('caen_dt5781')
+    acq.begin_acquisition(
+        digitizer='caen_dt5781', 
+        signal_state_changed=None
+    )
     app.exec()
     
     #print("Qt event loop exited")

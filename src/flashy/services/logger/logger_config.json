@@ -48,7 +48,7 @@
         },
         "qt": {
             "()": "flashy.services.logger.qt_handler.QtHandler",
-            "level": "DEBUG",
+            "level": "INFO",
             "formatter": "simple"
         }
     },

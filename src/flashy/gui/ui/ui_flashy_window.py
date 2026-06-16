@@ -32,8 +32,8 @@ class Ui_MainWindow(object):
         self.layout_window.setSpacing(1)
         self.layout_window.setObjectName(u"layout_window")
         self.layout_window.setContentsMargins(1, 1, 1, 1)
-        self.tabWidget = QTabWidget(self.centralwidget)
-        self.tabWidget.setObjectName(u"tabWidget")
+        self.tab_holder = QTabWidget(self.centralwidget)
+        self.tab_holder.setObjectName(u"tab_holder")
         self.tab_analyser = QWidget()
         self.tab_analyser.setObjectName(u"tab_analyser")
         self.layout_TabAnalyser = QGridLayout(self.tab_analyser)
@@ -45,7 +45,7 @@ class Ui_MainWindow(object):
 
         self.layout_TabAnalyser.addWidget(self.TabAnalyserPlaceholder, 0, 0, 1, 1)
 
-        self.tabWidget.addTab(self.tab_analyser, "")
+        self.tab_holder.addTab(self.tab_analyser, "")
         self.tab_dt5781 = QWidget()
         self.tab_dt5781.setObjectName(u"tab_dt5781")
         self.layout_TabDT5781 = QGridLayout(self.tab_dt5781)
@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
 
         self.layout_TabDT5781.addWidget(self.TabDT5781Placeholder, 2, 2, 1, 1)
 
-        self.tabWidget.addTab(self.tab_dt5781, "")
+        self.tab_holder.addTab(self.tab_dt5781, "")
         self.tab_ADE = QWidget()
         self.tab_ADE.setObjectName(u"tab_ADE")
         self.layout_TabADE = QGridLayout(self.tab_ADE)
@@ -69,9 +69,9 @@ class Ui_MainWindow(object):
 
         self.layout_TabADE.addWidget(self.TabADEPlaceholder, 0, 0, 1, 1)
 
-        self.tabWidget.addTab(self.tab_ADE, "")
+        self.tab_holder.addTab(self.tab_ADE, "")
 
-        self.layout_window.addWidget(self.tabWidget, 0, 0, 1, 1)
+        self.layout_window.addWidget(self.tab_holder, 0, 0, 1, 1)
 
         self.FeedbackPlaceholder = QWidget(self.centralwidget)
         self.FeedbackPlaceholder.setObjectName(u"FeedbackPlaceholder")
@@ -103,7 +103,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tab_holder.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -111,9 +111,9 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"FLASHy", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_analyser), QCoreApplication.translate("MainWindow", u"Analyser", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_dt5781), QCoreApplication.translate("MainWindow", u"Caen DT5781", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_ADE), QCoreApplication.translate("MainWindow", u"Bergoz ADE", None))
+        self.tab_holder.setTabText(self.tab_holder.indexOf(self.tab_analyser), QCoreApplication.translate("MainWindow", u"Analyser", None))
+        self.tab_holder.setTabText(self.tab_holder.indexOf(self.tab_dt5781), QCoreApplication.translate("MainWindow", u"Caen DT5781", None))
+        self.tab_holder.setTabText(self.tab_holder.indexOf(self.tab_ADE), QCoreApplication.translate("MainWindow", u"Bergoz ADE", None))
         self.menuFiles.setTitle(QCoreApplication.translate("MainWindow", u"Files", None))
         self.menuAnalyse.setTitle(QCoreApplication.translate("MainWindow", u"Analyse", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))

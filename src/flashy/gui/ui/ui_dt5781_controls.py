@@ -34,13 +34,13 @@ class Ui_DT5781ControlsWidget(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.tabWidget = QTabWidget(DT5781ControlsWidget)
-        self.tabWidget.setObjectName(u"tabWidget")
+        self.tab_holder = QTabWidget(DT5781ControlsWidget)
+        self.tab_holder.setObjectName(u"tab_holder")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
-        self.tabWidget.setSizePolicy(sizePolicy1)
+        sizePolicy1.setHeightForWidth(self.tab_holder.sizePolicy().hasHeightForWidth())
+        self.tab_holder.setSizePolicy(sizePolicy1)
         self.tab_acquisition = QWidget()
         self.tab_acquisition.setObjectName(u"tab_acquisition")
         self.layout_tab = QVBoxLayout(self.tab_acquisition)
@@ -153,7 +153,7 @@ class Ui_DT5781ControlsWidget(object):
 
         self.layout_tab.addItem(self.verticalSpacer)
 
-        self.tabWidget.addTab(self.tab_acquisition, "")
+        self.tab_holder.addTab(self.tab_acquisition, "")
         self.tab_parameters = QWidget()
         self.tab_parameters.setObjectName(u"tab_parameters")
         self.layout_Parameters = QGridLayout(self.tab_parameters)
@@ -164,14 +164,14 @@ class Ui_DT5781ControlsWidget(object):
 
         self.layout_Parameters.addWidget(self.ParameterTreeViewPlaceholder, 0, 0, 1, 1)
 
-        self.tabWidget.addTab(self.tab_parameters, "")
+        self.tab_holder.addTab(self.tab_parameters, "")
 
-        self.verticalLayout.addWidget(self.tabWidget)
+        self.verticalLayout.addWidget(self.tab_holder)
 
 
         self.retranslateUi(DT5781ControlsWidget)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tab_holder.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(DT5781ControlsWidget)
@@ -189,7 +189,7 @@ class Ui_DT5781ControlsWidget(object):
         self.pb_acquisition.setText(QCoreApplication.translate("DT5781ControlsWidget", u"Begin Acquisition", None))
         self.label_status.setText(QCoreApplication.translate("DT5781ControlsWidget", u"Status:", None))
         self.le_status.setText("")
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_acquisition), QCoreApplication.translate("DT5781ControlsWidget", u"Acquisition", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_parameters), QCoreApplication.translate("DT5781ControlsWidget", u"Parameters", None))
+        self.tab_holder.setTabText(self.tab_holder.indexOf(self.tab_acquisition), QCoreApplication.translate("DT5781ControlsWidget", u"Acquisition", None))
+        self.tab_holder.setTabText(self.tab_holder.indexOf(self.tab_parameters), QCoreApplication.translate("DT5781ControlsWidget", u"Parameters", None))
     # retranslateUi
 

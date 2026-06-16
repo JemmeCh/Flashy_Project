@@ -6,7 +6,7 @@ from flashy.gui.ui.ui_dt5781_controls import Ui_DT5781ControlsWidget
 from flashy.gui.treeview.parameter_treeview import ParameterTreeView
 from flashy.gui.widgets.acquisition_timer import AcquisitionTimer
 
-from flashy.presenters.dt5781 import PresenterDT5781
+from flashy.services.acquisition.state import AcquisitionState
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -69,6 +69,22 @@ class DT5781ControlsWidget(qtw.QWidget, Ui_DT5781ControlsWidget):
     @qtc.Slot()
     def change_shoot(self):
         pass
+    
+    @qtc.Slot(bool)
+    def set_enabled_controls(self, enable: bool):
+        # Tab navigation
+        index = self.tab_holder.currentIndex()
+        for i in range(self.tab_holder.count()):
+            if i != index: self.tab_holder.setTabEnabled(i, enable)
+        # User settings
+        self.gb_project.setEnabled(enable)
+    
+    @qtc.Slot(AcquisitionState)
+    def state_changed(self, state: AcquisitionState):
+        self.le_status.setText(state.name)
+        
+        if state == AcquisitionState.ERROR:
+            self.toggle_acquisition()
 
 
 if __name__ == '__main__':

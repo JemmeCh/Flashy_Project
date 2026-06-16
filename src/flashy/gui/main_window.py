@@ -25,7 +25,7 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
         self._app = app_context
         
         # Replace placeholder with custom widgets
-        self.w_tab_analyser = TabAnalyser(self._app)
+        self.w_tab_analyser = TabAnalyser(self._app, parent=self)
         self.w_tab_dt5781 = TabDT5781(self._app)
         self.w_feedback = FeedbackWidget()
         
@@ -37,12 +37,23 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
         self.TabDT5781Placeholder.setParent(None)
         self.FeedbackPlaceholder.setParent(None)
         
+        # Conenctions for dis/enabling tab navigation
+        self.w_tab_dt5781.pres_dt5781.send_set_enable_other_tabs.connect(
+            self.set_enabled_other_tabs
+        )
+        
         # Tag
         tag = qtw.QLabel('2024-2026 | [NOM DU LAB] | FLASHy 1.7.0  ')
         font = qtg.QFont()
         font.setItalic(True)
         tag.setFont(font)
         self.status_bar.addPermanentWidget(tag)
+    
+    @qtc.Slot(bool)
+    def set_enabled_other_tabs(self, enable: bool):
+        index = self.tab_holder.currentIndex()
+        for i in range(self.tab_holder.count()):
+            if i != index: self.tab_holder.setTabEnabled(i, enable)
     
     @qtc.Slot()
     def on_quit(self):

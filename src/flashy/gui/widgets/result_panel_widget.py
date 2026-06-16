@@ -1,7 +1,10 @@
 import numpy as np
-from PySide6 import QtWidgets as qtw
-from flashy.gui.ui.ui_result_panel_widget import Ui_ResultPanelWidget
 
+from PySide6 import QtCore as qtc
+from PySide6 import QtWidgets as qtw
+from PySide6 import QtGui as qtg
+
+from flashy.gui.ui.ui_result_panel_widget import Ui_ResultPanelWidget
 from flashy.gui.widgets.result_table import ResultTableView
 from flashy.gui.theme import get_pen
 
@@ -91,4 +94,7 @@ class ResultPanelWidget(qtw.QWidget, Ui_ResultPanelWidget):
             patch = np.zeros_like(table_results)
             table_results = np.append(table_results, patch, axis=1)
         self.w_result_table.model.set_rows(table_results)
-
+    
+    @qtc.Slot(bool)
+    def set_enabled_results(self, enable: bool):
+        self.w_result_table.pb_save_results.setEnabled(enable)
