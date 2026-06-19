@@ -62,6 +62,7 @@ class Ui_DT5781ControlsWidget(object):
 
         self.le_project = QLineEdit(self.gb_project)
         self.le_project.setObjectName(u"le_project")
+        self.le_project.setReadOnly(True)
 
         self.layout_project.addWidget(self.le_project, 0, 1, 1, 1)
 

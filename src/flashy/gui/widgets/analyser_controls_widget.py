@@ -25,11 +25,14 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
         super().__init__(parent)
         self.setupUi(self)
         self._logger = get_logger()
+        self._user_config = app_context.user_config
         
         # Replace placeholder with custom widgets
-        self.tv_parameters = ParameterTreeView(app_context.root_tree)
+        self.tv_parameters = ParameterTreeView(app_context.processing_root_tree)
         self.layout_AnalyserParameters.replaceWidget(self.ParameterTreeViewPlaceholder, self.tv_parameters)
         self.ParameterTreeViewPlaceholder.setParent(None)
+        
+        self.le_selected_file.selectionChanged.connect(lambda: self.le_selected_file.setSelection(0, 0))
         
         # Setup tree view
         self.file_model = FileSystemModel()
@@ -57,14 +60,17 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
         if new_root:
             root_index = self.file_model.index(qtc.QDir.cleanPath(new_root))
         else:
-            dir_path = os.path.dirname(os.path.realpath(__file__))
-            root_index = self.file_model.index(qtc.QDir.cleanPath(dir_path))
+            new_root = self._user_config.get_value('analyser_root')
+            root_index = self.file_model.index(qtc.QDir.cleanPath(new_root)) # type:ignore
         
         if not root_index.isValid(): 
             raise ValueError(f"New root is invalid ({str(root_index)})")
         
         self.tv_root_dir.setRootIndex(root_index)
-        self._logger.info(f"Directory changed to {new_root}")
+        self.label_root.setText(f'Root: {new_root}')
+        # TODO: Change this to proper model
+        self._user_config.set_value('analyser_root', new_root)
+        self._logger.info(f"Directory changed to: {new_root}")
     
     # ==========================
     # External Slots
@@ -75,6 +81,9 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
         if not hasattr(self, "full_file_path"):
             self._logger.warning("No file selected")
             return
+        # TODO: Use self._user_config to put or not user analysis parameters
+        # TODO: Make new (boolean) paramter in Analysis for this
+        # TODO: Support for boolean parameters
         self.pressed_analyse_file.emit(self.full_file_path)
     
     # ==========================

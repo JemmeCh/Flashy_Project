@@ -8,7 +8,7 @@ from typing import Any, List
 
 from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
 from flashy.models.analysis.config import AnalysisConfig
-from flashy.models.user_config import UserConfig
+from flashy.models.user.config import UserConfig
 from flashy.detectors.detector import DetectorAssignment
 from flashy.services.logger.logger_service import get_logger
 

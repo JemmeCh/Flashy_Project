@@ -20,23 +20,23 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://jemme-pages.notion.site/PHY3030-Projet-de-fin-d-tude-2ebbf452e3084609bec37e17ef400a1a?pvs=4">
-    <img src="images-readme/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/JemmeCh/Flashy_Project/">
+    <img src="readme-images/logo.jpg" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">PHY3030 - FLASHy Project</h3>
 
   <p align="center">
-    DAQ - Prises et analyses de données avec un BCT et un digitizer DT5781 (CAEN) dans le contexte de physique médicale
+    Development and implementation of data acquisition and signal analysis for the experimental BCT detector and additional detectors using the CAEN DT5781 digitizer and the Bergoz ACCT Digital Electronics in the context of eFLASH therapy studies.
     <br />
-    <a href="https://github.com/Popitopi130/Flashy_Project/"><strong>Explorer les docs »</strong></a>
+    <a href="https://github.com/JemmeCh/Flashy_Project/"><strong>To Documentation »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Popitopi130/Flashy_Project/">Voir démo</a>
+    <a href="https://github.com/JemmeCh/Flashy_Project/">See Demo</a>
     ·
-    <a href="https://github.com/Popitopi130/Flashy_Project/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/JemmeCh/Flashy_Project/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/Popitopi130/Flashy_Project/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/JemmeCh/Flashy_Project/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -44,177 +44,159 @@
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table des matières</summary>
+  <summary>Table of contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">À propos du projet</a>
+      <a href="#about-the-project">About the project</a>
       <ul>
-        <li><a href="#built-with">Possible grâce à</a></li>
+        <li><a href="#built-with">Built with</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Utilisation</a>
+      <a href="#usage">Usage</a>
       <ul>
-        <li><a href="#prerequisites">Prérequis</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributeurs.trices</a></li>
+    <li><a href="#contributing">Contributors</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Reconnaissance</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
 
 
 <!-- ABOUT THE PROJECT -->
-## À propos du projet
+## About the project
 
-[![Product Name Screen Shot][product-screenshot]](https://jemme-pages.notion.site/PHY3030-Projet-de-fin-d-tude-2ebbf452e3084609bec37e17ef400a1a?pvs=4)
+![FLASHy][product-screenshot]
 
-La radiothérapie à ultra-haut débit de dose, ou radiothérapie FLASH, permet de traiter le cancer en délivrant des doses très élevées de radiation en quelques millisecondes. Les traitements pour le cancer actuels durent plusieurs minutes, et la radiothérapie FLASH, malgré un court temps d’exposition, semble être autant efficace en plus de réduire les dommages causées aux tissus sains avoisinant la ou les tumeurs. Le CHUM est équipé d’un appareil de radiothérapie FLASH, soit une première au Canada, et notre groupe de chercheur a la responsabilité de développer des nouveaux détecteurs compatibles avec cet appareil.
+Ultra-high dose rate radiotherapy, or **FLASH radiotherapy**, makes it possible to treat cancer by delivering very high doses of radiation within a few milliseconds. Current cancer treatments last several minutes, whereas FLASH radiotherapy, despite its extremely short exposure time, appears to be just as effective while also reducing damage to the healthy tissues surrounding the tumor(s). The CHUM is equipped with a FLASH radiotherapy device, the first of its kind in Canada, and our research group is responsible for developing new detectors compatible with this system.
 
-Ce projet a d'abord débuté en automne 2024 dans le cadre d'un projet de fin de session de baccalauréat. L’objectif du projet était de créer un programme capable d’analyser les données enregistrées par les détecteurs dans le but de vérifier que le faisceau est la forme désirée. Le programme doit être capable de comprendre les signaux reçus, les analyser et former des graphiques décrivant les faisceaux détectés.
+This project first began in the fall of 2024 as part of an undergraduate project. The objective was to create software capable of analyzing data recorded by the detectors in order to verify that the radiation beam has the desired shape. The software must be able to interpret the received signals, analyze them, and generate graphs describing the detected beams.
 
-Maintenant, FLASHy deviendra un programme extensible capable de gérer plusieurs types de détecteur tel que la Flash Microdiamand. 
+Now, **FLASHy** is being developed into an extensible software platform capable of supporting multiple detector types, including the **Flash MicroDiamond** detector. It will also enable experimental beam monitoring, representing a significant milestone toward the clinical implementation of this new treatment modality.
 
-<!--
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description` -->
 
-<p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 
 
-### Possible grâce à
-* [![matplotlib][matplotlib]][matplotlib-url]
+### Built with
 * [![NumPy][numpy]][numpy-url]
-* [tkinter][tkinter-url]
-<!-- Pour mettre une librairie
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
--->
-<p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
+* [![PySide6][PySide6]][PySide6-url]
+* [![https://avatars.githubusercontent.com/u/5440571?s=48&v=4][pyqtgraph]][pyqtgraph-url]
+* [![nptdms][nptdms]][nptdms-url]
+* [![msgspec-image][msgspec]][msgspec-url]
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 
 
-<!-- GETTING STARTED -->
-<!-- 
-## Utilisation
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
--->
-<!-- 
-### Prérequis
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
--->
-<!-- 
+<!-- GETTING STARTED --> 
+## Usage
+FLASHy is ment to be used mainly with the CAEN DT5781 digitizer, but other users are encouraged to add their own using FLASHy's flexible architecture (see <a href="#contributing">below</a>). Hence, this description of FLASHy's use is explain from the perspective of the `CAEN DT5781` tab. Its parameters are exposed to the user and can be changed while respecting the rules set in its documentation. 
+
+The user can also select and assign different detectors to specific channels. Each detector has its own parameters used internally during analysis of the waveform. Waveforms can be compared visually in the common relative graph. Here is the list of implemented available detectors:
+
+<details>
+  <summary>Detectors</summary>
+  <ol>
+    <li>Bergoz BCT</li>
+    <li>Flash Diamond (to be implemented)</li>
+  </ol>
+</details>
+
+One can choose where acquired data is stored and the name of the _shoot_. After each acquisition, data is stored as a `TDMS` file which contain waveform data of each event seperated by channel. The root contains the parameters used during acquisition for future reference. Saved data can be reviewed directly in FLASHy's GUI interface under the `Analyser` tab. The user can then change how they want to analyse the acquired data and save their results using the button under the result table (_to be implemented_).
+
+In the future, the `Bergoz ADE` will be used for experimental beam monitoring using the Bergoz ACCT Digital Electronics for beam synchronization. 
+
+### Prerequisites
+FLASHy uses the CAEN FELib Python bind which requires CAEN FELib and the CAEN Dig1 implementation from their [website](https://www.caen.it/products/caen-felib-library/). They need to be installed for FLASHy to be able to use the CAEN DT5781 digitizer.
+
+**As of now, FLASHy won't work if this library isn't installed.**
+
 ### Installation
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/Popitopi130/Flashy_Project.git
+   git clone https://github.com/JemmeCh/Flashy_Project.git
    ```
-3. Install NPM packages
+3. Make virtual environnment and enter it
    ```sh
-   npm install
+   python -m venv .venv
+   # On Windows
+   .\.venv\Scripts\activate
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+4. Install dependencies
+   ```sh
+   pip install -e ".[caen]"
    ```
 5. Change git remote url to avoid accidental pushes to base project
    ```sh
-   git remote set-url origin Popitopi130/Flashy_Project
+   git remote set-url origin JemmeCh/Flashy_Project
    git remote -v # confirm the changes
    ```
-<p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
--->
-
-
-
-<!-- USAGE EXAMPLES -->
-<!-- 
-## Usage
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-<p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
--->
+6. Start FLASHy
+   ```sh
+   flashy
+   ```
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 
 
 <!-- ROADMAP -->
 ## Roadmap
-<!-- Détail sur BookStack  -->
-### Primaire
-- [ ] Upgrade du GUI à Qt (PySide6 avec QtDesigner) 
-- [ ] Ajouter nouveau détecteur 
-- [ ] NOUVELLE FONCTIONNALITÉ - analyse rudimentaire de faisceau 
-- [ ] NOUVELLE FONCTIONNALITÉ - support de fichiers/stream TDMS
+<!-- Détail sur Affine  -->
+### Primary
+- [ ] Flesh out how user can add new detectors
+- [ ] Add Flash Diamond detector 
+- [ ] Implement detector assignment and channel usage
+- [ ] Implement using FLASHy without installing CAEN FELIB and CAEN Dig1
+- [ ] Flesh out how user can add new tabs
+- [ ] Implement ADE tab
+- [ ] Make proper UserConfig model
 
-### Secondaires
-- [ ] Revamp le logging 
-- [ ] Revamp la gestion d'erreur
-- [ ] Logo pour FLASHy
-- [ ] Thèmes et paramètres de l'application
-- [ ] Meilleure sauvegarde des données d'utilisateurs
-- [ ] Améliorer "Tutoriel" + "À propos" 
+### Secondary
+- [ ] Revamp error handling
+- [ ] Logo for FLASHy
+- [ ] Themes and application parameters
+- [ ] Add back "Tutoriel" (integrated documentation) and "About" menu bar menues 
 
-### Bug Fix
-- [ ] 1.0.3 crash --&gt; comparer les deux versions pour avoir diff et corriger ou rollback
-- [ ] "Info on NaN..." apparait tt le temps dans stdout (1.0.2) --&gt; investiguer
-- [ ] FLASHy a crash: cause inconnu (mémoire saturée ou leak?) --&gt; la memoire augmente a chaque acquisition: la mémoire sature!!! Va de 180Mo à 270Mo à 180Mo apres certains temps (hein) --&gt; Les plots de lecture directe ne se ferment pas correctement --&gt; .close() la figure
-- [ ] Interessant: CPU usage quand lecture directe = 25.5% (0.1% idol) sur i5-8500 --&gt; pourquoi?
+See the [open issues](https://github.com/JemmeCh/Flashy_Project/issues) for a full list of proposed features (and known issues).
 
-See the [open issues](https://github.com/Popitopi130/Flashy_Project/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 
 
 <!-- CONTRIBUTING --> 
-<!--
-## Contributeurs.trices
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+## Contributing
+<a id="contributing"></a>
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated** and we are open to collaborating with other medical physics research groups.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-<p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
--->
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
-### Top Contributeurs.trices:
 
-<a href="https://github.com/Popitopi130/Flashy_Project/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Popitopi130/Flashy_Project" alt="contrib.rocks image" />
+### Top Contributors:
+
+<a href="https://github.com/JemmeCh/Flashy_Project/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=JemmeCh/Flashy_Project" alt="contrib.rocks image" />
 </a>
 
 
 
 <!-- LICENSE -->
-<!-- 
 ## License
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-<p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
--->
+Distributed under the MIT License. See `LICENSE.md` for more information.
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 
 
@@ -223,62 +205,58 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 -->
-Lien au projet: [https://github.com/Popitopi130/Flashy_Project](https://github.com/Popitopi130/Flashy_Project)
+Link to project: [https://github.com/JemmeCh/Flashy_Project](https://github.com/JemmeCh/Flashy_Project)
 
-<p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 
 
 <!-- ACKNOWLEDGMENTS -->
-## Reconnaissances
+## Acknowledgments
 
-* [Arthur Lalonde, mon superviseur de projet](https://recherche.umontreal.ca/english/our-researchers/professors-directory/researcher/is/in29955/)
-* [Nicole St-Louis, la professeure du cours PHY3030](https://recherche.umontreal.ca/english/our-researchers/professors-directory/researcher/is/in15156/)
-* [Arnaud Lessard, pour m'avoir aider avec NumPy](https://www.facebook.com/profile.php?id=100009397104882)
+* [Arthur Lalonde, my PI](https://recherche.umontreal.ca/english/our-researchers/professors-directory/researcher/is/in29955/)
+* [Nicole St-Louis, PHY3030's class professor](https://recherche.umontreal.ca/english/our-researchers/professors-directory/researcher/is/in15156/)
+* [Arnaud Lessard, for helping me with NumPy](https://www.facebook.com/profile.php?id=100009397104882)
 * [Readme.md template](https://github.com/othneildrew/Best-README-Template)
 
-<p align="right">(<a href="#readme-top">Retour en haut</a>)</p>
+![Everyone in my lab][lab]
+
+<p align="right">(<a href="#readme-top">Back to top</a>)</p>
 
 
 <!-- AI -->
-## Utilisation de LLM (Large Language Models)
+## Use of LLM (Large Language Models)
 
-Des LLMs, courament intelligences artificielles, ont été utilisés pour aider lors de la conception de l'architecture de FLASHy (Version >1.0.3) et la maintenance du standard MVVM à travers le projet. Ils n'ont pas été utilisé pour générer du code.
+LLMs, said "artificial intelligence", were used to help during the brainstorming of FLASHy's new core architecture (Version >1.0.3) and with maintaining the chosen MVP (Model-View-Presenter) standard throughout the project. They helped in finding potential reasons for unwanted bugs, such as finding sources of race conditions.
+
+They weren't used to generate large chunks and writing code. 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[matplotlib]: https://img.shields.io/badge/Matplotlib-%23ffffff.svg?style=for-the-badge&logo=Matplotlib&logoColor=black
-[matplotlib-url]: https://matplotlib.org/
 [numpy]: https://img.shields.io/badge/mlflow-%23d9ead3.svg?style=for-the-badge&logo=numpy&logoColor=blue
 [numpy-url]: https://numpy.org/
 [tkinter-url]: https://docs.python.org/3/library/tkinter.html
+[pyside6]: https://img.shields.io/badge/Qt-PySide6-48c557?style=flat&logo=qt
+[pyside6-url]: https://pypi.org/project/PySide6/
+[nptdms]: https://img.shields.io/badge/NI-nptdms-03b584?style=flat&logo=python
+[nptdms-url]: https://pypi.org/project/npTDMS/
+[pyqtgraph]: https://img.shields.io/badge/Qt-PyQtGraph-48c557?style=flat&logo=qt
+[pyqtgraph-url]: https://github.com/pyqtgraph/pyqtgraph
+[msgspec]: https://img.shields.io/badge/Python-msgspec-7484d3?style=flat&logo=python
+[msgspec-logo]: https://msgspec.dev/_static/msgspec-logo-light.svg
+[msgspec-url]: https://github.com/msgspec/msgspec
 
-[contributors-shield]: https://img.shields.io/github/contributors/Popitopi130/Flashy_Project.svg?style=for-the-badge
-[contributors-url]: https://github.com/Popitopi130/Flashy_Project/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Popitopi130/Flashy_Project.svg?style=for-the-badge
-[forks-url]: https://github.com/Popitopi130/Flashy_Project/network/members
-[stars-shield]: https://img.shields.io/github/stars/Popitopi130/Flashy_Project.svg?style=for-the-badge
-[stars-url]: https://github.com/Popitopi130/Flashy_Project/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Popitopi130/Flashy_Project.svg?style=for-the-badge
-[issues-url]: https://github.com/Popitopi130/Flashy_Project/issues
-[license-shield]: https://img.shields.io/github/license/Popitopi130/Flashy_Project.svg?style=for-the-badge
-[license-url]: https://github.com/Popitopi130/Flashy_Project/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/JemmeCh/Flashy_Project.svg?style=for-the-badge
+[contributors-url]: https://github.com/JemmeCh/Flashy_Project/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/JemmeCh/Flashy_Project.svg?style=for-the-badge
+[forks-url]: https://github.com/JemmeCh/Flashy_Project/network/members
+[stars-shield]: https://img.shields.io/github/stars/JemmeCh/Flashy_Project.svg?style=for-the-badge
+[stars-url]: https://github.com/JemmeCh/Flashy_Project/stargazers
+[issues-shield]: https://img.shields.io/github/issues/JemmeCh/Flashy_Project.svg?style=for-the-badge
+[issues-url]: https://github.com/JemmeCh/Flashy_Project/issues
+[license-shield]: https://img.shields.io/github/license/JemmeCh/Flashy_Project.svg?style=for-the-badge
+[license-url]: https://github.com/JemmeCh/Flashy_Project/blob/main/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/jean-emmanuel-chouinard/
-[product-screenshot]: images-readme/FLASHy_0-2.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+[product-screenshot]: readme-images/FLASHy_1-8-0_Analyser.png
+[lab]: readme-images/lab-E2026.jpg

@@ -7,6 +7,7 @@ from flashy.gui.treeview.parameter_treeview import ParameterTreeView
 from flashy.gui.widgets.acquisition_timer import AcquisitionTimer
 
 from flashy.services.acquisition.state import AcquisitionState
+from flashy.services.logger.logger_service import get_logger
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -27,9 +28,10 @@ class DT5781ControlsWidget(qtw.QWidget, Ui_DT5781ControlsWidget):
         self.setupUi(self)
         self._acq_running = False
         self._user_config = app_context.user_config
+        self._logger = get_logger()
         
         # Replace placeholder with custom widgets
-        self.tv_parameters = ParameterTreeView(app_context.root_tree)
+        self.tv_parameters = ParameterTreeView(app_context.processing_root_tree)
         self.acq_timer = AcquisitionTimer(self)
         self.layout_Parameters.replaceWidget(self.ParameterTreeViewPlaceholder, self.tv_parameters)
         self.layout_digitizer.replaceWidget(self.LCDTimerPlaceholder, self.acq_timer)
@@ -40,9 +42,10 @@ class DT5781ControlsWidget(qtw.QWidget, Ui_DT5781ControlsWidget):
         self.le_status.selectionChanged.connect(lambda: self.le_status.setSelection(0, 0))
         self.le_next_shoot.selectionChanged.connect(lambda: self.le_next_shoot.setSelection(0, 0))
         
-        self.le_project.setText(self._user_config.project_path)
-        self.le_shoot.setText(self._user_config.name_of_shoot)
-        self.le_next_shoot.setText(self._user_config.increment_name)
+        # TODO: Change this to proper model
+        self.le_project.setText(self._user_config.get_value('project_path'))
+        self.le_shoot.setText(self._user_config.get_value('name_of_shoot'))
+        self.le_next_shoot.setText(self._user_config.get_value('increment_name'))
         self.le_status.setText("Disconnected")
         
         # Push button connections
@@ -64,11 +67,26 @@ class DT5781ControlsWidget(qtw.QWidget, Ui_DT5781ControlsWidget):
     
     @qtc.Slot()
     def change_project(self):
-        pass
+        dialog = qtw.QFileDialog()
+        dialog.setFileMode(qtw.QFileDialog.FileMode.Directory)
+        if dialog.exec():
+            try:
+                new_path = dialog.selectedFiles()[0]
+                self._user_config.set_value('project_path', new_path)
+                self.le_project.setText(new_path)
+                self._logger.info(f"Project path set to: {new_path}")
+            except Exception as e:
+                self._logger.exception("Failed to change project directory")
     
     @qtc.Slot()
     def change_shoot(self):
-        pass
+        new_name = self.le_shoot.text()
+        try:
+            self._user_config.set_value('name_of_shoot', new_name)
+            self._logger.info(f"Shoot name set to: {new_name}")
+        except Exception:
+            self._logger.exception("Failed to change shoot name")
+        self.increment_changed()
     
     @qtc.Slot(bool)
     def set_enabled_controls(self, enable: bool):
@@ -85,6 +103,13 @@ class DT5781ControlsWidget(qtw.QWidget, Ui_DT5781ControlsWidget):
         
         if state == AcquisitionState.ERROR:
             self.toggle_acquisition()
+    
+    @qtc.Slot()
+    def increment_changed(self):
+        inc_name = self._user_config.get_value('increment_name')
+        self.le_next_shoot.setText(inc_name)
+        change_name = self._user_config.get_value('name_of_shoot')
+        self.le_shoot.setText(change_name)
 
 
 if __name__ == '__main__':

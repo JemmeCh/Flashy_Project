@@ -91,7 +91,7 @@ class PulseProcessor:
             case 'dynamic-median':
                 lowered_pulses = self._derivation_method(pulses, level_method)
             case _:
-                lowered_pulses = self._derivation_method(pulses, 'dynamic-mean')
+                lowered_pulses = self._derivation_method(pulses, 'cummulative-sum')
         return lowered_pulses
     
     def _calculate_area(self, pulses: np.ndarray, area_calc_method: str, sampling_period_ns: float) -> np.ndarray:
@@ -150,12 +150,13 @@ class PulseProcessor:
         right = pulses[:, 1:  ]
         
         # THIS IS VERY IMPORTANT (AND TOOK TOO LONG TO FIND)
-        variation = 10 # Interval at which the digitizer samples data (ie 10 per nanoseconds)
+        variation = 10
         deriver = (right - left) / variation
         
         # Find the threshold of the derivative
         nbr_of_pulses = np.shape(pulses)[0]
-        deriver_tr = deriver[np.arange(nbr_of_pulses), np.abs(pulses).min(axis=1).astype(int)]
+        min_indices = np.abs(pulses).argmin(axis=1)
+        deriver_tr = deriver[np.arange(nbr_of_pulses), min_indices]
         
         threshold = 5.0 # 2025-07-07: 1.0 -> 5.0 due to NaN slice
         dervier_mask = np.abs(deriver) > threshold

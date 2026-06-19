@@ -101,7 +101,11 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="le_project"/>
+           <widget class="QLineEdit" name="le_project">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item row="4" column="0" colspan="2">
            <widget class="QPushButton" name="pb_shoot">

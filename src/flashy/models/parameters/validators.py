@@ -130,7 +130,7 @@ if __name__ == '__main__':
         key="area_calc_method",
         name="Méthode du calcul d'aire",
         description="'trap': Utilise la méthode des trapèzes\n'approx-HRM': Somme de toutes les points multipliée par dt (High Resolution Method)",
-        group='Analysis',
+        path='Analysis',
         value_type=str,
         default='trap',
         widget_type="combobox",

@@ -14,8 +14,9 @@ from flashy.services.analysis_worker import AnalysisWorker
 from flashy.models.analysis.result import AnalysisResult
 from flashy.models.batch_pulses import BatchPulses
 from flashy.services.normalizer import Normalizer
-from flashy.services.logger.logger_service import get_logger
 
+from flashy.services.logger.logger_service import get_logger
+from flashy.debug import thread_name
 
 class AcquisitionService(qtc.QObject):
     """
@@ -37,13 +38,11 @@ class AcquisitionService(qtc.QObject):
     .. todo::
         - Debugging signals
     """
-    """Emitted when acquisition stop is requested."""
-    results_changed = qtc.Signal(List[BatchPulses])
-    """Emitted when acquisition stop is requested."""
+    results_changed = qtc.Signal(list)
+    acquisition_finished = qtc.Signal(list)
     
     # Debug
     _acquisition_started = qtc.Signal()
-    _acquisition_finished = qtc.Signal()
     _stop_requested = qtc.Signal()
     
     def __init__(
@@ -94,6 +93,10 @@ class AcquisitionService(qtc.QObject):
             worker.analysis_complete.connect(self.analysis_complete)
             self._analysis_workers.append(worker)
             worker.start()
+            self._logger.debug(f"Started {worker} (Thread={thread_name()}) (isRunning={worker.isRunning()})")
+        
+        self._pending_batches = 0
+        self._acquisition_finished = False
         
         # Debugging counters
         self.discard_todo = 0
@@ -192,12 +195,9 @@ class AcquisitionService(qtc.QObject):
         """
         try:
             self.analysis_todo_queue.put_nowait(batch)
+            self._pending_batches += 1
         except queue.Full:
-            if not self.printed_todo_queue:
-                #print("Analysis queue is full!!! DISCARDING")
-                self.printed_todo_queue = True
-            self.discard_todo += 1
-            pass
+            self._logger.debug("QUEUE FULL")
     
     @qtc.Slot(AnalysisResult)
     def analysis_complete(
@@ -210,7 +210,9 @@ class AcquisitionService(qtc.QObject):
         :param analysis_result: Processed analysis output.
         :type analysis_result: AnalysisResult
         """
+        #self._logger.debug("ANALYSIS COMPLETE")
         change = False
+        print(f"Before={self.acquisition_results}")
         for i, pulse_batch in enumerate(analysis_result.pulse_batches):
             if pulse_batch.has_pulses and not pulse_batch.discard_flag:
                 change = True
@@ -223,6 +225,12 @@ class AcquisitionService(qtc.QObject):
                 )
                 self.acquisition_results[i] = result_batch
         if change: self.results_changed.emit(copy.deepcopy(self.acquisition_results))
+        print(f"After={self.acquisition_results}")
+        print("----------------------------------")
+        self._pending_batches -= 1
+        
+        if self._acquisition_finished and self._pending_batches == 0:
+            self._finalize_shutdown()
     
     @qtc.Slot()
     def stop_acquisition(self) -> None:
@@ -237,13 +245,18 @@ class AcquisitionService(qtc.QObject):
         """
         Cleanup acquisition worker after completion.
         """
-        if self._current_worker:
-            self._current_worker.deleteLater()
-            self._current_worker = None
-            self._current_acquisition = None
+        self._logger.debug("Acquisition worker finished")
         
-        # Debug
-        self._acquisition_finished.emit()
+        worker = self._current_worker
+        self._current_worker = None
+        self._current_acquisition = None
+        
+        if worker:
+            worker.deleteLater()
+        
+        self._acquisition_finished = True
+        if self._pending_batches == 0:
+            self._finalize_shutdown()
     
     # =======================================================================
     # Helper methods 
@@ -263,18 +276,26 @@ class AcquisitionService(qtc.QObject):
             self._current_worker.stop()
             self._current_worker.wait(1000)
     
+    def _finalize_shutdown(self):
+        self.shutdown()
+    
     def shutdown(self):
         """
         Gracefully shutdown all acquisition and analysis workers.
         
         This should be called when the application exits or acquisition ends.
         """
-        self._stop_current_worker()
-        for worker in self._analysis_workers:
-            worker.stop()        
+        self._logger.debug("Waiting for analysis queue to be empty.")
+        self.analysis_todo_queue.join()
+        self._logger.debug("Shutting down analysis worker threads")
+        for i, worker in enumerate(self._analysis_workers):
+            worker.stop()
         for worker in self._analysis_workers:
             worker.wait()
-        self._analysis_workers.clear()
+        
+        print(f"At shutdown={self.acquisition_results}")
+        self.results_changed.emit(copy.deepcopy(self.acquisition_results))
+        self.acquisition_finished.emit(copy.deepcopy(self.acquisition_results))
         
         # Debug prints
         #print(f"Discarded to analyse: {self.discard_todo}")
@@ -324,9 +345,9 @@ def main():
     acq = AcquisitionService(processing_config)
     keyboard.on_press_key("q", lambda event: acq._stop_requested.emit())
     
-    acq._acquisition_finished.connect(app.quit)
+    acq.acquisition_finished.connect(app.quit)
     acq._acquisition_started.connect(lambda: print("Acquisition started"))
-    acq._acquisition_finished.connect(lambda: print("Acquisition finished"))
+    acq.acquisition_finished.connect(lambda: print("Acquisition finished"))
     acq._stop_requested.connect(acq.stop_acquisition)
     
     

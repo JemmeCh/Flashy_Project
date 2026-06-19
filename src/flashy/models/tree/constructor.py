@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, List
 from flashy.models.tree.node import TreeNode
 if TYPE_CHECKING:
     from flashy.models.processing_config import ProcessingConfig
+    from flashy.models.user.config import UserConfig
 
 
 def ensure_path(parent_node: TreeNode, path: List[str]) -> TreeNode:
@@ -40,7 +41,7 @@ def add_container_parameters(parent_node: TreeNode, container):
         )
         group_node.add_child(node)
 
-def construct_tree(config: "ProcessingConfig", root_name: str = 'root'):
+def construct_processing_tree(config: "ProcessingConfig", root_name: str = 'root'):
     # Root
     root_node = TreeNode(
         name=root_name,
@@ -101,9 +102,29 @@ def construct_tree(config: "ProcessingConfig", root_name: str = 'root'):
     root_node.add_child(digitizer_node)
     return root_node
 
+def construct_user_tree(config: "UserConfig", root_name: str = 'root'):
+    # WIP: Proper model for user config
+    # Root
+    root_node = TreeNode(
+        name=root_name,
+        parent=None,
+        node_type='root',
+        definition=None,
+    )
+    
+    user_node = TreeNode(
+        name='User',
+        parent=root_node,
+        node_type='container',
+        definition=None
+    )
+    
+    root_node.add_child(user_node)
+    return root_node
 
 
-def _make_test_config():
+
+def _make_test_processing_config():
     from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
     from flashy.models.analysis.config import AnalysisConfig
     from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
@@ -136,9 +157,15 @@ def _make_test_config():
     )
     return test_config
 
+def _make_test_user_config():
+    from flashy.models.user.config import UserConfig
+    
+    test_config = UserConfig()
+    return test_config
+
 if __name__ == '__main__':
-    tree = construct_tree(_make_test_config())
-    print(tree.children)
+    tree = construct_processing_tree(_make_test_processing_config())
+    """ print(tree.children)
     print('-'*80)
     print(tree.children[0].children[0].children)
     print(tree.children[0].children[1].children)
@@ -148,6 +175,6 @@ if __name__ == '__main__':
     print('-'*80)
     print(tree.children[2].children[0].children[0].children)
     print(tree.children[2].children[0].children[1].children)
-    print(tree.children[2].children[0].children[2].children)
-    #for c in tree.children:
-    #    print(c.description())
+    print(tree.children[2].children[0].children[2].children) """
+    
+    tree = construct_user_tree(_make_test_user_config())

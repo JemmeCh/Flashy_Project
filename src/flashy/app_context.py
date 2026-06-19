@@ -2,7 +2,7 @@ from flashy.services.data_loader import DataLoader
 from flashy.services.export_service import DataExporter
 from flashy.services.analysis_service import AnalysisService
 from flashy.services.logger.logger_service import setup_logging
-from flashy.models.tree.constructor import construct_tree
+from flashy.models.tree.constructor import construct_processing_tree, construct_user_tree
 
 
 class AppContext:
@@ -15,4 +15,5 @@ class AppContext:
         
         self.user_config, self.processing_config = self.serv_loader.read_config_json_file()
         
-        self.root_tree = construct_tree(self.processing_config)
+        self.processing_root_tree = construct_processing_tree(self.processing_config)
+        self.user_root_tree = construct_user_tree(self.user_config) # WIP

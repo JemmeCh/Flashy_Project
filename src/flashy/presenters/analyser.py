@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 class PresenterAnalyser(qtc.QObject):
     results_ready = qtc.Signal(AnalysisResult)
+    send_change_analyser_root = qtc.Signal(str)
     
     def __init__(
         self,
@@ -30,3 +31,7 @@ class PresenterAnalyser(qtc.QObject):
             self._logger.info(f"Analysis of {filename} finished!")
         except Exception as e:
             self._logger.exception("File couldn't be analysed correctly")
+    
+    @qtc.Slot(str)
+    def change_analyser_root(self, root: str):
+        self.send_change_analyser_root.emit(root)

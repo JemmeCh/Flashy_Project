@@ -8,6 +8,8 @@ if TYPE_CHECKING:
 from flashy.services.analysis_service import AnalysisService
 from flashy.models.analysis.result import AnalysisResult
 
+from flashy.services.logger.logger_service import get_logger
+from flashy.debug import thread_name
 
 class AnalysisWorker(QThread):
     """
@@ -39,6 +41,7 @@ class AnalysisWorker(QThread):
         """Processing configuration used for analysis."""
         self._is_running = True
         """Internal flag controlling thread execution."""
+        self._logger = get_logger()
         
         self.analyser: "AnalysisService" = AnalysisService()
         """Service responsible for performing analysis computations."""
@@ -53,11 +56,13 @@ class AnalysisWorker(QThread):
         The loop blocks briefly on the queue (timeout = 0.1s) to allow
         responsive shutdown.
         """
+        self._logger.debug(f"ANALYSIS THREAD STARTED (Thread={thread_name()})")
         while self._is_running:
             try:
                 batch = self.queue.get(timeout=0.1)
                 result = self.analyser.analyse_real_time(batch, self.config)
                 self.analysis_complete.emit(result)
+                self.queue.task_done()
             except queue.Empty:
                 continue
     
@@ -68,3 +73,4 @@ class AnalysisWorker(QThread):
         The thread will exit after the next queue timeout.
         """
         self._is_running = False
+        self._logger.debug(f"ANALYSIS THREAD STOPPED (Thread={thread_name()})")

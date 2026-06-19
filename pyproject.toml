@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "flashy"
-version = "1.0.3"
-description = "FLASHy - Pulse analyser for FLASH-RT"
+version = "1.8.0"
+description = "FLASHy - Development and implementation of data acquisition and signal analysis for the experimental BCT detector and additional detectors using the CAEN DT5781 digitizer and the Bergoz ACCT Digital Electronics in the context of eFLASH therapy studies."
 readme = "README.md"
-license = {file = "LICENSE"}
+license = {file = "LICENSE.md"}
 authors = [
     {name = "Jean-Emmanuel Chouinard", email = "blank@blank.com"},
 ]
@@ -45,7 +45,6 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 flashy = [
-    "images/*",
     "example_data/*",
 ]
 

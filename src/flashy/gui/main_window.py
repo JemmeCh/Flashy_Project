@@ -9,6 +9,8 @@ from flashy.gui.tabs.analyser_tab import TabAnalyser
 from flashy.gui.tabs.dt5781_tab import TabDT5781
 from flashy.gui.widgets.feedback_widget import FeedbackWidget
 
+import flashy.gui.ui.ressources_rc
+
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from flashy.app_context import AppContext
@@ -42,8 +44,11 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
             self.set_enabled_other_tabs
         )
         
-        # Tag
-        tag = qtw.QLabel('2024-2026 | [NOM DU LAB] | FLASHy 1.7.0  ')
+        # Tag and icon
+        icon = qtg.QIcon()
+        icon.addFile(u":/Logo/logo.jpg", qtc.QSize(), qtg.QIcon.Mode.Normal, qtg.QIcon.State.Off)
+        self.setWindowIcon(icon)
+        tag = qtw.QLabel("2024-2026 | Laboratoire d'Arthur Lalonde | FLASHy 1.8.0  ")
         font = qtg.QFont()
         font.setItalic(True)
         tag.setFont(font)

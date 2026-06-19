@@ -44,6 +44,6 @@ def convert_to_caen5781_value(definition, value):
     :returns: Converted value suitable for the hardware configuration.
     :rtype: Any
     """
-    if definition.converter:
-        return definition.converter(value)
+    if definition.hardware_converter:
+        return definition.hardware_converter(value)
     return value

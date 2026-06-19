@@ -62,19 +62,19 @@ class Ui_AnalyserControlsWidget(object):
         self.tv_root_dir.header().setMinimumSectionSize(30)
         self.tv_root_dir.header().setDefaultSectionSize(100)
 
-        self.layout.setWidget(2, QFormLayout.ItemRole.SpanningRole, self.tv_root_dir)
+        self.layout.setWidget(3, QFormLayout.ItemRole.SpanningRole, self.tv_root_dir)
 
         self.line_bottom = QFrame(self.tab_file_selection)
         self.line_bottom.setObjectName(u"line_bottom")
         self.line_bottom.setFrameShape(QFrame.Shape.HLine)
         self.line_bottom.setFrameShadow(QFrame.Shadow.Sunken)
 
-        self.layout.setWidget(3, QFormLayout.ItemRole.SpanningRole, self.line_bottom)
+        self.layout.setWidget(4, QFormLayout.ItemRole.SpanningRole, self.line_bottom)
 
         self.label_selected = QLabel(self.tab_file_selection)
         self.label_selected.setObjectName(u"label_selected")
 
-        self.layout.setWidget(4, QFormLayout.ItemRole.LabelRole, self.label_selected)
+        self.layout.setWidget(5, QFormLayout.ItemRole.LabelRole, self.label_selected)
 
         self.pb_root_directory = QPushButton(self.tab_file_selection)
         self.pb_root_directory.setObjectName(u"pb_root_directory")
@@ -86,12 +86,22 @@ class Ui_AnalyserControlsWidget(object):
         self.le_selected_file.setEnabled(True)
         self.le_selected_file.setReadOnly(True)
 
-        self.layout.setWidget(4, QFormLayout.ItemRole.FieldRole, self.le_selected_file)
+        self.layout.setWidget(5, QFormLayout.ItemRole.FieldRole, self.le_selected_file)
 
         self.pb_analyse = QPushButton(self.tab_file_selection)
         self.pb_analyse.setObjectName(u"pb_analyse")
 
-        self.layout.setWidget(5, QFormLayout.ItemRole.SpanningRole, self.pb_analyse)
+        self.layout.setWidget(6, QFormLayout.ItemRole.SpanningRole, self.pb_analyse)
+
+        self.label_root = QLabel(self.tab_file_selection)
+        self.label_root.setObjectName(u"label_root")
+        self.label_root.setFrameShape(QFrame.Shape.StyledPanel)
+        self.label_root.setFrameShadow(QFrame.Shadow.Raised)
+        self.label_root.setScaledContents(True)
+        self.label_root.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_root.setWordWrap(True)
+
+        self.layout.setWidget(2, QFormLayout.ItemRole.SpanningRole, self.label_root)
 
         self.tabWidget.addTab(self.tab_file_selection, "")
         self.tab_parameters = QWidget()
@@ -122,6 +132,7 @@ class Ui_AnalyserControlsWidget(object):
         self.label_selected.setText(QCoreApplication.translate("AnalyserControlsWidget", u"Selected File:", None))
         self.pb_root_directory.setText(QCoreApplication.translate("AnalyserControlsWidget", u"Change Root Directory", None))
         self.pb_analyse.setText(QCoreApplication.translate("AnalyserControlsWidget", u"Analyse", None))
+        self.label_root.setText(QCoreApplication.translate("AnalyserControlsWidget", u"Root: ", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_file_selection), QCoreApplication.translate("AnalyserControlsWidget", u"File Selection", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_parameters), QCoreApplication.translate("AnalyserControlsWidget", u"Parameters", None))
     # retranslateUi
