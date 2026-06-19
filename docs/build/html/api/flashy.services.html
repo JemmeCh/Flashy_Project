@@ -1,0 +1,677 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flashy.services package &mdash; FLASHy 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="flashy.models.parameters package" href="flashy.models.parameters.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FLASHy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/usage.html">How to use FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/architecture.html">FLASHy’s Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/digitizers.html">Digitizers in FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/detectors.html">Detectors in FLASHy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference (auto-generated)</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="flashy.html">flashy package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.models.html">flashy.models package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">flashy.services package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.services.acquisition_service">flashy.services.acquisition_service module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService"><code class="docutils literal notranslate"><span class="pre">AcquisitionService</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_started"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_started</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_finished"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_finished</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_error"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_error</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.stop_requested"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.stop_requested</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.processing_config"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.processing_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_results"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_results</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.analysis_todo_queue"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.analysis_todo_queue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.discard_todo"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.discard_todo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.printed_todo_queue"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.printed_todo_queue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.discard_comp"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.discard_comp</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.staticMetaObject</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.printed_comp_queue"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.printed_comp_queue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.get_basic_dig_info"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.get_basic_dig_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.begin_acquisition"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.begin_acquisition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_event_dump"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_event_dump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.analysis_complete"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.analysis_complete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.stop_acquisition"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.stop_acquisition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.acquisition_service.AcquisitionService.shutdown"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.shutdown()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.services.analysis_service">flashy.services.analysis_service module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.services.analysis_service.AnalysisService"><code class="docutils literal notranslate"><span class="pre">AnalysisService</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_service.AnalysisService.analyse_all_tdms_file"><code class="docutils literal notranslate"><span class="pre">AnalysisService.analyse_all_tdms_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_service.AnalysisService.analyse_real_time"><code class="docutils literal notranslate"><span class="pre">AnalysisService.analyse_real_time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_service.AnalysisService.legacy_analyse_csv_file"><code class="docutils literal notranslate"><span class="pre">AnalysisService.legacy_analyse_csv_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.services.analysis_worker">flashy.services.analysis_worker module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.services.analysis_worker.AnalysisWorker"><code class="docutils literal notranslate"><span class="pre">AnalysisWorker</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_worker.AnalysisWorker.analysis_complete"><code class="docutils literal notranslate"><span class="pre">AnalysisWorker.analysis_complete</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_worker.AnalysisWorker.queue"><code class="docutils literal notranslate"><span class="pre">AnalysisWorker.queue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_worker.AnalysisWorker.config"><code class="docutils literal notranslate"><span class="pre">AnalysisWorker.config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_worker.AnalysisWorker.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">AnalysisWorker.staticMetaObject</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_worker.AnalysisWorker.analyser"><code class="docutils literal notranslate"><span class="pre">AnalysisWorker.analyser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_worker.AnalysisWorker.run"><code class="docutils literal notranslate"><span class="pre">AnalysisWorker.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.analysis_worker.AnalysisWorker.stop"><code class="docutils literal notranslate"><span class="pre">AnalysisWorker.stop()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.services.data_loader">flashy.services.data_loader module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.services.data_loader.DataLoader"><code class="docutils literal notranslate"><span class="pre">DataLoader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.data_loader.DataLoader.read_all_tdms_file"><code class="docutils literal notranslate"><span class="pre">DataLoader.read_all_tdms_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.data_loader.DataLoader.read_config_json_file"><code class="docutils literal notranslate"><span class="pre">DataLoader.read_config_json_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.data_loader.DataLoader.legacy_read_csv_file"><code class="docutils literal notranslate"><span class="pre">DataLoader.legacy_read_csv_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.services.export_service">flashy.services.export_service module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.services.export_service.DataExporter"><code class="docutils literal notranslate"><span class="pre">DataExporter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.export_service.DataExporter.write_post_acquisition_to_tdms"><code class="docutils literal notranslate"><span class="pre">DataExporter.write_post_acquisition_to_tdms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.export_service.DataExporter.save_config_to_json"><code class="docutils literal notranslate"><span class="pre">DataExporter.save_config_to_json()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.export_service.DataExporter.write_all_rawdata_to_tdms"><code class="docutils literal notranslate"><span class="pre">DataExporter.write_all_rawdata_to_tdms()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.services.pulse_processor">flashy.services.pulse_processor module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.services.pulse_processor.PulseProcessor"><code class="docutils literal notranslate"><span class="pre">PulseProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.services.pulse_processor.PulseProcessor.process_pulses"><code class="docutils literal notranslate"><span class="pre">PulseProcessor.process_pulses()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.services">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FLASHy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="flashy.html">flashy package</a></li>
+      <li class="breadcrumb-item active">flashy.services package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/flashy.services.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flashy-services-package">
+<h1>flashy.services package<a class="headerlink" href="#flashy-services-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-flashy.services.acquisition_service">
+<span id="flashy-services-acquisition-service-module"></span><h2>flashy.services.acquisition_service module<a class="headerlink" href="#module-flashy.services.acquisition_service" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.acquisition_service.</span></span><span class="sig-name descname"><span class="pre">AcquisitionService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">processing_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QObject.html#PySide6.QtCore.QObject" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></a></p>
+<p>Central service responsible for managing acquisition and analysis pipelines.</p>
+<p>This class orchestrates:
+- Acquisition worker threads (digitizer-specific)
+- Analysis worker threads (parallel processing)
+- Queue-based communication between acquisition and analysis stages</p>
+<p>Each instance spawns multiple <code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisWorker</span></code> threads that process
+incoming data asynchronously.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">begin_acquisition</span></code> method starts a new acquisition session using
+the selected digitizer backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QObject.html#PySide6.QtCore.QObject" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PySide6.QtCore.QObject</span></code></a></p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.acquisition_started">
+<span class="sig-name descname"><span class="pre">acquisition_started</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_started" title="Link to this definition"></a></dt>
+<dd><p>Emitted when acquisition starts.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.acquisition_finished">
+<span class="sig-name descname"><span class="pre">acquisition_finished</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_finished" title="Link to this definition"></a></dt>
+<dd><p>Emitted when acquisition completes successfully.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.acquisition_error">
+<span class="sig-name descname"><span class="pre">acquisition_error</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_error" title="Link to this definition"></a></dt>
+<dd><p>Emitted when an error occurs during acquisition.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.stop_requested">
+<span class="sig-name descname"><span class="pre">stop_requested</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.stop_requested" title="Link to this definition"></a></dt>
+<dd><p>Emitted when acquisition stop is requested.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.processing_config">
+<span class="sig-name descname"><span class="pre">processing_config</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig" title="flashy.models.processing_config.ProcessingConfig"><span class="pre">ProcessingConfig</span></a></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.processing_config" title="Link to this definition"></a></dt>
+<dd><p>Deep-copied processing configuration used internally.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.acquisition_results">
+<span class="sig-name descname"><span class="pre">acquisition_results</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="flashy.models.html#flashy.models.batch_pulses.BatchPulses" title="flashy.models.batch_pulses.BatchPulses"><span class="pre">BatchPulses</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_results" title="Link to this definition"></a></dt>
+<dd><p>Accumulated analysis results per channel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.analysis_todo_queue">
+<span class="sig-name descname"><span class="pre">analysis_todo_queue</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.analysis_todo_queue" title="Link to this definition"></a></dt>
+<dd><p>Queue of raw acquisition batches waiting for analysis.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.discard_todo">
+<span class="sig-name descname"><span class="pre">discard_todo</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.discard_todo" title="Link to this definition"></a></dt>
+<dd><p>Number of discarded batches due to full analysis queue.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.printed_todo_queue">
+<span class="sig-name descname"><span class="pre">printed_todo_queue</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.printed_todo_queue" title="Link to this definition"></a></dt>
+<dd><p>Flag preventing repeated queue-full warnings.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.discard_comp">
+<span class="sig-name descname"><span class="pre">discard_comp</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.discard_comp" title="Link to this definition"></a></dt>
+<dd><p>Number of discarded completed analysis results.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;AcquisitionService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#4</span> <span class="pre">type=Signal,</span> <span class="pre">signature=acquisition_started()</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=acquisition_finished()</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=acquisition_error(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=stop_requested()</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Slot,</span> <span class="pre">signature=acquisition_event_dump(QVariantList),</span> <span class="pre">parameters=QVariantList</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=analysis_complete(PyObject),</span> <span class="pre">parameters=PyObject</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Slot,</span> <span class="pre">signature=stop_acquisition()</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=_on_worker_finished()</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.staticMetaObject" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.printed_comp_queue">
+<span class="sig-name descname"><span class="pre">printed_comp_queue</span></span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.printed_comp_queue" title="Link to this definition"></a></dt>
+<dd><p>Flag preventing repeated completion warnings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.get_basic_dig_info">
+<span class="sig-name descname"><span class="pre">get_basic_dig_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digitizer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.get_basic_dig_info" title="Link to this definition"></a></dt>
+<dd><p>Retrieve basic information from the selected digitizer.</p>
+<p>This method stops any currently running acquisition worker before
+querying the hardware.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>digitizer</strong> (<em>Literal</em><em>[</em><em>&quot;caen_dt5781&quot;</em><em>]</em>) – Digitizer backend identifier.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary containing digitizer metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Any]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the digitizer information cannot be retrieved.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.begin_acquisition">
+<span class="sig-name descname"><span class="pre">begin_acquisition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digitizer</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.begin_acquisition" title="Link to this definition"></a></dt>
+<dd><p>Start a new acquisition session in a background worker thread.</p>
+<p>Any currently running acquisition is stopped before starting a new one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>digitizer</strong> (<em>Literal</em><em>[</em><em>&quot;caen_dt5781&quot;</em><em>]</em>) – Digitizer backend to use.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.acquisition_event_dump">
+<span class="sig-name descname"><span class="pre">acquisition_event_dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.acquisition_event_dump" title="Link to this definition"></a></dt>
+<dd><p>Receive raw acquisition batches and enqueue them for analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>) – List of raw pulses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.analysis_complete">
+<span class="sig-name descname"><span class="pre">analysis_complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_result</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.analysis_complete" title="Link to this definition"></a></dt>
+<dd><p>Handle completed analysis results and store them in memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>analysis_result</strong> (<a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.result.AnalysisResult" title="flashy.models.analysis.result.AnalysisResult"><em>AnalysisResult</em></a>) – Processed analysis output.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.stop_acquisition">
+<span class="sig-name descname"><span class="pre">stop_acquisition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.stop_acquisition" title="Link to this definition"></a></dt>
+<dd><p>Request the current acquisition worker to stop.</p>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.acquisition_service.AcquisitionService.shutdown">
+<span class="sig-name descname"><span class="pre">shutdown</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition_service.AcquisitionService.shutdown" title="Link to this definition"></a></dt>
+<dd><p>Gracefully shutdown all acquisition and analysis workers.</p>
+<p>This should be called when the application exits or acquisition ends.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.services.analysis_service">
+<span id="flashy-services-analysis-service-module"></span><h2>flashy.services.analysis_service module<a class="headerlink" href="#module-flashy.services.analysis_service" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.services.analysis_service.AnalysisService">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.analysis_service.</span></span><span class="sig-name descname"><span class="pre">AnalysisService</span></span><a class="headerlink" href="#flashy.services.analysis_service.AnalysisService" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Service to analyse pulses in different formats.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.analysis_service.AnalysisService.analyse_all_tdms_file">
+<span class="sig-name descname"><span class="pre">analyse_all_tdms_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.analysis_service.AnalysisService.analyse_all_tdms_file" title="Link to this definition"></a></dt>
+<dd><p>Analyse data contained in a TDMS file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Path to the TDMS file.</p></li>
+<li><p><strong>analysis_config</strong> (<a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.config.AnalysisConfig" title="flashy.models.analysis.config.AnalysisConfig"><em>AnalysisConfig</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – Analysis configuration to use. If None, a default configuration is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results of the analysis of the file’s pulses.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.result.AnalysisResult" title="flashy.models.analysis.result.AnalysisResult">AnalysisResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.analysis_service.AnalysisService.analyse_real_time">
+<span class="sig-name descname"><span class="pre">analyse_real_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processing_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.analysis_service.AnalysisService.analyse_real_time" title="Link to this definition"></a></dt>
+<dd><p>Perform real-time pulse analysis (used by <cite>AnalysisWorker</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>batch</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><em>np.ndarray</em><em>]</em>) – Unordered list of pulses to analyse.</p></li>
+<li><p><strong>processing_config</strong> (<a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig" title="flashy.models.processing_config.ProcessingConfig"><em>ProcessingConfig</em></a>) – Current processing configuration.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Results of the analysis of the pulses.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.result.AnalysisResult" title="flashy.models.analysis.result.AnalysisResult">AnalysisResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.analysis_service.AnalysisService.legacy_analyse_csv_file">
+<span class="sig-name descname"><span class="pre">legacy_analyse_csv_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.analysis_service.AnalysisService.legacy_analyse_csv_file" title="Link to this definition"></a></dt>
+<dd><p>Analyse data contained in a CSV file using the default <cite>ProcessingConfig</cite>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method is legacy and only works for the Bergoz BCT with CAEN DT5781,
+as it was exclusively used by FLASHy 1.0.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Path to the CSV file.</p></li>
+<li><p><strong>analysis_config</strong> (<a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.config.AnalysisConfig" title="flashy.models.analysis.config.AnalysisConfig"><em>AnalysisConfig</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – Analysis configuration to use. If None, a default configuration is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Analysis results of the file’s pulses, or None if analysis fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.result.AnalysisResult" title="flashy.models.analysis.result.AnalysisResult">AnalysisResult</a> | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.services.analysis_worker">
+<span id="flashy-services-analysis-worker-module"></span><h2>flashy.services.analysis_worker module<a class="headerlink" href="#module-flashy.services.analysis_worker" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.services.analysis_worker.AnalysisWorker">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.analysis_worker.</span></span><span class="sig-name descname"><span class="pre">AnalysisWorker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_queue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.analysis_worker.AnalysisWorker" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QThread.html#PySide6.QtCore.QThread" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QThread</span></code></a></p>
+<p>Worker thread that executes real-time analysis in a background loop.</p>
+<p>This class wraps <code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisService</span></code> and continuously consumes data
+from a queue, processing it asynchronously and emitting results back to
+the main thread.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QThread.html#PySide6.QtCore.QThread" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PySide6.QtCore.QThread</span></code></a></p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.analysis_worker.AnalysisWorker.analysis_complete">
+<span class="sig-name descname"><span class="pre">analysis_complete</span></span><a class="headerlink" href="#flashy.services.analysis_worker.AnalysisWorker.analysis_complete" title="Link to this definition"></a></dt>
+<dd><p>Emitted when a batch has been successfully analysed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.analysis_worker.AnalysisWorker.queue">
+<span class="sig-name descname"><span class="pre">queue</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/queue.html#queue.Queue" title="(in Python v3.14)"><span class="pre">queue.Queue</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.services.analysis_worker.AnalysisWorker.queue" title="Link to this definition"></a></dt>
+<dd><p>Queue of incoming data batches to be processed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.analysis_worker.AnalysisWorker.config">
+<span class="sig-name descname"><span class="pre">config</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig" title="flashy.models.processing_config.ProcessingConfig"><span class="pre">ProcessingConfig</span></a></span><a class="headerlink" href="#flashy.services.analysis_worker.AnalysisWorker.config" title="Link to this definition"></a></dt>
+<dd><p>Processing configuration used for analysis.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.analysis_worker.AnalysisWorker.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;AnalysisWorker&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Signal,</span> <span class="pre">signature=analysis_complete(PyObject),</span> <span class="pre">parameters=PyObject</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.services.analysis_worker.AnalysisWorker.staticMetaObject" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.services.analysis_worker.AnalysisWorker.analyser">
+<span class="sig-name descname"><span class="pre">analyser</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flashy.services.analysis_service.AnalysisService" title="flashy.services.analysis_service.AnalysisService"><span class="pre">AnalysisService</span></a></span><a class="headerlink" href="#flashy.services.analysis_worker.AnalysisWorker.analyser" title="Link to this definition"></a></dt>
+<dd><p>Service responsible for performing analysis computations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.analysis_worker.AnalysisWorker.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.analysis_worker.AnalysisWorker.run" title="Link to this definition"></a></dt>
+<dd><p>Main thread loop.</p>
+<p>Continuously retrieves batches from the queue and processes them using
+<code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisService</span></code>. Results are emitted via <code class="docutils literal notranslate"><span class="pre">analysis_complete</span></code>.</p>
+<p>The loop blocks briefly on the queue (timeout = 0.1s) to allow
+responsive shutdown.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.analysis_worker.AnalysisWorker.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.analysis_worker.AnalysisWorker.stop" title="Link to this definition"></a></dt>
+<dd><p>Request the worker thread to stop execution.</p>
+<p>The thread will exit after the next queue timeout.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.services.data_loader">
+<span id="flashy-services-data-loader-module"></span><h2>flashy.services.data_loader module<a class="headerlink" href="#module-flashy.services.data_loader" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.services.data_loader.DataLoader">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.data_loader.</span></span><span class="sig-name descname"><span class="pre">DataLoader</span></span><a class="headerlink" href="#flashy.services.data_loader.DataLoader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Service for reading data files and returning parsed content.</p>
+<p>The methods of this class return an <cite>AcquisitionConfig</cite> and an <cite>AnalysisConfig</cite>
+(except legacy CSV reading), with data separated per channel. This allows the
+<cite>AnalysisService</cite> to construct a <cite>ProcessingConfig</cite> from these components or
+use a user-provided analysis configuration.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.data_loader.DataLoader.read_all_tdms_file">
+<span class="sig-name descname"><span class="pre">read_all_tdms_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.data_loader.DataLoader.read_all_tdms_file" title="Link to this definition"></a></dt>
+<dd><p>Read a TDMS file and return its contents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Path to the TDMS file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing:
+- Acquisition configuration used when saving
+- Analysis configuration used when saving
+- Dictionary of channel data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a>[<a class="reference internal" href="flashy.models.html#flashy.models.processing_config.AcquisitionConfig" title="flashy.models.processing_config.AcquisitionConfig">AcquisitionConfig</a>, <a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.config.AnalysisConfig" title="flashy.models.analysis.config.AnalysisConfig">AnalysisConfig</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Any]]]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.data_loader.DataLoader.read_config_json_file">
+<span class="sig-name descname"><span class="pre">read_config_json_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.data_loader.DataLoader.read_config_json_file" title="Link to this definition"></a></dt>
+<dd><p>Read the configuration file generated when the program was previously closed (<cite>config.json</cite>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Previously saved user and processing configuration.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a>[<a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig" title="flashy.models.user_config.UserConfig">UserConfig</a>, <a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig" title="flashy.models.processing_config.ProcessingConfig">ProcessingConfig</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.data_loader.DataLoader.legacy_read_csv_file">
+<span class="sig-name descname"><span class="pre">legacy_read_csv_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.data_loader.DataLoader.legacy_read_csv_file" title="Link to this definition"></a></dt>
+<dd><p>Read a legacy CSV file from past shoots using the default FLASHy 1.0 configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Path to the CSV file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing:
+- Acquisition configuration (default FLASHy 1.0)
+- Analysis configuration (default FLASHy 1.0)
+- Dictionary containing pulse data per channel</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a>[<a class="reference internal" href="flashy.models.html#flashy.models.processing_config.AcquisitionConfig" title="flashy.models.processing_config.AcquisitionConfig">AcquisitionConfig</a>, <a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.config.AnalysisConfig" title="flashy.models.analysis.config.AnalysisConfig">AnalysisConfig</a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Any]]]] | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.services.export_service">
+<span id="flashy-services-export-service-module"></span><h2>flashy.services.export_service module<a class="headerlink" href="#module-flashy.services.export_service" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.services.export_service.DataExporter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.export_service.</span></span><span class="sig-name descname"><span class="pre">DataExporter</span></span><a class="headerlink" href="#flashy.services.export_service.DataExporter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Service to export data to disk.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.export_service.DataExporter.write_post_acquisition_to_tdms">
+<span class="sig-name descname"><span class="pre">write_post_acquisition_to_tdms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processing_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acquisition_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'run'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.export_service.DataExporter.write_post_acquisition_to_tdms" title="Link to this definition"></a></dt>
+<dd><p>Write acquired data to a TDMS file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>List</em><em>[</em><a class="reference internal" href="flashy.models.html#flashy.models.batch_pulses.BatchPulses" title="flashy.models.batch_pulses.BatchPulses"><em>BatchPulses</em></a><em>]</em>) – List of <cite>BatchPulses</cite>, one per digitizer channel.</p></li>
+<li><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Destination file path.</p></li>
+<li><p><strong>processing_config</strong> (<a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig" title="flashy.models.processing_config.ProcessingConfig"><em>ProcessingConfig</em></a>) – Processing configuration used during acquisition.</p></li>
+<li><p><strong>acquisition_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Context describing why the file was saved.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.export_service.DataExporter.save_config_to_json">
+<span class="sig-name descname"><span class="pre">save_config_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processing_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.export_service.DataExporter.save_config_to_json" title="Link to this definition"></a></dt>
+<dd><p>Save configuration to a JSON file when closing the program.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_config</strong> (<a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig" title="flashy.models.user_config.UserConfig"><em>UserConfig</em></a>) – Current user configuration.</p></li>
+<li><p><strong>processing_config</strong> (<a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig" title="flashy.models.processing_config.ProcessingConfig"><em>ProcessingConfig</em></a>) – Current processing configuration.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.export_service.DataExporter.write_all_rawdata_to_tdms">
+<span class="sig-name descname"><span class="pre">write_all_rawdata_to_tdms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processing_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acquisition_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'run'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.export_service.DataExporter.write_all_rawdata_to_tdms" title="Link to this definition"></a></dt>
+<dd><p>Legacy method for writing raw pulse data to a TDMS file.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method is not used anymore. It has been replaced by
+<cite>write_post_acquisition_to_tdms</cite> with a new data format.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>List</em><em>[</em><em>List</em><em>[</em><em>Any</em><em>]</em><em>]</em>) – Raw pulse data to write to disk.</p></li>
+<li><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Destination file path.</p></li>
+<li><p><strong>processing_config</strong> (<a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig" title="flashy.models.processing_config.ProcessingConfig"><em>ProcessingConfig</em></a>) – Processing configuration used during acquisition.</p></li>
+<li><p><strong>acquisition_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Context describing why the file was saved.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.services.pulse_processor">
+<span id="flashy-services-pulse-processor-module"></span><h2>flashy.services.pulse_processor module<a class="headerlink" href="#module-flashy.services.pulse_processor" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.services.pulse_processor.PulseProcessor">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.pulse_processor.</span></span><span class="sig-name descname"><span class="pre">PulseProcessor</span></span><a class="headerlink" href="#flashy.services.pulse_processor.PulseProcessor" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Service responsible for processing batches of pulses. This service exposes the <cite>process_pulses</cite> 
+method used primarily by <cite>AnalysisService</cite>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.services.pulse_processor.PulseProcessor.process_pulses">
+<span class="sig-name descname"><span class="pre">process_pulses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.pulse_processor.PulseProcessor.process_pulses" title="Link to this definition"></a></dt>
+<dd><p>Process a <cite>BatchPulses</cite> instance according to its configuration.</p>
+<p>If no valid pulse is detected by <cite>_clean_data</cite>, the original batch is returned unchanged.</p>
+<dl class="simple">
+<dt>Processing pipeline:</dt><dd><ul class="simple">
+<li><p>Select valid pulses (ALL)</p></li>
+<li><p>Send valid pulses to disk (ALL)</p></li>
+<li><p>Level data (analysis-specific)</p></li>
+<li><p>Convert LSB → V (digitizer-specific: gain &amp; ADC resolution)</p></li>
+<li><p>Compute area (analysis + digitizer sampling period)</p></li>
+<li><p>Convert V·µs → nC (detector-specific calibration factor)</p></li>
+<li><p>Convert nC → cGy (analysis-specific calibration factor)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>batch</strong> (<a class="reference internal" href="flashy.models.html#flashy.models.batch_pulses.BatchPulses" title="flashy.models.batch_pulses.BatchPulses"><em>BatchPulses</em></a>) – Batch of pulses to process.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Processed batch containing analysed pulse results (or original batch if no valid pulses).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="flashy.models.html#flashy.models.batch_pulses.BatchPulses" title="flashy.models.batch_pulses.BatchPulses">BatchPulses</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.services">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-flashy.services" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="flashy.models.parameters.html" class="btn btn-neutral float-left" title="flashy.models.parameters package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Jean-Emmanuel Chouinard.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

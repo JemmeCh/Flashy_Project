@@ -1,0 +1,66 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "simple": {
+            "format": "[ %(levelname)s | %(asctime)s ] : %(message)s",
+            "datefmt": "%H:%M:%S"
+        },
+        "detailed": {
+            "format": "[%(levelname)s|%(module)s] %(asctime)s: %(message)s",
+            "datefmt": "%Y-%m-%dT%H:%M:%S%z"
+        },
+        "json": {
+            "()": "flashy.services.logger.json_formatter.JSONFormatter",
+            "fmt_keys": {
+                "level": "levelname",
+                "message": "message",
+                "timestamp": "timestamp",
+                "logger": "name",
+                "module": "module",
+                "function": "funcName",
+                "thread_name": "threadName"
+            }
+        }
+    },
+    "handlers": {
+        "stderr": {
+            "class": "logging.StreamHandler",
+            "level": "ERROR",
+            "formatter": "detailed",
+            "stream": "ext://sys.stderr"
+        },
+        "file_json": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "level": "DEBUG",
+            "formatter": "json",
+            "filename": "Feedback/flashy.log.jsonl",
+            "maxBytes": 100000,
+            "backupCount": 3
+        },
+        "file_read": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "level": "DEBUG",
+            "formatter": "detailed",
+            "filename": "Feedback/flashy.log",
+            "maxBytes": 100000,
+            "backupCount": 3
+        },
+        "qt": {
+            "()": "flashy.services.logger.qt_handler.QtHandler",
+            "level": "INFO",
+            "formatter": "simple"
+        }
+    },
+    "loggers": {
+        "root": {
+            "level": "DEBUG",
+            "handlers": [
+                "stderr",
+                "file_json",
+                "file_read",
+                "qt"
+            ]
+        }
+    }
+}

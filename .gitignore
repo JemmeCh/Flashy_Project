@@ -1,18 +1,20 @@
-# ignore _ideas folder
+# ignore _xxxxx folder
 **/_ideas
-# ignore tests-calculs folder
-_tests-calculs/*
-# ignore readme images folder
-**/images-readme/*
+**/_shoots
 # ignore exe related files
 /build/*
 /dist/*
 main.exe
 main.spec
 /Versions/*
-# pychache
+# venv
+venv/
+env/
+.venv/
+*.pyc
 */__pychache__/**
 __pycache__/
+*.egg-info
 # vscode
 /.vscode/*
 # ignore caen related files
@@ -25,3 +27,5 @@ DAQ/**
 Feedback/**
 parameters.txt
 internal_parameters.txt
+config.json
+write_test.tdms

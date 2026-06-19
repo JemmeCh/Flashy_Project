@@ -1,0 +1,536 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flashy.models package &mdash; FLASHy 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="flashy.models.analysis package" href="flashy.models.analysis.html" />
+    <link rel="prev" title="flashy.digitizers.caen_dt5781 package" href="flashy.digitizers.caen_dt5781.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FLASHy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/usage.html">How to use FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/architecture.html">FLASHy’s Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/digitizers.html">Digitizers in FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/detectors.html">Detectors in FLASHy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference (auto-generated)</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="flashy.html">flashy package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">flashy.models package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.analysis.html">flashy.models.analysis package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html">flashy.models.parameters package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.models.batch_pulses">flashy.models.batch_pulses module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses"><code class="docutils literal notranslate"><span class="pre">BatchPulses</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.analysis_level_method"><code class="docutils literal notranslate"><span class="pre">BatchPulses.analysis_level_method</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.analysis_area_calc_method"><code class="docutils literal notranslate"><span class="pre">BatchPulses.analysis_area_calc_method</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.analysis_nC2cGy_factor"><code class="docutils literal notranslate"><span class="pre">BatchPulses.analysis_nC2cGy_factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.digitizer_sampeling_period_ns"><code class="docutils literal notranslate"><span class="pre">BatchPulses.digitizer_sampeling_period_ns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.digitizer_ADC2V_factor"><code class="docutils literal notranslate"><span class="pre">BatchPulses.digitizer_ADC2V_factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.detector_Vns2nC_factor"><code class="docutils literal notranslate"><span class="pre">BatchPulses.detector_Vns2nC_factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.pulses"><code class="docutils literal notranslate"><span class="pre">BatchPulses.pulses</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.raw_valid_pulses"><code class="docutils literal notranslate"><span class="pre">BatchPulses.raw_valid_pulses</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.area_under_curves"><code class="docutils literal notranslate"><span class="pre">BatchPulses.area_under_curves</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.doses"><code class="docutils literal notranslate"><span class="pre">BatchPulses.doses</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.discard_flag"><code class="docutils literal notranslate"><span class="pre">BatchPulses.discard_flag</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.has_pulses"><code class="docutils literal notranslate"><span class="pre">BatchPulses.has_pulses</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.batch_pulses.BatchPulses.add_pulses"><code class="docutils literal notranslate"><span class="pre">BatchPulses.add_pulses()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.models.processing_config">flashy.models.processing_config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.models.processing_config.AcquisitionConfig"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.processing_config.AcquisitionConfig.digitizer"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig.digitizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.processing_config.AcquisitionConfig.detector_assignments"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig.detector_assignments</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.models.processing_config.ProcessingConfig"><code class="docutils literal notranslate"><span class="pre">ProcessingConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.processing_config.ProcessingConfig.acquisition"><code class="docutils literal notranslate"><span class="pre">ProcessingConfig.acquisition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.processing_config.ProcessingConfig.analysis"><code class="docutils literal notranslate"><span class="pre">ProcessingConfig.analysis</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.models.user_config">flashy.models.user_config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.models.user_config.UserConfig"><code class="docutils literal notranslate"><span class="pre">UserConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.user_config.UserConfig.project_path"><code class="docutils literal notranslate"><span class="pre">UserConfig.project_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.user_config.UserConfig.name_of_shoot"><code class="docutils literal notranslate"><span class="pre">UserConfig.name_of_shoot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.user_config.UserConfig.increment_name"><code class="docutils literal notranslate"><span class="pre">UserConfig.increment_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.user_config.UserConfig.path_of_shoot"><code class="docutils literal notranslate"><span class="pre">UserConfig.path_of_shoot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.user_config.UserConfig.increment"><code class="docutils literal notranslate"><span class="pre">UserConfig.increment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.user_config.UserConfig.path_to_logs"><code class="docutils literal notranslate"><span class="pre">UserConfig.path_to_logs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.user_config.UserConfig.increment_name_of_shoot"><code class="docutils literal notranslate"><span class="pre">UserConfig.increment_name_of_shoot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.models.user_config.UserConfig.set_name_of_shoot"><code class="docutils literal notranslate"><span class="pre">UserConfig.set_name_of_shoot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.models">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FLASHy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="flashy.html">flashy package</a></li>
+      <li class="breadcrumb-item active">flashy.models package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/flashy.models.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flashy-models-package">
+<h1>flashy.models package<a class="headerlink" href="#flashy-models-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="flashy.models.analysis.html">flashy.models.analysis package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.analysis.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.analysis.html#module-flashy.models.analysis.config">flashy.models.analysis.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.config.AnalysisConfig"><code class="docutils literal notranslate"><span class="pre">AnalysisConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.config.AnalysisConfig.DEFINITIONS"><code class="docutils literal notranslate"><span class="pre">AnalysisConfig.DEFINITIONS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.analysis.html#module-flashy.models.analysis.definition">flashy.models.analysis.definition module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.definition.ANALYSIS_DEFINITIONS"><code class="docutils literal notranslate"><span class="pre">ANALYSIS_DEFINITIONS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.analysis.html#module-flashy.models.analysis.result">flashy.models.analysis.result module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.result.AnalysisResult"><code class="docutils literal notranslate"><span class="pre">AnalysisResult</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.result.AnalysisResult.pulse_batches"><code class="docutils literal notranslate"><span class="pre">AnalysisResult.pulse_batches</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.result.AnalysisResult.config"><code class="docutils literal notranslate"><span class="pre">AnalysisResult.config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.analysis.html#module-flashy.models.analysis">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.models.parameters.html">flashy.models.parameters package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.parameters.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.parameters.html#module-flashy.models.parameters.container">flashy.models.parameters.container module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer"><code class="docutils literal notranslate"><span class="pre">ParameterContainer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer.DEFINITIONS"><code class="docutils literal notranslate"><span class="pre">ParameterContainer.DEFINITIONS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer.values"><code class="docutils literal notranslate"><span class="pre">ParameterContainer.values</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer.create_default"><code class="docutils literal notranslate"><span class="pre">ParameterContainer.create_default()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer.get_value"><code class="docutils literal notranslate"><span class="pre">ParameterContainer.get_value()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer.get_definition"><code class="docutils literal notranslate"><span class="pre">ParameterContainer.get_definition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer.set_value"><code class="docutils literal notranslate"><span class="pre">ParameterContainer.set_value()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.parameters.html#module-flashy.models.parameters.definition">flashy.models.parameters.definition module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.key"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.name"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.description"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.group"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.group</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.value_type"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.value_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.default"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.default</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.widget_type"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.widget_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.valid_range"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.valid_range</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.step"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.step</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.choices"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.choices</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.parser"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.parser</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.validator"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.validator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.hardware_name"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.hardware_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.hardware_converter"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.hardware_converter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.transform"><code class="docutils literal notranslate"><span class="pre">ParameterDefinition.transform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.parameters.html#module-flashy.models.parameters.parsers">flashy.models.parameters.parsers module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.parsers.parse_equation"><code class="docutils literal notranslate"><span class="pre">parse_equation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.parameters.html#module-flashy.models.parameters.registry">flashy.models.parameters.registry module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.registry.iter_caen5781_parameters"><code class="docutils literal notranslate"><span class="pre">iter_caen5781_parameters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.registry.convert_to_caen5781_value"><code class="docutils literal notranslate"><span class="pre">convert_to_caen5781_value()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.parameters.html#module-flashy.models.parameters.validators">flashy.models.parameters.validators module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.validators.validate_combo_box"><code class="docutils literal notranslate"><span class="pre">validate_combo_box()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.validators.validate_valid_range"><code class="docutils literal notranslate"><span class="pre">validate_valid_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.validators.validate_multiple_of_step"><code class="docutils literal notranslate"><span class="pre">validate_multiple_of_step()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.validators.validate_range_and_step"><code class="docutils literal notranslate"><span class="pre">validate_range_and_step()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.parameters.html#module-flashy.models.parameters">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-flashy.models.batch_pulses">
+<span id="flashy-models-batch-pulses-module"></span><h2>flashy.models.batch_pulses module<a class="headerlink" href="#module-flashy.models.batch_pulses" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.batch_pulses.</span></span><span class="sig-name descname"><span class="pre">BatchPulses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_level_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_area_calc_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_nC2cGy_factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digitizer_sampeling_period_ns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digitizer_ADC2V_factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector_Vns2nC_factor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_valid_pulses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">shape=(1,</span> <span class="pre">0),</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_under_curves</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doses</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">array([],</span> <span class="pre">dtype=float64)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discard_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<p>Container holding a batch of processed and raw pulse data along with
+associated analysis results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.analysis_level_method">
+<span class="sig-name descname"><span class="pre">analysis_level_method</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.analysis_level_method" title="Link to this definition"></a></dt>
+<dd><p>Method used for pulse level reconstruction or processing.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.analysis_area_calc_method">
+<span class="sig-name descname"><span class="pre">analysis_area_calc_method</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.analysis_area_calc_method" title="Link to this definition"></a></dt>
+<dd><p>Method used to compute pulse area under the curve.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.analysis_nC2cGy_factor">
+<span class="sig-name descname"><span class="pre">analysis_nC2cGy_factor</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.analysis_nC2cGy_factor" title="Link to this definition"></a></dt>
+<dd><p>Conversion factor from nC to cGy for dose calculation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.digitizer_sampeling_period_ns">
+<span class="sig-name descname"><span class="pre">digitizer_sampeling_period_ns</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.digitizer_sampeling_period_ns" title="Link to this definition"></a></dt>
+<dd><p>Sampling period of the digitizer in nanoseconds.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.digitizer_ADC2V_factor">
+<span class="sig-name descname"><span class="pre">digitizer_ADC2V_factor</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.digitizer_ADC2V_factor" title="Link to this definition"></a></dt>
+<dd><p>Conversion factor from ADC units to volts.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.detector_Vns2nC_factor">
+<span class="sig-name descname"><span class="pre">detector_Vns2nC_factor</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.detector_Vns2nC_factor" title="Link to this definition"></a></dt>
+<dd><p>Conversion factor from V·ns to nC for detector response.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.pulses">
+<span class="sig-name descname"><span class="pre">pulses</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.pulses" title="Link to this definition"></a></dt>
+<dd><p>Processed pulse data (leveled or reconstructed signals).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.raw_valid_pulses">
+<span class="sig-name descname"><span class="pre">raw_valid_pulses</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.raw_valid_pulses" title="Link to this definition"></a></dt>
+<dd><p>Raw pulse data after validity filtering.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.area_under_curves">
+<span class="sig-name descname"><span class="pre">area_under_curves</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.area_under_curves" title="Link to this definition"></a></dt>
+<dd><p>Computed area under each pulse curve.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.doses">
+<span class="sig-name descname"><span class="pre">doses</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ndarray</span></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.doses" title="Link to this definition"></a></dt>
+<dd><p>Dose values computed from pulses.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.discard_flag">
+<span class="sig-name descname"><span class="pre">discard_flag</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.discard_flag" title="Link to this definition"></a></dt>
+<dd><p>Flag indicating whether this batch should be ignored in analysis.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.has_pulses">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">has_pulses</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.has_pulses" title="Link to this definition"></a></dt>
+<dd><p>Check whether the batch contains any pulses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if at least one pulse is present.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.models.batch_pulses.BatchPulses.add_pulses">
+<span class="sig-name descname"><span class="pre">add_pulses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_pulses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">areas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">doses</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.batch_pulses.BatchPulses.add_pulses" title="Link to this definition"></a></dt>
+<dd><p>Append new pulse data to the current batch.</p>
+<p>All arrays are concatenated along their first axis (or flattened where
+appropriate).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pulses</strong> (<em>np.ndarray</em>) – Processed pulses to append.</p></li>
+<li><p><strong>raw_pulses</strong> (<em>np.ndarray</em>) – Raw pulse data to append.</p></li>
+<li><p><strong>areas</strong> (<em>np.ndarray</em>) – Pulse area values to append.</p></li>
+<li><p><strong>doses</strong> (<em>np.ndarray</em>) – Dose values to append.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.models.processing_config">
+<span id="flashy-models-processing-config-module"></span><h2>flashy.models.processing_config module<a class="headerlink" href="#module-flashy.models.processing_config" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.models.processing_config.AcquisitionConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.processing_config.</span></span><span class="sig-name descname"><span class="pre">AcquisitionConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digitizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector_assignments</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.processing_config.AcquisitionConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<p>Parameters for an acquisition configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">AcquisitionConfig</span><span class="p">(</span>
+    <span class="n">digitizer</span><span class="o">=</span><span class="n">caen</span><span class="p">,</span>
+    <span class="n">detector_assignments</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">DetectorAssignment</span><span class="p">(</span>
+            <span class="n">detector</span><span class="o">=</span><span class="n">bergoz_1</span><span class="p">,</span>
+            <span class="n">digitizer_channel</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">DetectorAssignment</span><span class="p">(</span>
+            <span class="n">detector</span><span class="o">=</span><span class="n">bergoz_2</span><span class="p">,</span>
+            <span class="n">digitizer_channel</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p>msgspec.Struct</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.processing_config.AcquisitionConfig.digitizer">
+<span class="sig-name descname"><span class="pre">digitizer</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config" title="flashy.digitizers.caen_dt5781.config.CaenDT5781Config"><span class="pre">CaenDT5781Config</span></a></span><a class="headerlink" href="#flashy.models.processing_config.AcquisitionConfig.digitizer" title="Link to this definition"></a></dt>
+<dd><p>Used digitizer during acquisition.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.processing_config.AcquisitionConfig.detector_assignments">
+<span class="sig-name descname"><span class="pre">detector_assignments</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="flashy.detectors.html#flashy.detectors.detector.DetectorAssignment" title="flashy.detectors.detector.DetectorAssignment"><span class="pre">DetectorAssignment</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.models.processing_config.AcquisitionConfig.detector_assignments" title="Link to this definition"></a></dt>
+<dd><p>List of detectors where each element represents a channel of the digitizer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.models.processing_config.ProcessingConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.processing_config.</span></span><span class="sig-name descname"><span class="pre">ProcessingConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acquisition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.processing_config.ProcessingConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<p>Parameters for processing pulses with acquisition and analysis configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p>msgspec.Struct</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.processing_config.ProcessingConfig.acquisition">
+<span class="sig-name descname"><span class="pre">acquisition</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flashy.models.processing_config.AcquisitionConfig" title="flashy.models.processing_config.AcquisitionConfig"><span class="pre">AcquisitionConfig</span></a></span><a class="headerlink" href="#flashy.models.processing_config.ProcessingConfig.acquisition" title="Link to this definition"></a></dt>
+<dd><p>The acquisition configuration used for processing.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.processing_config.ProcessingConfig.analysis">
+<span class="sig-name descname"><span class="pre">analysis</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.config.AnalysisConfig" title="flashy.models.analysis.config.AnalysisConfig"><span class="pre">AnalysisConfig</span></a></span><a class="headerlink" href="#flashy.models.processing_config.ProcessingConfig.analysis" title="Link to this definition"></a></dt>
+<dd><p>The analysis configuration used for processing.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.models.user_config">
+<span id="flashy-models-user-config-module"></span><h2>flashy.models.user_config module<a class="headerlink" href="#module-flashy.models.user_config" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.models.user_config.UserConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.user_config.</span></span><span class="sig-name descname"><span class="pre">UserConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_of_shoot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">increment_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_of_shoot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">increment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_to_logs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'logs'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.user_config.UserConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<p>User configuration container.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p>msgspec.Struct</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.user_config.UserConfig.project_path">
+<span class="sig-name descname"><span class="pre">project_path</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.models.user_config.UserConfig.project_path" title="Link to this definition"></a></dt>
+<dd><p>Root project path used for loading/saving data.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.user_config.UserConfig.name_of_shoot">
+<span class="sig-name descname"><span class="pre">name_of_shoot</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.models.user_config.UserConfig.name_of_shoot" title="Link to this definition"></a></dt>
+<dd><p>Name of the acquisition session or “shoot”.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.user_config.UserConfig.increment_name">
+<span class="sig-name descname"><span class="pre">increment_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.models.user_config.UserConfig.increment_name" title="Link to this definition"></a></dt>
+<dd><p>Suffix used when generating incremented file or run names.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.user_config.UserConfig.path_of_shoot">
+<span class="sig-name descname"><span class="pre">path_of_shoot</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.models.user_config.UserConfig.path_of_shoot" title="Link to this definition"></a></dt>
+<dd><p>Full path where the current shoot data is stored.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.user_config.UserConfig.increment">
+<span class="sig-name descname"><span class="pre">increment</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#flashy.models.user_config.UserConfig.increment" title="Link to this definition"></a></dt>
+<dd><p>Increment index used for run/versioning.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.models.user_config.UserConfig.path_to_logs">
+<span class="sig-name descname"><span class="pre">path_to_logs</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'logs'</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.models.user_config.UserConfig.path_to_logs" title="Link to this definition"></a></dt>
+<dd><p>Relative or fixed path where logs are stored.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.models.user_config.UserConfig.increment_name_of_shoot">
+<span class="sig-name descname"><span class="pre">increment_name_of_shoot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.user_config.UserConfig.increment_name_of_shoot" title="Link to this definition"></a></dt>
+<dd><p>Increment the shoot name and create the corresponding directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileExistsError" title="(in Python v3.14)"><strong>FileExistsError</strong></a> – If the target directory already exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.models.user_config.UserConfig.set_name_of_shoot">
+<span class="sig-name descname"><span class="pre">set_name_of_shoot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.user_config.UserConfig.set_name_of_shoot" title="Link to this definition"></a></dt>
+<dd><p>Set a new shoot name and initialize its directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – New shoot name.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileExistsError" title="(in Python v3.14)"><strong>FileExistsError</strong></a> – If a directory for this shoot already exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.models">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-flashy.models" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="flashy.digitizers.caen_dt5781.html" class="btn btn-neutral float-left" title="flashy.digitizers.caen_dt5781 package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="flashy.models.analysis.html" class="btn btn-neutral float-right" title="flashy.models.analysis package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Jean-Emmanuel Chouinard.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
