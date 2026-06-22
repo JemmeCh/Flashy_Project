@@ -21,7 +21,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/JemmeCh/Flashy_Project/">
-    <img src="readme-images/logo.jpg" alt="Logo" width="80" height="80">
+    <img src="readme-images/logo-bckg.png" alt="Logo" width="180" height="180">
   </a>
 
 <h3 align="center">PHY3030 - FLASHy Project</h3>
@@ -78,7 +78,7 @@ Ultra-high dose rate radiotherapy, or **FLASH radiotherapy**, makes it possible 
 
 This project first began in the fall of 2024 as part of an undergraduate project. The objective was to create software capable of analyzing data recorded by the detectors in order to verify that the radiation beam has the desired shape. The software must be able to interpret the received signals, analyze them, and generate graphs describing the detected beams.
 
-Now, **FLASHy** is being developed into an extensible software platform capable of supporting multiple detector types, including the **Flash MicroDiamond** detector. It will also enable experimental beam monitoring, representing a significant milestone toward the clinical implementation of this new treatment modality.
+Now, **FLASHy** is being developed into an extensible software platform capable of supporting multiple detector types, including the BCT and the **Flash MicroDiamond** detectors. It will also enable experimental beam monitoring with the BCT, representing a significant milestone toward the clinical implementation of this new treatment modality.
 
 
 <p align="right">(<a href="#readme-top">Back to top</a>)</p>
@@ -111,7 +111,7 @@ The user can also select and assign different detectors to specific channels. Ea
 
 One can choose where acquired data is stored and the name of the _shoot_. After each acquisition, data is stored as a `TDMS` file which contain waveform data of each event seperated by channel. The root contains the parameters used during acquisition for future reference. Saved data can be reviewed directly in FLASHy's GUI interface under the `Analyser` tab. The user can then change how they want to analyse the acquired data and save their results using the button under the result table (_to be implemented_).
 
-In the future, the `Bergoz ADE` will be used for experimental beam monitoring using the Bergoz ACCT Digital Electronics for beam synchronization. 
+In the future, the `Bergoz ADE` will be used for experimental beam monitoring using the Bergoz ACCT Digital Electronics for beam synchronization and the BCT detector. 
 
 ### Prerequisites
 FLASHy uses the CAEN FELib Python bind which requires CAEN FELib and the CAEN Dig1 implementation from their [website](https://www.caen.it/products/caen-felib-library/). They need to be installed for FLASHy to be able to use the CAEN DT5781 digitizer.
@@ -151,7 +151,7 @@ FLASHy uses the CAEN FELib Python bind which requires CAEN FELib and the CAEN Di
 <!-- Détail sur Affine  -->
 ### Primary
 - [ ] Flesh out how user can add new detectors
-- [ ] Add Flash Diamond detector 
+- [ ] Add Flash Diamond detector parameters
 - [ ] Implement detector assignment and channel usage
 - [ ] Implement using FLASHy without installing CAEN FELIB and CAEN Dig1
 - [ ] Flesh out how user can add new tabs
@@ -160,7 +160,7 @@ FLASHy uses the CAEN FELib Python bind which requires CAEN FELib and the CAEN Di
 
 ### Secondary
 - [ ] Revamp error handling
-- [ ] Logo for FLASHy
+- [X] Logo for FLASHy
 - [ ] Themes and application parameters
 - [ ] Add back "Tutoriel" (integrated documentation) and "About" menu bar menues 
 
@@ -216,6 +216,8 @@ Link to project: [https://github.com/JemmeCh/Flashy_Project](https://github.com/
 
 * [Arthur Lalonde, my PI](https://recherche.umontreal.ca/english/our-researchers/professors-directory/researcher/is/in29955/)
 * [Nicole St-Louis, PHY3030's class professor](https://recherche.umontreal.ca/english/our-researchers/professors-directory/researcher/is/in15156/)
+* [Bergoz Instrument](https://www.bergoz.com/)
+* [CAEN](https://caen.it/)
 * [Arnaud Lessard, for helping me with NumPy](https://www.facebook.com/profile.php?id=100009397104882)
 * [Readme.md template](https://github.com/othneildrew/Best-README-Template)
 
