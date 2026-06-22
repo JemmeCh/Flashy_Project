@@ -46,7 +46,7 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
         
         # Tag and icon
         icon = qtg.QIcon()
-        icon.addFile(u":/Logo/logo.jpg", qtc.QSize(), qtg.QIcon.Mode.Normal, qtg.QIcon.State.Off)
+        icon.addFile(u":/Logo/logo.png", qtc.QSize(), qtg.QIcon.Mode.Normal, qtg.QIcon.State.Off)
         self.setWindowIcon(icon)
         tag = qtw.QLabel("2024-2026 | Laboratoire d'Arthur Lalonde | FLASHy 1.8.0  ")
         font = qtg.QFont()
