@@ -32,9 +32,8 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
     @override
     def columnCount(self, /, parent: qtc.QModelIndex | qtc.QPersistentModelIndex = qtc.QModelIndex()) -> int:
         # TODO:
-        # - units column
         # - status column (hardware sync)
-        return 3
+        return len(self._headers)
     
     @override
     def index(self, row: int, column: int, /, parent: qtc.QModelIndex | qtc.QPersistentModelIndex = qtc.QModelIndex()) -> qtc.QModelIndex:
@@ -71,7 +70,17 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
                 qtc.Qt.ItemFlag.ItemIsSelectable
                 | qtc.Qt.ItemFlag.ItemIsEnabled
             )
-        
+        elif node.definition.widget_type == 'checkbox':
+            return (
+                qtc.Qt.ItemFlag.ItemIsUserCheckable
+                | qtc.Qt.ItemFlag.ItemIsEnabled
+                | qtc.Qt.ItemFlag.ItemIsSelectable
+            )
+        elif node.definition.widget_type == 'readonly':
+            return (
+                qtc.Qt.ItemFlag.ItemIsSelectable
+                | qtc.Qt.ItemFlag.ItemIsEnabled
+            )
         return (
             qtc.Qt.ItemFlag.ItemIsSelectable
             | qtc.Qt.ItemFlag.ItemIsEnabled
@@ -95,15 +104,26 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
         row = index.row()
         column = index.column()
         
-        if role == qtc.Qt.ItemDataRole.DisplayRole or role == qtc.Qt.ItemDataRole.EditRole:
-            if column == 0: return node.display_name()
-            elif column == 1: 
-                if node.is_parameter: return node.get_value()
-                else: return ''
-            else: return None
-        elif role == qtc.Qt.ItemDataRole.ToolTipRole:
-            if node.is_parameter and column == 0: return node.description()
-            else: return None
+        if column == 1 and node.is_parameter and node.definition.widget_type == "checkbox":
+            if role == qtc.Qt.ItemDataRole.CheckStateRole:
+                return (
+                    qtc.Qt.CheckState.Checked
+                    if node.get_value()
+                    else qtc.Qt.CheckState.Unchecked
+                )
+            elif role in (
+                qtc.Qt.ItemDataRole.DisplayRole,
+                qtc.Qt.ItemDataRole.EditRole,
+            ):
+                return None
+        elif role in (
+            qtc.Qt.ItemDataRole.DisplayRole,
+            qtc.Qt.ItemDataRole.EditRole,
+        ):
+            if column == 0:
+                return node.display_name()
+            elif column == 1:
+                return node.get_value() if node.is_parameter else ""
         else:
             return None
     
@@ -115,8 +135,10 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
         if node.is_parameter:
             if node.get_value() == value:
                 return False
-            try:                
+            try:
                 node.set_value(value)
+                if role == qtc.Qt.ItemDataRole.CheckStateRole:
+                    value = "True" if value == 2 else "False"
                 self.dataChanged.emit(index, index, [qtc.Qt.ItemDataRole.EditRole])
                 self._logger.info(f"Parameter '{node.name}' set to '{value}'.")
                 return True

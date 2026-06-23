@@ -1,10 +1,10 @@
 from typing import Literal
 
-from flashy.detectors.bergoz_bct.definition import BERGOZBCT_DEFINITIONS
 from flashy.models.parameters.container import ParameterContainer
+from flashy.detectors.bergoz_bct.definition import BERGOZBCT_DEFINITIONS
 
 
-class BergozBCT(ParameterContainer):
+class BergozBCT(ParameterContainer, tag_field="tag", tag=str.lower):
     """
     Dataclass containing Bergoz's BCT configuration.
     
@@ -16,5 +16,3 @@ class BergozBCT(ParameterContainer):
     
     :meta hide-value:
     """
-    type: Literal["bergoz_bct"] = 'bergoz_bct'
-    """Fixed identifier of this detector."""

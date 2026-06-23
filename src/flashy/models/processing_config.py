@@ -20,12 +20,10 @@ class AcquisitionConfig(msgspec.Struct):
             digitizer=caen,
             detector_assignments=[
                 DetectorAssignment(
-                    detector=bergoz_1,
-                    digitizer_channel=0,
+                    detector=bergoz_bct
                 ),
                 DetectorAssignment(
-                    detector=bergoz_2,
-                    digitizer_channel=1,
+                    detector=dummy_detector
                 ),
             ]
         )

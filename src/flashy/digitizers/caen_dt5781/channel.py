@@ -14,7 +14,3 @@ class CaenDT5781Channel(ParameterContainer):
     
     :meta hide-value:
     """
-    channel_id: int = -1
-    """Channel identification"""
-    enabled: bool = True
-    """Flag for channel usage"""

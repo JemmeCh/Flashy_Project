@@ -168,11 +168,11 @@ class CaenDT5781Acquisition:
             if self.state != AcquisitionState.ERROR:
                 self._set_ready()
             
-            if on_event_dump:
+            """ if on_event_dump:
                 from flashy.debug import make_test_data
                 test_data = make_test_data()
                 on_event_dump.emit(test_data)
-                self._logger.debug('test data sent!')
+                self._logger.debug('test data sent!') """
             if on_event_dump:
                 batch = all_detect
                 all_detect = []
@@ -208,10 +208,8 @@ class CaenDT5781Acquisition:
         dig.par.STARTMODE.value     = 'START_MODE_SW'  # Set software start mode_board parameter
         dig.par.WAVEFORMS.value     = 'TRUE'  # Enable waveforms
         # Set channel parameters
-        for i, ch in enumerate(dig.ch): # TODO: Make Definition for CH_ENABLED + add to parameter GUI
-            ch.par.CH_ENABLED.value = 'TRUE' if digitizer_channels[i].enabled else 'FALSE'
-        for i, channel in enumerate(digitizer_channels):
-            chX = dig.get_node(f"/ch/{i}/par/")
+        for channel in digitizer_channels:
+            chX = dig.get_node(f"/ch/{channel.get_value('ch_id')}/par/")
             for key, definition in reg.iter_caen5781_parameters():
                 digitizer_name = definition.hardware_name
                 assert type(digitizer_name) == str

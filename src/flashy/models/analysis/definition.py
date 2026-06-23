@@ -3,6 +3,15 @@ from flashy.models.parameters.parsers import parse_equation
 from flashy.models.parameters.validators import validate_combo_box
 
 ANALYSIS_DEFINITIONS = {
+    "use_file_analysis": ParameterDefinition(
+        key="use_file_analysis",
+        name="Use File Parameters",
+        description="Enable to use the file's analysis parameters",
+        path="User",
+        value_type=bool,
+        default=True,
+        widget_type="checkbox"
+    ),
     "area_calc_method": ParameterDefinition(
         key="area_calc_method",
         name="Méthode du calcul d'aire",

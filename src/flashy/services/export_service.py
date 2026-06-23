@@ -230,8 +230,8 @@ def main():
     ]
     
     t_bergoz = BergozBCT.create_default()
-    t_caen_ch0 = CaenDT5781Channel.create_default(channel_id=0)
-    t_caen_ch1 = CaenDT5781Channel.create_default(channel_id=1)
+    t_caen_ch0 = CaenDT5781Channel.create_default()
+    t_caen_ch1 = CaenDT5781Channel.create_default()
     t_analysis = AnalysisConfig.create_default()
     test_config = ProcessingConfig(
         acquisition=AcquisitionConfig(
@@ -240,12 +240,10 @@ def main():
             ),
             detector_assignments=[
                 DetectorAssignment(
-                    detector=t_bergoz,
-                    digitizer_channel=0
+                    detector=t_bergoz
                     ),
                 DetectorAssignment(
-                    detector=t_bergoz,
-                    digitizer_channel=1
+                    detector=t_bergoz
                     ),
             ]
         ),

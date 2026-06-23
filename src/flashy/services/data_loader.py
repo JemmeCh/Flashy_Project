@@ -11,6 +11,7 @@ from flashy.models.analysis.config import AnalysisConfig
 from flashy.models.user.config import UserConfig
 from flashy.detectors.detector import DetectorAssignment
 from flashy.services.logger.logger_service import get_logger
+from flashy.services.normalizer import Normalizer
 
 # TODO: 
 # - In read_file: needs to check which channel it is for correct rdc_len (recent: what is blud talking about?)
@@ -26,6 +27,7 @@ class DataLoader:
     """
     def __init__(self) -> None:
         self._logger = get_logger()
+        self._normalizer = Normalizer()
     
     def read_file(self, filename: str) -> tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]]:
         if filename.lower().endswith('.tdms'):
@@ -60,6 +62,7 @@ class DataLoader:
         processing_config_json = json.loads(props['processing_config']) #type:ignore --> Tested and worked
         acquisition_config = msgspec.convert(processing_config_json['acquisition'], type=AcquisitionConfig)
         analysis_config = msgspec.convert(processing_config_json['analysis'], type=AnalysisConfig)
+        # TODO: Verify that the data is valid
         
         # Get data per channel
         data = {}
@@ -98,8 +101,10 @@ class DataLoader:
         user_config_dict = all_dict['user_config']
         processing_config_dict = all_dict['processing_config']
         user_config = msgspec.convert(user_config_dict, type=UserConfig)
+        user_config = self._normalizer.confirm_user_config(user_config)
         processing_config = msgspec.convert(processing_config_dict, type=ProcessingConfig)
-        # TODO: Verify that the data is valid
+        processing_config = self._normalizer.confirm_processing_config(processing_config)
+        
         return user_config, processing_config
     
     # =======================================================================
@@ -143,12 +148,11 @@ class DataLoader:
         # Make default processing config
         acquisition_config = AcquisitionConfig(
             digitizer=CaenDT5781Config(
-                [CaenDT5781Channel.create_default(channel_id=0)],
+                [CaenDT5781Channel.create_default()],
             ),
             detector_assignments=[
                 DetectorAssignment(
-                    detector=BergozBCT.create_default(),
-                    digitizer_channel=0
+                    detector=BergozBCT.create_default()
                     )
                 ]
         )

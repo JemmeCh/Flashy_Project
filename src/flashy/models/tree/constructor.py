@@ -70,12 +70,8 @@ def construct_processing_tree(config: "ProcessingConfig", root_name: str = 'root
         definition=None
     )
     for assignement in config.acquisition.detector_assignments:
-        channel_node = ensure_path(
-            parent_node=detector_node,
-            path=[f'Channel {assignement.digitizer_channel}']
-        )
         add_container_parameters(
-            parent_node=channel_node,
+            parent_node=detector_node,
             container=assignement.detector
         )
     
@@ -89,7 +85,7 @@ def construct_processing_tree(config: "ProcessingConfig", root_name: str = 'root
     for channel in config.acquisition.digitizer.channels:
         channel_node = ensure_path(
             parent_node=digitizer_node,
-            path=[f'Channel {channel.channel_id}']
+            path=[f'Channel {channel.get_value('ch_id')}']
         )
         add_container_parameters(
             parent_node=channel_node,
@@ -133,8 +129,8 @@ def _make_test_processing_config():
     from flashy.detectors.bergoz_bct.bergoz_bct import BergozBCT
     
     t_bergoz = BergozBCT.create_default()
-    t_caen_ch0 = CaenDT5781Channel.create_default(channel_id=0)
-    t_caen_ch1 = CaenDT5781Channel.create_default(channel_id=1)
+    t_caen_ch0 = CaenDT5781Channel.create_default()
+    t_caen_ch1 = CaenDT5781Channel.create_default()
     t_analysis = AnalysisConfig.create_default()
     test_config = ProcessingConfig(
         acquisition=AcquisitionConfig(
@@ -144,12 +140,10 @@ def _make_test_processing_config():
             ]),
             detector_assignments=[
                 DetectorAssignment(
-                    detector=t_bergoz,
-                    digitizer_channel=0
+                    detector=t_bergoz
                     ),
                 DetectorAssignment(
-                    detector=t_bergoz,
-                    digitizer_channel=1
+                    detector=t_bergoz
                     ),
             ]
         ),
