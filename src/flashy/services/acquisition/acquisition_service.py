@@ -308,7 +308,6 @@ def main():
     from flashy.models.analysis.config import AnalysisConfig
     from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
     from flashy.digitizers.caen_dt5781.config import CaenDT5781Config
-    from flashy.detectors.detector import DetectorAssignment
     from flashy.detectors.bergoz_bct.bergoz_bct import BergozBCT
     
     from PySide6.QtWidgets import QApplication
@@ -327,14 +326,7 @@ def main():
             digitizer=CaenDT5781Config(
                 [t_caen_ch0, t_caen_ch1],
             ),
-            detector_assignments=[
-                DetectorAssignment(
-                    detector=t_bergoz
-                    ),
-                DetectorAssignment(
-                    detector=t_bergoz
-                    ),
-            ]
+            detectors=[t_bergoz, t_bergoz]
         ),
         analysis=t_analysis
     )

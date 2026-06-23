@@ -4,6 +4,9 @@ from flashy.models.tree.node import TreeNode
 if TYPE_CHECKING:
     from flashy.models.processing_config import ProcessingConfig
     from flashy.models.user.config import UserConfig
+    from flashy.models.analysis.config import AnalysisConfig
+    from flashy.detectors.detector import DetectorsConfig
+    from flashy.digitizers.digitizer import DigitizersConfig
 
 
 def ensure_path(parent_node: TreeNode, path: List[str]) -> TreeNode:
@@ -30,77 +33,77 @@ def add_container_parameters(parent_node: TreeNode, container):
     for param in container.DEFINITIONS.values():
         group_node = ensure_path(
             parent_node=parent_node,
-            path=[param.path]
+            path=param.path.split('/')
         )
         node = TreeNode(
             name=param.name,
-            parent=parent_node,
+            parent=group_node,
             node_type='parameter',
             definition=param,
             container=container
         )
         group_node.add_child(node)
 
-def construct_processing_tree(config: "ProcessingConfig", root_name: str = 'root'):
-    # Root
+
+
+def construct_user_tree(config: "UserConfig", root_name: str = 'root') -> TreeNode:
     root_node = TreeNode(
         name=root_name,
         parent=None,
         node_type='root',
-        definition=None,
-    )
-    
-    # Analysis
-    analysis_node = TreeNode(
-        name='Analysis',
-        parent=root_node,
-        node_type='container',
         definition=None,
     )
     add_container_parameters(
-        parent_node=analysis_node,
-        container=config.analysis
+        parent_node=root_node,
+        container=config
     )
     
-    # Detectors
-    detector_node = TreeNode(
-        name='Detectors',
-        parent=root_node,
-        node_type='container',
-        definition=None
-    )
-    for assignement in config.acquisition.detector_assignments:
-        add_container_parameters(
-            parent_node=detector_node,
-            container=assignement.detector
-        )
-    
-    # Digitizers
-    digitizer_node = TreeNode(
-        name='Digitizer',
-        parent=root_node,
-        node_type='container',
-        definition=None
-    )
-    for channel in config.acquisition.digitizer.channels:
-        channel_node = ensure_path(
-            parent_node=digitizer_node,
-            path=[f'Channel {channel.get_value('ch_id')}']
-        )
-        add_container_parameters(
-            parent_node=channel_node,
-            container=channel
-        )
-    
-    
-    root_node.add_child(analysis_node)
-    root_node.add_child(detector_node)
-    root_node.add_child(digitizer_node)
     return root_node
 
-def construct_user_tree(config: "UserConfig", root_name: str = 'root'):
-    # WIP: Proper model for user config
-    # Root
+def construct_analysis_tree(config: "AnalysisConfig", root_name: str = 'root') -> TreeNode:
+    root_node = TreeNode(
+        name=root_name,
+        parent=None,
+        node_type='root',
+        definition=None,
+    )
+    add_container_parameters(
+        parent_node=root_node,
+        container=config
+    )
+    return root_node
+
+def construct_digitizers_trees(config: "DigitizersConfig", root_name: str = "root") -> TreeNode:
+    root_node = TreeNode(
+        name=root_name,
+        parent=None,
+        node_type="root",
+        definition=None,
+    )
+    
+    for digitizer in config.digitizers:
+        digitizer_group = TreeNode(
+            name=digitizer.display_name,
+            parent=root_node,
+            node_type="group",
+        )
+        root_node.add_child(digitizer_group)
+        
+        for channel in digitizer.channels:
+            channel_node = TreeNode(
+                name=f"Channel {channel.get_value('ch_id')}",
+                parent=digitizer_group,
+                node_type="group",
+            )
+            digitizer_group.add_child(channel_node)
+            add_container_parameters(
+                parent_node=channel_node,
+                container=channel,
+            )
+    
+    return root_node
+
+def construct_detectors_trees(config: "DetectorsConfig", root_name: str = 'root') -> TreeNode:
     root_node = TreeNode(
         name=root_name,
         parent=None,
@@ -108,24 +111,32 @@ def construct_user_tree(config: "UserConfig", root_name: str = 'root'):
         definition=None,
     )
     
-    user_node = TreeNode(
-        name='User',
-        parent=root_node,
-        node_type='container',
-        definition=None
-    )
+    for detector in config.detectors:
+        add_container_parameters(
+            parent_node=root_node,
+            container=detector
+        )
     
-    root_node.add_child(user_node)
     return root_node
 
-
+def combine_root_trees(trees: list[TreeNode], root_name: str = 'root') -> TreeNode:
+    root_node = TreeNode(
+        name=root_name,
+        parent=None,
+        node_type='root',
+        definition=None,
+    )
+    
+    for tree in trees:
+        root_node.add_child(tree)
+    
+    return root_node
 
 def _make_test_processing_config():
     from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
     from flashy.models.analysis.config import AnalysisConfig
     from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
     from flashy.digitizers.caen_dt5781.config import CaenDT5781Config
-    from flashy.detectors.detector import DetectorAssignment
     from flashy.detectors.bergoz_bct.bergoz_bct import BergozBCT
     
     t_bergoz = BergozBCT.create_default()
@@ -138,14 +149,7 @@ def _make_test_processing_config():
                 t_caen_ch0, 
                 t_caen_ch1
             ]),
-            detector_assignments=[
-                DetectorAssignment(
-                    detector=t_bergoz
-                    ),
-                DetectorAssignment(
-                    detector=t_bergoz
-                    ),
-            ]
+            detectors=[t_bergoz, t_bergoz]
         ),
         analysis=t_analysis
     )
@@ -158,7 +162,7 @@ def _make_test_user_config():
     return test_config
 
 if __name__ == '__main__':
-    tree = construct_processing_tree(_make_test_processing_config())
+    #tree = construct_processing_tree(_make_test_processing_config())
     """ print(tree.children)
     print('-'*80)
     print(tree.children[0].children[0].children)

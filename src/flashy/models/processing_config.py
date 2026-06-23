@@ -2,13 +2,13 @@ import msgspec
 
 from flashy.models.analysis.config import AnalysisConfig
 from flashy.digitizers.digitizer import Digitizer
-from flashy.detectors.detector import DetectorAssignment
+from flashy.detectors.detector import Detector
 
 # =======================================================================
 # Configurations for data 
 # =======================================================================
 
-class AcquisitionConfig(msgspec.Struct):
+class AcquisitionConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
     """
     Parameters for an acquisition configuration.
     
@@ -18,24 +18,17 @@ class AcquisitionConfig(msgspec.Struct):
         
         AcquisitionConfig(
             digitizer=caen,
-            detector_assignments=[
-                DetectorAssignment(
-                    detector=bergoz_bct
-                ),
-                DetectorAssignment(
-                    detector=dummy_detector
-                ),
-            ]
+            detectors=[bergoz_bct, detector=dummy_detector]
         )
     
     :inherits: msgspec.Struct
     """
     digitizer: Digitizer
     """Used digitizer during acquisition."""
-    detector_assignments: list[DetectorAssignment]
+    detectors: list[Detector]
     """List of detectors where each element represents a channel of the digitizer."""
 
-class ProcessingConfig(msgspec.Struct):
+class ProcessingConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
     """
     Parameters for processing pulses with acquisition and analysis configurations.
     

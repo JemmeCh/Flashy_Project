@@ -1,16 +1,10 @@
 import msgspec
-from typing import Union
+from typing import Union, List
 
 from flashy.detectors.bergoz_bct.bergoz_bct import BergozBCT
 from flashy.detectors.dummy.dummy import DummyDetector
 
-Detector = Union[BergozBCT, DummyDetector]
+Detector = Union[DummyDetector, BergozBCT]
 
-class DetectorAssignment(msgspec.Struct, tag=True):
-    """
-    Dataclass containing the detector and its assigned channel.
-    
-    :inherits: :py:class:`msgspec.Struct`
-    """
-    detector: Detector
-    """Detector to be assigned."""
+class DetectorsConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
+    detectors: List[Detector]

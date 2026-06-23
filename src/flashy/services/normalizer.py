@@ -4,14 +4,20 @@ from typing import Any, List
 from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
 from flashy.models.analysis.config import AnalysisConfig
 from flashy.models.user.config import UserConfig
+from flashy.detectors.detector import DetectorsConfig
+from flashy.digitizers.digitizer import DigitizersConfig
+
 from flashy.models.batch_pulses import BatchPulses
 from flashy.services.logger.logger_service import get_logger
 
-from flashy.detectors.detector import DetectorAssignment
-from flashy.detectors.bergoz_bct.bergoz_bct import BergozBCT
+from flashy.detectors.detector import Detector
 from flashy.detectors.dummy.dummy import DummyDetector
-from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
+from flashy.detectors.bergoz_bct.bergoz_bct import BergozBCT
+from flashy.digitizers.digitizer import Digitizer
+from flashy.digitizers.dummy.config import DummyDigitizerConfig
+from flashy.digitizers.dummy.channel import DummyDigitizerChannel
 from flashy.digitizers.caen_dt5781.config import CaenDT5781Config
+from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
 
 # TODO:
 # - Make confirmation methods support multiple detectors
@@ -40,7 +46,7 @@ class Normalizer:
             analysis_nC2cGy_factor=processing_config.analysis.get_value('nC2cGy_factor'),
             digitizer_sampeling_period_ns=processing_config.acquisition.digitizer.sampling_period_ns,
             digitizer_ADC2V_factor=processing_config.acquisition.digitizer.get_adc_to_volts_factor(channel_id),
-            detector_Vns2nC_factor=processing_config.acquisition.detector_assignments[channel_id].detector.get_value('Vs2C_factor')
+            detector_Vns2nC_factor=processing_config.acquisition.detectors[channel_id].get_value('Vs2C_factor')
         )
         return batch_pulses
     
@@ -61,7 +67,7 @@ class Normalizer:
             analysis_nC2cGy_factor=processing_config.analysis.get_value('nC2cGy_factor'),
             digitizer_sampeling_period_ns=processing_config.acquisition.digitizer.sampling_period_ns,
             digitizer_ADC2V_factor=processing_config.acquisition.digitizer.get_adc_to_volts_factor(channel_id),
-            detector_Vns2nC_factor=processing_config.acquisition.detector_assignments[channel_id].detector.get_value('Vs2C_factor')
+            detector_Vns2nC_factor=processing_config.acquisition.detectors[channel_id].get_value('Vs2C_factor')
         )
         return batch_pulses
     
@@ -81,6 +87,10 @@ class Normalizer:
         
         return np.append(res, bat, axis=1)
     
+    # =======================================================================
+    # Confirm configurations
+    # =======================================================================
+    
     def confirm_user_config(self, user_config: "UserConfig") -> "UserConfig":
         defaults = UserConfig.create_default()
         good_config = UserConfig.create_default()
@@ -92,66 +102,74 @@ class Normalizer:
                 good_config.set_value(key, value)
         return good_config
     
-    def confirm_processing_config(self, processing_config: "ProcessingConfig") -> "ProcessingConfig":
-        # Digitizer
-        if isinstance(processing_config.acquisition.digitizer, CaenDT5781Config):
-            default_digitizer = self._make_default_caen_digitizer()
-            good_digitizer= self._make_default_caen_digitizer()
-        else:
-            # TODO: Make dummy digitizer and dummy detectors for default
-            default_digitizer = self._make_default_caen_digitizer()
-            good_digitizer = self._make_default_caen_digitizer()
+    def confirm_analysis_config(self, analysis_config: "AnalysisConfig") -> AnalysisConfig:
+        default_analysis = AnalysisConfig.create_default()
+        good_analysis = AnalysisConfig.create_default()
         
-        for i, ch in enumerate(processing_config.acquisition.digitizer.channels):
-            for key, value in ch.values.items():
-                if key in processing_config.acquisition.digitizer.channels[i].values.keys():
-                    good_digitizer.channels[i].set_value(
-                        key, processing_config.acquisition.digitizer.channels[i].get_value(key)
-                    )
-                else:    
-                    self._logger.warning(f"Missing {key} parameter in JSON file. Adding default value")
-                    good_digitizer.channels[i].set_value(key, value)
-        
-        # Detector Assignment
-        good_assignments = []
-        for i in range(len(good_digitizer.channels)):
-            cheking_detector = processing_config.acquisition.detector_assignments[i]
-            if isinstance(cheking_detector.detector, BergozBCT):
+        for key, value in default_analysis.values.items():
+            if key in analysis_config.values.keys():
+                good_analysis.set_value(key, analysis_config.get_value(key))
+            else:
+                self._logger.warning(f"Missing {key} parameter in JSON file. Adding default value")
+                good_analysis.set_value(key, value)
+        return good_analysis
+    
+    def confirm_digitizers_config(self, digitizers_config: "DigitizersConfig") -> "DigitizersConfig":
+        good_digitizers = []
+        for checking_digitizer in digitizers_config.digitizers:
+            if isinstance(checking_digitizer, CaenDT5781Config):
+                default_digitizer = self._make_default_caen_digitizer()
+                good_digitizer= self._make_default_caen_digitizer()
+            else:
+                default_digitizer = self._make_default_digitizer()
+                good_digitizer = self._make_default_digitizer()
+            
+            for i, ch in enumerate(checking_digitizer.channels):
+                for key, value in default_digitizer.channels[0].values.items():
+                    if key in ch.values.keys():
+                        good_digitizer.channels[i].set_value(
+                            key, ch.get_value(key)
+                        )
+                    else:    
+                        self._logger.warning(f"Missing {key} parameter in JSON file. Adding default value")
+                        good_digitizer.channels[i].set_value(key, value)
+            good_digitizers.append(good_digitizer)
+        return DigitizersConfig(good_digitizers)
+    
+    def confirm_detectors_config(self, detectors_config: "DetectorsConfig") -> "DetectorsConfig":
+        good_detectors = []
+        for i, cheking_detector in enumerate(detectors_config.detectors):
+            if isinstance(cheking_detector, BergozBCT):
                 default_detector = self._make_bergoz_detector(i)
                 good_detector = self._make_bergoz_detector(i)
             else:
                 default_detector = self._make_default_detector(i)
                 good_detector = self._make_default_detector(i)
             
-            for key, value in default_detector.detector.values.items():
-                if key in cheking_detector.detector.values.keys():
-                    good_detector.detector.set_value(key, cheking_detector.detector.get_value(key))
+            for key, value in default_detector.values.items():
+                if key in cheking_detector.values.keys():
+                    good_detector.set_value(key, cheking_detector.get_value(key))
                 else:
                     self._logger.warning(f"Missing {key} parameter in JSON file. Adding default value")
-                    good_detector.detector.set_value(key, value)
-            good_assignments.append(good_detector)
-        
-        # Analysis
-        default_analysis = AnalysisConfig.create_default()
-        good_analysis = AnalysisConfig.create_default()
-        
-        for key, value in default_analysis.values.items():
-            if key in processing_config.analysis.values.keys():
-                good_analysis.set_value(key, processing_config.analysis.get_value(key))
-            else:
-                self._logger.warning(f"Missing {key} parameter in JSON file. Adding default value")
-                good_analysis.set_value(key, value)
-        
-        good_config = ProcessingConfig(
-            acquisition=AcquisitionConfig(
-                digitizer=good_digitizer,
-                detector_assignments=good_assignments
-            ),
-            analysis=good_analysis
-        )
-        return good_config
+                    good_detector.set_value(key, value)
+            good_detectors.append(good_detector)
+        return DetectorsConfig(good_detectors)
     
-    def _make_default_caen_digitizer(self) -> CaenDT5781Config:
+    # =======================================================================
+    # Make defaults
+    # =======================================================================
+    
+    def _make_default_digitizer(self) -> Digitizer:
+        t_ch0 = DummyDigitizerChannel.create_default()
+        t_ch1 = DummyDigitizerChannel.create_default()
+        t_ch2 = DummyDigitizerChannel.create_default()
+        t_ch3 = DummyDigitizerChannel.create_default()
+        digitizer_config = DummyDigitizerConfig(
+            [t_ch0, t_ch1, t_ch2, t_ch3],
+        )
+        return digitizer_config
+    
+    def _make_default_caen_digitizer(self) -> Digitizer:
         t_caen_ch0 = CaenDT5781Channel.create_default()
         t_caen_ch1 = CaenDT5781Channel.create_default()
         digitizer_config = CaenDT5781Config(
@@ -159,21 +177,15 @@ class Normalizer:
         )
         return digitizer_config
     
-    def _make_bergoz_detector(self, i: int) -> DetectorAssignment:
-        t_bergoz = BergozBCT.create_default()
-        detector = DetectorAssignment(
-            detector=t_bergoz
-        )
-        detector.detector.set_value('digitizer_channel', i)
-        return detector
-    
-    def _make_default_detector(self, i: int) -> DetectorAssignment:
+    def _make_default_detector(self, i: int) -> Detector:
         t_detector = DummyDetector.create_default()
-        detector = DetectorAssignment(
-            detector=t_detector
-        )
-        detector.detector.set_value('digitizer_channel', i)
-        return detector
+        t_detector.set_value('digitizer_channel', i)
+        return t_detector
+    
+    def _make_bergoz_detector(self, i: int) -> Detector:
+        t_bergoz = BergozBCT.create_default()
+        t_bergoz.set_value('digitizer_channel', i)
+        return t_bergoz
 
 
 def main():
@@ -196,14 +208,7 @@ def main():
             digitizer=CaenDT5781Config(
                 [t_caen_ch0, t_caen_ch1],
             ),
-            detector_assignments=[
-                DetectorAssignment(
-                    detector=t_bergoz
-                    ),
-                DetectorAssignment(
-                    detector=t_bergoz
-                    ),
-            ]
+            detectors=[t_bergoz, t_bergoz]
         ),
         analysis=t_analysis
     )

@@ -9,7 +9,10 @@ from flashy.services.logger.logger_service import get_logger
 
 if TYPE_CHECKING:
     from flashy.models.processing_config import ProcessingConfig
+    from flashy.models.analysis.config import AnalysisConfig
     from flashy.models.user.config import UserConfig
+    from flashy.detectors.detector import DetectorsConfig
+    from flashy.digitizers.digitizer import DigitizersConfig 
     from flashy.models.batch_pulses import BatchPulses
 
 class DataExporter:
@@ -101,103 +104,46 @@ class DataExporter:
     def save_config_to_json(
         self, 
         user_config: "UserConfig", 
-        processing_config: "ProcessingConfig"
+        analysis_config: "AnalysisConfig",
+        digitizers_config: "DigitizersConfig",
+        detectors_config: "DetectorsConfig",
     ) -> None:
+        # TODO: Redo Documentation
         """
         Save configuration to a JSON file when closing the program.
         
         :param user_config: Current user configuration.
         :type user_config: UserConfig
-        :param processing_config: Current processing configuration.
-        :type processing_config: ProcessingConfig
         """
         filename_json: str = 'config.json'
         
         user_config_prep: dict = msgspec.to_builtins(user_config)
-        processing_config_prep: dict = msgspec.to_builtins(processing_config)
+        analysis_config_prep: dict = msgspec.to_builtins(analysis_config)
+        digitizers_config_prep: dict = msgspec.to_builtins(digitizers_config)
+        detectors_config_prep: dict = msgspec.to_builtins(detectors_config)
         to_save: dict = {
             "user_config": user_config_prep,
-            "processing_config": processing_config_prep
+            "analysis_config": analysis_config_prep,
+            "digitizers_config": digitizers_config_prep,
+            "detectors_config": detectors_config_prep,
         }
         with open(filename_json, 'w', encoding='utf-8') as f:
             json.dump(to_save, f, ensure_ascii=False, indent=4)
         self._logger.info("Configuration saved to disk")
-    
-    # =======================================================================
-    # NOT USED
-    # =======================================================================
-    
-    def write_all_rawdata_to_tdms(
-        self, 
-        data: List[List[Any]], 
-        file_path: str, 
-        processing_config: "ProcessingConfig",
-        acquisition_type: str = 'run'
-    ) -> None:
-        """
-        Legacy method for writing raw pulse data to a TDMS file.
-        
-        .. warning::
-            
-            This method is not used anymore. It has been replaced by
-            `write_post_acquisition_to_tdms` with a new data format.
-        
-        :param data: Raw pulse data to write to disk.
-        :type data: List[List[Any]]
-        :param file_path: Destination file path.
-        :type file_path: str
-        :param processing_config: Processing configuration used during acquisition.
-        :type processing_config: ProcessingConfig
-        :param acquisition_type: Context describing why the file was saved.
-        :type acquisition_type: str
-        """
-        config_json = json.dumps(msgspec.to_builtins(processing_config))    # NOTE: Change this to only msgspec func..?
-        with TdmsWriter(file_path) as writer:
-            # Write configuration and metadata
-            root_props = {
-                'acquisition_timestamp': datetime.now().isoformat(),
-                'acquisition_type': acquisition_type,
-                'total_events': len(data),
-                'processing_config': config_json
-            }
-            writer.write_segment([RootObject(properties=root_props)])
-            
-            # Seperate data per channel
-            for event_idx, event in enumerate(data):
-                # NOTE: 
-                # - Modify if more stuff from digitizer added (ie timestamp)
-                # - Modify if saving pulse information (mean, std, min, max, etc)
-                channel = str(event[0])
-                flag = str(event[1])
-                waveform_length = str(event[2])
-                samples = event[3].copy()
-                
-                channels_to_write = [
-                    ChannelObject(
-                        group=f"{channel}", # NOTE: Has to be int for AnalysisService._create_batch() 
-                        channel=f"Event_{event_idx}",
-                        data=samples,
-                        properties={
-                            'flag': flag,
-                            'wf_length': waveform_length,
-                            'event_number': event_idx,
-                        }
-                    )
-                ]
-                
-                writer.write_segment(channels_to_write)
-
 
 
 def main():
     """:meta private:"""
-    from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
-    from flashy.models.analysis.config import AnalysisConfig
     from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
     from flashy.digitizers.caen_dt5781.config import CaenDT5781Config
-    from flashy.detectors.detector import DetectorAssignment
+    from flashy.digitizers.dummy.channel import DummyDigitizerChannel
+    from flashy.digitizers.dummy.config import DummyDigitizerConfig
     from flashy.detectors.bergoz_bct.bergoz_bct import BergozBCT
+    from flashy.detectors.dummy.dummy import DummyDetector
     from flashy.models.user.config import UserConfig
+    from flashy.models.analysis.config import AnalysisConfig
+    from flashy.detectors.detector import DetectorsConfig
+    from flashy.digitizers.digitizer import DigitizersConfig
     
     one = '787;787;790;790;791;791;797;797;798;798;795;795;798;798;795;795;800;800;795;795;796;796;796;796;791;791;792;792;790;790;792;792;793;793;794;794;793;793;798;798;797;797;796;796;798;798;794;794;791;791;794;794;789;789;791;791;786;786;791;791;790;790;796;796;794;794;793;793;798;798;798;798;800;800;798;798;797;797;792;792;793;793;792;792;791;791;791;791;789;789;792;792;788;788;797;797;797;797;795;795;798;798;793;793;792;792;794;794;789;789;789;789;790;790;794;794;794;794;794;794;795;795;796;796;790;790;795;795;794;794;794;794;791;791;794;794;788;788;789;789;790;790;790;790;792;792;788;788;790;790;789;789;791;791;794;794;790;790;794;794;793;793;797;797;795;795;791;791;791;791;791;791;788;788;791;791;790;790;793;793;797;797;796;796;794;794;794;794;793;793;793;793;792;792;794;794;792;792;791;791;791;791;794;794;792;792;795;795;794;794;796;796;800;800;798;798;798;798;794;794;799;799;792;792;793;793;791;791;792;792;793;793;792;792;798;798;796;796;797;797;794;794;799;799;797;797;797;797;797;797;795;795;795;795;792;792;790;790;794;794;795;795;795;795;793;793;795;795;795;795;794;794;795;795;796;796;793;793;791;791;794;794;793;793;791;791;794;794;790;790;795;795;792;792;795;795;798;798;798;798;798;798;796;796;795;795;792;792;790;790;790;790;788;788;795;795;793;793;792;792;795;795;793;793;794;794;797;797;795;795;795;795;799;799;797;797;792;792;798;798;793;793;795;795;797;797;795;795;794;794;797;797;798;798;798;798;795;795;797;797;794;794;792;792;795;795;793;793;793;793;794;794;795;795;793;793;792;792;795;795;796;796;795;795;796;796;798;798;798;798;794;794;793;793;792;792;793;793;793;793;794;794;793;793;796;796;799;799;797;797;795;795;796;796;799;799;796;796;792;792;794;794;794;794;792;792;792;792;795;795;793;793;794;794;795;795;793;793;794;794;789;789;793;793;795;795;791;791;792;792;792;792;788;788;789;789;829;829;939;939;1147;1147;1434;1434;1766;1766;2140;2140;2545;2545;2958;2958;3362;3362;3742;3742;4096;4096;4428;4428;4728;4728;4981;4981;5189;5189;5347;5347;5456;5456;5509;5509;5528;5528;5512;5512;5477;5477;5430;5430;5390;5390;5337;5337;5286;5286;5245;5245;5204;5204;5174;5174;5158;5158;5146;5146;5138;5138;5140;5140;5142;5142;5155;5155;5167;5167;5184;5184;5204;5204;5220;5220;5243;5243;5264;5264;5289;5289;5314;5314;5336;5336;5358;5358;5381;5381;5402;5402;5418;5418;5433;5433;5454;5454;5471;5471;5484;5484;5500;5500;5518;5518;5531;5531;5539;5539;5557;5557;5565;5565;5572;5572;5579;5579;5590;5590;5602;5602;5615;5615;5629;5629;5639;5639;5651;5651;5662;5662;5669;5669;5686;5686;5693;5693;5704;5704;5711;5711;5730;5730;5732;5732;5738;5738;5742;5742;5750;5750;5749;5749;5756;5756;5759;5759;5766;5766;5767;5767;5770;5770;5772;5772;5778;5778;5779;5779;5788;5788;5791;5791;5791;5791;5793;5793;5799;5799;5804;5804;5800;5800;5798;5798;5800;5800;5800;5800;5802;5802;5811;5811;5821;5821;5826;5826;5833;5833;5837;5837;5843;5843;5843;5843;5844;5844;5844;5844;5844;5844;5848;5848;5844;5844;5847;5847;5845;5845;5843;5843;5839;5839;5836;5836;5832;5832;5832;5832;5832;5832;5829;5829;5831;5831;5823;5823;5823;5823;5825;5825;5832;5832;5832;5832;5834;5834;5830;5830;5835;5835;5836;5836;5835;5835;5834;5834;5829;5829;5831;5831;5833;5833;5833;5833;5832;5832;5828;5828;5830;5830;5825;5825;5824;5824;5783;5783;5541;5541;5031;5031;4344;4344;3576;3576;2869;2869;2274;2274;1828;1828;1500;1500;1270;1270;1102;1102;979;979;893;893;837;837;803;803;769;769;740;740;717;717;701;701;701;701;706;706;709;709;710;710;704;704;704;704;717;717;721;721;730;730;732;732;730;730;727;727;725;725;734;734;743;743;748;748;744;744;744;744;743;743;749;749;756;756;759;759;764;764;760;760;752;752;759;759;763;763;768;768;766;766;766;766;764;764;764;764;774;774;779;779;781;781;777;777;777;777;774;774;772;772;778;778;781;781;776;776;776;776;775;775;768;768;778;778;782;782;786;786;783;783;781;781;776;776;783;783;783;783;779;779;778;778;776;776;777;777;777;777;784;784;783;783;786;786;785;785;785;785;788;788;784;784;784;784;784;784;781;781;780;780;782;782;784;784;788;788;794;794;795;795;790;790;795;795;792;792;796;796;792;792;787;787;789;789;790;790;790;790;791;791;795;795;793;793;791;791;787;787;789;789;793;793;798;798;797;797;795;795;797;797;792;792;793;793;789;789;789;789;794;794;785;785;790;790;793;793;794;794;795;795;790;790;790;790;793;793;791;791;796;796;793;793;794;794;791;791;788;788;793;793;794;794;795;795;793;793;795;795;791;791;789;789;790;790;795;795;792;792;789;789;793;793;790;790;793;793;792;792;795;795;797;797;796;796;792;792;795;795;789;789;789;789;791;791;790;790;789;789;794;794;791;791;793;793;793;793;797;797;794;794;798;798;797;797;797;797;794;794;794;794;796;796;788;788;788;788;792;792;790;790;789;789;795;795;795;795;794;794;794;794;795;795;796;796;793;793;795;795;793;793;792;792;793;793;792;792;793;793;796;796;793;793;795;795;797;797;799;799;798;798;794;794;796;796;797;797;792;792;791;791;791;791;794;794;792;792;793;793;794;794;795;795;801;801;797;797;800;800;797;797;794;794;797;797;791;791;795;795;795;795;797;797;791;791;790;790;792;792;795;795;794;794;792;792;796;796;798;798;797;797;794;794;793;793;793;793;792;792;792;792;791;791;794;794;791;791;790;790;790;790;791;791;793;793;792;792;797;797;794;794;796;796;793;793;794;794;792;792;790;790;791;791;791;791;792;792;791;791;794;794;797;797;795;795;794;794;795;795;794;794;793;793;793;793;794;794;786;786;791;791;787;787;792;792;792;792;789;789;796;796;795;795;798;798;798;798;798;798;795;795;792;792;793;793;794;794;792;792;793;793;793;793;796;796;795;795;797;797;797;797;794;794;796;796;796;796;794;794;792;792;791;791;790;790;791;791;792;792;791;791;795;795;801;801;795;795;797;797;794;794;796;796;795;795;791;791;796;796;795;795;793;793;793;793;794;794;790;790;789;789;789;789;794;794;793;793;792;792;791;791;796;796;793;793;789;789;792;792;791;791;792;792;792;792;789;789;795;795;793;793;789;789;792;792;792;792;793;793;793;793;795;795;793;793;790;790;791;791;793;793;789;789;793;793;791;791;789;789;791;791;793;793;796;796;796;796;796;796;794;794;794;794;792;792;791;791;793;793;790;790;792;792;795;795;794;794;796;796;794;794;798;798;793;793;796;796;792;792;793;793;797;797;795;795;795;795;791;791;791;791;789;789;788;788;792;792;797;797;796;796;796;796;791;791;797;797;796;796;792;792;790;790;789;789;795;795;789;789;792;792;794;794;794;794;794;794;792;792;795;795;795;795;795;795;794;794;794;794;793;793;790;790'.split(';')
     one = [int(value) for value in one]
@@ -230,25 +176,28 @@ def main():
     ]
     
     t_bergoz = BergozBCT.create_default()
+    t_dummy = DummyDetector.create_default()
     t_caen_ch0 = CaenDT5781Channel.create_default()
     t_caen_ch1 = CaenDT5781Channel.create_default()
+    t_ch0 = DummyDigitizerChannel.create_default()
+    t_ch1 = DummyDigitizerChannel.create_default()
+    t_ch2 = DummyDigitizerChannel.create_default()
+    t_ch3 = DummyDigitizerChannel.create_default()
+    
+    t_user = UserConfig.create_default()
     t_analysis = AnalysisConfig.create_default()
-    test_config = ProcessingConfig(
-        acquisition=AcquisitionConfig(
-            digitizer=CaenDT5781Config(
-                [t_caen_ch0, t_caen_ch1],
-            ),
-            detector_assignments=[
-                DetectorAssignment(
-                    detector=t_bergoz
-                    ),
-                DetectorAssignment(
-                    detector=t_bergoz
-                    ),
-            ]
+    t_digitizers = DigitizersConfig([
+        CaenDT5781Config(
+            [t_caen_ch0, t_caen_ch1],
         ),
-        analysis=t_analysis
-    )
+        DummyDigitizerConfig(
+            [t_ch0, t_ch1, t_ch2, t_ch3]
+        )
+    ])
+    t_detectors = DetectorsConfig([
+        t_bergoz,
+        t_dummy
+    ])
     
     data_exporter = DataExporter()
     """ data_exporter.write_all_rawdata_to_tdms(
@@ -258,8 +207,12 @@ def main():
         'mock_data'
     ) """
     
-    user_config = UserConfig.create_default()
-    data_exporter.save_config_to_json(user_config, test_config)
+    data_exporter.save_config_to_json(
+        t_user,
+        t_analysis,
+        t_digitizers,
+        t_detectors
+    )
 
 if __name__ == '__main__':
     main()

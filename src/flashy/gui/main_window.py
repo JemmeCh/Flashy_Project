@@ -63,7 +63,10 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
     @qtc.Slot()
     def on_quit(self):
         self._app.serv_exporter.save_config_to_json(
-            self._app.user_config, self._app.processing_config
+            self._app.user_config, 
+            self._app.analysis_config,
+            self._app.digitizers_config,
+            self._app.detectors_config,
         )
 
 
