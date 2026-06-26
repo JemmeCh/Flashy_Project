@@ -2,7 +2,15 @@ from flashy.services.data_loader import DataLoader
 from flashy.services.export_service import DataExporter
 from flashy.services.analysis_service import AnalysisService
 from flashy.services.logger.logger_service import setup_logging
-from flashy.models.tree.constructor import *
+from flashy.models.tree.constructor import (
+    construct_user_tree,
+    construct_analysis_tree,
+    construct_digitizers_trees,
+    construct_detectors_trees,
+    combine_root_trees
+)
+from flashy.models.processing_config import ProcessingConfig
+from flashy.digitizers.map import DIGITIZER_MAP
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -39,14 +47,27 @@ class AppContext:
     
     @property
     def caendt5781_tree(self) -> "TreeNode":
-        return combine_root_trees(
-            [
-                self.analysis_tree,
-                self.digitizers_tree, # TODO: Get only Caen digitizer branch
-                self.detectors_tree
-            ]
+        root_name = "caen_dt5781"
+        dt5781_tree = self.digitizers_tree.find_path(
+            DIGITIZER_MAP[root_name].display_name
         )
+        if dt5781_tree is None: 
+            raise ValueError("Couldn't find specified tree node path.")
+        
+        return combine_root_trees(
+            trees=[
+                self.analysis_tree,
+                self.detectors_tree,
+                dt5781_tree,
+            ],
+            root_name=root_name
+        )
+    
+    @property
+    def caendt5781_processing_config(self) -> ProcessingConfig:
+        return ProcessingConfig.from_tree(self.caendt5781_tree)
 
 
 if __name__ == '__main__':
     context = AppContext()
+    print(context.caendt5781_processing_config)

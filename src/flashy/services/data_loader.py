@@ -6,12 +6,12 @@ import json
 
 from typing import Any, List
 
-from flashy.models.processing_config import AcquisitionConfig
+from flashy.models.acquisition_config import AcquisitionConfig
 
 from flashy.models.analysis.config import AnalysisConfig
 from flashy.models.user.config import UserConfig
-from flashy.detectors.detector import DetectorsConfig
-from flashy.digitizers.digitizer import DigitizersConfig
+from flashy.detectors.config import DetectorsConfig
+from flashy.digitizers.config import DigitizersConfig
 
 from flashy.services.logger.logger_service import get_logger
 from flashy.services.normalizer import Normalizer

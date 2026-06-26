@@ -51,6 +51,19 @@ class TreeNode:
             return 0
         return self.parent.children.index(self)
     
+    def find_path(self, *path: str) -> Optional["TreeNode"]:
+        node = self
+        
+        for name in path:
+            node = next(
+                (child for child in node.children if child.display_name() == name),
+                None,
+            )
+            if node is None:
+                return None
+        
+        return node
+    
     # -------------------------
     # Display helpers
     # -------------------------

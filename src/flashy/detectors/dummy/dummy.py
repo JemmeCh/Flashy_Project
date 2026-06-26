@@ -15,3 +15,6 @@ class DummyDetector(ParameterContainer, tag_field="tag", tag=str.lower):
     
     :meta hide-value:
     """
+    @property
+    def display_name(self) -> str:
+        return "Dummy"

@@ -124,6 +124,9 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
                 return node.display_name()
             elif column == 1:
                 return node.get_value() if node.is_parameter else ""
+        elif role == qtc.Qt.ItemDataRole.ToolTipRole:
+            if node.is_parameter and column == 0: return node.description()
+            else: return None
         else:
             return None
     

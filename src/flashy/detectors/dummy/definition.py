@@ -11,7 +11,7 @@ DUMMY_DEFINITIONS = {
         value_type=int,
         default=0,
         widget_type="entry",
-        valid_range=(0, 10),
+        valid_range=(0, 9999),
         step=1,
         validator=validate_range_and_step
     ),

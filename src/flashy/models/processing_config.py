@@ -1,32 +1,12 @@
 import msgspec
 
 from flashy.models.analysis.config import AnalysisConfig
-from flashy.digitizers.digitizer import Digitizer
-from flashy.detectors.detector import Detector
+from flashy.models.acquisition_config import AcquisitionConfig
 
-# =======================================================================
-# Configurations for data 
-# =======================================================================
+from typing import TYPE_CHECKING, Self
+if TYPE_CHECKING:
+    from flashy.models.tree.node import TreeNode
 
-class AcquisitionConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
-    """
-    Parameters for an acquisition configuration.
-    
-    :example:
-    
-    .. code-block:: python
-        
-        AcquisitionConfig(
-            digitizer=caen,
-            detectors=[bergoz_bct, detector=dummy_detector]
-        )
-    
-    :inherits: msgspec.Struct
-    """
-    digitizer: Digitizer
-    """Used digitizer during acquisition."""
-    detectors: list[Detector]
-    """List of detectors where each element represents a channel of the digitizer."""
 
 class ProcessingConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
     """
@@ -38,3 +18,21 @@ class ProcessingConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
     """The acquisition configuration used for processing."""
     analysis: AnalysisConfig
     """The analysis configuration used for processing."""
+    
+    @classmethod
+    def from_tree(cls, root_node: "TreeNode") -> Self:
+        analysis_node = root_node.find_path("Analysis")
+        if analysis_node is None: 
+            raise ValueError("Couldn't find specified tree node path.")
+        analysis_config = AnalysisConfig.from_tree(analysis_node)
+        
+        acquistion_config = AcquisitionConfig.from_tree(root_node)
+        
+        return cls(
+            acquisition=acquistion_config,
+            analysis=analysis_config
+        )
+    
+    def validate(self) -> None:
+        self.acquisition.validate()
+        self.analysis.validate()

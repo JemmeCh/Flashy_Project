@@ -67,6 +67,12 @@ class DT5781ControlsWidget(qtw.QWidget, Ui_DT5781ControlsWidget):
             self.stop_acquisition.emit()
     
     @qtc.Slot()
+    def wrong_processing_config(self):
+        self.acq_timer.toggle_timer()
+        self.pb_acquisition.setText('Begin Acquisition')
+        self._acq_running = False
+    
+    @qtc.Slot()
     def change_project(self):
         dialog = qtw.QFileDialog()
         dialog.setFileMode(qtw.QFileDialog.FileMode.Directory)

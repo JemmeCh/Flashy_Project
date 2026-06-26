@@ -11,7 +11,7 @@ import flashy.models.parameters.registry as reg
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from flashy.models.processing_config import AcquisitionConfig
+    from flashy.models.acquisition_config import AcquisitionConfig
 
 class CaenDT5781Acquisition:
     """
@@ -191,7 +191,7 @@ class CaenDT5781Acquisition:
     # =======================================================================
     
     def _setup_digitizer(self, dig, acquisition_config: "AcquisitionConfig"):
-        digitizer_channels: List[CaenDT5781Channel] = acquisition_config.digitizer.channels
+        digitizer_channels: List[CaenDT5781Channel] = acquisition_config.digitizer.channels #type:ignore
         
         # Reset
         dig.cmd.RESET()

@@ -1,7 +1,9 @@
 from PySide6.QtCore import QThread, Signal
 
 from flashy.digitizers.caen_dt5781.acquisition import CaenDT5781Acquisition
-from flashy.models.processing_config import AcquisitionConfig
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from flashy.models.acquisition_config import AcquisitionConfig
 
 class CaenDT5781AcquisitionWorker(QThread):
     """
@@ -16,7 +18,7 @@ class CaenDT5781AcquisitionWorker(QThread):
     def __init__(
         self, 
         acquisition: CaenDT5781Acquisition, 
-        config: AcquisitionConfig
+        config: "AcquisitionConfig"
     ) -> None:
         super().__init__()
         self.acquisition = acquisition

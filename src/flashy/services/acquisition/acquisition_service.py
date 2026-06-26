@@ -304,7 +304,8 @@ class AcquisitionService(qtc.QObject):
 
 def main():
     """:meta private:"""
-    from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
+    from flashy.models.processing_config import ProcessingConfig
+    from flashy.models.acquisition_config import AcquisitionConfig
     from flashy.models.analysis.config import AnalysisConfig
     from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
     from flashy.digitizers.caen_dt5781.config import CaenDT5781Config
