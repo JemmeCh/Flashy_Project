@@ -71,6 +71,7 @@ class MainWindow(qtw.QMainWindow, Ui_MainWindow):
 
 
 def main():
+    """:meta private:"""
     from flashy.app_context import AppContext
     from flashy.gui.theme import FLASHy_THEME
     qtw.QApplication.setStyle("Fusion")

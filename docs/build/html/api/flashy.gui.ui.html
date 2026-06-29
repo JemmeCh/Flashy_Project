@@ -1,0 +1,338 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flashy.gui.ui package &mdash; FLASHy 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="flashy.gui.widgets package" href="flashy.gui.widgets.html" />
+    <link rel="prev" title="flashy.gui.treeview package" href="flashy.gui.treeview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FLASHy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/usage.html">How to use FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/architecture.html">FLASHy’s Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/digitizers.html">Digitizers in FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/detectors.html">Detectors in FLASHy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference (auto-generated)</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="flashy.html">flashy package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="flashy.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="flashy.gui.html">flashy.gui package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="flashy.gui.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.html#module-flashy.gui.main_window">flashy.gui.main_window module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.html#module-flashy.gui.theme">flashy.gui.theme module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.html#module-flashy.gui">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.html">flashy.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.presenters.html">flashy.presenters package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy.app">flashy.app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy.app_context">flashy.app_context module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy.debug">flashy.debug module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.models.html">flashy.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FLASHy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="flashy.html">flashy package</a></li>
+          <li class="breadcrumb-item"><a href="flashy.gui.html">flashy.gui package</a></li>
+      <li class="breadcrumb-item active">flashy.gui.ui package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/flashy.gui.ui.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flashy-gui-ui-package">
+<h1>flashy.gui.ui package<a class="headerlink" href="#flashy-gui-ui-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-flashy.gui.ui.ressources_rc">
+<span id="flashy-gui-ui-ressources-rc-module"></span><h2>flashy.gui.ui.ressources_rc module<a class="headerlink" href="#module-flashy.gui.ui.ressources_rc" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.gui.ui.ressources_rc.qInitResources">
+<span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ressources_rc.</span></span><span class="sig-name descname"><span class="pre">qInitResources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ressources_rc.qInitResources" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.gui.ui.ressources_rc.qCleanupResources">
+<span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ressources_rc.</span></span><span class="sig-name descname"><span class="pre">qCleanupResources</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ressources_rc.qCleanupResources" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui.ui_analyser_controls">
+<span id="flashy-gui-ui-ui-analyser-controls-module"></span><h2>flashy.gui.ui.ui_analyser_controls module<a class="headerlink" href="#module-flashy.gui.ui.ui_analyser_controls" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_analyser_controls.Ui_AnalyserControlsWidget">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ui_analyser_controls.</span></span><span class="sig-name descname"><span class="pre">Ui_AnalyserControlsWidget</span></span><a class="headerlink" href="#flashy.gui.ui.ui_analyser_controls.Ui_AnalyserControlsWidget" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_analyser_controls.Ui_AnalyserControlsWidget.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AnalyserControlsWidget</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_analyser_controls.Ui_AnalyserControlsWidget.setupUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_analyser_controls.Ui_AnalyserControlsWidget.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AnalyserControlsWidget</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_analyser_controls.Ui_AnalyserControlsWidget.retranslateUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui.ui_analyser_tab">
+<span id="flashy-gui-ui-ui-analyser-tab-module"></span><h2>flashy.gui.ui.ui_analyser_tab module<a class="headerlink" href="#module-flashy.gui.ui.ui_analyser_tab" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_analyser_tab.Ui_TabAnalyser">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ui_analyser_tab.</span></span><span class="sig-name descname"><span class="pre">Ui_TabAnalyser</span></span><a class="headerlink" href="#flashy.gui.ui.ui_analyser_tab.Ui_TabAnalyser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_analyser_tab.Ui_TabAnalyser.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">TabAnalyser</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_analyser_tab.Ui_TabAnalyser.setupUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_analyser_tab.Ui_TabAnalyser.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">TabAnalyser</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_analyser_tab.Ui_TabAnalyser.retranslateUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui.ui_dt5781_controls">
+<span id="flashy-gui-ui-ui-dt5781-controls-module"></span><h2>flashy.gui.ui.ui_dt5781_controls module<a class="headerlink" href="#module-flashy.gui.ui.ui_dt5781_controls" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_dt5781_controls.Ui_DT5781ControlsWidget">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ui_dt5781_controls.</span></span><span class="sig-name descname"><span class="pre">Ui_DT5781ControlsWidget</span></span><a class="headerlink" href="#flashy.gui.ui.ui_dt5781_controls.Ui_DT5781ControlsWidget" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_dt5781_controls.Ui_DT5781ControlsWidget.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DT5781ControlsWidget</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_dt5781_controls.Ui_DT5781ControlsWidget.setupUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_dt5781_controls.Ui_DT5781ControlsWidget.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DT5781ControlsWidget</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_dt5781_controls.Ui_DT5781ControlsWidget.retranslateUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui.ui_dt5781_tab">
+<span id="flashy-gui-ui-ui-dt5781-tab-module"></span><h2>flashy.gui.ui.ui_dt5781_tab module<a class="headerlink" href="#module-flashy.gui.ui.ui_dt5781_tab" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_dt5781_tab.Ui_TabDT5781">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ui_dt5781_tab.</span></span><span class="sig-name descname"><span class="pre">Ui_TabDT5781</span></span><a class="headerlink" href="#flashy.gui.ui.ui_dt5781_tab.Ui_TabDT5781" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_dt5781_tab.Ui_TabDT5781.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">TabDT5781</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_dt5781_tab.Ui_TabDT5781.setupUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_dt5781_tab.Ui_TabDT5781.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">TabDT5781</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_dt5781_tab.Ui_TabDT5781.retranslateUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui.ui_feedback_widget">
+<span id="flashy-gui-ui-ui-feedback-widget-module"></span><h2>flashy.gui.ui.ui_feedback_widget module<a class="headerlink" href="#module-flashy.gui.ui.ui_feedback_widget" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_feedback_widget.Ui_FeedbackWidget">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ui_feedback_widget.</span></span><span class="sig-name descname"><span class="pre">Ui_FeedbackWidget</span></span><a class="headerlink" href="#flashy.gui.ui.ui_feedback_widget.Ui_FeedbackWidget" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_feedback_widget.Ui_FeedbackWidget.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">FeedbackWidget</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_feedback_widget.Ui_FeedbackWidget.setupUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_feedback_widget.Ui_FeedbackWidget.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">FeedbackWidget</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_feedback_widget.Ui_FeedbackWidget.retranslateUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui.ui_flashy_window">
+<span id="flashy-gui-ui-ui-flashy-window-module"></span><h2>flashy.gui.ui.ui_flashy_window module<a class="headerlink" href="#module-flashy.gui.ui.ui_flashy_window" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_flashy_window.Ui_MainWindow">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ui_flashy_window.</span></span><span class="sig-name descname"><span class="pre">Ui_MainWindow</span></span><a class="headerlink" href="#flashy.gui.ui.ui_flashy_window.Ui_MainWindow" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_flashy_window.Ui_MainWindow.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MainWindow</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_flashy_window.Ui_MainWindow.setupUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_flashy_window.Ui_MainWindow.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MainWindow</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_flashy_window.Ui_MainWindow.retranslateUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui.ui_parameter_treeview">
+<span id="flashy-gui-ui-ui-parameter-treeview-module"></span><h2>flashy.gui.ui.ui_parameter_treeview module<a class="headerlink" href="#module-flashy.gui.ui.ui_parameter_treeview" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_parameter_treeview.Ui_ParameterTreeView">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ui_parameter_treeview.</span></span><span class="sig-name descname"><span class="pre">Ui_ParameterTreeView</span></span><a class="headerlink" href="#flashy.gui.ui.ui_parameter_treeview.Ui_ParameterTreeView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_parameter_treeview.Ui_ParameterTreeView.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ParameterTreeView</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_parameter_treeview.Ui_ParameterTreeView.setupUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_parameter_treeview.Ui_ParameterTreeView.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ParameterTreeView</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_parameter_treeview.Ui_ParameterTreeView.retranslateUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui.ui_result_panel_widget">
+<span id="flashy-gui-ui-ui-result-panel-widget-module"></span><h2>flashy.gui.ui.ui_result_panel_widget module<a class="headerlink" href="#module-flashy.gui.ui.ui_result_panel_widget" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_result_panel_widget.Ui_ResultPanelWidget">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ui_result_panel_widget.</span></span><span class="sig-name descname"><span class="pre">Ui_ResultPanelWidget</span></span><a class="headerlink" href="#flashy.gui.ui.ui_result_panel_widget.Ui_ResultPanelWidget" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_result_panel_widget.Ui_ResultPanelWidget.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ResultPanelWidget</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_result_panel_widget.Ui_ResultPanelWidget.setupUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_result_panel_widget.Ui_ResultPanelWidget.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ResultPanelWidget</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_result_panel_widget.Ui_ResultPanelWidget.retranslateUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui.ui_result_table">
+<span id="flashy-gui-ui-ui-result-table-module"></span><h2>flashy.gui.ui.ui_result_table module<a class="headerlink" href="#module-flashy.gui.ui.ui_result_table" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_result_table.Ui_ResultTable">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.ui.ui_result_table.</span></span><span class="sig-name descname"><span class="pre">Ui_ResultTable</span></span><a class="headerlink" href="#flashy.gui.ui.ui_result_table.Ui_ResultTable" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_result_table.Ui_ResultTable.setupUi">
+<span class="sig-name descname"><span class="pre">setupUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ResultTable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_result_table.Ui_ResultTable.setupUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.ui.ui_result_table.Ui_ResultTable.retranslateUi">
+<span class="sig-name descname"><span class="pre">retranslateUi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ResultTable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.ui.ui_result_table.Ui_ResultTable.retranslateUi" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.ui">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-flashy.gui.ui" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="flashy.gui.treeview.html" class="btn btn-neutral float-left" title="flashy.gui.treeview package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="flashy.gui.widgets.html" class="btn btn-neutral float-right" title="flashy.gui.widgets package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Jean-Emmanuel Chouinard.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

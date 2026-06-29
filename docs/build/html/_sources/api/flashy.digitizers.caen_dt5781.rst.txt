@@ -36,6 +36,14 @@ flashy.digitizers.caen\_dt5781.definition module
    :show-inheritance:
    :undoc-members:
 
+flashy.digitizers.caen\_dt5781.handler module
+---------------------------------------------
+
+.. automodule:: flashy.digitizers.caen_dt5781.handler
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 flashy.digitizers.caen\_dt5781.worker module
 --------------------------------------------
 

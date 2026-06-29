@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="flashy.digitizers.caen_dt5781 package" href="flashy.digitizers.caen_dt5781.html" />
-    <link rel="prev" title="flashy.detectors.bergoz_bct package" href="flashy.detectors.bergoz_bct.html" /> 
+    <link rel="prev" title="flashy.detectors.dummy package" href="flashy.detectors.dummy.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -61,10 +61,29 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">flashy.digitizers package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html">flashy.digitizers.caen_dt5781 package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.dummy.html">flashy.digitizers.dummy package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.digitizers.config">flashy.digitizers.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.digitizers.config.DigitizersConfig"><code class="docutils literal notranslate"><span class="pre">DigitizersConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.digitizers.config.DigitizersConfig.digitizers"><code class="docutils literal notranslate"><span class="pre">DigitizersConfig.digitizers</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flashy.digitizers.digitizer">flashy.digitizers.digitizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.digitizers.info">flashy.digitizers.info module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.digitizers.info.DigitizerInfo"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.digitizers.info.DigitizerInfo.key"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo.key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.digitizers.info.DigitizerInfo.display_name"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo.display_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.digitizers.info.DigitizerInfo.config_cls"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo.config_cls</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.digitizers.info.DigitizerInfo.tag_cls"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo.tag_cls</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.digitizers.map">flashy.digitizers.map module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flashy.digitizers">Module contents</a></li>
 </ul>
 </li>
@@ -108,6 +127,10 @@
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.get_basic_info"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Acquisition.get_basic_info()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.run"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Acquisition.run()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.stop"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Acquisition.stop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.state"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Acquisition.state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.set_state_callback"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Acquisition.set_state_callback()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.is_acquiring"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Acquisition.is_acquiring</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.is_busy"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Acquisition.is_busy</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -115,8 +138,6 @@
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781.channel">flashy.digitizers.caen_dt5781.channel module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Channel</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel.DEFINITIONS"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Channel.DEFINITIONS</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel.channel_id"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Channel.channel_id</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel.enabled"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Channel.enabled</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -124,7 +145,6 @@
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781.config">flashy.digitizers.caen_dt5781.config module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.channels"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.channels</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.type"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.type</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.name"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.familycode"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.familycode</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.fw_type"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.fw_type</span></code></a></li>
@@ -132,6 +152,7 @@
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.max_rawdata_size"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.max_rawdata_size</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.adc_nbits"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.adc_nbits</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.adc_samplrate_msps"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.adc_samplrate_msps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.display_name"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.display_name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.sampling_period_ns"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.sampling_period_ns</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.get_adc_to_volts_factor"><code class="docutils literal notranslate"><span class="pre">CaenDT5781Config.get_adc_to_volts_factor()</span></code></a></li>
 </ul>
@@ -142,6 +163,7 @@
 <li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.definition.CAENDT5781_CHANNEL_DEFINITIONS"><code class="docutils literal notranslate"><span class="pre">CAENDT5781_CHANNEL_DEFINITIONS</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781.handler">flashy.digitizers.caen_dt5781.handler module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781.worker">flashy.digitizers.caen_dt5781.worker module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.worker.CaenDT5781AcquisitionWorker"><code class="docutils literal notranslate"><span class="pre">CaenDT5781AcquisitionWorker</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.worker.CaenDT5781AcquisitionWorker.run"><code class="docutils literal notranslate"><span class="pre">CaenDT5781AcquisitionWorker.run()</span></code></a></li>
@@ -154,14 +176,89 @@
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.digitizers.dummy.html">flashy.digitizers.dummy package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.dummy.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.dummy.html#module-flashy.digitizers.dummy.channel">flashy.digitizers.dummy.channel module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.channel.DummyDigitizerChannel"><code class="docutils literal notranslate"><span class="pre">DummyDigitizerChannel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.channel.DummyDigitizerChannel.DEFINITIONS"><code class="docutils literal notranslate"><span class="pre">DummyDigitizerChannel.DEFINITIONS</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.dummy.html#module-flashy.digitizers.dummy.config">flashy.digitizers.dummy.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.config.DummyDigitizerConfig"><code class="docutils literal notranslate"><span class="pre">DummyDigitizerConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.config.DummyDigitizerConfig.channels"><code class="docutils literal notranslate"><span class="pre">DummyDigitizerConfig.channels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.config.DummyDigitizerConfig.adc_nbits"><code class="docutils literal notranslate"><span class="pre">DummyDigitizerConfig.adc_nbits</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.config.DummyDigitizerConfig.adc_samplrate_msps"><code class="docutils literal notranslate"><span class="pre">DummyDigitizerConfig.adc_samplrate_msps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.config.DummyDigitizerConfig.display_name"><code class="docutils literal notranslate"><span class="pre">DummyDigitizerConfig.display_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.config.DummyDigitizerConfig.sampling_period_ns"><code class="docutils literal notranslate"><span class="pre">DummyDigitizerConfig.sampling_period_ns</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.config.DummyDigitizerConfig.get_adc_to_volts_factor"><code class="docutils literal notranslate"><span class="pre">DummyDigitizerConfig.get_adc_to_volts_factor()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.dummy.html#module-flashy.digitizers.dummy.definition">flashy.digitizers.dummy.definition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.dummy.html#module-flashy.digitizers.dummy">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
+<section id="module-flashy.digitizers.config">
+<span id="flashy-digitizers-config-module"></span><h2>flashy.digitizers.config module<a class="headerlink" href="#module-flashy.digitizers.config" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.digitizers.config.DigitizersConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.digitizers.config.</span></span><span class="sig-name descname"><span class="pre">DigitizersConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">digitizers</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.config.DigitizersConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.digitizers.config.DigitizersConfig.digitizers">
+<span class="sig-name descname"><span class="pre">digitizers</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.config.DummyDigitizerConfig" title="flashy.digitizers.dummy.config.DummyDigitizerConfig"><span class="pre">DummyDigitizerConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config" title="flashy.digitizers.caen_dt5781.config.CaenDT5781Config"><span class="pre">CaenDT5781Config</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.digitizers.config.DigitizersConfig.digitizers" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-flashy.digitizers.digitizer">
 <span id="flashy-digitizers-digitizer-module"></span><h2>flashy.digitizers.digitizer module<a class="headerlink" href="#module-flashy.digitizers.digitizer" title="Link to this heading"></a></h2>
+</section>
+<section id="module-flashy.digitizers.info">
+<span id="flashy-digitizers-info-module"></span><h2>flashy.digitizers.info module<a class="headerlink" href="#module-flashy.digitizers.info" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.digitizers.info.DigitizerInfo">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.digitizers.info.</span></span><span class="sig-name descname"><span class="pre">DigitizerInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.info.DigitizerInfo" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.digitizers.info.DigitizerInfo.key">
+<span class="sig-name descname"><span class="pre">key</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.digitizers.info.DigitizerInfo.key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.digitizers.info.DigitizerInfo.display_name">
+<span class="sig-name descname"><span class="pre">display_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.digitizers.info.DigitizerInfo.display_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.digitizers.info.DigitizerInfo.config_cls">
+<span class="sig-name descname"><span class="pre">config_cls</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="flashy.digitizers.dummy.html#flashy.digitizers.dummy.config.DummyDigitizerConfig" title="flashy.digitizers.dummy.config.DummyDigitizerConfig"><span class="pre">DummyDigitizerConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config" title="flashy.digitizers.caen_dt5781.config.CaenDT5781Config"><span class="pre">CaenDT5781Config</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.digitizers.info.DigitizerInfo.config_cls" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.digitizers.info.DigitizerInfo.tag_cls">
+<span class="sig-name descname"><span class="pre">tag_cls</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.digitizers.info.DigitizerInfo.tag_cls" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.digitizers.map">
+<span id="flashy-digitizers-map-module"></span><h2>flashy.digitizers.map module<a class="headerlink" href="#module-flashy.digitizers.map" title="Link to this heading"></a></h2>
 </section>
 <section id="module-flashy.digitizers">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-flashy.digitizers" title="Link to this heading"></a></h2>
@@ -172,7 +269,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="flashy.detectors.bergoz_bct.html" class="btn btn-neutral float-left" title="flashy.detectors.bergoz_bct package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="flashy.detectors.dummy.html" class="btn btn-neutral float-left" title="flashy.detectors.dummy package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="flashy.digitizers.caen_dt5781.html" class="btn btn-neutral float-right" title="flashy.digitizers.caen_dt5781 package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -66,12 +66,16 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="flashy.models.parameters.html">flashy.models.parameters package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.tree.html">flashy.models.tree package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.user.html">flashy.models.user package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.acquisition_config">flashy.models.acquisition_config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.batch_pulses">flashy.models.batch_pulses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.file_system">flashy.models.file_system module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.processing_config">flashy.models.processing_config module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.user_config">flashy.models.user_config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.result_table">flashy.models.result_table module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models">Module contents</a></li>
 </ul>
 </li>
@@ -131,6 +135,23 @@
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.models.analysis.config.AnalysisConfig.from_tree">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.analysis.config.AnalysisConfig.from_tree" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Self" title="(in Python v3.14)"><em>Self</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.models.analysis.config.AnalysisConfig.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.analysis.config.AnalysisConfig.validate" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -150,11 +171,11 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="flashy.models.analysis.result.AnalysisResult">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.analysis.result.</span></span><span class="sig-name descname"><span class="pre">AnalysisResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pulse_batches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.analysis.result.AnalysisResult" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
 <p>Container for results of an analysis for each channel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Inherits<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
 </dd>
 </dl>
 <dl class="py attribute">

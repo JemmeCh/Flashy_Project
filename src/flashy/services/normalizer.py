@@ -190,6 +190,7 @@ class Normalizer:
 
 
 def main():
+    """:meta private:"""
     from flashy.models.analysis.result import AnalysisResult
     from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
     from flashy.digitizers.caen_dt5781.config import CaenDT5781Config

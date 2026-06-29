@@ -1,16 +1,17 @@
 flashy.services package
 =======================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   flashy.services.acquisition
+   flashy.services.logger
+
 Submodules
 ----------
-
-flashy.services.acquisition\_service module
--------------------------------------------
-
-.. automodule:: flashy.services.acquisition_service
-   :members:
-   :show-inheritance:
-   :undoc-members:
 
 flashy.services.analysis\_service module
 ----------------------------------------
@@ -40,6 +41,14 @@ flashy.services.export\_service module
 --------------------------------------
 
 .. automodule:: flashy.services.export_service
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+flashy.services.normalizer module
+---------------------------------
+
+.. automodule:: flashy.services.normalizer
    :members:
    :show-inheritance:
    :undoc-members:

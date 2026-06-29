@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="flashy.services package" href="flashy.services.html" />
+    <link rel="next" title="flashy.models.tree package" href="flashy.models.tree.html" />
     <link rel="prev" title="flashy.models.analysis package" href="flashy.models.analysis.html" /> 
 </head>
 
@@ -68,12 +68,16 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-flashy.models.parameters">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.tree.html">flashy.models.tree package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.user.html">flashy.models.user package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.acquisition_config">flashy.models.acquisition_config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.batch_pulses">flashy.models.batch_pulses module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.file_system">flashy.models.file_system module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.processing_config">flashy.models.processing_config module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.user_config">flashy.models.user_config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.result_table">flashy.models.result_table module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models">Module contents</a></li>
 </ul>
 </li>
@@ -118,7 +122,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="flashy.models.parameters.container.ParameterContainer">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.parameters.container.</span></span><span class="sig-name descname"><span class="pre">ParameterContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.parameters.container.ParameterContainer" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
 <p>Generic base class for configuration-like objects backed by a
 <a class="reference internal" href="#flashy.models.parameters.definition.ParameterDefinition" title="flashy.models.parameters.definition.ParameterDefinition"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterDefinition</span></code></a> registry.</p>
 <p>Each subclass must override <code class="docutils literal notranslate"><span class="pre">DEFINITIONS</span></code> to describe the available
@@ -128,7 +132,7 @@ logic.</p>
 values, initialized from the registry.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Inherits<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -227,7 +231,10 @@ widget type, and transformation logic.</p>
 <dd class="field-odd"><p>None</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.14)"><strong>KeyError</strong></a> – If the key is not defined in <code class="docutils literal notranslate"><span class="pre">DEFINITIONS</span></code>.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.14)"><strong>KeyError</strong></a> – If the key is not defined in <code class="docutils literal notranslate"><span class="pre">DEFINITIONS</span></code>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – If <code class="docutils literal notranslate"><span class="pre">definition.transform</span></code> doesn’t work.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -239,15 +246,15 @@ widget type, and transformation logic.</p>
 <span id="flashy-models-parameters-definition-module"></span><h2>flashy.models.parameters.definition module<a class="headerlink" href="#module-flashy.models.parameters.definition" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="flashy.models.parameters.definition.ParameterDefinition">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.parameters.definition.</span></span><span class="sig-name descname"><span class="pre">ParameterDefinition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">widget_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardware_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardware_converter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.parameters.definition.ParameterDefinition" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.parameters.definition.</span></span><span class="sig-name descname"><span class="pre">ParameterDefinition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">widget_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardware_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardware_converter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.parameters.definition.ParameterDefinition" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
 <p>Immutable metadata container describing a single configurable parameter.</p>
 <p>This object defines how a parameter behaves in the system, including:
 default values, validation rules, UI representation, and optional
 hardware-specific mappings.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Inherits<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
 </dd>
 </dl>
 <dl class="py attribute">
@@ -269,14 +276,14 @@ hardware-specific mappings.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.models.parameters.definition.ParameterDefinition.group">
-<span class="sig-name descname"><span class="pre">group</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.models.parameters.definition.ParameterDefinition.group" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="flashy.models.parameters.definition.ParameterDefinition.path">
+<span class="sig-name descname"><span class="pre">path</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.models.parameters.definition.ParameterDefinition.path" title="Link to this definition"></a></dt>
 <dd><p>Logical grouping used for UI or organization.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashy.models.parameters.definition.ParameterDefinition.value_type">
-<span class="sig-name descname"><span class="pre">value_type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="flashy.detectors.bergoz_bct.html#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT.type" title="flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT.type"><span class="pre">type</span></a></span><a class="headerlink" href="#flashy.models.parameters.definition.ParameterDefinition.value_type" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">value_type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><span class="pre">type</span></a></span><a class="headerlink" href="#flashy.models.parameters.definition.ParameterDefinition.value_type" title="Link to this definition"></a></dt>
 <dd><p>Python type used to cast the parameter value after parsing/validation.</p>
 </dd></dl>
 
@@ -288,7 +295,7 @@ hardware-specific mappings.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashy.models.parameters.definition.ParameterDefinition.widget_type">
-<span class="sig-name descname"><span class="pre">widget_type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'entry'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'combobox'</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.models.parameters.definition.ParameterDefinition.widget_type" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">widget_type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'entry'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'combobox'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'checkbox'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'readonly'</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.models.parameters.definition.ParameterDefinition.widget_type" title="Link to this definition"></a></dt>
 <dd><p>UI widget type used to represent this parameter.
 Supported values: <code class="docutils literal notranslate"><span class="pre">&quot;entry&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;combobox&quot;</span></code>.</p>
 </dd></dl>
@@ -370,19 +377,16 @@ Should raise an exception if the value is invalid.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="flashy.models.parameters.parsers.parse_equation">
 <span class="sig-prename descclassname"><span class="pre">flashy.models.parameters.parsers.</span></span><span class="sig-name descname"><span class="pre">parse_equation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.parameters.parsers.parse_equation" title="Link to this definition"></a></dt>
-<dd><p>Safely evaluate an equation.</p>
+<dd><p>Safely evaluate an equation or returns the value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – The equation to evaluate.</p>
+<dd class="field-odd"><p><strong>value</strong> (<em>Any</em>) – The value to evaluate.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SyntaxError" title="(in Python v3.14)"><strong>SyntaxError</strong></a> – If the equation is unsafe to parse.</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The evaluated result.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)">float</a></p>
+<dd class="field-odd"><p>The evaluated result or the value.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -512,7 +516,7 @@ unchanged.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="flashy.models.analysis.html" class="btn btn-neutral float-left" title="flashy.models.analysis package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="flashy.services.html" class="btn btn-neutral float-right" title="flashy.services package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="flashy.models.tree.html" class="btn btn-neutral float-right" title="flashy.models.tree package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

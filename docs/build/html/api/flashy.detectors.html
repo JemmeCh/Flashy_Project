@@ -60,17 +60,29 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">flashy.detectors package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.detectors.bergoz_bct.html">flashy.detectors.bergoz_bct package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.dummy.html">flashy.detectors.dummy package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-flashy.detectors.detector">flashy.detectors.detector module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#flashy.detectors.detector.DetectorAssignment"><code class="docutils literal notranslate"><span class="pre">DetectorAssignment</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#flashy.detectors.detector.DetectorAssignment.detector"><code class="docutils literal notranslate"><span class="pre">DetectorAssignment.detector</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flashy.detectors.detector.DetectorAssignment.digitizer_channel"><code class="docutils literal notranslate"><span class="pre">DetectorAssignment.digitizer_channel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.detectors.config">flashy.detectors.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.detectors.config.DetectorsConfig"><code class="docutils literal notranslate"><span class="pre">DetectorsConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.detectors.config.DetectorsConfig.detectors"><code class="docutils literal notranslate"><span class="pre">DetectorsConfig.detectors</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.detectors.detector">flashy.detectors.detector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.detectors.info">flashy.detectors.info module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.detectors.info.DetectorInfo"><code class="docutils literal notranslate"><span class="pre">DetectorInfo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.detectors.info.DetectorInfo.key"><code class="docutils literal notranslate"><span class="pre">DetectorInfo.key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.detectors.info.DetectorInfo.display_name"><code class="docutils literal notranslate"><span class="pre">DetectorInfo.display_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.detectors.info.DetectorInfo.config_cls"><code class="docutils literal notranslate"><span class="pre">DetectorInfo.config_cls</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.detectors.info.DetectorInfo.tag_cls"><code class="docutils literal notranslate"><span class="pre">DetectorInfo.tag_cls</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.detectors.map">flashy.detectors.map module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flashy.detectors">Module contents</a></li>
 </ul>
 </li>
@@ -113,7 +125,7 @@
 <li class="toctree-l2"><a class="reference internal" href="flashy.detectors.bergoz_bct.html#module-flashy.detectors.bergoz_bct.bergoz_bct">flashy.detectors.bergoz_bct.bergoz_bct module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.detectors.bergoz_bct.html#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT"><code class="docutils literal notranslate"><span class="pre">BergozBCT</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="flashy.detectors.bergoz_bct.html#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT.DEFINITIONS"><code class="docutils literal notranslate"><span class="pre">BergozBCT.DEFINITIONS</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.bergoz_bct.html#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT.type"><code class="docutils literal notranslate"><span class="pre">BergozBCT.type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.bergoz_bct.html#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT.display_name"><code class="docutils literal notranslate"><span class="pre">BergozBCT.display_name</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -125,38 +137,78 @@
 <li class="toctree-l2"><a class="reference internal" href="flashy.detectors.bergoz_bct.html#module-flashy.detectors.bergoz_bct">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.detectors.dummy.html">flashy.detectors.dummy package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.dummy.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.dummy.html#module-flashy.detectors.dummy.definition">flashy.detectors.dummy.definition module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.dummy.html#module-flashy.detectors.dummy.dummy">flashy.detectors.dummy.dummy module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.dummy.html#flashy.detectors.dummy.dummy.DummyDetector"><code class="docutils literal notranslate"><span class="pre">DummyDetector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.dummy.html#flashy.detectors.dummy.dummy.DummyDetector.DEFINITIONS"><code class="docutils literal notranslate"><span class="pre">DummyDetector.DEFINITIONS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.dummy.html#flashy.detectors.dummy.dummy.DummyDetector.display_name"><code class="docutils literal notranslate"><span class="pre">DummyDetector.display_name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.dummy.html#module-flashy.detectors.dummy">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-flashy.detectors.detector">
-<span id="flashy-detectors-detector-module"></span><h2>flashy.detectors.detector module<a class="headerlink" href="#module-flashy.detectors.detector" title="Link to this heading"></a></h2>
+<section id="module-flashy.detectors.config">
+<span id="flashy-detectors-config-module"></span><h2>flashy.detectors.config module<a class="headerlink" href="#module-flashy.detectors.config" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="flashy.detectors.detector.DetectorAssignment">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.detectors.detector.</span></span><span class="sig-name descname"><span class="pre">DetectorAssignment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digitizer_channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.detectors.detector.DetectorAssignment" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
-<p>Dataclass containing the detector and its assigned channel.</p>
+<dt class="sig sig-object py" id="flashy.detectors.config.DetectorsConfig">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.detectors.config.</span></span><span class="sig-name descname"><span class="pre">DetectorsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detectors</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.detectors.config.DetectorsConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
 <dl class="field-list simple">
-<dt class="field-odd">Inherits<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
-</dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.detectors.detector.DetectorAssignment.detector">
-<span class="sig-name descname"><span class="pre">detector</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="flashy.detectors.bergoz_bct.html#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT" title="flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT"><span class="pre">BergozBCT</span></a></span><a class="headerlink" href="#flashy.detectors.detector.DetectorAssignment.detector" title="Link to this definition"></a></dt>
-<dd><p>Detector to be assigned.</p>
+<dt class="sig sig-object py" id="flashy.detectors.config.DetectorsConfig.detectors">
+<span class="sig-name descname"><span class="pre">detectors</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="flashy.detectors.dummy.html#flashy.detectors.dummy.dummy.DummyDetector" title="flashy.detectors.dummy.dummy.DummyDetector"><span class="pre">DummyDetector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="flashy.detectors.bergoz_bct.html#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT" title="flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT"><span class="pre">BergozBCT</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.detectors.config.DetectorsConfig.detectors" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
+
+</section>
+<section id="module-flashy.detectors.detector">
+<span id="flashy-detectors-detector-module"></span><h2>flashy.detectors.detector module<a class="headerlink" href="#module-flashy.detectors.detector" title="Link to this heading"></a></h2>
+</section>
+<section id="module-flashy.detectors.info">
+<span id="flashy-detectors-info-module"></span><h2>flashy.detectors.info module<a class="headerlink" href="#module-flashy.detectors.info" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.detectors.info.DetectorInfo">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.detectors.info.</span></span><span class="sig-name descname"><span class="pre">DetectorInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.detectors.info.DetectorInfo" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.detectors.info.DetectorInfo.key">
+<span class="sig-name descname"><span class="pre">key</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.detectors.info.DetectorInfo.key" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.detectors.detector.DetectorAssignment.digitizer_channel">
-<span class="sig-name descname"><span class="pre">digitizer_channel</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#flashy.detectors.detector.DetectorAssignment.digitizer_channel" title="Link to this definition"></a></dt>
-<dd><p>Associated digitizer channel</p>
-</dd></dl>
+<dt class="sig sig-object py" id="flashy.detectors.info.DetectorInfo.display_name">
+<span class="sig-name descname"><span class="pre">display_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.detectors.info.DetectorInfo.display_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.detectors.info.DetectorInfo.config_cls">
+<span class="sig-name descname"><span class="pre">config_cls</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="flashy.detectors.dummy.html#flashy.detectors.dummy.dummy.DummyDetector" title="flashy.detectors.dummy.dummy.DummyDetector"><span class="pre">DummyDetector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="flashy.detectors.bergoz_bct.html#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT" title="flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT"><span class="pre">BergozBCT</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.detectors.info.DetectorInfo.config_cls" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.detectors.info.DetectorInfo.tag_cls">
+<span class="sig-name descname"><span class="pre">tag_cls</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.detectors.info.DetectorInfo.tag_cls" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
+</section>
+<section id="module-flashy.detectors.map">
+<span id="flashy-detectors-map-module"></span><h2>flashy.detectors.map module<a class="headerlink" href="#module-flashy.detectors.map" title="Link to this heading"></a></h2>
 </section>
 <section id="module-flashy.detectors">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-flashy.detectors" title="Link to this heading"></a></h2>

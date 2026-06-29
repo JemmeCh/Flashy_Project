@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flashy.presenters package &mdash; FLASHy 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="flashy.services package" href="flashy.services.html" />
+    <link rel="prev" title="flashy.models.user package" href="flashy.models.user.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FLASHy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/usage.html">How to use FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/architecture.html">FLASHy’s Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/digitizers.html">Digitizers in FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/detectors.html">Detectors in FLASHy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference (auto-generated)</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="flashy.html">flashy package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="flashy.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.html">flashy.gui package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.html">flashy.models package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">flashy.presenters package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-flashy.presenters.analyser">flashy.presenters.analyser module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-flashy.presenters.dt5781">flashy.presenters.dt5781 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-flashy.presenters">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy.app">flashy.app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy.app_context">flashy.app_context module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy.debug">flashy.debug module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.models.html">flashy.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FLASHy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="flashy.html">flashy package</a></li>
+      <li class="breadcrumb-item active">flashy.presenters package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/flashy.presenters.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flashy-presenters-package">
+<h1>flashy.presenters package<a class="headerlink" href="#flashy-presenters-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-flashy.presenters.analyser">
+<span id="flashy-presenters-analyser-module"></span><h2>flashy.presenters.analyser module<a class="headerlink" href="#module-flashy.presenters.analyser" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.presenters.analyser.</span></span><span class="sig-name descname"><span class="pre">PresenterAnalyser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QObject.html#PySide6.QtCore.QObject" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></a></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.results_ready">
+<span class="sig-name descname"><span class="pre">results_ready</span></span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.results_ready" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.send_change_analyser_root">
+<span class="sig-name descname"><span class="pre">send_change_analyser_root</span></span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.send_change_analyser_root" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.analyse_file">
+<span class="sig-name descname"><span class="pre">analyse_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.analyse_file" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.change_analyser_root">
+<span class="sig-name descname"><span class="pre">change_analyser_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.change_analyser_root" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;PresenterAnalyser&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#4</span> <span class="pre">type=Signal,</span> <span class="pre">signature=results_ready(PyObject),</span> <span class="pre">parameters=PyObject</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_change_analyser_root(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Slot,</span> <span class="pre">signature=analyse_file(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Slot,</span> <span class="pre">signature=change_analyser_root(QString),</span> <span class="pre">parameters=QString</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.staticMetaObject" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.presenters.dt5781">
+<span id="flashy-presenters-dt5781-module"></span><h2>flashy.presenters.dt5781 module<a class="headerlink" href="#module-flashy.presenters.dt5781" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.presenters.dt5781.</span></span><span class="sig-name descname"><span class="pre">PresenterDT5781</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QObject.html#PySide6.QtCore.QObject" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></a></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.send_set_enable_other_tabs">
+<span class="sig-name descname"><span class="pre">send_set_enable_other_tabs</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_other_tabs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.send_set_enable_controls">
+<span class="sig-name descname"><span class="pre">send_set_enable_controls</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_controls" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.send_set_enable_results">
+<span class="sig-name descname"><span class="pre">send_set_enable_results</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_results" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.state_changed">
+<span class="sig-name descname"><span class="pre">state_changed</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.state_changed" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.send_new_results">
+<span class="sig-name descname"><span class="pre">send_new_results</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.send_new_results" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.increment_changed">
+<span class="sig-name descname"><span class="pre">increment_changed</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.increment_changed" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.wrong_processing_config">
+<span class="sig-name descname"><span class="pre">wrong_processing_config</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.wrong_processing_config" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.start_acquisition">
+<span class="sig-name descname"><span class="pre">start_acquisition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.start_acquisition" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.stop_acquisition">
+<span class="sig-name descname"><span class="pre">stop_acquisition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.stop_acquisition" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.results_changed">
+<span class="sig-name descname"><span class="pre">results_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.results_changed" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.acquisition_finished">
+<span class="sig-name descname"><span class="pre">acquisition_finished</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.acquisition_finished" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;PresenterDT5781&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#4</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_set_enable_other_tabs(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_set_enable_controls(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_set_enable_results(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=state_changed(PyObject),</span> <span class="pre">parameters=PyObject</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_new_results(PyObject),</span> <span class="pre">parameters=PyObject</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=increment_changed()</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Signal,</span> <span class="pre">signature=wrong_processing_config()</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=start_acquisition()</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=stop_acquisition()</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=results_changed(List[BatchPulses]),</span> <span class="pre">parameters=List[BatchPulses]</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=acquisition_finished(List[BatchPulses]),</span> <span class="pre">parameters=List[BatchPulses]</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.staticMetaObject" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.presenters">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-flashy.presenters" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="flashy.models.user.html" class="btn btn-neutral float-left" title="flashy.models.user package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="flashy.services.html" class="btn btn-neutral float-right" title="flashy.services package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Jean-Emmanuel Chouinard.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

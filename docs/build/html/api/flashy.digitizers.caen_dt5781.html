@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="flashy.models package" href="flashy.models.html" />
+    <link rel="next" title="flashy.digitizers.dummy package" href="flashy.digitizers.dummy.html" />
     <link rel="prev" title="flashy.digitizers package" href="flashy.digitizers.html" /> 
 </head>
 
@@ -66,14 +66,19 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-flashy.digitizers.caen_dt5781.channel">flashy.digitizers.caen_dt5781.channel module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-flashy.digitizers.caen_dt5781.config">flashy.digitizers.caen_dt5781.config module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-flashy.digitizers.caen_dt5781.definition">flashy.digitizers.caen_dt5781.definition module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-flashy.digitizers.caen_dt5781.handler">flashy.digitizers.caen_dt5781.handler module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-flashy.digitizers.caen_dt5781.worker">flashy.digitizers.caen_dt5781.worker module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-flashy.digitizers.caen_dt5781">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.dummy.html">flashy.digitizers.dummy package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers.config">flashy.digitizers.config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers.digitizer">flashy.digitizers.digitizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers.info">flashy.digitizers.info module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers.map">flashy.digitizers.map module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers">Module contents</a></li>
 </ul>
 </li>
@@ -138,11 +143,11 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acquisition_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.run" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acquisition_config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_event_dump</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.run" title="Link to this definition"></a></dt>
 <dd><p>Begin the acquisition of new data using the digitizer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>acquisition_config</strong> (<a class="reference internal" href="flashy.models.html#flashy.models.processing_config.AcquisitionConfig" title="flashy.models.processing_config.AcquisitionConfig"><em>AcquisitionConfig</em></a>) – The acquisition configuration to use.</p>
+<dd class="field-odd"><p><strong>acquisition_config</strong> (<a class="reference internal" href="flashy.models.html#flashy.models.acquisition_config.AcquisitionConfig" title="flashy.models.acquisition_config.AcquisitionConfig"><em>AcquisitionConfig</em></a>) – The acquisition configuration to use.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – If an unknown digitizer error occurs.</p>
@@ -161,6 +166,26 @@
 <span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.stop" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.state">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.state" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.set_state_callback">
+<span class="sig-name descname"><span class="pre">set_state_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.set_state_callback" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.is_acquiring">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_acquiring</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.is_acquiring" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.is_busy">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_busy</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.is_busy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -168,7 +193,7 @@
 <span id="flashy-digitizers-caen-dt5781-channel-module"></span><h2>flashy.digitizers.caen_dt5781.channel module<a class="headerlink" href="#module-flashy.digitizers.caen_dt5781.channel" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.digitizers.caen_dt5781.channel.</span></span><span class="sig-name descname"><span class="pre">CaenDT5781Channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.digitizers.caen_dt5781.channel.</span></span><span class="sig-name descname"><span class="pre">CaenDT5781Channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer" title="flashy.models.parameters.container.ParameterContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterContainer</span></code></a></p>
 <p>Dataclass for the configuration of a Caen’s DT5781 digitizer channel.</p>
 <dl class="field-list simple">
@@ -184,18 +209,6 @@
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel.channel_id">
-<span class="sig-name descname"><span class="pre">channel_id</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel.channel_id" title="Link to this definition"></a></dt>
-<dd><p>Channel identification</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel.enabled">
-<span class="sig-name descname"><span class="pre">enabled</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel.enabled" title="Link to this definition"></a></dt>
-<dd><p>Flag for channel usage</p>
-</dd></dl>
-
 </dd></dl>
 
 </section>
@@ -203,24 +216,18 @@
 <span id="flashy-digitizers-caen-dt5781-config-module"></span><h2>flashy.digitizers.caen_dt5781.config module<a class="headerlink" href="#module-flashy.digitizers.caen_dt5781.config" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.config.CaenDT5781Config">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.digitizers.caen_dt5781.config.</span></span><span class="sig-name descname"><span class="pre">CaenDT5781Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'caen_dt5781'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DT5781A'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">familycode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'XX781'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fw_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DPP-PHA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">27916</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rawdata_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1573904.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adc_nbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adc_samplrate_msps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.config.CaenDT5781Config" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.digitizers.caen_dt5781.config.</span></span><span class="sig-name descname"><span class="pre">CaenDT5781Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DT5781A'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">familycode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'XX781'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fw_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'DPP-PHA'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">27916</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_rawdata_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1573904.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adc_nbits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">14</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adc_samplrate_msps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.config.CaenDT5781Config" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Struct</span></code></a></p>
 <p>Configuration for the Caen DT5781 digitizer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Inherits<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://jcristharif.com/msgspec/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://msgspec.dev/api.html#msgspec.Struct" title="(in msgspec)"><code class="xref py py-class docutils literal notranslate"><span class="pre">msgspec.Struct</span></code></a></p>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.config.CaenDT5781Config.channels">
 <span class="sig-name descname"><span class="pre">channels</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel" title="flashy.digitizers.caen_dt5781.channel.CaenDT5781Channel"><span class="pre">CaenDT5781Channel</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.channels" title="Link to this definition"></a></dt>
 <dd><p>List of channel configurations.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.config.CaenDT5781Config.type">
-<span class="sig-name descname"><span class="pre">type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'caen_dt5781'</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.type" title="Link to this definition"></a></dt>
-<dd><p>Fixed identifier of this digitizer.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -264,6 +271,11 @@
 <span class="sig-name descname"><span class="pre">adc_samplrate_msps</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.adc_samplrate_msps" title="Link to this definition"></a></dt>
 <dd><p>ADC sampling rate in MSPS.</p>
 </dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.config.CaenDT5781Config.display_name">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">display_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.display_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.config.CaenDT5781Config.sampling_period_ns">
@@ -310,6 +322,9 @@
 </dd></dl>
 
 </section>
+<section id="module-flashy.digitizers.caen_dt5781.handler">
+<span id="flashy-digitizers-caen-dt5781-handler-module"></span><h2>flashy.digitizers.caen_dt5781.handler module<a class="headerlink" href="#module-flashy.digitizers.caen_dt5781.handler" title="Link to this heading"></a></h2>
+</section>
 <section id="module-flashy.digitizers.caen_dt5781.worker">
 <span id="flashy-digitizers-caen-dt5781-worker-module"></span><h2>flashy.digitizers.caen_dt5781.worker module<a class="headerlink" href="#module-flashy.digitizers.caen_dt5781.worker" title="Link to this heading"></a></h2>
 <dl class="py class">
@@ -331,7 +346,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashy.digitizers.caen_dt5781.worker.CaenDT5781AcquisitionWorker.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;CaenDT5781AcquisitionWorker&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Signal,</span> <span class="pre">signature=event_dump(QVariantList),</span> <span class="pre">parameters=QVariantList</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Signal,</span> <span class="pre">signature=error(QString),</span> <span class="pre">parameters=QString</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.worker.CaenDT5781AcquisitionWorker.staticMetaObject" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;CaenDT5781AcquisitionWorker&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QThread&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Signal,</span> <span class="pre">signature=event_dump(QVariantList),</span> <span class="pre">parameters=QVariantList</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.digitizers.caen_dt5781.worker.CaenDT5781AcquisitionWorker.staticMetaObject" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -353,7 +368,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="flashy.digitizers.html" class="btn btn-neutral float-left" title="flashy.digitizers package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="flashy.models.html" class="btn btn-neutral float-right" title="flashy.models package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="flashy.digitizers.dummy.html" class="btn btn-neutral float-right" title="flashy.digitizers.dummy package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -11,7 +11,6 @@ from flashy.gui.main_window import MainWindow
 
 
 def main() -> None:
-    """:meta private:"""
     app_context = AppContext()
     qtw.QApplication.setStyle("Fusion")
     

@@ -54,30 +54,6 @@ ANALYSIS_DEFINITIONS = {
         validator=validate_combo_box,
     ),
 }
-""" "graph1": ParameterDefinition(
-        key="graph1",
-        name="Graphique 1",
-        description="Choix pour ce que le grahique 1 montre\nPulse: Affiche le voltage (en V) de chaque pulse selon le temps (en µs)\nAire: Affiche l'aire sous la courbe du pulse correspondant (en nC)",
-        path='Graphs',
-        value_type=str,
-        default='Pulse',
-        widget_type="combobox",
-        choices=("Pulse", "Aire"),
-        valid_range=None,
-        validator=validate_combo_box
-    ),
-    "graph2": ParameterDefinition(
-        key="graph2",
-        name="Graphique 2",
-        description="Choix pour ce que le grahique 2 montre\nPulse: Affiche le voltage (en V) de chaque pulse selon le temps (en µs)\nAire: Affiche l'aire sous la courbe du pulse correspondant (en nC)",
-        path='Graphs',
-        value_type=str,
-        default='Pulse',
-        widget_type="combobox",
-        choices=("Pulse", "Aire"),
-        valid_range=None,
-        validator=validate_combo_box
-    ), """
 """
 Parameter definitions for analysis.
 

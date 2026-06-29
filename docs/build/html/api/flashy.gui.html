@@ -1,0 +1,405 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flashy.gui package &mdash; FLASHy 1.0.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=baaebd52"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="flashy.gui.palettes package" href="flashy.gui.palettes.html" />
+    <link rel="prev" title="flashy.digitizers.dummy package" href="flashy.digitizers.dummy.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FLASHy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/usage.html">How to use FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/architecture.html">FLASHy’s Architecture</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Hardware Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/digitizers.html">Digitizers in FLASHy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/detectors.html">Detectors in FLASHy</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference (auto-generated)</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="flashy.html">flashy package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="flashy.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">flashy.gui package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-flashy.gui.main_window">flashy.gui.main_window module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-flashy.gui.theme">flashy.gui.theme module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-flashy.gui">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.html">flashy.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.presenters.html">flashy.presenters package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy.app">flashy.app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy.app_context">flashy.app_context module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy.debug">flashy.debug module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.html#module-flashy">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.models.html">flashy.models package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FLASHy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="flashy.html">flashy package</a></li>
+      <li class="breadcrumb-item active">flashy.gui package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/flashy.gui.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="flashy-gui-package">
+<h1>flashy.gui package<a class="headerlink" href="#flashy-gui-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="flashy.gui.palettes.html">flashy.gui.palettes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.palettes.html#module-flashy.gui.palettes">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.gui.tabs.html">flashy.gui.tabs package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.tabs.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.tabs.html#module-flashy.gui.tabs.analyser_tab">flashy.gui.tabs.analyser_tab module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.tabs.html#flashy.gui.tabs.analyser_tab.TabAnalyser"><code class="docutils literal notranslate"><span class="pre">TabAnalyser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.tabs.html#flashy.gui.tabs.analyser_tab.TabAnalyser.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">TabAnalyser.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.tabs.html#module-flashy.gui.tabs.dt5781_tab">flashy.gui.tabs.dt5781_tab module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.tabs.html#flashy.gui.tabs.dt5781_tab.TabDT5781"><code class="docutils literal notranslate"><span class="pre">TabDT5781</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.tabs.html#flashy.gui.tabs.dt5781_tab.TabDT5781.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">TabDT5781.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.tabs.html#module-flashy.gui.tabs">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.gui.treeview.html">flashy.gui.treeview package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.treeview.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.treeview.html#module-flashy.gui.treeview.parameter_treeview">flashy.gui.treeview.parameter_treeview module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.treeview.html#flashy.gui.treeview.parameter_treeview.ParameterTreeView"><code class="docutils literal notranslate"><span class="pre">ParameterTreeView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.treeview.html#flashy.gui.treeview.parameter_treeview.ParameterTreeView.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">ParameterTreeView.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.treeview.html#module-flashy.gui.treeview">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.gui.ui.html">flashy.gui.ui package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ressources_rc">flashy.gui.ui.ressources_rc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ressources_rc.qInitResources"><code class="docutils literal notranslate"><span class="pre">qInitResources()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ressources_rc.qCleanupResources"><code class="docutils literal notranslate"><span class="pre">qCleanupResources()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_analyser_controls">flashy.gui.ui.ui_analyser_controls module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_analyser_controls.Ui_AnalyserControlsWidget"><code class="docutils literal notranslate"><span class="pre">Ui_AnalyserControlsWidget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_analyser_controls.Ui_AnalyserControlsWidget.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_AnalyserControlsWidget.setupUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_analyser_controls.Ui_AnalyserControlsWidget.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Ui_AnalyserControlsWidget.retranslateUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_analyser_tab">flashy.gui.ui.ui_analyser_tab module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_analyser_tab.Ui_TabAnalyser"><code class="docutils literal notranslate"><span class="pre">Ui_TabAnalyser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_analyser_tab.Ui_TabAnalyser.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_TabAnalyser.setupUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_analyser_tab.Ui_TabAnalyser.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Ui_TabAnalyser.retranslateUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_dt5781_controls">flashy.gui.ui.ui_dt5781_controls module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_dt5781_controls.Ui_DT5781ControlsWidget"><code class="docutils literal notranslate"><span class="pre">Ui_DT5781ControlsWidget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_dt5781_controls.Ui_DT5781ControlsWidget.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_DT5781ControlsWidget.setupUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_dt5781_controls.Ui_DT5781ControlsWidget.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Ui_DT5781ControlsWidget.retranslateUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_dt5781_tab">flashy.gui.ui.ui_dt5781_tab module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_dt5781_tab.Ui_TabDT5781"><code class="docutils literal notranslate"><span class="pre">Ui_TabDT5781</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_dt5781_tab.Ui_TabDT5781.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_TabDT5781.setupUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_dt5781_tab.Ui_TabDT5781.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Ui_TabDT5781.retranslateUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_feedback_widget">flashy.gui.ui.ui_feedback_widget module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_feedback_widget.Ui_FeedbackWidget"><code class="docutils literal notranslate"><span class="pre">Ui_FeedbackWidget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_feedback_widget.Ui_FeedbackWidget.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_FeedbackWidget.setupUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_feedback_widget.Ui_FeedbackWidget.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Ui_FeedbackWidget.retranslateUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_flashy_window">flashy.gui.ui.ui_flashy_window module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_flashy_window.Ui_MainWindow"><code class="docutils literal notranslate"><span class="pre">Ui_MainWindow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_flashy_window.Ui_MainWindow.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_MainWindow.setupUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_flashy_window.Ui_MainWindow.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Ui_MainWindow.retranslateUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_parameter_treeview">flashy.gui.ui.ui_parameter_treeview module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_parameter_treeview.Ui_ParameterTreeView"><code class="docutils literal notranslate"><span class="pre">Ui_ParameterTreeView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_parameter_treeview.Ui_ParameterTreeView.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_ParameterTreeView.setupUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_parameter_treeview.Ui_ParameterTreeView.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Ui_ParameterTreeView.retranslateUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_result_panel_widget">flashy.gui.ui.ui_result_panel_widget module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_result_panel_widget.Ui_ResultPanelWidget"><code class="docutils literal notranslate"><span class="pre">Ui_ResultPanelWidget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_result_panel_widget.Ui_ResultPanelWidget.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_ResultPanelWidget.setupUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_result_panel_widget.Ui_ResultPanelWidget.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Ui_ResultPanelWidget.retranslateUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_result_table">flashy.gui.ui.ui_result_table module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_result_table.Ui_ResultTable"><code class="docutils literal notranslate"><span class="pre">Ui_ResultTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_result_table.Ui_ResultTable.setupUi"><code class="docutils literal notranslate"><span class="pre">Ui_ResultTable.setupUi()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_result_table.Ui_ResultTable.retranslateUi"><code class="docutils literal notranslate"><span class="pre">Ui_ResultTable.retranslateUi()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.gui.widgets.html">flashy.gui.widgets package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.widgets.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.acquisition_timer">flashy.gui.widgets.acquisition_timer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.acquisition_timer.AcquisitionTimer"><code class="docutils literal notranslate"><span class="pre">AcquisitionTimer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.acquisition_timer.AcquisitionTimer.toggle_timer"><code class="docutils literal notranslate"><span class="pre">AcquisitionTimer.toggle_timer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.acquisition_timer.AcquisitionTimer.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">AcquisitionTimer.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.analyser_controls_widget">flashy.gui.widgets.analyser_controls_widget module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget"><code class="docutils literal notranslate"><span class="pre">AnalyserControlsWidget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget.pressed_analyse_file"><code class="docutils literal notranslate"><span class="pre">AnalyserControlsWidget.pressed_analyse_file</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget.pressed_root_directory"><code class="docutils literal notranslate"><span class="pre">AnalyserControlsWidget.pressed_root_directory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget.change_treeview"><code class="docutils literal notranslate"><span class="pre">AnalyserControlsWidget.change_treeview()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget.analyse_file"><code class="docutils literal notranslate"><span class="pre">AnalyserControlsWidget.analyse_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget.change_root_directory"><code class="docutils literal notranslate"><span class="pre">AnalyserControlsWidget.change_root_directory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget.select_file"><code class="docutils literal notranslate"><span class="pre">AnalyserControlsWidget.select_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">AnalyserControlsWidget.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.dt5781_controls_widget">flashy.gui.widgets.dt5781_controls_widget module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.pressed_change_project"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.pressed_change_project</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.pressed_change_shoot"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.pressed_change_shoot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.start_acquisition"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.start_acquisition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.stop_acquisition"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.stop_acquisition</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.toggle_acquisition"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.toggle_acquisition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.wrong_processing_config"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.wrong_processing_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.change_project"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.change_project()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.change_shoot"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.change_shoot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.set_enabled_controls"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.set_enabled_controls()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.state_changed"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.state_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.increment_changed"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.increment_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">DT5781ControlsWidget.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.feedback_widget">flashy.gui.widgets.feedback_widget module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.feedback_widget.FeedbackWidget"><code class="docutils literal notranslate"><span class="pre">FeedbackWidget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.feedback_widget.FeedbackWidget.append_message"><code class="docutils literal notranslate"><span class="pre">FeedbackWidget.append_message()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.feedback_widget.FeedbackWidget.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">FeedbackWidget.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.result_panel_widget">flashy.gui.widgets.result_panel_widget module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.result_panel_widget.ResultPanelWidget"><code class="docutils literal notranslate"><span class="pre">ResultPanelWidget</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.result_panel_widget.ResultPanelWidget.change_results"><code class="docutils literal notranslate"><span class="pre">ResultPanelWidget.change_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.result_panel_widget.ResultPanelWidget.set_enabled_results"><code class="docutils literal notranslate"><span class="pre">ResultPanelWidget.set_enabled_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.result_panel_widget.ResultPanelWidget.save_results"><code class="docutils literal notranslate"><span class="pre">ResultPanelWidget.save_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.result_panel_widget.ResultPanelWidget.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">ResultPanelWidget.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.result_table">flashy.gui.widgets.result_table module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.result_table.ResultTableView"><code class="docutils literal notranslate"><span class="pre">ResultTableView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#flashy.gui.widgets.result_table.ResultTableView.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">ResultTableView.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-flashy.gui.main_window">
+<span id="flashy-gui-main-window-module"></span><h2>flashy.gui.main_window module<a class="headerlink" href="#module-flashy.gui.main_window" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.gui.main_window.MainWindow">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.gui.main_window.</span></span><span class="sig-name descname"><span class="pre">MainWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.main_window.MainWindow" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QMainWindow.html#PySide6.QtWidgets.QMainWindow" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QMainWindow</span></code></a>, <a class="reference internal" href="flashy.gui.ui.html#flashy.gui.ui.ui_flashy_window.Ui_MainWindow" title="flashy.gui.ui.ui_flashy_window.Ui_MainWindow"><code class="xref py py-class docutils literal notranslate"><span class="pre">Ui_MainWindow</span></code></a></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.main_window.MainWindow.set_enabled_other_tabs">
+<span class="sig-name descname"><span class="pre">set_enabled_other_tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.main_window.MainWindow.set_enabled_other_tabs" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flashy.gui.main_window.MainWindow.on_quit">
+<span class="sig-name descname"><span class="pre">on_quit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.main_window.MainWindow.on_quit" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flashy.gui.main_window.MainWindow.staticMetaObject">
+<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;MainWindow&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QMainWindow&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#39</span> <span class="pre">type=Slot,</span> <span class="pre">signature=set_enabled_other_tabs(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#40</span> <span class="pre">type=Slot,</span> <span class="pre">signature=on_quit()</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.gui.main_window.MainWindow.staticMetaObject" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui.theme">
+<span id="flashy-gui-theme-module"></span><h2>flashy.gui.theme module<a class="headerlink" href="#module-flashy.gui.theme" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.gui.theme.generate_palette">
+<span class="sig-prename descclassname"><span class="pre">flashy.gui.theme.</span></span><span class="sig-name descname"><span class="pre">generate_palette</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.theme.generate_palette" title="Link to this definition"></a></dt>
+<dd><p>Palette generated by “Save palette” option of Qt Designer.</p>
+<p>Adapted from code by Tuhin Srivastava. Used with permission from the author.</p>
+<p>Original source:
+<a class="reference external" href="https://gist.github.com/Tuhin-thinks/94df76e276243a651cb70aed0faa9c18">https://gist.github.com/Tuhin-thinks/94df76e276243a651cb70aed0faa9c18</a></p>
+<dl class="simple">
+<dt>Modifications by Jean-Emmanuel Chouinard:</dt><dd><ul class="simple">
+<li><p>Updated dependencies (PyQt5 –&gt; PySide6)</p></li>
+<li><p>Changed function name (parse_xml –&gt; generate_palette)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtGui/QPalette.html#PySide6.QtGui.QPalette" title="(in PySide v6.11.0)"><em>QPalette</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.gui.theme.get_pen">
+<span class="sig-prename descclassname"><span class="pre">flashy.gui.theme.</span></span><span class="sig-name descname"><span class="pre">get_pen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.gui.theme.get_pen" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-flashy.gui">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-flashy.gui" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="flashy.digitizers.dummy.html" class="btn btn-neutral float-left" title="flashy.digitizers.dummy package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="flashy.gui.palettes.html" class="btn btn-neutral float-right" title="flashy.gui.palettes package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Jean-Emmanuel Chouinard.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

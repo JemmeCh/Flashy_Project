@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="flashy.digitizers package" href="flashy.digitizers.html" />
+    <link rel="next" title="flashy.detectors.dummy package" href="flashy.detectors.dummy.html" />
     <link rel="prev" title="flashy.detectors package" href="flashy.detectors.html" /> 
 </head>
 
@@ -66,10 +66,14 @@
 <li class="toctree-l4"><a class="reference internal" href="#module-flashy.detectors.bergoz_bct">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.dummy.html">flashy.detectors.dummy package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors.config">flashy.detectors.config module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors.detector">flashy.detectors.detector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors.info">flashy.detectors.info module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors.map">flashy.detectors.map module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors">Module contents</a></li>
 </ul>
 </li>
@@ -111,7 +115,7 @@
 <span id="flashy-detectors-bergoz-bct-bergoz-bct-module"></span><h2>flashy.detectors.bergoz_bct.bergoz_bct module<a class="headerlink" href="#module-flashy.detectors.bergoz_bct.bergoz_bct" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.detectors.bergoz_bct.bergoz_bct.</span></span><span class="sig-name descname"><span class="pre">BergozBCT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'bergoz_bct'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.detectors.bergoz_bct.bergoz_bct.</span></span><span class="sig-name descname"><span class="pre">BergozBCT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer" title="flashy.models.parameters.container.ParameterContainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterContainer</span></code></a></p>
 <p>Dataclass containing Bergoz’s BCT configuration.</p>
 <dl class="field-list simple">
@@ -127,11 +131,10 @@
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT.type">
-<span class="sig-name descname"><span class="pre">type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'bergoz_bct'</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT.type" title="Link to this definition"></a></dt>
-<dd><p>Fixed identifier of this detector.</p>
-</dd></dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT.display_name">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">display_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#flashy.detectors.bergoz_bct.bergoz_bct.BergozBCT.display_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -157,7 +160,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="flashy.detectors.html" class="btn btn-neutral float-left" title="flashy.detectors package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="flashy.digitizers.html" class="btn btn-neutral float-right" title="flashy.digitizers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="flashy.detectors.dummy.html" class="btn btn-neutral float-right" title="flashy.detectors.dummy package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

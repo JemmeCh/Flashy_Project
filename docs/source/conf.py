@@ -20,7 +20,7 @@ release = '1.0.3'
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "msgspec": ("https://jcristharif.com/msgspec/", None),
+    "msgspec": ("https://msgspec.dev/", None),
     "qt": ("https://doc.qt.io/qtforpython/", None),
 }
 

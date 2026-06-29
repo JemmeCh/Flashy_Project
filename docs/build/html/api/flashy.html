@@ -58,12 +58,27 @@
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.html">flashy.gui package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flashy.models.html">flashy.models package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.presenters.html">flashy.presenters package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-flashy.app">flashy.app module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.app">flashy.app module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.app.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.app_context">flashy.app_context module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flashy.app_context.AppContext"><code class="docutils literal notranslate"><span class="pre">AppContext</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.app_context.AppContext.analyser_tree"><code class="docutils literal notranslate"><span class="pre">AppContext.analyser_tree</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.app_context.AppContext.caendt5781_tree"><code class="docutils literal notranslate"><span class="pre">AppContext.caendt5781_tree</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flashy.app_context.AppContext.caendt5781_processing_config"><code class="docutils literal notranslate"><span class="pre">AppContext.caendt5781_processing_config</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flashy.debug">flashy.debug module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flashy">Module contents</a></li>
 </ul>
 </li>
@@ -112,17 +127,35 @@
 <li class="toctree-l4"><a class="reference internal" href="flashy.detectors.bergoz_bct.html#module-flashy.detectors.bergoz_bct">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.dummy.html">flashy.detectors.dummy package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.dummy.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.dummy.html#module-flashy.detectors.dummy.definition">flashy.detectors.dummy.definition module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.dummy.html#module-flashy.detectors.dummy.dummy">flashy.detectors.dummy.dummy module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.dummy.html#module-flashy.detectors.dummy">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors.detector">flashy.detectors.detector module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.detector.DetectorAssignment"><code class="docutils literal notranslate"><span class="pre">DetectorAssignment</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.detector.DetectorAssignment.detector"><code class="docutils literal notranslate"><span class="pre">DetectorAssignment.detector</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.detector.DetectorAssignment.digitizer_channel"><code class="docutils literal notranslate"><span class="pre">DetectorAssignment.digitizer_channel</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors.config">flashy.detectors.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.config.DetectorsConfig"><code class="docutils literal notranslate"><span class="pre">DetectorsConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.config.DetectorsConfig.detectors"><code class="docutils literal notranslate"><span class="pre">DetectorsConfig.detectors</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors.detector">flashy.detectors.detector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors.info">flashy.detectors.info module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.info.DetectorInfo"><code class="docutils literal notranslate"><span class="pre">DetectorInfo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.info.DetectorInfo.key"><code class="docutils literal notranslate"><span class="pre">DetectorInfo.key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.info.DetectorInfo.display_name"><code class="docutils literal notranslate"><span class="pre">DetectorInfo.display_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.info.DetectorInfo.config_cls"><code class="docutils literal notranslate"><span class="pre">DetectorInfo.config_cls</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.detectors.html#flashy.detectors.info.DetectorInfo.tag_cls"><code class="docutils literal notranslate"><span class="pre">DetectorInfo.tag_cls</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors.map">flashy.detectors.map module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.detectors.html#module-flashy.detectors">Module contents</a></li>
 </ul>
 </li>
@@ -134,15 +167,107 @@
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781.channel">flashy.digitizers.caen_dt5781.channel module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781.config">flashy.digitizers.caen_dt5781.config module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781.definition">flashy.digitizers.caen_dt5781.definition module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781.handler">flashy.digitizers.caen_dt5781.handler module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781.worker">flashy.digitizers.caen_dt5781.worker module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.caen_dt5781.html#module-flashy.digitizers.caen_dt5781">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.dummy.html">flashy.digitizers.dummy package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#module-flashy.digitizers.dummy.channel">flashy.digitizers.dummy.channel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#module-flashy.digitizers.dummy.config">flashy.digitizers.dummy.config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#module-flashy.digitizers.dummy.definition">flashy.digitizers.dummy.definition module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.dummy.html#module-flashy.digitizers.dummy">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers.config">flashy.digitizers.config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.html#flashy.digitizers.config.DigitizersConfig"><code class="docutils literal notranslate"><span class="pre">DigitizersConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.html#flashy.digitizers.config.DigitizersConfig.digitizers"><code class="docutils literal notranslate"><span class="pre">DigitizersConfig.digitizers</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers.digitizer">flashy.digitizers.digitizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers.info">flashy.digitizers.info module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.digitizers.html#flashy.digitizers.info.DigitizerInfo"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.html#flashy.digitizers.info.DigitizerInfo.key"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo.key</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.html#flashy.digitizers.info.DigitizerInfo.display_name"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo.display_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.html#flashy.digitizers.info.DigitizerInfo.config_cls"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo.config_cls</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.digitizers.html#flashy.digitizers.info.DigitizerInfo.tag_cls"><code class="docutils literal notranslate"><span class="pre">DigitizerInfo.tag_cls</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers.map">flashy.digitizers.map module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.digitizers.html#module-flashy.digitizers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.gui.html">flashy.gui package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.palettes.html">flashy.gui.palettes package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.palettes.html#module-flashy.gui.palettes">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.tabs.html">flashy.gui.tabs package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.tabs.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.tabs.html#module-flashy.gui.tabs.analyser_tab">flashy.gui.tabs.analyser_tab module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.tabs.html#module-flashy.gui.tabs.dt5781_tab">flashy.gui.tabs.dt5781_tab module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.tabs.html#module-flashy.gui.tabs">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.treeview.html">flashy.gui.treeview package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.treeview.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.treeview.html#module-flashy.gui.treeview.parameter_treeview">flashy.gui.treeview.parameter_treeview module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.treeview.html#module-flashy.gui.treeview">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.ui.html">flashy.gui.ui package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ressources_rc">flashy.gui.ui.ressources_rc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_analyser_controls">flashy.gui.ui.ui_analyser_controls module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_analyser_tab">flashy.gui.ui.ui_analyser_tab module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_dt5781_controls">flashy.gui.ui.ui_dt5781_controls module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_dt5781_tab">flashy.gui.ui.ui_dt5781_tab module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_feedback_widget">flashy.gui.ui.ui_feedback_widget module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_flashy_window">flashy.gui.ui.ui_flashy_window module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_parameter_treeview">flashy.gui.ui.ui_parameter_treeview module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_result_panel_widget">flashy.gui.ui.ui_result_panel_widget module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui.ui_result_table">flashy.gui.ui.ui_result_table module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.ui.html#module-flashy.gui.ui">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.widgets.html">flashy.gui.widgets package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.acquisition_timer">flashy.gui.widgets.acquisition_timer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.analyser_controls_widget">flashy.gui.widgets.analyser_controls_widget module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.dt5781_controls_widget">flashy.gui.widgets.dt5781_controls_widget module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.feedback_widget">flashy.gui.widgets.feedback_widget module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.result_panel_widget">flashy.gui.widgets.result_panel_widget module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets.result_table">flashy.gui.widgets.result_table module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.widgets.html#module-flashy.gui.widgets">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.html#module-flashy.gui.main_window">flashy.gui.main_window module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.html#flashy.gui.main_window.MainWindow"><code class="docutils literal notranslate"><span class="pre">MainWindow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.html#flashy.gui.main_window.MainWindow.set_enabled_other_tabs"><code class="docutils literal notranslate"><span class="pre">MainWindow.set_enabled_other_tabs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.html#flashy.gui.main_window.MainWindow.on_quit"><code class="docutils literal notranslate"><span class="pre">MainWindow.on_quit()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.gui.html#flashy.gui.main_window.MainWindow.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">MainWindow.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.html#module-flashy.gui.theme">flashy.gui.theme module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.html#flashy.gui.theme.generate_palette"><code class="docutils literal notranslate"><span class="pre">generate_palette()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.gui.html#flashy.gui.theme.get_pen"><code class="docutils literal notranslate"><span class="pre">get_pen()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.gui.html#module-flashy.gui">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="flashy.models.html">flashy.models package</a><ul>
@@ -165,9 +290,35 @@
 <li class="toctree-l4"><a class="reference internal" href="flashy.models.parameters.html#module-flashy.models.parameters">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.tree.html">flashy.models.tree package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.tree.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.tree.html#module-flashy.models.tree.constructor">flashy.models.tree.constructor module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.tree.html#module-flashy.models.tree.delegate">flashy.models.tree.delegate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.tree.html#module-flashy.models.tree.model">flashy.models.tree.model module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.tree.html#module-flashy.models.tree.node">flashy.models.tree.node module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.tree.html#module-flashy.models.tree">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.user.html">flashy.models.user package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.user.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.user.html#module-flashy.models.user.config">flashy.models.user.config module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.user.html#module-flashy.models.user.definition">flashy.models.user.definition module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.user.html#module-flashy.models.user">Module contents</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.acquisition_config">flashy.models.acquisition_config module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.html#flashy.models.acquisition_config.AcquisitionConfig"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.acquisition_config.AcquisitionConfig.digitizer"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig.digitizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.acquisition_config.AcquisitionConfig.detectors"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig.detectors</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.acquisition_config.AcquisitionConfig.from_tree"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig.from_tree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.acquisition_config.AcquisitionConfig.validate"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig.validate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.batch_pulses">flashy.models.batch_pulses module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.models.html#flashy.models.batch_pulses.BatchPulses"><code class="docutils literal notranslate"><span class="pre">BatchPulses</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.batch_pulses.BatchPulses.analysis_level_method"><code class="docutils literal notranslate"><span class="pre">BatchPulses.analysis_level_method</span></code></a></li>
@@ -187,29 +338,32 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.processing_config">flashy.models.processing_config module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.AcquisitionConfig"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.AcquisitionConfig.digitizer"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig.digitizer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.AcquisitionConfig.detector_assignments"><code class="docutils literal notranslate"><span class="pre">AcquisitionConfig.detector_assignments</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.file_system">flashy.models.file_system module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.html#flashy.models.file_system.FileSystemModel"><code class="docutils literal notranslate"><span class="pre">FileSystemModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.file_system.FileSystemModel.data"><code class="docutils literal notranslate"><span class="pre">FileSystemModel.data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.file_system.FileSystemModel.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">FileSystemModel.staticMetaObject</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.processing_config">flashy.models.processing_config module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig"><code class="docutils literal notranslate"><span class="pre">ProcessingConfig</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig.acquisition"><code class="docutils literal notranslate"><span class="pre">ProcessingConfig.acquisition</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig.analysis"><code class="docutils literal notranslate"><span class="pre">ProcessingConfig.analysis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig.from_tree"><code class="docutils literal notranslate"><span class="pre">ProcessingConfig.from_tree()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig.validate"><code class="docutils literal notranslate"><span class="pre">ProcessingConfig.validate()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.user_config">flashy.models.user_config module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig"><code class="docutils literal notranslate"><span class="pre">UserConfig</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig.project_path"><code class="docutils literal notranslate"><span class="pre">UserConfig.project_path</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig.name_of_shoot"><code class="docutils literal notranslate"><span class="pre">UserConfig.name_of_shoot</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig.increment_name"><code class="docutils literal notranslate"><span class="pre">UserConfig.increment_name</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig.path_of_shoot"><code class="docutils literal notranslate"><span class="pre">UserConfig.path_of_shoot</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig.increment"><code class="docutils literal notranslate"><span class="pre">UserConfig.increment</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig.path_to_logs"><code class="docutils literal notranslate"><span class="pre">UserConfig.path_to_logs</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig.increment_name_of_shoot"><code class="docutils literal notranslate"><span class="pre">UserConfig.increment_name_of_shoot()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.user_config.UserConfig.set_name_of_shoot"><code class="docutils literal notranslate"><span class="pre">UserConfig.set_name_of_shoot()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models.result_table">flashy.models.result_table module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.models.html#flashy.models.result_table.ResultTableModel"><code class="docutils literal notranslate"><span class="pre">ResultTableModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.result_table.ResultTableModel.rowCount"><code class="docutils literal notranslate"><span class="pre">ResultTableModel.rowCount()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.result_table.ResultTableModel.columnCount"><code class="docutils literal notranslate"><span class="pre">ResultTableModel.columnCount()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.result_table.ResultTableModel.headerData"><code class="docutils literal notranslate"><span class="pre">ResultTableModel.headerData()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.result_table.ResultTableModel.data"><code class="docutils literal notranslate"><span class="pre">ResultTableModel.data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.result_table.ResultTableModel.set_rows"><code class="docutils literal notranslate"><span class="pre">ResultTableModel.set_rows()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.models.html#flashy.models.result_table.ResultTableModel.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">ResultTableModel.staticMetaObject</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -217,37 +371,65 @@
 <li class="toctree-l2"><a class="reference internal" href="flashy.models.html#module-flashy.models">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.presenters.html">flashy.presenters package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.presenters.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.presenters.html#module-flashy.presenters.analyser">flashy.presenters.analyser module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.analyser.PresenterAnalyser"><code class="docutils literal notranslate"><span class="pre">PresenterAnalyser</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.analyser.PresenterAnalyser.results_ready"><code class="docutils literal notranslate"><span class="pre">PresenterAnalyser.results_ready</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.analyser.PresenterAnalyser.send_change_analyser_root"><code class="docutils literal notranslate"><span class="pre">PresenterAnalyser.send_change_analyser_root</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.analyser.PresenterAnalyser.analyse_file"><code class="docutils literal notranslate"><span class="pre">PresenterAnalyser.analyse_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.analyser.PresenterAnalyser.change_analyser_root"><code class="docutils literal notranslate"><span class="pre">PresenterAnalyser.change_analyser_root()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.analyser.PresenterAnalyser.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">PresenterAnalyser.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.presenters.html#module-flashy.presenters.dt5781">flashy.presenters.dt5781 module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_other_tabs"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.send_set_enable_other_tabs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_controls"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.send_set_enable_controls</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_results"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.send_set_enable_results</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.state_changed"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.state_changed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.send_new_results"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.send_new_results</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.increment_changed"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.increment_changed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.wrong_processing_config"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.wrong_processing_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.start_acquisition"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.start_acquisition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.stop_acquisition"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.stop_acquisition()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.results_changed"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.results_changed()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.acquisition_finished"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.acquisition_finished()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">PresenterDT5781.staticMetaObject</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.presenters.html#module-flashy.presenters">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="flashy.services.html">flashy.services package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="flashy.services.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.services.acquisition.html">flashy.services.acquisition package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.acquisition.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.acquisition.html#module-flashy.services.acquisition.acquisition_service">flashy.services.acquisition.acquisition_service module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.acquisition.html#module-flashy.services.acquisition.state">flashy.services.acquisition.state module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.acquisition.html#module-flashy.services.acquisition">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="flashy.services.logger.html">flashy.services.logger package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.logger.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.logger.html#module-flashy.services.logger.emitter">flashy.services.logger.emitter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.logger.html#module-flashy.services.logger.json_formatter">flashy.services.logger.json_formatter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.logger.html#module-flashy.services.logger.logger_service">flashy.services.logger.logger_service module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.logger.html#module-flashy.services.logger.qt_handler">flashy.services.logger.qt_handler module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.logger.html#module-flashy.services.logger">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.services.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="flashy.services.html#module-flashy.services.acquisition_service">flashy.services.acquisition_service module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService"><code class="docutils literal notranslate"><span class="pre">AcquisitionService</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.acquisition_started"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_started</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.acquisition_finished"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_finished</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.acquisition_error"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_error</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.stop_requested"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.stop_requested</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.processing_config"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.processing_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.acquisition_results"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_results</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.analysis_todo_queue"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.analysis_todo_queue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.discard_todo"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.discard_todo</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.printed_todo_queue"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.printed_todo_queue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.discard_comp"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.discard_comp</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.staticMetaObject"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.staticMetaObject</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.printed_comp_queue"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.printed_comp_queue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.get_basic_dig_info"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.get_basic_dig_info()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.begin_acquisition"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.begin_acquisition()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.acquisition_event_dump"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.acquisition_event_dump()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.analysis_complete"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.analysis_complete()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.stop_acquisition"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.stop_acquisition()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.acquisition_service.AcquisitionService.shutdown"><code class="docutils literal notranslate"><span class="pre">AcquisitionService.shutdown()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.services.html#module-flashy.services.analysis_service">flashy.services.analysis_service module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.services.html#flashy.services.analysis_service.AnalysisService"><code class="docutils literal notranslate"><span class="pre">AnalysisService</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.analysis_service.AnalysisService.analyse_all_tdms_file"><code class="docutils literal notranslate"><span class="pre">AnalysisService.analyse_all_tdms_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.analysis_service.AnalysisService.analyse_file"><code class="docutils literal notranslate"><span class="pre">AnalysisService.analyse_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.analysis_service.AnalysisService.analyse_real_time"><code class="docutils literal notranslate"><span class="pre">AnalysisService.analyse_real_time()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.analysis_service.AnalysisService.legacy_analyse_csv_file"><code class="docutils literal notranslate"><span class="pre">AnalysisService.legacy_analyse_csv_file()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -267,6 +449,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="flashy.services.html#module-flashy.services.data_loader">flashy.services.data_loader module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="flashy.services.html#flashy.services.data_loader.DataLoader"><code class="docutils literal notranslate"><span class="pre">DataLoader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.data_loader.DataLoader.read_file"><code class="docutils literal notranslate"><span class="pre">DataLoader.read_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.data_loader.DataLoader.read_all_tdms_file"><code class="docutils literal notranslate"><span class="pre">DataLoader.read_all_tdms_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.data_loader.DataLoader.read_config_json_file"><code class="docutils literal notranslate"><span class="pre">DataLoader.read_config_json_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.data_loader.DataLoader.legacy_read_csv_file"><code class="docutils literal notranslate"><span class="pre">DataLoader.legacy_read_csv_file()</span></code></a></li>
@@ -278,7 +461,19 @@
 <li class="toctree-l3"><a class="reference internal" href="flashy.services.html#flashy.services.export_service.DataExporter"><code class="docutils literal notranslate"><span class="pre">DataExporter</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.export_service.DataExporter.write_post_acquisition_to_tdms"><code class="docutils literal notranslate"><span class="pre">DataExporter.write_post_acquisition_to_tdms()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.export_service.DataExporter.save_config_to_json"><code class="docutils literal notranslate"><span class="pre">DataExporter.save_config_to_json()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.export_service.DataExporter.write_all_rawdata_to_tdms"><code class="docutils literal notranslate"><span class="pre">DataExporter.write_all_rawdata_to_tdms()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="flashy.services.html#module-flashy.services.normalizer">flashy.services.normalizer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="flashy.services.html#flashy.services.normalizer.Normalizer"><code class="docutils literal notranslate"><span class="pre">Normalizer</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.normalizer.Normalizer.on_load_create_batch"><code class="docutils literal notranslate"><span class="pre">Normalizer.on_load_create_batch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.normalizer.Normalizer.create_acquisition_result_batch"><code class="docutils literal notranslate"><span class="pre">Normalizer.create_acquisition_result_batch()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.normalizer.Normalizer.append_to_result_table"><code class="docutils literal notranslate"><span class="pre">Normalizer.append_to_result_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.normalizer.Normalizer.confirm_user_config"><code class="docutils literal notranslate"><span class="pre">Normalizer.confirm_user_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.normalizer.Normalizer.confirm_analysis_config"><code class="docutils literal notranslate"><span class="pre">Normalizer.confirm_analysis_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.normalizer.Normalizer.confirm_digitizers_config"><code class="docutils literal notranslate"><span class="pre">Normalizer.confirm_digitizers_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="flashy.services.html#flashy.services.normalizer.Normalizer.confirm_detectors_config"><code class="docutils literal notranslate"><span class="pre">Normalizer.confirm_detectors_config()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -301,9 +496,42 @@
 </section>
 <section id="module-flashy.app">
 <span id="flashy-app-module"></span><h2>flashy.app module<a class="headerlink" href="#module-flashy.app" title="Link to this heading"></a></h2>
-<p>Projet PHY3030 - FLASHy</p>
-<p>Programme d’analyse de pulse pour traitement FLASH 
-à l’aide d’un BCT et d’un digitezer CAEN DT5781.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.app.main">
+<span class="sig-prename descclassname"><span class="pre">flashy.app.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.app.main" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-flashy.app_context">
+<span id="flashy-app-context-module"></span><h2>flashy.app_context module<a class="headerlink" href="#module-flashy.app_context" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flashy.app_context.AppContext">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.app_context.</span></span><span class="sig-name descname"><span class="pre">AppContext</span></span><a class="headerlink" href="#flashy.app_context.AppContext" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="field-list simple">
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="flashy.app_context.AppContext.analyser_tree">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">analyser_tree</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="flashy.models.tree.html#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><span class="pre">TreeNode</span></a></span><a class="headerlink" href="#flashy.app_context.AppContext.analyser_tree" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flashy.app_context.AppContext.caendt5781_tree">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">caendt5781_tree</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="flashy.models.tree.html#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><span class="pre">TreeNode</span></a></span><a class="headerlink" href="#flashy.app_context.AppContext.caendt5781_tree" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flashy.app_context.AppContext.caendt5781_processing_config">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">caendt5781_processing_config</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="flashy.models.html#flashy.models.processing_config.ProcessingConfig" title="flashy.models.processing_config.ProcessingConfig"><span class="pre">ProcessingConfig</span></a></span><a class="headerlink" href="#flashy.app_context.AppContext.caendt5781_processing_config" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-flashy.debug">
+<span id="flashy-debug-module"></span><h2>flashy.debug module<a class="headerlink" href="#module-flashy.debug" title="Link to this heading"></a></h2>
 </section>
 <section id="module-flashy">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-flashy" title="Link to this heading"></a></h2>
