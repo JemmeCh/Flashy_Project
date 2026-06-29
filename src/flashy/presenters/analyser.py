@@ -21,16 +21,22 @@ class PresenterAnalyser(qtc.QObject):
         super().__init__()
         self._serv_analysis = app_context.serv_analysis
         self._logger = get_logger()
+        self._analysis = app_context.analysis_config
     
     @qtc.Slot(str)
     def analyse_file(self, filename: str):
-        # TODO: Check if user want to use custom analyser parameters
+        analysis_config = None
+        if self._analysis.get_value("use_file_analysis"):
+            self._logger.info("Using file analysis config.")
+        else:
+            analysis_config = self._analysis
+            self._logger.info("Using custom analysis config.")
         try:
-            analysis_results = self._serv_analysis.analyse_file(filename)
+            analysis_results = self._serv_analysis.analyse_file(filename, analysis_config)
             self.results_ready.emit(analysis_results)
             self._logger.info(f"Analysis of {filename} finished!")
         except Exception as e:
-            self._logger.exception("File couldn't be analysed correctly")
+            self._logger.exception("File couldn't be analysed correctly.")
     
     @qtc.Slot(str)
     def change_analyser_root(self, root: str):

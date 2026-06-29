@@ -44,7 +44,7 @@ class Normalizer:
             pulses=pulses,
             analysis_level_method=processing_config.analysis.get_value('level_method'),
             analysis_area_calc_method=processing_config.analysis.get_value('area_calc_method'),
-            analysis_nC2cGy_factor=processing_config.analysis.get_value('nC2cGy_factor'),
+            analysis_nC2cGy_factor=processing_config.acquisition.detectors[channel_id].get_value('nC2cGy_factor'),
             digitizer_sampeling_period_ns=processing_config.acquisition.digitizer.sampling_period_ns,
             digitizer_ADC2V_factor=processing_config.acquisition.digitizer.get_adc_to_volts_factor(channel_id),
             detector_Vns2nC_factor=processing_config.acquisition.detectors[channel_id].get_value('Vs2C_factor')
@@ -65,7 +65,7 @@ class Normalizer:
             raw_valid_pulses=pulses,
             analysis_level_method=processing_config.analysis.get_value('level_method'),
             analysis_area_calc_method=processing_config.analysis.get_value('area_calc_method'),
-            analysis_nC2cGy_factor=processing_config.analysis.get_value('nC2cGy_factor'),
+            analysis_nC2cGy_factor=processing_config.acquisition.detectors[channel_id].get_value('nC2cGy_factor'),
             digitizer_sampeling_period_ns=processing_config.acquisition.digitizer.sampling_period_ns,
             digitizer_ADC2V_factor=processing_config.acquisition.digitizer.get_adc_to_volts_factor(channel_id),
             detector_Vns2nC_factor=processing_config.acquisition.detectors[channel_id].get_value('Vs2C_factor')

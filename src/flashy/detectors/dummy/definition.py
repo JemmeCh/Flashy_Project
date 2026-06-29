@@ -26,12 +26,24 @@ DUMMY_DEFINITIONS = {
     ),
     "Vs2C_factor": ParameterDefinition(
         key="Vs2C_factor",
-        name="V*s to C Factor",
+        name="Facteur de conversion: [V*ns] --> [nC]",
         description="Required Volt second to Coulomb conversion factor",
         path="Dummy",
         value_type=float,
         default=2,
         widget_type="entry",
         parser=parse_equation
-    )
+    ),
+    "nC2cGy_factor": ParameterDefinition(
+        key="nC2cGy_factor",
+        name="Facteur de conversion: [nC] --> [cGy]",
+        description="Permet de passer de nC à cGy\nSupporte les équations: '1 / 33.33' est valide",
+        path='Dummy',
+        value_type=float,
+        default=2.0,
+        widget_type="entry",
+        choices=None,
+        valid_range=None,
+        parser=parse_equation
+    ),
 }

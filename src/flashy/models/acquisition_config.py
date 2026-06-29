@@ -89,8 +89,14 @@ class AcquisitionConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
             if channel.get_value("ch_enabled")
         }
         
-        for detector in self.detectors:
-            if detector.get_value("digitizer_channel") not in enabled_channels:
-                raise ValueError(
-                    f"{detector.display_name} is assigned to disabled channel {detector.get_value("digitizer_channel")}."
-                )
+        detector_channels = {
+            detector.get_value("digitizer_channel")
+            for detector in self.detectors
+        }
+        
+        missing_channels = enabled_channels - detector_channels
+        
+        if missing_channels:
+            raise ValueError(
+                f"The following enabled digitizer channels have no assigned detector: {sorted(missing_channels)}."
+            )

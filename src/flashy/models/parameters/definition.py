@@ -1,9 +1,6 @@
 import msgspec
 from typing import Literal, Any, Callable
 
-# TODO:
-# - Add boolean support for TreeModel
-# - Add readonly to TreeModel
 
 class ParameterDefinition(msgspec.Struct, frozen=True):
     """

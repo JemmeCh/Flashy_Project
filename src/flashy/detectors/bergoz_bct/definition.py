@@ -25,6 +25,18 @@ BERGOZBCT_DEFINITIONS = {
         widget_type="entry",
         parser=parse_equation
     ),
+    "nC2cGy_factor": ParameterDefinition(
+        key="nC2cGy_factor",
+        name="Facteur de conversion: [nC] --> [cGy]",
+        description="Permet de passer de nC à cGy\nSupporte les équations: '1 / 33.33' est valide",
+        path='Bergoz BCT',
+        value_type=float,
+        default=2.0,
+        widget_type="entry",
+        choices=None,
+        valid_range=None,
+        parser=parse_equation
+    ),
 }
 """
 Parameter definitions for Bergoz's BCT.

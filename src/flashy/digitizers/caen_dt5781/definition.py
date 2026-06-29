@@ -14,7 +14,11 @@ CAENDT5781_CHANNEL_DEFINITIONS = {
         choices=None,
         valid_range=None,
         step=None,
-        hardware_name="CH_ENABLED"
+        hardware_name="CH_ENABLED",
+        hardware_converter=lambda v: {
+            True: "TRUE",
+            False: "FALSE",
+        }[v],
     ),
     "ch_id": ParameterDefinition(
         key="ch_id",
