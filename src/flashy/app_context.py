@@ -17,7 +17,18 @@ if TYPE_CHECKING:
     from flashy.models.tree.node import TreeNode
 
 class AppContext:
+    """
+    Central application context containing shared services, configuration
+    objects, and parameter trees.
+    """
     def __init__(self) -> None:
+        """
+        Initialize the application context.
+        
+        This constructor configures logging, instantiates the application's
+        core services, loads the persisted configuration from disk, and
+        constructs the corresponding parameter trees.
+        """
         setup_logging()
         
         self.serv_loader = DataLoader()
@@ -39,6 +50,12 @@ class AppContext:
     
     @property
     def analyser_tree(self) -> "TreeNode":
+        """
+        Return the combined parameter tree for the analysis service.
+        
+        :returns: A root tree containing the analysis configuration.
+        :rtype: TreeNode
+        """
         return combine_root_trees(
             [
                 self.analysis_tree
@@ -47,6 +64,17 @@ class AppContext:
     
     @property
     def caendt5781_tree(self) -> "TreeNode":
+        """
+        Return the combined parameter tree for the Caen DT5781 digitizer.
+        
+        The returned tree combines the analysis, detectors, and DT5781
+        digitizer parameter trees under a common root.
+        
+        :raises ValueError: If the DT5781 parameter tree cannot be found.
+        
+        :returns: The combined configuration tree for the DT5781 digitizer.
+        :rtype: TreeNode
+        """
         root_name = "caen_dt5781"
         dt5781_tree = self.digitizers_tree.find_path(
             DIGITIZER_MAP[root_name].display_name
@@ -65,6 +93,12 @@ class AppContext:
     
     @property
     def caendt5781_processing_config(self) -> ProcessingConfig:
+        """
+        Create a processing configuration for the CAEN DT5781 digitizer.
+        
+        :returns: A processing configuration built from the DT5781 tree.
+        :rtype: ProcessingConfig
+        """
         return ProcessingConfig.from_tree(self.caendt5781_tree)
 
 

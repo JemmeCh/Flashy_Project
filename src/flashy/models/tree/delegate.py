@@ -7,6 +7,17 @@ from flashy.models.tree.node import TreeNode
 from typing import TYPE_CHECKING, Any, override
 
 class ParameterDelegate(qtw.QStyledItemDelegate):
+    """
+    Qt item delegate responsible for editing parameter values in a view.
+    
+    This delegate customizes the editing widgets used for parameter nodes in a
+    :class:`ParameterTreeModel`. Depending on the parameter definition, it
+    dynamically creates appropriate editors.It also populates editors with the 
+    current parameter values and ensures proper synchronization between the 
+    view and the underlying model.
+    
+    :inherits: PySide6.QtWidgets.QStyledItemDelegate
+    """
     def __init__(
         self, 
         /, 
@@ -16,6 +27,27 @@ class ParameterDelegate(qtw.QStyledItemDelegate):
     
     @override
     def createEditor(self, parent: qtw.QWidget, option: qtw.QStyleOptionViewItem, index: qtc.QModelIndex | qtc.QPersistentModelIndex) -> qtw.QWidget:
+        """
+        Create an appropriate editor widget for a parameter.
+        
+        The type of editor is selected based on the parameter's widget type
+        defined in its :class:`ParameterDefinition`:
+        
+        - ``combobox`` → QComboBox
+        - ``entry`` with parser → QLineEdit
+        - ``entry`` with float → QDoubleSpinBox
+        - ``entry`` with int → QSpinBox
+        - otherwise → default editor
+        
+        :param parent: Parent widget for the editor.
+        :type parent: QWidget
+        :param option: Style options for item rendering.
+        :type option: QStyleOptionViewItem
+        :param index: Model index being edited.
+        :type index: QModelIndex
+        :returns: Editor widget instance.
+        :rtype: QWidget
+        """
         if not index.isValid():
             return super().createEditor(parent, option, index)
         node = index.internalPointer()
@@ -46,6 +78,16 @@ class ParameterDelegate(qtw.QStyledItemDelegate):
     
     @override
     def setEditorData(self, editor: qtw.QWidget, index: qtc.QModelIndex | qtc.QPersistentModelIndex) -> None:
+        """
+        Populate the editor widget with the current model value by extracting
+        the value from the underlying :class:`TreeNode` and initializes the 
+        appropriate editor widget.
+        
+        :param editor: Editor widget created by :meth:`createEditor`.
+        :type editor: QWidget
+        :param index: Model index being edited.
+        :type index: QModelIndex
+        """
         if not index.isValid():
             return super().setEditorData(editor, index)
         node = index.internalPointer()

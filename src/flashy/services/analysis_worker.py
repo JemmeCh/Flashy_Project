@@ -14,11 +14,11 @@ from flashy.debug import thread_name
 class AnalysisWorker(QThread):
     """
     Worker thread that executes real-time analysis in a background loop.
-
+    
     This class wraps :class:`AnalysisService` and continuously consumes data
     from a queue, processing it asynchronously and emitting results back to
     the main thread.
-
+    
     :inherits: :py:class:`PySide6.QtCore.QThread`
     """
     analysis_complete = Signal(AnalysisResult)

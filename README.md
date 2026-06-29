@@ -150,13 +150,13 @@ FLASHy uses the CAEN FELib Python bind which requires CAEN FELib and the CAEN Di
 ## Roadmap
 <!-- Détail sur Affine  -->
 ### Primary
-- [ ] Flesh out how user can add new detectors
+- [X] Flesh out how user can add new detectors
 - [ ] Add Flash Diamond detector parameters
 - [ ] Implement detector assignment and channel usage
 - [ ] Implement using FLASHy without installing CAEN FELIB and CAEN Dig1
 - [ ] Flesh out how user can add new tabs
 - [ ] Implement ADE tab
-- [ ] Make proper UserConfig model
+- [X] Make proper UserConfig model
 
 ### Secondary
 - [ ] Revamp error handling

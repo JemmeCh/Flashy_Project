@@ -120,16 +120,31 @@
 <dt class="sig sig-object py" id="flashy.services.logger.emitter.LogEmitter">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.logger.emitter.</span></span><span class="sig-name descname"><span class="pre">LogEmitter</span></span><a class="headerlink" href="#flashy.services.logger.emitter.LogEmitter" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QObject.html#PySide6.QtCore.QObject" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></a></p>
+<p>Qt-based signal emitter for logging messages.</p>
+<p>This QObject provides a thread-safe signal that can be used to transmit
+log messages from non-GUI threads to Qt GUI components.</p>
+<dl class="simple">
+<dt>Signals:</dt><dd><dl class="simple">
+<dt>message_logged (str, int): </dt><dd><p>Emitted when a log message is produced.
+The first argument is the formatted log message, and the second
+argument is the logging level (e.g., logging.INFO, logging.ERROR).</p>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashy.services.logger.emitter.LogEmitter.message_logged">
 <span class="sig-name descname"><span class="pre">message_logged</span></span><a class="headerlink" href="#flashy.services.logger.emitter.LogEmitter.message_logged" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.services.logger.emitter.LogEmitter.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;LogEmitter&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#4</span> <span class="pre">type=Signal,</span> <span class="pre">signature=message_logged(QString,int),</span> <span class="pre">parameters=QString,</span> <span class="pre">int</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.services.logger.emitter.LogEmitter.staticMetaObject" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+</dd></dl>
 
+<dl class="py data">
+<dt class="sig sig-object py" id="flashy.services.logger.emitter.emitter">
+<span class="sig-prename descclassname"><span class="pre">flashy.services.logger.emitter.</span></span><span class="sig-name descname"><span class="pre">emitter</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;flashy.services.logger.emitter.LogEmitter(0x17f38ec8600)&gt;</span></span><a class="headerlink" href="#flashy.services.logger.emitter.emitter" title="Link to this definition"></a></dt>
+<dd><p>Global instance of <a class="reference internal" href="#flashy.services.logger.emitter.LogEmitter" title="flashy.services.logger.emitter.LogEmitter"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogEmitter</span></code></a>.</p>
+<p>This singleton emitter is used by logging handlers to broadcast log
+messages throughout the application, typically to GUI components.</p>
 </dd></dl>
 
 </section>
@@ -177,12 +192,44 @@ it is formatted using formatException() and appended to the message.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="flashy.services.logger.logger_service.setup_logging">
 <span class="sig-prename descclassname"><span class="pre">flashy.services.logger.logger_service.</span></span><span class="sig-name descname"><span class="pre">setup_logging</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.logger.logger_service.setup_logging" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Configure application-wide logging using a JSON configuration file.</p>
+<p>This function loads a logging configuration from
+<code class="docutils literal notranslate"><span class="pre">src/flashy/services/logger/logger_config.json</span></code> and applies it using
+<a class="reference external" href="https://docs.python.org/3/library/logging.config.html#logging.config.dictConfig" title="(in Python v3.14)"><code class="xref py py-func docutils literal notranslate"><span class="pre">logging.config.dictConfig()</span></code></a>.</p>
+<p>The configuration defines loggers, handlers, formatters, and logging
+levels used throughout the application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.14)"><strong>FileNotFoundError</strong></a> – If the logging configuration file does not exist.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/json.html#json.JSONDecodeError" title="(in Python v3.14)"><strong>json.JSONDecodeError</strong></a> – If the configuration file contains invalid JSON.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the logging configuration is invalid.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="flashy.services.logger.logger_service.get_logger">
 <span class="sig-prename descclassname"><span class="pre">flashy.services.logger.logger_service.</span></span><span class="sig-name descname"><span class="pre">get_logger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.logger.logger_service.get_logger" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Retrieve the main application logger instance named <code class="docutils literal notranslate"><span class="pre">&quot;flashy&quot;</span></code>,
+which is defined in the logging configuration loaded by
+<a class="reference internal" href="#flashy.services.logger.logger_service.setup_logging" title="flashy.services.logger.logger_service.setup_logging"><code class="xref py py-func docutils literal notranslate"><span class="pre">setup_logging()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Configured application logger.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Logger" title="(in Python v3.14)">logging.Logger</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="module-flashy.services.logger.qt_handler">
@@ -191,12 +238,30 @@ it is formatted using formatException() and appended to the message.</p>
 <dt class="sig sig-object py" id="flashy.services.logger.qt_handler.QtHandler">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.logger.qt_handler.</span></span><span class="sig-name descname"><span class="pre">QtHandler</span></span><a class="headerlink" href="#flashy.services.logger.qt_handler.QtHandler" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Handler" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Handler</span></code></a></p>
+<p>Logging handler that forwards log records to the Qt event system.</p>
+<p>This handler formats log records and emits them through a Qt signal,
+allowing log messages to be displayed safely in the graphical user
+interface.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.services.logger.qt_handler.QtHandler.emit">
 <span class="sig-name descname"><span class="pre">emit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.logger.qt_handler.QtHandler.emit" title="Link to this definition"></a></dt>
-<dd><p>Do whatever it takes to actually log the specified logging record.</p>
-<p>This version is intended to be implemented by subclasses and so
-raises a NotImplementedError.</p>
+<dd><p>Emit a log record through the Qt logging signal.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>A new <a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.LogRecord" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">logging.LogRecord</span></code></a> is created <strong>without exception
+information</strong> to not clutter the GUI log terminal.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>record</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.LogRecord" title="(in Python v3.14)"><em>logging.LogRecord</em></a>) – Log record to emit.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

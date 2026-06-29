@@ -16,15 +16,6 @@ class AcquisitionConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
     """
     Parameters for an acquisition configuration.
     
-    :example:
-    
-    .. code-block:: python
-        
-        AcquisitionConfig(
-            digitizer=caen,
-            detectors=[bergoz_bct, dummy_detector]
-        )
-    
     :inherits: msgspec.Struct
     """
     digitizer: Digitizer
@@ -34,6 +25,18 @@ class AcquisitionConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
     
     @classmethod
     def from_tree(cls, root_node: "TreeNode") -> Self:
+        """
+        Construct an AcquisitionConfig from a configuration tree.
+        
+        :param root_node: Root configuration tree containing digitizer and
+            detectors subtrees.
+        :type root_node: TreeNode
+        
+        :returns: A constructed acquisition configuration.
+        :rtype: Self
+        
+        :raises ValueError: If required tree nodes cannot be found.
+        """
         digitizer_node = root_node.find_path(
             DIGITIZER_MAP[root_node.name].display_name
         )
@@ -52,11 +55,26 @@ class AcquisitionConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
         )
     
     def validate(self) -> None:
+        """
+        Validate the acquisition configuration. Ensures detector assignments, 
+        channel activation, and detector-channel consistency are correct before 
+        acquisition begins.
+        
+        :returns: None
+        :rtype: None
+        
+        :raises ValueError: If configuration constraints are violated.
+        """
         self._validate_detector_assignments()
         self._validate_active_channels()
         self._validate_detector_channels()
     
     def _validate_detector_assignments(self):
+        """
+        Validate that each digitizer channel has at most one detector assigned.
+        
+        :raises ValueError: If duplicate detector channel assignments exist.
+        """
         channel_ids = [det.get_value("digitizer_channel") for det in self.detectors]
         
         duplicates = {
@@ -71,6 +89,11 @@ class AcquisitionConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
             )
     
     def _validate_active_channels(self):
+        """
+        Ensure that at least one digitizer channel is enabled.
+        
+        :raises ValueError: If no channels are enabled.
+        """
         active = [
             channel
             for channel in self.digitizer.channels
@@ -83,6 +106,11 @@ class AcquisitionConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
             )
     
     def _validate_detector_channels(self):
+        """
+        Ensure all enabled digitizer channels have an assigned detector.
+        
+        :raises ValueError: If enabled channels are missing detector mappings.
+        """
         enabled_channels = {
             channel.get_value("ch_id")
             for channel in self.digitizer.channels

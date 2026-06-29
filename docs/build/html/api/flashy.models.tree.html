@@ -83,6 +83,7 @@
 <li class="toctree-l1"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.gui.html">flashy.gui package</a></li>
 </ul>
 
         </div>
@@ -119,11 +120,76 @@
 <section id="module-flashy.models.tree.constructor">
 <span id="flashy-models-tree-constructor-module"></span><h2>flashy.models.tree.constructor module<a class="headerlink" href="#module-flashy.models.tree.constructor" title="Link to this heading"></a></h2>
 <dl class="py function">
+<dt class="sig sig-object py" id="flashy.models.tree.constructor.create_root">
+<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">create_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.create_root" title="Link to this definition"></a></dt>
+<dd><p>Create a root node for a configuration tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the root node.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Newly created root <code class="xref py py-class docutils literal notranslate"><span class="pre">TreeNode</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode">TreeNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.models.tree.constructor.find_by_display_name">
+<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">find_by_display_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping_values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.find_by_display_name" title="Link to this definition"></a></dt>
+<dd><p>Find an item in a mapping list by its display name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Display name to search for.</p></li>
+<li><p><strong>mapping_values</strong> – Iterable of objects containing a <code class="docutils literal notranslate"><span class="pre">display_name</span></code> attribute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Matching item or None if not found.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.models.tree.constructor.convert_config">
+<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">convert_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.convert_config" title="Link to this definition"></a></dt>
+<dd><p>Convert a raw dictionary into a typed configuration object.</p>
+<p>This function wraps <a class="reference external" href="https://msgspec.dev/api.html#msgspec.convert" title="(in msgspec)"><code class="xref py py-func docutils literal notranslate"><span class="pre">msgspec.convert()</span></code></a> to attach a tag and convert
+values into the target configuration class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tag</strong> – Tag used for polymorphic decoding.</p></li>
+<li><p><strong>values</strong> – Dictionary of configuration values.</p></li>
+<li><p><strong>config_cls</strong> – Target configuration class type.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Instantiated configuration object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="flashy.models.tree.constructor.ensure_path">
 <span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">ensure_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.ensure_path" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Ensure that a hierarchical path exists in a tree. Missing intermediate group 
+nodes are created automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent_node</strong> (<a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a>) – Starting node of the traversal.</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>]</em>) – Sequence of group names defining the path.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Final node corresponding to the last path segment.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode">TreeNode</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -131,56 +197,14 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="flashy.models.tree.constructor.add_container_parameters">
 <span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">add_container_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.add_container_parameters" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="flashy.models.tree.constructor.combine_root_trees">
-<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">combine_root_trees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trees</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.combine_root_trees" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="flashy.models.tree.constructor.construct_user_tree">
-<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">construct_user_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.construct_user_tree" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="flashy.models.tree.constructor.construct_analysis_tree">
-<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">construct_analysis_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.construct_analysis_tree" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="flashy.models.tree.constructor.construct_digitizers_trees">
-<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">construct_digitizers_trees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.construct_digitizers_trees" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="flashy.models.tree.constructor.construct_detectors_trees">
-<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">construct_detectors_trees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.construct_detectors_trees" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a></p>
+<dd><p>Add all parameters from a container into a tree structure. Each parameter is 
+inserted under its defined hierarchical path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent_node</strong> (<a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a>) – Root node to attach parameters to.</p></li>
+<li><p><strong>container</strong> – Parameter container exposing DEFINITIONS.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -188,9 +212,118 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="flashy.models.tree.constructor.get_branch_values">
 <span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">get_branch_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.get_branch_values" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Recursively collect parameter values from a tree branch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a>) – Root node of the branch.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary mapping parameter keys to values.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.models.tree.constructor.combine_root_trees">
+<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">combine_root_trees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trees</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.combine_root_trees" title="Link to this definition"></a></dt>
+<dd><p>Combine multiple trees under a single root node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trees</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a><em>]</em>) – List of root trees to combine.</p></li>
+<li><p><strong>root_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the new combined root.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New root node containing all input trees.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode">TreeNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.models.tree.constructor.construct_user_tree">
+<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">construct_user_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.construct_user_tree" title="Link to this definition"></a></dt>
+<dd><p>Construct a tree representation of the user configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="flashy.models.user.html#flashy.models.user.config.UserConfig" title="flashy.models.user.config.UserConfig"><em>UserConfig</em></a>) – User configuration container.</p></li>
+<li><p><strong>root_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the root node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Root of the constructed tree.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode">TreeNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.models.tree.constructor.construct_analysis_tree">
+<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">construct_analysis_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.construct_analysis_tree" title="Link to this definition"></a></dt>
+<dd><p>Construct a tree representation of the analysis configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="flashy.models.analysis.html#flashy.models.analysis.config.AnalysisConfig" title="flashy.models.analysis.config.AnalysisConfig"><em>AnalysisConfig</em></a>) – Analysis configuration container.</p></li>
+<li><p><strong>root_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the root node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Root of the constructed tree.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode">TreeNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.models.tree.constructor.construct_digitizers_trees">
+<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">construct_digitizers_trees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.construct_digitizers_trees" title="Link to this definition"></a></dt>
+<dd><p>Construct a hierarchical tree of digitizer configurations.</p>
+<p>Each digitizer is grouped under its own container node, and each channel
+is represented as a subgroup containing parameter nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="flashy.digitizers.html#flashy.digitizers.config.DigitizersConfig" title="flashy.digitizers.config.DigitizersConfig"><em>DigitizersConfig</em></a>) – Digitizer configuration container.</p></li>
+<li><p><strong>root_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the root node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Root node of the digitizer tree.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode">TreeNode</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flashy.models.tree.constructor.construct_detectors_trees">
+<span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">construct_detectors_trees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'root'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.construct_detectors_trees" title="Link to this definition"></a></dt>
+<dd><p>Construct a tree representation of detector configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="flashy.detectors.html#flashy.detectors.config.DetectorsConfig" title="flashy.detectors.config.DetectorsConfig"><em>DetectorsConfig</em></a>) – Detector configuration container.</p></li>
+<li><p><strong>root_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the root node.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Root node of the detector tree.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode">TreeNode</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -198,9 +331,16 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="flashy.models.tree.constructor.build_analysis_config">
 <span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">build_analysis_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.build_analysis_config" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Extract analysis configuration values from a tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root_node</strong> (<a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a>) – Root node of the analysis tree.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of analysis parameters.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a>, Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -208,9 +348,19 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="flashy.models.tree.constructor.build_digitizer_config">
 <span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">build_digitizer_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.build_digitizer_config" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Build a digitizer configuration object from a tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root_node</strong> (<a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a>) – Root node of the digitizer tree.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Typed digitizer configuration.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Digitizer</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – If digitizer type is not registered.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -218,9 +368,16 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="flashy.models.tree.constructor.build_detectors_config">
 <span class="sig-prename descclassname"><span class="pre">flashy.models.tree.constructor.</span></span><span class="sig-name descname"><span class="pre">build_detectors_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.constructor.build_detectors_config" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Build detector configuration objects from a tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root_node</strong> (<a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a>) – Root node of the detector tree.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of detector configuration objects.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><em>List</em></a>[Detector]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a>[Detector]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -232,14 +389,43 @@
 <dt class="sig sig-object py" id="flashy.models.tree.delegate.ParameterDelegate">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.tree.delegate.</span></span><span class="sig-name descname"><span class="pre">ParameterDelegate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.delegate.ParameterDelegate" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QStyledItemDelegate.html#PySide6.QtWidgets.QStyledItemDelegate" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QStyledItemDelegate</span></code></a></p>
+<p>Qt item delegate responsible for editing parameter values in a view.</p>
+<p>This delegate customizes the editing widgets used for parameter nodes in a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterTreeModel</span></code>. Depending on the parameter definition, it
+dynamically creates appropriate editors.It also populates editors with the 
+current parameter values and ensures proper synchronization between the 
+view and the underlying model.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PySide6.QtWidgets.QStyledItemDelegate</p>
+</dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.delegate.ParameterDelegate.createEditor">
 <span class="sig-name descname"><span class="pre">createEditor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">option</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.delegate.ParameterDelegate.createEditor" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Create an appropriate editor widget for a parameter.</p>
+<p>The type of editor is selected based on the parameter’s widget type
+defined in its <code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterDefinition</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">combobox</span></code> → QComboBox</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">entry</span></code> with parser → QLineEdit</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">entry</span></code> with float → QDoubleSpinBox</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">entry</span></code> with int → QSpinBox</p></li>
+<li><p>otherwise → default editor</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parent</strong> (<em>QWidget</em>) – Parent widget for the editor.</p></li>
+<li><p><strong>option</strong> (<em>QStyleOptionViewItem</em>) – Style options for item rendering.</p></li>
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – Model index being edited.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Editor widget instance.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/QWidget.html#PySide6.QtWidgets.QWidget" title="(in PySide v6.11.0)"><em>QWidget</em></a></p>
+<dd class="field-odd"><p>QWidget</p>
 </dd>
 </dl>
 </dd></dl>
@@ -247,7 +433,16 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.delegate.ParameterDelegate.setEditorData">
 <span class="sig-name descname"><span class="pre">setEditorData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">editor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.delegate.ParameterDelegate.setEditorData" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Populate the editor widget with the current model value by extracting
+the value from the underlying <code class="xref py py-class docutils literal notranslate"><span class="pre">TreeNode</span></code> and initializes the 
+appropriate editor widget.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>editor</strong> (<em>QWidget</em>) – Editor widget created by <a class="reference internal" href="#flashy.models.tree.delegate.ParameterDelegate.createEditor" title="flashy.models.tree.delegate.ParameterDelegate.createEditor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">createEditor()</span></code></a>.</p></li>
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – Model index being edited.</p></li>
+</ul>
+</dd>
 </dl>
 </dd></dl>
 
@@ -265,11 +460,6 @@
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.models.tree.delegate.ParameterDelegate.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ParameterDelegate&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QStyledItemDelegate&quot;:</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.models.tree.delegate.ParameterDelegate.staticMetaObject" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </section>
@@ -279,6 +469,24 @@
 <dt class="sig sig-object py" id="flashy.models.tree.model.ParameterTreeModel">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.tree.model.</span></span><span class="sig-name descname"><span class="pre">ParameterTreeModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.model.ParameterTreeModel" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QAbstractItemModel.html#PySide6.QtCore.QAbstractItemModel" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QAbstractItemModel</span></code></a></p>
+<p>Qt model exposing a hierarchical parameter tree to Qt item views.</p>
+<p>This model adapts a <code class="xref py py-class docutils literal notranslate"><span class="pre">TreeNode</span></code> hierarchy into a Qt-compatible
+item model, allowing parameter groups, containers, and leaf parameters
+to be displayed and edited in views such as QTreeView.</p>
+<p>It supports:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Hierarchical navigation (parent/child relationships)</p></li>
+<li><p>Editable parameter values</p></li>
+<li><p>Checkbox, editable, and read-only widgets</p></li>
+<li><p>Tooltips for parameter descriptions</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PySide6.QtCore.QAbstractItemModel</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.model.ParameterTreeModel.rowCount">
 <span class="sig-name descname"><span class="pre">rowCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.model.ParameterTreeModel.rowCount" title="Link to this definition"></a></dt>
@@ -302,9 +510,20 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.model.ParameterTreeModel.index">
 <span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">/</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;PySide6.QtCore.QModelIndex(-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">0x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">QObject(0x0))&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.model.ParameterTreeModel.index" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Create an index for a given row, column, and parent.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Row index within parent.</p></li>
+<li><p><strong>column</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Column index.</p></li>
+<li><p><strong>parent</strong> (<a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QModelIndex.html#PySide6.QtCore.QModelIndex" title="(in PySide v6.11.0)"><em>QModelIndex</em></a><em> | </em><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QPersistentModelIndex.html#PySide6.QtCore.QPersistentModelIndex" title="(in PySide v6.11.0)"><em>QPersistentModelIndex</em></a>) – Parent index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Qt model index representing the node.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QModelIndex.html#PySide6.QtCore.QModelIndex" title="(in PySide v6.11.0)"><em>QModelIndex</em></a></p>
+<dd class="field-odd"><p>QModelIndex</p>
 </dd>
 </dl>
 </dd></dl>
@@ -312,9 +531,16 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.model.ParameterTreeModel.parent">
 <span class="sig-name descname"><span class="pre">parent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.model.ParameterTreeModel.parent" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Return the parent index of a given child index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>child</strong> (<a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QModelIndex.html#PySide6.QtCore.QModelIndex" title="(in PySide v6.11.0)"><em>QModelIndex</em></a><em> | </em><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QPersistentModelIndex.html#PySide6.QtCore.QPersistentModelIndex" title="(in PySide v6.11.0)"><em>QPersistentModelIndex</em></a>) – Child index.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parent index or invalid index if root.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QModelIndex.html#PySide6.QtCore.QModelIndex" title="(in PySide v6.11.0)"><em>QModelIndex</em></a></p>
+<dd class="field-odd"><p>QModelIndex</p>
 </dd>
 </dl>
 </dd></dl>
@@ -322,9 +548,16 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.model.ParameterTreeModel.flags">
 <span class="sig-name descname"><span class="pre">flags</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.model.ParameterTreeModel.flags" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Return item flags for a given index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>index</strong> (<a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QModelIndex.html#PySide6.QtCore.QModelIndex" title="(in PySide v6.11.0)"><em>QModelIndex</em></a><em> | </em><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QPersistentModelIndex.html#PySide6.QtCore.QPersistentModelIndex" title="(in PySide v6.11.0)"><em>QPersistentModelIndex</em></a>) – Model index.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Qt item flags.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/Qt.html#PySide6.QtCore.Qt.ItemFlag" title="(in PySide v6.11.0)"><em>ItemFlag</em></a></p>
+<dd class="field-odd"><p>Qt.ItemFlag</p>
 </dd>
 </dl>
 </dd></dl>
@@ -332,7 +565,18 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.model.ParameterTreeModel.headerData">
 <span class="sig-name descname"><span class="pre">headerData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.model.ParameterTreeModel.headerData" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Return header labels for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>section</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Column index.</p></li>
+<li><p><strong>orientation</strong> (<em>Qt.Orientation</em>) – Header orientation.</p></li>
+<li><p><strong>role</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Data role.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Header label or None.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a></p>
 </dd>
@@ -342,7 +586,17 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.model.ParameterTreeModel.data">
 <span class="sig-name descname"><span class="pre">data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.model.ParameterTreeModel.data" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Return data for a given index and role.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – Model index.</p></li>
+<li><p><strong>role</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Data role requested by the view.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Role-dependent data or None.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><em>Any</em></a></p>
 </dd>
@@ -352,17 +606,25 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.model.ParameterTreeModel.setData">
 <span class="sig-name descname"><span class="pre">setData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="positional-only-separator o"><abbr title="Positional-only parameter separator (PEP 570)"><span class="pre">/</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">role</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.model.ParameterTreeModel.setData" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Set the value of a parameter in the model.</p>
+<p>Updates the underlying <code class="xref py py-class docutils literal notranslate"><span class="pre">TreeNode</span></code> value and emits change
+notifications to update the Qt view.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>QModelIndex</em>) – Model index.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – New value to assign.</p></li>
+<li><p><strong>role</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Data role triggering the update.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the value was successfully updated, False otherwise.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.models.tree.model.ParameterTreeModel.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;ParameterTreeModel&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QAbstractItemModel&quot;:</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.models.tree.model.ParameterTreeModel.staticMetaObject" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -373,28 +635,61 @@
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.models.tree.node.</span></span><span class="sig-name descname"><span class="pre">TreeNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'group'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">definition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Node of a hierarchical configuration tree.</p>
+<p>This class represents a generic tree structure used to organize parameter
+definitions and configuration containers in a hierarchical manner. Nodes
+can represent groups, parameters, containers, or the root of the tree.</p>
+<p>Each node may optionally hold a <code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterDefinition</span></code> and/or a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterContainer</span></code>, allowing it to act as both a structural and
+data-binding element within configuration trees.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Internal name of the node.</p></li>
+<li><p><strong>node_type</strong> (<em>Literal</em><em>[</em><em>&quot;root&quot;</em><em>, </em><em>&quot;container&quot;</em><em>, </em><em>&quot;group&quot;</em><em>, </em><em>&quot;parameter&quot;</em><em>]</em>) – Type of node (“root”, “container”, “group”, “parameter”).</p></li>
+<li><p><strong>definition</strong> (<a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition" title="flashy.models.parameters.definition.ParameterDefinition"><em>ParameterDefinition</em></a><em> | </em><em>None</em>) – Optional parameter definition associated with the node.</p></li>
+<li><p><strong>container</strong> (<a class="reference internal" href="flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer" title="flashy.models.parameters.container.ParameterContainer"><em>ParameterContainer</em></a><em> | </em><em>None</em>) – Optional parameter container associated with the node.</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a><em> | </em><em>None</em>) – Parent node in the tree, if any.</p></li>
+<li><p><strong>children</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a><em>]</em>) – List of child nodes.</p></li>
+</ul>
+</dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.add_child">
 <span class="sig-name descname"><span class="pre">add_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.add_child" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Add a child node to this node. The child’s parent reference is updated automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>child</strong> (<a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a>) – Node to add as a child.</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.remove_child">
 <span class="sig-name descname"><span class="pre">remove_child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">child</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.remove_child" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Remove a child node from this node. If the child exists, it is 
+detached and its parent reference is cleared.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>child</strong> (<a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a>) – Node to remove.</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.child">
 <span class="sig-name descname"><span class="pre">child</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">row</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.child" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Return the child node at a given index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>row</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – Index of the child.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Child node or None if index is invalid.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a> | None</p>
+<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode">TreeNode</a> | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -402,9 +697,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.child_count">
 <span class="sig-name descname"><span class="pre">child_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.child_count" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+<dd><p>Return the number of children of this node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of child nodes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -412,9 +711,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.row">
 <span class="sig-name descname"><span class="pre">row</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.row" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
+<dd><p>Return this node’s index within its parent’s children list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Index position in parent, or 0 if root.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -422,9 +725,17 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.find_path">
 <span class="sig-name descname"><span class="pre">find_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.find_path" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Traverse the tree following a sequence of display names. Each path element 
+is matched against <a class="reference internal" href="#flashy.models.tree.node.TreeNode.display_name" title="flashy.models.tree.node.TreeNode.display_name"><code class="xref py py-meth docutils literal notranslate"><span class="pre">display_name()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Sequence of node display names.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Target node if found, otherwise None.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a> | None</p>
+<dd class="field-odd"><p><a class="reference internal" href="#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode">TreeNode</a> | None</p>
 </dd>
 </dl>
 </dd></dl>
@@ -432,9 +743,15 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.display_name">
 <span class="sig-name descname"><span class="pre">display_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.display_name" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+<dd><p>Return the display name of the node.</p>
+<p>If a <code class="xref py py-class docutils literal notranslate"><span class="pre">ParameterDefinition</span></code> is attached, its name is used;
+otherwise the internal node name is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Display name of the node.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -442,9 +759,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.description">
 <span class="sig-name descname"><span class="pre">description</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.description" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+<dd><p>Return the node description if a definition is attached.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Node description or empty string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -452,32 +773,50 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.get_value">
 <span class="sig-name descname"><span class="pre">get_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.get_value" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Retrieve the value associated with this node. Only applies if the node 
+is bound to a container and definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Stored parameter value or None.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.set_value">
 <span class="sig-name descname"><span class="pre">set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.set_value" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Set the value associated with this node. Only applies if the node 
+is bound to a container and definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – New value to assign.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.is_root">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_root</span></span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.is_root" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Whether this node is the root of the tree.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.is_container">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_container</span></span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.is_container" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Whether this node represents a container.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.is_group">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_group</span></span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.is_group" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Whether this node represents a group.</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="flashy.models.tree.node.TreeNode.is_parameter">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">is_parameter</span></span><a class="headerlink" href="#flashy.models.tree.node.TreeNode.is_parameter" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Whether this node represents a parameter leaf.</p>
+</dd></dl>
 
 </dd></dl>
 

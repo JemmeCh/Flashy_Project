@@ -6,6 +6,18 @@ from typing import override
 
 
 class ResultTableModel(qtc.QAbstractTableModel):
+    """
+    Qt table model representing acquisition/analysis results.
+    
+    This model stores tabular data (charges, doses per channel) and exposes it
+    to Qt view components. It also appends a computed totals row and provides
+    custom display formatting for headers, alignment, and styling.
+    
+    The last row of the model is treated as a totals row and is visually
+    distinguished from regular data rows.
+    
+    :inherits: PySide6.QtCore.QAbstractTableModel
+    """
     def __init__(self, rows):
         super().__init__()
         
@@ -67,6 +79,19 @@ class ResultTableModel(qtc.QAbstractTableModel):
                 return font
     
     def set_rows(self, rows):
+        """
+        Replace the model data and recompute totals.
+        
+        This resets the model and appends a totals row computed from all
+        columns.
+        
+        :param rows: New dataset to display. Expected to be convertible to a
+            NumPy array or list of rows.
+        :type rows: array-like or None
+        
+        :returns: None
+        :rtype: None
+        """
         self.beginResetModel()
         self._rows = rows.tolist() if rows is not None else []
         

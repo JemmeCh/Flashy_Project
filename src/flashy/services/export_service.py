@@ -108,12 +108,27 @@ class DataExporter:
         digitizers_config: "DigitizersConfig",
         detectors_config: "DetectorsConfig",
     ) -> None:
-        # TODO: Redo Documentation
         """
-        Save configuration to a JSON file when closing the program.
+        Save the application configuration to a JSON file.
         
-        :param user_config: Current user configuration.
+        .. note::
+            The provided configuration objects are converted to built-in Python
+            types before being serialized and written to ``config.json``.
+        
+        :param user_config: User configuration to save.
         :type user_config: UserConfig
+        :param analysis_config: Analysis configuration to save.
+        :type analysis_config: AnalysisConfig
+        :param digitizers_config: Digitizer configurations to save.
+        :type digitizers_config: DigitizersConfig
+        :param detectors_config: Detector configurations to save.
+        :type detectors_config: DetectorsConfig
+        
+        :returns: None
+        :rtype: None
+        
+        :raises OSError: If the configuration file cannot be written.
+        :raises TypeError: If a configuration object cannot be serialized.
         """
         filename_json: str = 'config.json'
         

@@ -11,8 +11,27 @@ if TYPE_CHECKING:
 
 
 class PresenterAnalyser(qtc.QObject):
+    """
+    Presenter responsible for coordinating file-based analysis operations.
+    
+    This class acts as an intermediary between the GUI layer and the analysis
+    service. It manages analysis configuration selection, triggers file
+    analysis, and propagates results back to the UI through Qt signals.
+    
+    :inherits: PySide6.QtCore.QObject
+    
+    .. admonition:: Signals
+    
+        results_ready (AnalysisResult): 
+            Emitted when analysis of a file is successfully completed.
+        send_change_analyser_root (str): 
+            Requests a change of the analyser root node in the UI or 
+            backend configuration tree.
+    """
     results_ready = qtc.Signal(AnalysisResult)
+    """:meta private:"""
     send_change_analyser_root = qtc.Signal(str)
+    """:meta private:"""
     
     def __init__(
         self,
@@ -25,6 +44,16 @@ class PresenterAnalyser(qtc.QObject):
     
     @qtc.Slot(str)
     def analyse_file(self, filename: str):
+        """
+        Run analysis on a specified file with the appropriate analysis configuration 
+        (either file-based or custom).
+        
+        :param filename: Path to the file to analyse.
+        :type filename: str
+        
+        :returns: None
+        :rtype: None
+        """ 
         analysis_config = None
         if self._analysis.get_value("use_file_analysis"):
             self._logger.info("Using file analysis config.")
@@ -40,4 +69,13 @@ class PresenterAnalyser(qtc.QObject):
     
     @qtc.Slot(str)
     def change_analyser_root(self, root: str):
+        """
+        Request a change of the analyser root configuration.
+        
+        :param root: Name of the new analyser root.
+        :type root: str
+        
+        :returns: None
+        :rtype: None
+        """
         self.send_change_analyser_root.emit(root)

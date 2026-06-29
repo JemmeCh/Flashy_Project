@@ -2,8 +2,6 @@ from PySide6 import QtCore as qtc
 from PySide6 import QtWidgets as qtw
 from PySide6 import QtGui as qtg
 
-from time import sleep
-
 from flashy.services.acquisition.acquisition_service import AcquisitionService
 from flashy.services.acquisition.state import AcquisitionState
 from flashy.services.logger.logger_service import get_logger
@@ -16,16 +14,51 @@ if TYPE_CHECKING:
 
 
 class PresenterDT5781(qtc.QObject):
+    """
+    Qt presenter handling acquisition control and coordination for the
+    CAEN DT5781 digitizer workflow.
+    
+    This class acts as the bridge between the GUI layer and the acquisition
+    backend. It manages acquisition lifecycle events, validates processing
+    configuration, handles acquisition results, and coordinates UI state
+    changes through Qt signals.
+    
+    :inherits: PySide6.QtCore.QObject
+    
+    .. admonition:: Signals
+    
+        send_set_enable_other_tabs (bool): 
+            Enable/disable non-control tabs.
+        send_set_enable_controls (bool): 
+            Enable/disable acquisition controls.
+        send_set_enable_results (bool): 
+            Enable/disable results view.
+        state_changed (AcquisitionState): 
+            Emitted when acquisition state changes.
+        send_new_results (AnalysisResult): 
+            Emits processed analysis results.
+        increment_changed (): 
+            Emitted when acquisition increment is updated.
+        wrong_processing_config (): 
+            Emitted when configuration validation fails.
+    """
     send_set_enable_other_tabs = qtc.Signal(bool)
+    """:meta private:"""
     send_set_enable_controls = qtc.Signal(bool)
+    """:meta private:"""
     send_set_enable_results = qtc.Signal(bool)
+    """:meta private:"""
     
     state_changed = qtc.Signal(AcquisitionState)
+    """:meta private:"""
     send_new_results = qtc.Signal(AnalysisResult)
+    """:meta private:"""
     increment_changed = qtc.Signal()
+    """:meta private:"""
     
     wrong_processing_config = qtc.Signal()
-    
+    """:meta private:"""
+
     def __init__(
         self,
         app_context: "AppContext"
@@ -38,6 +71,17 @@ class PresenterDT5781(qtc.QObject):
     
     @qtc.Slot()
     def start_acquisition(self):
+        """
+        Start a new acquisition session.
+        
+        This method validates the current processing configuration, initializes
+        the acquisition service, connects Qt signals, disables UI controls,
+        and begins acquisition on the DT5781 digitizer. If the configuration is invalid,
+        a warning signal is emitted and a critical message box is displayed.
+        
+        :returns: None
+        :rtype: None
+        """
         self._logger.debug("Starting Acquisition Service")
         
         try:
@@ -70,6 +114,12 @@ class PresenterDT5781(qtc.QObject):
     
     @qtc.Slot()
     def stop_acquisition(self):
+        """
+        Stop the current acquisition session.
+        
+        :returns: None
+        :rtype: None
+        """
         self._logger.debug("Stopping Acquisition Service")
         self._set_enables(True)
         if self._acquisition:
@@ -77,6 +127,16 @@ class PresenterDT5781(qtc.QObject):
     
     @qtc.Slot('List[BatchPulses]')
     def results_changed(self, list_results: List[BatchPulses]):
+        """
+        Handle acquisition results. This slot filters empty pulse batches and 
+        emits a processed :class:`AnalysisResult` when valid data is available.
+        
+        :param list_results: List of acquired pulse batches.
+        :type list_results: list[BatchPulses]
+        
+        :returns: None
+        :rtype: None
+        """
         for batch in list_results:
             if not batch.has_pulses:
                 self._logger.info('No pulse detected.')
@@ -89,6 +149,15 @@ class PresenterDT5781(qtc.QObject):
     
     @qtc.Slot('List[BatchPulses]')
     def acquisition_finished(self, list_results: List[BatchPulses]):
+        """
+        Handle completion of an acquisition session.
+        
+        :param list_results: Final list of acquired pulse batches.
+        :type list_results: list[BatchPulses]
+        
+        :returns: None
+        :rtype: None
+        """
         self._app_context.serv_exporter.write_post_acquisition_to_tdms(
             list_results,
             # TODO: Use UserConfig.from_tree

@@ -23,6 +23,7 @@ class AcquisitionService(qtc.QObject):
     Central service responsible for managing acquisition and analysis pipelines.
     
     This class orchestrates:
+    
     - Acquisition worker threads (digitizer-specific)
     - Analysis worker threads (parallel processing)
     - Queue-based communication between acquisition and analysis stages
@@ -35,11 +36,19 @@ class AcquisitionService(qtc.QObject):
     
     :inherits: :py:class:`PySide6.QtCore.QObject`
     
-    .. todo::
-        - Debugging signals
+    .. admonition:: Signals
+    
+        results_changed (list): 
+            Emitted when intermediate analysis results are
+            available from processing workers.
+        acquisition_finished (list): 
+            Emitted when the acquisition session has
+            fully completed and all results are finalized.
     """
     results_changed = qtc.Signal(list)
+    """:meta private:"""
     acquisition_finished = qtc.Signal(list)
+    """:meta private:"""
     
     # Debug
     _acquisition_started = qtc.Signal()

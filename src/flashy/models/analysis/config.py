@@ -20,9 +20,26 @@ class AnalysisConfig(ParameterContainer):
     """
     @classmethod
     def from_tree(cls, root_node: "TreeNode") -> Self:
+        """
+        Construct an AnalysisConfig from a configuration tree.
+        
+        :param root_node: Root node containing analysis configuration values.
+        :type root_node: TreeNode
+        
+        :returns: A constructed analysis configuration instance.
+        :rtype: Self
+        """
         values = build_analysis_config(root_node)
         return cls(values=values)
     
     def validate(self) -> None:
+        """
+        Validate the analysis configuration.
+        
+        :returns: None
+        :rtype: None
+        
+        :raises ValueError: If configuration constraints are violated.
+        """
         # TODO: Implement
         pass

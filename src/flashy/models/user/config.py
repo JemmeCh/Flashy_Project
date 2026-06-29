@@ -20,6 +20,25 @@ class UserConfig(ParameterContainer):
     
     @override
     def set_value(self, key: str, raw_value: Any):
+        """
+        Set a configuration value and update derived parameters.
+        
+        This method extends the base implementation by recomputing dependent
+        values when specific keys are modified (e.g. shoot name, project path,
+        or increment). If recomputation fails, the configuration is rolled
+        back to the last valid state.
+        
+        :param key: Configuration key to update.
+        :type key: str
+        :param raw_value: New value to assign to the parameter.
+        :type raw_value: Any
+        
+        :returns: None
+        :rtype: None
+        
+        :raises Exception: Propagates any error raised during recomputation
+            after rolling back to a valid state.
+        """
         super().set_value(key, raw_value)
         
         # Recompute only affected derived values

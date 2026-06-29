@@ -82,6 +82,7 @@
 <li class="toctree-l1"><a class="reference internal" href="flashy.services.html">flashy.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="flashy.detectors.html">flashy.detectors package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="flashy.digitizers.html">flashy.digitizers package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flashy.gui.html">flashy.gui package</a></li>
 </ul>
 
         </div>
@@ -138,9 +139,16 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.analysis.config.AnalysisConfig.from_tree">
 <span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">from_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root_node</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.analysis.config.AnalysisConfig.from_tree" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Construct an AnalysisConfig from a configuration tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root_node</strong> (<a class="reference internal" href="flashy.models.tree.html#flashy.models.tree.node.TreeNode" title="flashy.models.tree.node.TreeNode"><em>TreeNode</em></a>) – Root node containing analysis configuration values.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A constructed analysis configuration instance.</p>
+</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Self" title="(in Python v3.14)"><em>Self</em></a></p>
+<dd class="field-odd"><p>Self</p>
 </dd>
 </dl>
 </dd></dl>
@@ -148,7 +156,17 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.analysis.config.AnalysisConfig.validate">
 <span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.analysis.config.AnalysisConfig.validate" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Validate the analysis configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If configuration constraints are violated.</p>
+</dd>
 </dl>
 </dd></dl>
 

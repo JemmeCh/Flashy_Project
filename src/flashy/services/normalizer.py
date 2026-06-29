@@ -27,6 +27,14 @@ from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
 
 
 class Normalizer:
+    """
+    Utility class for normalizing configuration objects and constructing
+    analysis data structures.
+    
+    This class provides helper methods for creating :py:data:`~flashy.models.batch_pulses.BatchPulses`
+    instances from acquisition data, combining analysis result tables, and
+    validating configuration objects against their default definitions.
+    """
     def __init__(self) -> None:
         self._logger = get_logger()
     
@@ -36,6 +44,22 @@ class Normalizer:
         processing_config: ProcessingConfig, 
         channel_id: int
     ) -> BatchPulses:
+        """
+        Create a pulse batch from loaded acquisition events.
+        
+        :param events: Sequence of loaded acquisition events. Each event must
+            contain a ``"samples"`` entry holding the pulse samples.
+        :type events: list[dict[str, Any]]
+        :param processing_config: Processing configuration used to populate
+            the batch metadata.
+        :type processing_config: ProcessingConfig
+        :param channel_id: Identifier of the digitizer channel associated with
+            the events.
+        :type channel_id: int
+        
+        :returns: A populated pulse batch ready for analysis.
+        :rtype: BatchPulses
+        """
         pulses_list = []
         for event in events:
             pulses_list.append(event['samples'])
@@ -56,6 +80,22 @@ class Normalizer:
         processing_config: ProcessingConfig,
         channel_id: int
     ) -> BatchPulses:
+        """
+        Create an empty pulse batch for real-time acquisition results.
+        
+        .. note::
+            The returned batch contains correctly sized empty pulse arrays while
+            preserving the metadata required for subsequent analysis.
+        
+        :param processing_config: Processing configuration used to populate
+            the batch metadata.
+        :type processing_config: ProcessingConfig
+        :param channel_id: Identifier of the associated digitizer channel.
+        :type channel_id: int
+        
+        :returns: An empty acquisition result batch.
+        :rtype: BatchPulses
+        """
         reclen_ns = processing_config.acquisition.digitizer.channels[0].get_value('rdc_len')
         sampling_period_ns = processing_config.acquisition.digitizer.sampling_period_ns
         shape = (0, int(reclen_ns / sampling_period_ns))
@@ -73,6 +113,21 @@ class Normalizer:
         return batch_pulses
     
     def append_to_result_table(self, table_results: np.ndarray, table_batch: np.ndarray):
+        """
+        Append a batch result table to an existing result table.
+        
+        .. note::
+            Both tables are padded with zeros when necessary so that they share
+            the same dimensions before concatenation.
+        
+        :param table_results: Existing result table.
+        :type table_results: numpy.ndarray
+        :param table_batch: Result table generated from the latest batch.
+        :type table_batch: numpy.ndarray
+        
+        :returns: The concatenated result table.
+        :rtype: numpy.ndarray
+        """
         results_shape = table_results.shape
         batch_shape = table_batch.shape
         
@@ -93,6 +148,16 @@ class Normalizer:
     # =======================================================================
     
     def confirm_user_config(self, user_config: "UserConfig") -> "UserConfig":
+        """
+        Validate a user configuration against the default schema. Missing parameters are 
+        replaced with their default values.
+        
+        :param user_config: User configuration to validate.
+        :type user_config: UserConfig
+        
+        :returns: A validated user configuration.
+        :rtype: UserConfig
+        """
         defaults = UserConfig.create_default()
         good_config = UserConfig.create_default()
         for key, value in defaults.values.items():
@@ -104,6 +169,16 @@ class Normalizer:
         return good_config
     
     def confirm_analysis_config(self, analysis_config: "AnalysisConfig") -> AnalysisConfig:
+        """
+        Validate an analysis configuration against the default schema. Missing parameters are 
+        replaced with their default values.
+        
+        :param analysis_config: Analysis configuration to validate.
+        :type analysis_config: AnalysisConfig
+        
+        :returns: A validated analysis configuration.
+        :rtype: AnalysisConfig
+        """
         default_analysis = AnalysisConfig.create_default()
         good_analysis = AnalysisConfig.create_default()
         
@@ -116,6 +191,16 @@ class Normalizer:
         return good_analysis
     
     def confirm_digitizers_config(self, digitizers_config: "DigitizersConfig") -> "DigitizersConfig":
+        """
+        Validate all digitizer configurations against their default schemas. Missing parameters are 
+        replaced with their default values while preserving the existing configuration values.
+        
+        :param digitizers_config: Digitizer configurations to validate.
+        :type digitizers_config: DigitizersConfig
+        
+        :returns: Validated digitizer configurations.
+        :rtype: DigitizersConfig
+        """
         good_digitizers = []
         for checking_digitizer in digitizers_config.digitizers:
             if isinstance(checking_digitizer, CaenDT5781Config):
@@ -138,6 +223,16 @@ class Normalizer:
         return DigitizersConfig(good_digitizers)
     
     def confirm_detectors_config(self, detectors_config: "DetectorsConfig") -> "DetectorsConfig":
+        """
+        Validate all detector configurations against their default schemas. Missing parameters are 
+        replaced with their default values while preserving the existing configuration values.
+        
+        :param detectors_config: Detector configurations to validate.
+        :type detectors_config: DetectorsConfig
+        
+        :returns: Validated detector configurations.
+        :rtype: DetectorsConfig
+        """
         good_detectors = []
         for i, cheking_detector in enumerate(detectors_config.detectors):
             if isinstance(cheking_detector, BergozBCT):

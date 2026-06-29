@@ -18,14 +18,75 @@ if TYPE_CHECKING:
 # Helper methods 
 # =======================================================================
 
+def create_root(root_name: str) -> TreeNode:
+    """
+    Create a root node for a configuration tree.
+    
+    :param root_name: Name of the root node.
+    :type root_name: str
+    :returns: Newly created root :class:`TreeNode`.
+    :rtype: TreeNode
+    """
+    return TreeNode(
+        name=root_name,
+        parent=None,
+        node_type="root",
+        definition=None,
+    )
+
+def find_by_display_name(name: str, mapping_values):
+    """
+    Find an item in a mapping list by its display name.
+    
+    :param name: Display name to search for.
+    :type name: str
+    :param mapping_values: Iterable of objects containing a ``display_name`` attribute.
+    :returns: Matching item or None if not found.
+    """
+    for item in mapping_values:
+        if item.display_name == name:
+            return item
+    return None
+
+def convert_config(tag, values, config_cls):
+    """
+    Convert a raw dictionary into a typed configuration object.
+    
+    This function wraps :func:`msgspec.convert` to attach a tag and convert
+    values into the target configuration class.
+    
+    :param tag: Tag used for polymorphic decoding.
+    :param values: Dictionary of configuration values.
+    :param config_cls: Target configuration class type.
+    :returns: Instantiated configuration object.
+    """
+    return msgspec.convert(
+        {
+            "tag": tag,
+            "values": values,
+        },
+        type=config_cls,
+    )
+
 def ensure_path(parent_node: TreeNode, path: List[str]) -> TreeNode:
+    """
+    Ensure that a hierarchical path exists in a tree. Missing intermediate group 
+    nodes are created automatically.
+    
+    :param parent_node: Starting node of the traversal.
+    :type parent_node: TreeNode
+    :param path: Sequence of group names defining the path.
+    :type path: list[str]
+    :returns: Final node corresponding to the last path segment.
+    :rtype: TreeNode
+    """
     current = parent_node
     for segment in path:
-        next_node = None
-        for child in current.children:
-            if child.node_type == "group" and child.name == segment:
-                next_node = child
-                break
+        next_node = next(
+            (c for c in current.children
+            if c.node_type == "group" and c.name == segment),
+            None,
+        )
         
         if next_node is None:
             next_node = TreeNode(
@@ -39,6 +100,14 @@ def ensure_path(parent_node: TreeNode, path: List[str]) -> TreeNode:
     return current
 
 def add_container_parameters(parent_node: TreeNode, container):
+    """
+    Add all parameters from a container into a tree structure. Each parameter is 
+    inserted under its defined hierarchical path.
+    
+    :param parent_node: Root node to attach parameters to.
+    :type parent_node: TreeNode
+    :param container: Parameter container exposing DEFINITIONS.
+    """
     for param in container.DEFINITIONS.values():
         group_node = ensure_path(
             parent_node=parent_node,
@@ -53,17 +122,39 @@ def add_container_parameters(parent_node: TreeNode, container):
         )
         group_node.add_child(node)
 
-def combine_root_trees(trees: list[TreeNode], root_name: str = 'root') -> TreeNode:
-    root_node = TreeNode(
-        name=root_name,
-        parent=None,
-        node_type='root',
-        definition=None,
-    )
+def get_branch_values(node: "TreeNode") -> dict[str, Any]:
+    """
+    Recursively collect parameter values from a tree branch.
     
+    :param node: Root node of the branch.
+    :type node: TreeNode
+    :returns: Dictionary mapping parameter keys to values.
+    :rtype: dict[str, Any]
+    """
+    values = {}
+    
+    for child in node.children:
+        if not child.is_parameter:
+            values.update(get_branch_values(child))
+            continue
+        assert child.definition
+        values[child.definition.key] = child.get_value()
+    return values
+
+def combine_root_trees(trees: list[TreeNode], root_name: str = 'root') -> TreeNode:
+    """
+    Combine multiple trees under a single root node.
+    
+    :param trees: List of root trees to combine.
+    :type trees: list[TreeNode]
+    :param root_name: Name of the new combined root.
+    :type root_name: str
+    :returns: New root node containing all input trees.
+    :rtype: TreeNode
+    """
+    root_node = create_root(root_name)
     for tree in trees:
         root_node.add_child(tree)
-    
     return root_node
 
 # =======================================================================
@@ -71,39 +162,50 @@ def combine_root_trees(trees: list[TreeNode], root_name: str = 'root') -> TreeNo
 # =======================================================================
 
 def construct_user_tree(config: "UserConfig", root_name: str = 'root') -> TreeNode:
-    root_node = TreeNode(
-        name=root_name,
-        parent=None,
-        node_type='root',
-        definition=None,
-    )
-    add_container_parameters(
-        parent_node=root_node,
-        container=config
-    )
+    """
+    Construct a tree representation of the user configuration.
     
+    :param config: User configuration container.
+    :type config: UserConfig
+    :param root_name: Name of the root node.
+    :type root_name: str
+    :returns: Root of the constructed tree.
+    :rtype: TreeNode
+    """
+    root_node = create_root(root_name)
+    add_container_parameters(root_node, config)
     return root_node
 
 def construct_analysis_tree(config: "AnalysisConfig", root_name: str = 'root') -> TreeNode:
-    root_node = TreeNode(
-        name=root_name,
-        parent=None,
-        node_type='root',
-        definition=None,
-    )
-    add_container_parameters(
-        parent_node=root_node,
-        container=config
-    )
+    """
+    Construct a tree representation of the analysis configuration.
+    
+    :param config: Analysis configuration container.
+    :type config: AnalysisConfig
+    :param root_name: Name of the root node.
+    :type root_name: str
+    :returns: Root of the constructed tree.
+    :rtype: TreeNode
+    """
+    root_node = create_root(root_name)
+    add_container_parameters(root_node, config)
     return root_node
 
 def construct_digitizers_trees(config: "DigitizersConfig", root_name: str = "root") -> TreeNode:
-    root_node = TreeNode(
-        name=root_name,
-        parent=None,
-        node_type="root",
-        definition=None,
-    )
+    """
+    Construct a hierarchical tree of digitizer configurations.
+    
+    Each digitizer is grouped under its own container node, and each channel
+    is represented as a subgroup containing parameter nodes.
+    
+    :param config: Digitizer configuration container.
+    :type config: DigitizersConfig
+    :param root_name: Name of the root node.
+    :type root_name: str
+    :returns: Root node of the digitizer tree.
+    :rtype: TreeNode
+    """
+    root_node = create_root(root_name)
     
     for digitizer in config.digitizers:
         digitizer_group = TreeNode(
@@ -120,26 +222,24 @@ def construct_digitizers_trees(config: "DigitizersConfig", root_name: str = "roo
                 node_type="group",
             )
             digitizer_group.add_child(channel_node)
-            add_container_parameters(
-                parent_node=channel_node,
-                container=channel,
-            )
-    
+            add_container_parameters(channel_node, channel)
     return root_node
 
 def construct_detectors_trees(config: "DetectorsConfig", root_name: str = 'root') -> TreeNode:
-    root_node = TreeNode(
-        name=root_name,
-        parent=None,
-        node_type='root',
-        definition=None,
-    )
+    """
+    Construct a tree representation of detector configurations.
+    
+    :param config: Detector configuration container.
+    :type config: DetectorsConfig
+    :param root_name: Name of the root node.
+    :type root_name: str
+    :returns: Root node of the detector tree.
+    :rtype: TreeNode
+    """
+    root_node = create_root(root_name)
     
     for detector in config.detectors:
-        add_container_parameters(
-            parent_node=root_node,
-            container=detector
-        )
+        add_container_parameters(root_node, detector)
     
     return root_node
 
@@ -147,59 +247,72 @@ def construct_detectors_trees(config: "DetectorsConfig", root_name: str = 'root'
 # Configuration builder methods 
 # =======================================================================
 
-def get_branch_values(node: "TreeNode") -> dict[str, Any]:
-    values = {}
-    
-    for child in node.children:
-        if not child.is_parameter:
-            values.update(get_branch_values(child))
-            continue
-        assert child.definition
-        values[child.definition.key] = child.get_value()
-    
-    return values
-
 def build_analysis_config(root_node: "TreeNode") -> dict[str, Any]:
+    """
+    Extract analysis configuration values from a tree.
+    
+    :param root_node: Root node of the analysis tree.
+    :type root_node: TreeNode
+    :returns: Dictionary of analysis parameters.
+    :rtype: dict[str, Any]
+    """
     return get_branch_values(root_node)
 
 def build_digitizer_config(root_node: "TreeNode") -> "Digitizer":
-    digitizer_name = root_node.name
+    """
+    Build a digitizer configuration object from a tree.
     
-    correct_digitizer = None
-    for dig in DIGITIZER_MAP.values():
-        if dig.display_name == digitizer_name:
-            correct_digitizer = dig
-    if correct_digitizer is None:
-        raise NotImplementedError("This digitizer is not in the DIGITIZER_MAP.")
+    :param root_node: Root node of the digitizer tree.
+    :type root_node: TreeNode
+    :returns: Typed digitizer configuration.
+    :rtype: Digitizer
+    :raises NotImplementedError: If digitizer type is not registered.
+    """
+    digitizer = find_by_display_name(
+        root_node.name,
+        DIGITIZER_MAP.values(),
+    )
     
-    channels = []
-    for child in root_node.children:
-        val = {
-            "values": get_branch_values(child)
-        }
-        channels.append(val)
+    if digitizer is None:
+        raise NotImplementedError(
+            "This digitizer is not in the DIGITIZER_MAP."
+        )
     
-    digitizer_ch_values = {
-        "tag": correct_digitizer.tag_cls,
-        "channels": channels
-    }
-    digitizer = msgspec.convert(digitizer_ch_values, type=correct_digitizer.config_cls)
+    channels = [
+        {"values": get_branch_values(child)}
+        for child in root_node.children
+    ]
     
-    return digitizer
+    return msgspec.convert(
+        {
+            "tag": digitizer.tag_cls,
+            "channels": channels,
+        },
+        type=digitizer.config_cls,
+    )
 
 def build_detectors_config(root_node: "TreeNode") -> List["Detector"]:
+    """
+    Build detector configuration objects from a tree.
+    
+    :param root_node: Root node of the detector tree.
+    :type root_node: TreeNode
+    :returns: List of detector configuration objects.
+    :rtype: list[Detector]
+    """
     detectors = []
     
     for child in root_node.children:
-        display_name = child.display_name()
-        for info in DETECTOR_MAP.values():
-            if display_name == info.display_name:
-                val = {
-                    "tag": info.tag_cls,
-                    "values": get_branch_values(child)
-                }
-                config = msgspec.convert(val, type=info.config_cls)
-                detectors.append(config)
+        info = find_by_display_name(child.display_name(), DETECTOR_MAP.values())
+        if info is None:
+            continue
+        
+        config = convert_config(
+            info.tag_cls,
+            get_branch_values(child),
+            info.config_cls,
+        )
+        detectors.append(config)
     
     return detectors
 

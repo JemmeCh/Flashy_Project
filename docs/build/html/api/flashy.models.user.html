@@ -137,14 +137,16 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.models.user.config.UserConfig.set_value">
 <span class="sig-name descname"><span class="pre">set_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.models.user.config.UserConfig.set_value" title="Link to this definition"></a></dt>
-<dd><p>Set a parameter value using its associated transformation logic.</p>
-<p>The raw input value is passed through the parameter’s
-<code class="docutils literal notranslate"><span class="pre">transform</span></code> method (if defined) before being stored.</p>
+<dd><p>Set a configuration value and update derived parameters.</p>
+<p>This method extends the base implementation by recomputing dependent
+values when specific keys are modified (e.g. shoot name, project path,
+or increment). If recomputation fails, the configuration is rolled
+back to the last valid state.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the parameter to set.</p></li>
-<li><p><strong>raw_value</strong> (<em>Any</em>) – Input value to be transformed and stored.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Configuration key to update.</p></li>
+<li><p><strong>raw_value</strong> (<em>Any</em>) – New value to assign to the parameter.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -154,10 +156,8 @@
 <dd class="field-odd"><p>None</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.14)"><strong>KeyError</strong></a> – If the key is not defined in <code class="docutils literal notranslate"><span class="pre">DEFINITIONS</span></code>.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – If <code class="docutils literal notranslate"><span class="pre">definition.transform</span></code> doesn’t work.</p></li>
-</ul>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><strong>Exception</strong></a> – Propagates any error raised during recomputation
+after rolling back to a valid state.</p>
 </dd>
 </dl>
 </dd></dl>

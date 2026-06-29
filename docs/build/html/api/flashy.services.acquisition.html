@@ -120,10 +120,12 @@
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.acquisition.acquisition_service.</span></span><span class="sig-name descname"><span class="pre">AcquisitionService</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">processing_config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition.acquisition_service.AcquisitionService" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QObject.html#PySide6.QtCore.QObject" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></a></p>
 <p>Central service responsible for managing acquisition and analysis pipelines.</p>
-<p>This class orchestrates:
-- Acquisition worker threads (digitizer-specific)
-- Analysis worker threads (parallel processing)
-- Queue-based communication between acquisition and analysis stages</p>
+<p>This class orchestrates:</p>
+<ul class="simple">
+<li><p>Acquisition worker threads (digitizer-specific)</p></li>
+<li><p>Analysis worker threads (parallel processing)</p></li>
+<li><p>Queue-based communication between acquisition and analysis stages</p></li>
+</ul>
 <p>Each instance spawns multiple <code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisWorker</span></code> threads that process
 incoming data asynchronously.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">begin_acquisition</span></code> method starts a new acquisition session using
@@ -133,16 +135,17 @@ the selected digitizer backend.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QObject.html#PySide6.QtCore.QObject" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PySide6.QtCore.QObject</span></code></a></p>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.services.acquisition.acquisition_service.AcquisitionService.results_changed">
-<span class="sig-name descname"><span class="pre">results_changed</span></span><a class="headerlink" href="#flashy.services.acquisition.acquisition_service.AcquisitionService.results_changed" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.services.acquisition.acquisition_service.AcquisitionService.acquisition_finished">
-<span class="sig-name descname"><span class="pre">acquisition_finished</span></span><a class="headerlink" href="#flashy.services.acquisition.acquisition_service.AcquisitionService.acquisition_finished" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
+<div class="admonition-signals admonition">
+<p class="admonition-title">Signals</p>
+<dl class="simple">
+<dt>results_changed (list): </dt><dd><p>Emitted when intermediate analysis results are
+available from processing workers.</p>
+</dd>
+<dt>acquisition_finished (list): </dt><dd><p>Emitted when the acquisition session has
+fully completed and all results are finalized.</p>
+</dd>
+</dl>
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashy.services.acquisition.acquisition_service.AcquisitionService.acquisition_results">
 <span class="sig-name descname"><span class="pre">acquisition_results</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="flashy.models.html#flashy.models.batch_pulses.BatchPulses" title="flashy.models.batch_pulses.BatchPulses"><span class="pre">BatchPulses</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#flashy.services.acquisition.acquisition_service.AcquisitionService.acquisition_results" title="Link to this definition"></a></dt>
@@ -235,11 +238,6 @@ querying the hardware.</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.services.acquisition.acquisition_service.AcquisitionService.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;AcquisitionService&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#4</span> <span class="pre">type=Signal,</span> <span class="pre">signature=results_changed(QVariantList),</span> <span class="pre">parameters=QVariantList</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=acquisition_finished(QVariantList),</span> <span class="pre">parameters=QVariantList</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=_acquisition_started()</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=_stop_requested()</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Slot,</span> <span class="pre">signature=acquisition_event_dump(QVariantList),</span> <span class="pre">parameters=QVariantList</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Slot,</span> <span class="pre">signature=analysis_complete(PyObject),</span> <span class="pre">parameters=PyObject</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Slot,</span> <span class="pre">signature=stop_acquisition()</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=_on_worker_finished()</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.services.acquisition.acquisition_service.AcquisitionService.staticMetaObject" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.services.acquisition.acquisition_service.AcquisitionService.stop_acquisition">
 <span class="sig-name descname"><span class="pre">stop_acquisition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition.acquisition_service.AcquisitionService.stop_acquisition" title="Link to this definition"></a></dt>
@@ -264,6 +262,18 @@ querying the hardware.</p>
 <dt class="sig sig-object py" id="flashy.services.acquisition.state.AcquisitionState">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.services.acquisition.state.</span></span><span class="sig-name descname"><span class="pre">AcquisitionState</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.services.acquisition.state.AcquisitionState" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<p>Enumeration of acquisition system states.</p>
+<p>This enum represents the lifecycle states of the acquisition system,
+from initial disconnection to active acquisition and error handling.</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>DISCONNECTED: No connection to the acquisition hardware.
+CONNECTING: Attempting to establish a connection.
+READY: System is connected and ready to start acquisition.
+ACQUIRING: Data acquisition is currently in progress.
+STOPPING: Acquisition is in the process of stopping.
+ERROR: An error state indicating acquisition failure or invalid state.</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flashy.services.acquisition.state.AcquisitionState.DISCONNECTED">
 <span class="sig-name descname"><span class="pre">DISCONNECTED</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#flashy.services.acquisition.state.AcquisitionState.DISCONNECTED" title="Link to this definition"></a></dt>

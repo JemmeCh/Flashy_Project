@@ -32,3 +32,4 @@ FLASHy documentation
    api/flashy.services
    api/flashy.detectors
    api/flashy.digitizers
+   api/flashy.gui

@@ -56,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="api/flashy.services.html">flashy.services package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/flashy.detectors.html">flashy.detectors package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api/flashy.digitizers.html">flashy.digitizers package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/flashy.gui.html">flashy.gui package</a></li>
 </ul>
 
         </div>
@@ -118,8 +119,6 @@
       <li><a href="api/flashy.models.html#flashy.models.processing_config.ProcessingConfig.acquisition">acquisition (flashy.models.processing_config.ProcessingConfig attribute)</a>
 </li>
       <li><a href="api/flashy.services.acquisition.html#flashy.services.acquisition.acquisition_service.AcquisitionService.acquisition_event_dump">acquisition_event_dump() (flashy.services.acquisition.acquisition_service.AcquisitionService method)</a>
-</li>
-      <li><a href="api/flashy.services.acquisition.html#flashy.services.acquisition.acquisition_service.AcquisitionService.acquisition_finished">acquisition_finished (flashy.services.acquisition.acquisition_service.AcquisitionService attribute)</a>
 </li>
       <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.acquisition_finished">acquisition_finished() (flashy.presenters.dt5781.PresenterDT5781 method)</a>
 </li>
@@ -307,11 +306,15 @@
 </li>
       <li><a href="api/flashy.models.tree.html#flashy.models.tree.constructor.construct_user_tree">construct_user_tree() (in module flashy.models.tree.constructor)</a>
 </li>
+      <li><a href="api/flashy.models.tree.html#flashy.models.tree.constructor.convert_config">convert_config() (in module flashy.models.tree.constructor)</a>
+</li>
       <li><a href="api/flashy.models.parameters.html#flashy.models.parameters.registry.convert_to_caen5781_value">convert_to_caen5781_value() (in module flashy.models.parameters.registry)</a>
 </li>
       <li><a href="api/flashy.services.html#flashy.services.normalizer.Normalizer.create_acquisition_result_batch">create_acquisition_result_batch() (flashy.services.normalizer.Normalizer method)</a>
 </li>
       <li><a href="api/flashy.models.parameters.html#flashy.models.parameters.container.ParameterContainer.create_default">create_default() (flashy.models.parameters.container.ParameterContainer class method)</a>
+</li>
+      <li><a href="api/flashy.models.tree.html#flashy.models.tree.constructor.create_root">create_root() (in module flashy.models.tree.constructor)</a>
 </li>
       <li><a href="api/flashy.models.tree.html#flashy.models.tree.delegate.ParameterDelegate.createEditor">createEditor() (flashy.models.tree.delegate.ParameterDelegate method)</a>
 </li>
@@ -423,6 +426,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/flashy.services.logger.html#flashy.services.logger.qt_handler.QtHandler.emit">emit() (flashy.services.logger.qt_handler.QtHandler method)</a>
 </li>
+      <li><a href="api/flashy.services.logger.html#flashy.services.logger.emitter.emitter">emitter (in module flashy.services.logger.emitter)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/flashy.models.tree.html#flashy.models.tree.constructor.ensure_path">ensure_path() (in module flashy.models.tree.constructor)</a>
@@ -440,6 +445,8 @@
       <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.feedback_widget.FeedbackWidget">FeedbackWidget (class in flashy.gui.widgets.feedback_widget)</a>
 </li>
       <li><a href="api/flashy.models.html#flashy.models.file_system.FileSystemModel">FileSystemModel (class in flashy.models.file_system)</a>
+</li>
+      <li><a href="api/flashy.models.tree.html#flashy.models.tree.constructor.find_by_display_name">find_by_display_name() (in module flashy.models.tree.constructor)</a>
 </li>
       <li><a href="api/flashy.models.tree.html#flashy.models.tree.node.TreeNode.find_path">find_path() (flashy.models.tree.node.TreeNode method)</a>
 </li>
@@ -1219,8 +1226,6 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.increment_changed">increment_changed (flashy.presenters.dt5781.PresenterDT5781 attribute)</a>
-</li>
       <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.increment_changed">increment_changed() (flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget method)</a>
 </li>
       <li><a href="api/flashy.models.tree.html#flashy.models.tree.model.ParameterTreeModel.index">index() (flashy.models.tree.model.ParameterTreeModel method)</a>
@@ -1610,11 +1615,7 @@
 </li>
       <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.result_panel_widget.ResultPanelWidget">ResultPanelWidget (class in flashy.gui.widgets.result_panel_widget)</a>
 </li>
-      <li><a href="api/flashy.services.acquisition.html#flashy.services.acquisition.acquisition_service.AcquisitionService.results_changed">results_changed (flashy.services.acquisition.acquisition_service.AcquisitionService attribute)</a>
-</li>
       <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.results_changed">results_changed() (flashy.presenters.dt5781.PresenterDT5781 method)</a>
-</li>
-      <li><a href="api/flashy.presenters.html#flashy.presenters.analyser.PresenterAnalyser.results_ready">results_ready (flashy.presenters.analyser.PresenterAnalyser attribute)</a>
 </li>
       <li><a href="api/flashy.models.html#flashy.models.result_table.ResultTableModel">ResultTableModel (class in flashy.models.result_table)</a>
 </li>
@@ -1676,16 +1677,6 @@
 </li>
       <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget.select_file">select_file() (flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget method)</a>
 </li>
-      <li><a href="api/flashy.presenters.html#flashy.presenters.analyser.PresenterAnalyser.send_change_analyser_root">send_change_analyser_root (flashy.presenters.analyser.PresenterAnalyser attribute)</a>
-</li>
-      <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.send_new_results">send_new_results (flashy.presenters.dt5781.PresenterDT5781 attribute)</a>
-</li>
-      <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_controls">send_set_enable_controls (flashy.presenters.dt5781.PresenterDT5781 attribute)</a>
-</li>
-      <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_other_tabs">send_set_enable_other_tabs (flashy.presenters.dt5781.PresenterDT5781 attribute)</a>
-</li>
-      <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_results">send_set_enable_results (flashy.presenters.dt5781.PresenterDT5781 attribute)</a>
-</li>
       <li><a href="api/flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.config.CaenDT5781Config.serial_num">serial_num (flashy.digitizers.caen_dt5781.config.CaenDT5781Config attribute)</a>
 </li>
       <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.set_enabled_controls">set_enabled_controls() (flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget method)</a>
@@ -1734,62 +1725,18 @@
         <li><a href="api/flashy.gui.ui.html#flashy.gui.ui.ui_result_table.Ui_ResultTable.setupUi">(flashy.gui.ui.ui_result_table.Ui_ResultTable method)</a>
 </li>
       </ul></li>
-      <li><a href="api/flashy.services.acquisition.html#flashy.services.acquisition.acquisition_service.AcquisitionService.shutdown">shutdown() (flashy.services.acquisition.acquisition_service.AcquisitionService method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/flashy.services.acquisition.html#flashy.services.acquisition.acquisition_service.AcquisitionService.shutdown">shutdown() (flashy.services.acquisition.acquisition_service.AcquisitionService method)</a>
+</li>
       <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.start_acquisition">start_acquisition (flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget attribute)</a>
 </li>
       <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.start_acquisition">start_acquisition() (flashy.presenters.dt5781.PresenterDT5781 method)</a>
 </li>
       <li><a href="api/flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.state">state (flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition property)</a>
 </li>
-      <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.state_changed">state_changed (flashy.presenters.dt5781.PresenterDT5781 attribute)</a>
-</li>
       <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.state_changed">state_changed() (flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget method)</a>
 </li>
-      <li><a href="api/flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.worker.CaenDT5781AcquisitionWorker.staticMetaObject">staticMetaObject (flashy.digitizers.caen_dt5781.worker.CaenDT5781AcquisitionWorker attribute)</a>
-
-      <ul>
-        <li><a href="api/flashy.gui.html#flashy.gui.main_window.MainWindow.staticMetaObject">(flashy.gui.main_window.MainWindow attribute)</a>
-</li>
-        <li><a href="api/flashy.gui.tabs.html#flashy.gui.tabs.analyser_tab.TabAnalyser.staticMetaObject">(flashy.gui.tabs.analyser_tab.TabAnalyser attribute)</a>
-</li>
-        <li><a href="api/flashy.gui.tabs.html#flashy.gui.tabs.dt5781_tab.TabDT5781.staticMetaObject">(flashy.gui.tabs.dt5781_tab.TabDT5781 attribute)</a>
-</li>
-        <li><a href="api/flashy.gui.treeview.html#flashy.gui.treeview.parameter_treeview.ParameterTreeView.staticMetaObject">(flashy.gui.treeview.parameter_treeview.ParameterTreeView attribute)</a>
-</li>
-        <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.acquisition_timer.AcquisitionTimer.staticMetaObject">(flashy.gui.widgets.acquisition_timer.AcquisitionTimer attribute)</a>
-</li>
-        <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget.staticMetaObject">(flashy.gui.widgets.analyser_controls_widget.AnalyserControlsWidget attribute)</a>
-</li>
-        <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.staticMetaObject">(flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget attribute)</a>
-</li>
-        <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.feedback_widget.FeedbackWidget.staticMetaObject">(flashy.gui.widgets.feedback_widget.FeedbackWidget attribute)</a>
-</li>
-        <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.result_panel_widget.ResultPanelWidget.staticMetaObject">(flashy.gui.widgets.result_panel_widget.ResultPanelWidget attribute)</a>
-</li>
-        <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.result_table.ResultTableView.staticMetaObject">(flashy.gui.widgets.result_table.ResultTableView attribute)</a>
-</li>
-        <li><a href="api/flashy.models.html#flashy.models.file_system.FileSystemModel.staticMetaObject">(flashy.models.file_system.FileSystemModel attribute)</a>
-</li>
-        <li><a href="api/flashy.models.html#flashy.models.result_table.ResultTableModel.staticMetaObject">(flashy.models.result_table.ResultTableModel attribute)</a>
-</li>
-        <li><a href="api/flashy.models.tree.html#flashy.models.tree.delegate.ParameterDelegate.staticMetaObject">(flashy.models.tree.delegate.ParameterDelegate attribute)</a>
-</li>
-        <li><a href="api/flashy.models.tree.html#flashy.models.tree.model.ParameterTreeModel.staticMetaObject">(flashy.models.tree.model.ParameterTreeModel attribute)</a>
-</li>
-        <li><a href="api/flashy.presenters.html#flashy.presenters.analyser.PresenterAnalyser.staticMetaObject">(flashy.presenters.analyser.PresenterAnalyser attribute)</a>
-</li>
-        <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.staticMetaObject">(flashy.presenters.dt5781.PresenterDT5781 attribute)</a>
-</li>
-        <li><a href="api/flashy.services.acquisition.html#flashy.services.acquisition.acquisition_service.AcquisitionService.staticMetaObject">(flashy.services.acquisition.acquisition_service.AcquisitionService attribute)</a>
-</li>
-        <li><a href="api/flashy.services.html#flashy.services.analysis_worker.AnalysisWorker.staticMetaObject">(flashy.services.analysis_worker.AnalysisWorker attribute)</a>
-</li>
-        <li><a href="api/flashy.services.logger.html#flashy.services.logger.emitter.LogEmitter.staticMetaObject">(flashy.services.logger.emitter.LogEmitter attribute)</a>
-</li>
-      </ul></li>
       <li><a href="api/flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.step">step (flashy.models.parameters.definition.ParameterDefinition attribute)</a>
 </li>
       <li><a href="api/flashy.digitizers.caen_dt5781.html#flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition.stop">stop() (flashy.digitizers.caen_dt5781.acquisition.CaenDT5781Acquisition method)</a>
@@ -1908,11 +1855,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/flashy.models.parameters.html#flashy.models.parameters.definition.ParameterDefinition.widget_type">widget_type (flashy.models.parameters.definition.ParameterDefinition attribute)</a>
 </li>
-      <li><a href="api/flashy.services.html#flashy.services.export_service.DataExporter.write_post_acquisition_to_tdms">write_post_acquisition_to_tdms() (flashy.services.export_service.DataExporter method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/flashy.presenters.html#flashy.presenters.dt5781.PresenterDT5781.wrong_processing_config">wrong_processing_config (flashy.presenters.dt5781.PresenterDT5781 attribute)</a>
+      <li><a href="api/flashy.services.html#flashy.services.export_service.DataExporter.write_post_acquisition_to_tdms">write_post_acquisition_to_tdms() (flashy.services.export_service.DataExporter method)</a>
 </li>
       <li><a href="api/flashy.gui.widgets.html#flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget.wrong_processing_config">wrong_processing_config() (flashy.gui.widgets.dt5781_controls_widget.DT5781ControlsWidget method)</a>
 </li>

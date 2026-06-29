@@ -46,3 +46,19 @@ autodoc_typehints_description_target = "documented_params"
 
 html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
+
+def skip_qt_internals(app, what, name, obj, skip, options):
+    qt_noise = {
+        "staticMetaObject",
+        "qt_metacall",
+        "qt_metacast",
+        "metaObject",
+    }
+    
+    if name in qt_noise:
+        return True
+    
+    return skip
+
+def setup(app):
+    app.connect("autodoc-skip-member", skip_qt_internals)

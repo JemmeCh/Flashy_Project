@@ -9,6 +9,22 @@ if TYPE_CHECKING:
     from flashy.models.tree.node import TreeNode
 
 class ParameterTreeModel(qtc.QAbstractItemModel):
+    """
+    Qt model exposing a hierarchical parameter tree to Qt item views.
+    
+    This model adapts a :class:`TreeNode` hierarchy into a Qt-compatible
+    item model, allowing parameter groups, containers, and leaf parameters
+    to be displayed and edited in views such as QTreeView.
+    
+    It supports:
+    
+        - Hierarchical navigation (parent/child relationships)
+        - Editable parameter values
+        - Checkbox, editable, and read-only widgets
+        - Tooltips for parameter descriptions
+    
+    :inherits: PySide6.QtCore.QAbstractItemModel
+    """
     def __init__(self, root_node):
         super().__init__()
         self._root: "TreeNode" = root_node
@@ -37,6 +53,17 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
     
     @override
     def index(self, row: int, column: int, /, parent: qtc.QModelIndex | qtc.QPersistentModelIndex = qtc.QModelIndex()) -> qtc.QModelIndex:
+        """
+        Create an index for a given row, column, and parent.
+        
+        :param row: Row index within parent.
+        :type row: int
+        :param column: Column index.
+        :type column: int
+        :param parent: Parent index.
+        :returns: Qt model index representing the node.
+        :rtype: QModelIndex
+        """
         if not parent.isValid():
             parent_node = self._root
         else:
@@ -48,6 +75,13 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
     
     @override
     def parent(self, child: qtc.QModelIndex | qtc.QPersistentModelIndex) -> qtc.QModelIndex: #type:ignore
+        """
+        Return the parent index of a given child index.
+        
+        :param child: Child index.
+        :returns: Parent index or invalid index if root.
+        :rtype: QModelIndex
+        """
         if not child.isValid():
             node = self._root
         else: 
@@ -60,6 +94,13 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
     
     @override
     def flags(self, index: qtc.QModelIndex | qtc.QPersistentModelIndex) -> qtc.Qt.ItemFlag:
+        """
+        Return item flags for a given index. 
+        
+        :param index: Model index.
+        :returns: Qt item flags.
+        :rtype: Qt.ItemFlag
+        """
         if not index.isValid():
             return qtc.Qt.ItemFlag.NoItemFlags
         
@@ -89,6 +130,17 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
     
     @override
     def headerData(self, section: int, orientation: qtc.Qt.Orientation, /, role: int) -> Any: #type:ignore
+        """
+        Return header labels for the model.
+        
+        :param section: Column index.
+        :type section: int
+        :param orientation: Header orientation.
+        :type orientation: Qt.Orientation
+        :param role: Data role.
+        :type role: int
+        :returns: Header label or None.
+        """
         if role != qtc.Qt.ItemDataRole.DisplayRole:
             return None
         
@@ -97,6 +149,15 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
     
     @override
     def data(self, index: qtc.QModelIndex | qtc.QPersistentModelIndex, /, role: int) -> Any: #type:ignore
+        """
+        Return data for a given index and role.
+        
+        :param index: Model index.
+        :type index: QModelIndex
+        :param role: Data role requested by the view.
+        :type role: int
+        :returns: Role-dependent data or None.
+        """
         if not index.isValid():
             return None
         
@@ -132,6 +193,21 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
     
     @override
     def setData(self, index: qtc.QModelIndex | qtc.QPersistentModelIndex, value: Any, /, role: int) -> bool: #type:ignore
+        """
+        Set the value of a parameter in the model.
+        
+        Updates the underlying :class:`TreeNode` value and emits change
+        notifications to update the Qt view.
+        
+        :param index: Model index.
+        :type index: QModelIndex
+        :param value: New value to assign.
+        :type value: Any
+        :param role: Data role triggering the update.
+        :type role: int
+        :returns: True if the value was successfully updated, False otherwise.
+        :rtype: bool
+        """
         if not index.isValid():
             return False
         node = index.internalPointer()
@@ -149,5 +225,3 @@ class ParameterTreeModel(qtc.QAbstractItemModel):
                 self._logger.warning(str(e))
                 return False
         else: return False
-    
-    

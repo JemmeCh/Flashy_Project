@@ -119,36 +119,59 @@
 <dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.presenters.analyser.</span></span><span class="sig-name descname"><span class="pre">PresenterAnalyser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QObject.html#PySide6.QtCore.QObject" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></a></p>
+<p>Presenter responsible for coordinating file-based analysis operations.</p>
+<p>This class acts as an intermediary between the GUI layer and the analysis
+service. It manages analysis configuration selection, triggers file
+analysis, and propagates results back to the UI through Qt signals.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PySide6.QtCore.QObject</p>
+</dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.results_ready">
-<span class="sig-name descname"><span class="pre">results_ready</span></span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.results_ready" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.send_change_analyser_root">
-<span class="sig-name descname"><span class="pre">send_change_analyser_root</span></span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.send_change_analyser_root" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
+<div class="admonition-signals admonition">
+<p class="admonition-title">Signals</p>
+<dl class="simple">
+<dt>results_ready (AnalysisResult): </dt><dd><p>Emitted when analysis of a file is successfully completed.</p>
+</dd>
+<dt>send_change_analyser_root (str): </dt><dd><p>Requests a change of the analyser root node in the UI or 
+backend configuration tree.</p>
+</dd>
+</dl>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.analyse_file">
 <span class="sig-name descname"><span class="pre">analyse_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.analyse_file" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Run analysis on a specified file with the appropriate analysis configuration 
+(either file-based or custom).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Path to the file to analyse.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.change_analyser_root">
 <span class="sig-name descname"><span class="pre">change_analyser_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.change_analyser_root" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Request a change of the analyser root configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Name of the new analyser root.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.analyser.PresenterAnalyser.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;PresenterAnalyser&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#4</span> <span class="pre">type=Signal,</span> <span class="pre">signature=results_ready(PyObject),</span> <span class="pre">parameters=PyObject</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_change_analyser_root(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Slot,</span> <span class="pre">signature=analyse_file(QString),</span> <span class="pre">parameters=QString</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Slot,</span> <span class="pre">signature=change_analyser_root(QString),</span> <span class="pre">parameters=QString</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.presenters.analyser.PresenterAnalyser.staticMetaObject" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
@@ -159,71 +182,102 @@
 <dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781">
 <span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">flashy.presenters.dt5781.</span></span><span class="sig-name descname"><span class="pre">PresenterDT5781</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://doc.qt.io/qtforpython-6/PySide6/QtCore/QObject.html#PySide6.QtCore.QObject" title="(in PySide v6.11.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QObject</span></code></a></p>
+<p>Qt presenter handling acquisition control and coordination for the
+CAEN DT5781 digitizer workflow.</p>
+<p>This class acts as the bridge between the GUI layer and the acquisition
+backend. It manages acquisition lifecycle events, validates processing
+configuration, handles acquisition results, and coordinates UI state
+changes through Qt signals.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Inherits<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PySide6.QtCore.QObject</p>
+</dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.send_set_enable_other_tabs">
-<span class="sig-name descname"><span class="pre">send_set_enable_other_tabs</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_other_tabs" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.send_set_enable_controls">
-<span class="sig-name descname"><span class="pre">send_set_enable_controls</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_controls" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.send_set_enable_results">
-<span class="sig-name descname"><span class="pre">send_set_enable_results</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.send_set_enable_results" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.state_changed">
-<span class="sig-name descname"><span class="pre">state_changed</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.state_changed" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.send_new_results">
-<span class="sig-name descname"><span class="pre">send_new_results</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.send_new_results" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.increment_changed">
-<span class="sig-name descname"><span class="pre">increment_changed</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.increment_changed" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.wrong_processing_config">
-<span class="sig-name descname"><span class="pre">wrong_processing_config</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.wrong_processing_config" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
+<div class="admonition-signals admonition">
+<p class="admonition-title">Signals</p>
+<dl class="simple">
+<dt>send_set_enable_other_tabs (bool): </dt><dd><p>Enable/disable non-control tabs.</p>
+</dd>
+<dt>send_set_enable_controls (bool): </dt><dd><p>Enable/disable acquisition controls.</p>
+</dd>
+<dt>send_set_enable_results (bool): </dt><dd><p>Enable/disable results view.</p>
+</dd>
+<dt>state_changed (AcquisitionState): </dt><dd><p>Emitted when acquisition state changes.</p>
+</dd>
+<dt>send_new_results (AnalysisResult): </dt><dd><p>Emits processed analysis results.</p>
+</dd>
+<dt>increment_changed (): </dt><dd><p>Emitted when acquisition increment is updated.</p>
+</dd>
+<dt>wrong_processing_config (): </dt><dd><p>Emitted when configuration validation fails.</p>
+</dd>
+</dl>
+</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.start_acquisition">
 <span class="sig-name descname"><span class="pre">start_acquisition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.start_acquisition" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Start a new acquisition session.</p>
+<p>This method validates the current processing configuration, initializes
+the acquisition service, connects Qt signals, disables UI controls,
+and begins acquisition on the DT5781 digitizer. If the configuration is invalid,
+a warning signal is emitted and a critical message box is displayed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.stop_acquisition">
 <span class="sig-name descname"><span class="pre">stop_acquisition</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.stop_acquisition" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Stop the current acquisition session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.results_changed">
 <span class="sig-name descname"><span class="pre">results_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.results_changed" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Handle acquisition results. This slot filters empty pulse batches and 
+emits a processed <code class="xref py py-class docutils literal notranslate"><span class="pre">AnalysisResult</span></code> when valid data is available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>list_results</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="flashy.models.html#flashy.models.batch_pulses.BatchPulses" title="flashy.models.batch_pulses.BatchPulses"><em>BatchPulses</em></a><em>]</em>) – List of acquired pulse batches.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.acquisition_finished">
 <span class="sig-name descname"><span class="pre">acquisition_finished</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_results</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.acquisition_finished" title="Link to this definition"></a></dt>
-<dd><dl class="field-list simple">
+<dd><p>Handle completion of an acquisition session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>list_results</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a><em>[</em><a class="reference internal" href="flashy.models.html#flashy.models.batch_pulses.BatchPulses" title="flashy.models.batch_pulses.BatchPulses"><em>BatchPulses</em></a><em>]</em>) – Final list of acquired pulse batches.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
 </dl>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flashy.presenters.dt5781.PresenterDT5781.staticMetaObject">
-<span class="sig-name descname"><span class="pre">staticMetaObject</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">PySide6.QtCore.QMetaObject(&quot;PresenterDT5781&quot;</span> <span class="pre">inherits</span> <span class="pre">&quot;QObject&quot;:</span> <span class="pre">Methods:</span>&#160;&#160; <span class="pre">#4</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_set_enable_other_tabs(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#5</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_set_enable_controls(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#6</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_set_enable_results(bool),</span> <span class="pre">parameters=bool</span>&#160;&#160; <span class="pre">#7</span> <span class="pre">type=Signal,</span> <span class="pre">signature=state_changed(PyObject),</span> <span class="pre">parameters=PyObject</span>&#160;&#160; <span class="pre">#8</span> <span class="pre">type=Signal,</span> <span class="pre">signature=send_new_results(PyObject),</span> <span class="pre">parameters=PyObject</span>&#160;&#160; <span class="pre">#9</span> <span class="pre">type=Signal,</span> <span class="pre">signature=increment_changed()</span>&#160;&#160; <span class="pre">#10</span> <span class="pre">type=Signal,</span> <span class="pre">signature=wrong_processing_config()</span>&#160;&#160; <span class="pre">#11</span> <span class="pre">type=Slot,</span> <span class="pre">signature=start_acquisition()</span>&#160;&#160; <span class="pre">#12</span> <span class="pre">type=Slot,</span> <span class="pre">signature=stop_acquisition()</span>&#160;&#160; <span class="pre">#13</span> <span class="pre">type=Slot,</span> <span class="pre">signature=results_changed(List[BatchPulses]),</span> <span class="pre">parameters=List[BatchPulses]</span>&#160;&#160; <span class="pre">#14</span> <span class="pre">type=Slot,</span> <span class="pre">signature=acquisition_finished(List[BatchPulses]),</span> <span class="pre">parameters=List[BatchPulses]</span> <span class="pre">)</span></span><a class="headerlink" href="#flashy.presenters.dt5781.PresenterDT5781.staticMetaObject" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 </dd></dl>
 
