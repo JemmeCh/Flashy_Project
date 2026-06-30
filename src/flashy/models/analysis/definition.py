@@ -3,6 +3,15 @@ from flashy.models.parameters.parsers import parse_equation
 from flashy.models.parameters.validators import validate_combo_box
 
 ANALYSIS_DEFINITIONS = {
+    "use_file_analysis": ParameterDefinition(
+        key="use_file_analysis",
+        name="Use File Parameters",
+        description="Enable to use the file's analysis parameters",
+        path="User",
+        value_type=bool,
+        default=True,
+        widget_type="checkbox"
+    ),
     "area_calc_method": ParameterDefinition(
         key="area_calc_method",
         name="Méthode du calcul d'aire",
@@ -27,17 +36,22 @@ ANALYSIS_DEFINITIONS = {
         valid_range=None,
         validator=validate_combo_box
     ),
-    "nC2cGy_factor": ParameterDefinition(
-        key="nC2cGy_factor",
-        name="Facteur de conversion: [nC] --> [cGy]",
-        description="Permet de passer de nC à cGy\nSupporte les équations: '1 / 33.33' est valide",
-        path='Algorithms',
-        value_type=float,
-        default=2.0,
-        widget_type="entry",
-        choices=None,
+    "time_scale": ParameterDefinition(
+        key='time_scale',
+        name="Time Scale",
+        description="Scale of the time axis.",
+        path='Result Panel',
+        value_type=str,
+        default='1e-9 (ns)',
+        widget_type="combobox",
+        choices=(
+            "1e-9 (ns)",
+            "1e-6 (μs)",
+            "1e-3 (ms)",
+            "1 (s)",
+        ),
         valid_range=None,
-        parser=parse_equation
+        validator=validate_combo_box,
     ),
 }
 """ "graph1": ParameterDefinition(

@@ -40,6 +40,9 @@ class TabDT5781(qtw.QWidget, Ui_TabDT5781):
         self.w_dt5781_controls.stop_acquisition.connect(
             self.pres_dt5781.stop_acquisition
         )
+        self.pres_dt5781.wrong_processing_config.connect(
+            self.w_dt5781_controls.wrong_processing_config
+        )
         # UI updates
         self.pres_dt5781.state_changed.connect(
             self.w_dt5781_controls.state_changed

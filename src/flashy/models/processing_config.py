@@ -1,43 +1,14 @@
 import msgspec
 
 from flashy.models.analysis.config import AnalysisConfig
-from flashy.digitizers.digitizer import Digitizer
-from flashy.detectors.detector import DetectorAssignment
+from flashy.models.acquisition_config import AcquisitionConfig
 
-# =======================================================================
-# Configurations for data 
-# =======================================================================
+from typing import TYPE_CHECKING, Self
+if TYPE_CHECKING:
+    from flashy.models.tree.node import TreeNode
 
-class AcquisitionConfig(msgspec.Struct):
-    """
-    Parameters for an acquisition configuration.
-    
-    :example:
-    
-    .. code-block:: python
-        
-        AcquisitionConfig(
-            digitizer=caen,
-            detector_assignments=[
-                DetectorAssignment(
-                    detector=bergoz_1,
-                    digitizer_channel=0,
-                ),
-                DetectorAssignment(
-                    detector=bergoz_2,
-                    digitizer_channel=1,
-                ),
-            ]
-        )
-    
-    :inherits: msgspec.Struct
-    """
-    digitizer: Digitizer
-    """Used digitizer during acquisition."""
-    detector_assignments: list[DetectorAssignment]
-    """List of detectors where each element represents a channel of the digitizer."""
 
-class ProcessingConfig(msgspec.Struct):
+class ProcessingConfig(msgspec.Struct, tag_field="tag", tag=str.lower):
     """
     Parameters for processing pulses with acquisition and analysis configurations.
     
@@ -47,3 +18,21 @@ class ProcessingConfig(msgspec.Struct):
     """The acquisition configuration used for processing."""
     analysis: AnalysisConfig
     """The analysis configuration used for processing."""
+    
+    @classmethod
+    def from_tree(cls, root_node: "TreeNode") -> Self:
+        analysis_node = root_node.find_path("Analysis")
+        if analysis_node is None: 
+            raise ValueError("Couldn't find specified tree node path.")
+        analysis_config = AnalysisConfig.from_tree(analysis_node)
+        
+        acquistion_config = AcquisitionConfig.from_tree(root_node)
+        
+        return cls(
+            acquisition=acquistion_config,
+            analysis=analysis_config
+        )
+    
+    def validate(self) -> None:
+        self.acquisition.validate()
+        self.analysis.validate()

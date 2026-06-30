@@ -2,12 +2,42 @@ from flashy.models.parameters.definition import ParameterDefinition
 from flashy.models.parameters.validators import validate_combo_box, validate_range_and_step
 
 CAENDT5781_CHANNEL_DEFINITIONS = {
-    # Input
+    # General
+    "ch_enabled": ParameterDefinition(
+        key="ch_enabled",
+        name="Channel Enabled",
+        description="Set if this channel is used or not",
+        path="Board",
+        value_type=bool,
+        default=True,
+        widget_type="checkbox",
+        choices=None,
+        valid_range=None,
+        step=None,
+        hardware_name="CH_ENABLED",
+        hardware_converter=lambda v: {
+            True: "TRUE",
+            False: "FALSE",
+        }[v],
+    ),
+    "ch_id": ParameterDefinition(
+        key="ch_id",
+        name="Channel ID",
+        description="Number given to this channel",
+        path="Board",
+        value_type=int,
+        default=0,
+        widget_type="readonly",
+        choices=None,
+        valid_range=None,
+        step=None,
+        hardware_name=None
+    ),
     "rdc_len": ParameterDefinition(
         key="rdc_len",
         name="Record Lenght (ns)",
-        description="Set the length of the acquisition window (in ns)\nOnly uses board value.\nFrom 20 to 1310660\nIncrements of 20",
-        path="Input",
+        description="Set the length of the acquisition window (in ns)\nOnly uses CH0 value.\nFrom 20 to 1310660\nIncrements of 20",
+        path="Board",
         value_type=int,
         default=15000,
         widget_type="entry",
@@ -17,6 +47,7 @@ CAENDT5781_CHANNEL_DEFINITIONS = {
         hardware_name="RECLEN",
         validator=validate_range_and_step,
     ),
+    # Input
     "pre_trig": ParameterDefinition(
         key="pre_trig",
         name="Pre-trigger (ns)",
@@ -70,7 +101,7 @@ CAENDT5781_CHANNEL_DEFINITIONS = {
         key="dc_offset",
         name="DC Offset (%)",
         description="Allows the User to adjust the baseline position of the input signal on the ADC scale. The value is expressed in percentage of the input dynamic range.\nMoving the DC Offset corresponds to moving the baseline level of the input signal upward or downward in the dynamic scale to cover the full width of the pulse itself, thus avoiding saturation.\nFrom 0 to 100\nIncrements of 0.1",
-        path='Input',
+        path="Input",
         value_type=float,
         default=5.0,
         widget_type="entry",

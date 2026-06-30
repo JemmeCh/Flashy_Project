@@ -62,7 +62,7 @@ def validate_combo_box(
     :type value: Any
     :raises ValueError: If the value is not in the allowed choices.
     """
-    if value not in definition.choices:
+    if str(value) not in definition.choices:#type:ignore
         raise ValueError(f"{value} not in allowed choices: {definition.choices}")
     return
 

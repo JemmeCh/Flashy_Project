@@ -1,9 +1,6 @@
 import msgspec
 from typing import Literal, Any, Callable
 
-# TODO:
-# - Add boolean support for TreeModel
-# - Add readonly to TreeModel
 
 class ParameterDefinition(msgspec.Struct, frozen=True):
     """
@@ -28,7 +25,7 @@ class ParameterDefinition(msgspec.Struct, frozen=True):
     """Python type used to cast the parameter value after parsing/validation."""
     default: Any
     """Default value used when no override is provided."""
-    widget_type: Literal["entry", "combobox", "readonly"]
+    widget_type: Literal["entry", "combobox", "checkbox", "readonly"]
     """
     UI widget type used to represent this parameter.
     Supported values: ``"entry"``, ``"combobox"``.

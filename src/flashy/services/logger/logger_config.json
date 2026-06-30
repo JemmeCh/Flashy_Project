@@ -34,6 +34,7 @@
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
             "formatter": "json",
+            "encoding": "utf-8",
             "filename": "Feedback/flashy.log.jsonl",
             "maxBytes": 100000,
             "backupCount": 3
@@ -42,6 +43,7 @@
             "class": "logging.handlers.RotatingFileHandler",
             "level": "DEBUG",
             "formatter": "detailed",
+            "encoding": "utf-8",
             "filename": "Feedback/flashy.log",
             "maxBytes": 100000,
             "backupCount": 3

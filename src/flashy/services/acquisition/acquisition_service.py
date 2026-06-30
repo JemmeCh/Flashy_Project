@@ -212,7 +212,7 @@ class AcquisitionService(qtc.QObject):
         """
         #self._logger.debug("ANALYSIS COMPLETE")
         change = False
-        print(f"Before={self.acquisition_results}")
+        #print(f"Before={self.acquisition_results}")
         for i, pulse_batch in enumerate(analysis_result.pulse_batches):
             if pulse_batch.has_pulses and not pulse_batch.discard_flag:
                 change = True
@@ -225,8 +225,8 @@ class AcquisitionService(qtc.QObject):
                 )
                 self.acquisition_results[i] = result_batch
         if change: self.results_changed.emit(copy.deepcopy(self.acquisition_results))
-        print(f"After={self.acquisition_results}")
-        print("----------------------------------")
+        #print(f"After={self.acquisition_results}")
+        #print("----------------------------------")
         self._pending_batches -= 1
         
         if self._acquisition_finished and self._pending_batches == 0:
@@ -293,7 +293,7 @@ class AcquisitionService(qtc.QObject):
         for worker in self._analysis_workers:
             worker.wait()
         
-        print(f"At shutdown={self.acquisition_results}")
+        #(f"At shutdown={self.acquisition_results}")
         self.results_changed.emit(copy.deepcopy(self.acquisition_results))
         self.acquisition_finished.emit(copy.deepcopy(self.acquisition_results))
         
@@ -304,11 +304,11 @@ class AcquisitionService(qtc.QObject):
 
 def main():
     """:meta private:"""
-    from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
+    from flashy.models.processing_config import ProcessingConfig
+    from flashy.models.acquisition_config import AcquisitionConfig
     from flashy.models.analysis.config import AnalysisConfig
     from flashy.digitizers.caen_dt5781.channel import CaenDT5781Channel
     from flashy.digitizers.caen_dt5781.config import CaenDT5781Config
-    from flashy.detectors.detector import DetectorAssignment
     from flashy.detectors.bergoz_bct.bergoz_bct import BergozBCT
     
     from PySide6.QtWidgets import QApplication
@@ -319,24 +319,15 @@ def main():
     #####################################################################
     
     t_bergoz = BergozBCT.create_default()
-    t_caen_ch0 = CaenDT5781Channel.create_default(channel_id=0)
-    t_caen_ch1 = CaenDT5781Channel.create_default(channel_id=1)
+    t_caen_ch0 = CaenDT5781Channel.create_default()
+    t_caen_ch1 = CaenDT5781Channel.create_default()
     t_analysis = AnalysisConfig.create_default()
     processing_config = ProcessingConfig(
         acquisition=AcquisitionConfig(
             digitizer=CaenDT5781Config(
                 [t_caen_ch0, t_caen_ch1],
             ),
-            detector_assignments=[
-                DetectorAssignment(
-                    detector=t_bergoz,
-                    digitizer_channel=0
-                    ),
-                DetectorAssignment(
-                    detector=t_bergoz,
-                    digitizer_channel=1
-                    ),
-            ]
+            detectors=[t_bergoz, t_bergoz]
         ),
         analysis=t_analysis
     )

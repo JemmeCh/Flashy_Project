@@ -28,7 +28,7 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
         self._user_config = app_context.user_config
         
         # Replace placeholder with custom widgets
-        self.tv_parameters = ParameterTreeView(app_context.processing_root_tree)
+        self.tv_parameters = ParameterTreeView(app_context.analyser_tree)
         self.layout_AnalyserParameters.replaceWidget(self.ParameterTreeViewPlaceholder, self.tv_parameters)
         self.ParameterTreeViewPlaceholder.setParent(None)
         
@@ -61,7 +61,10 @@ class AnalyserControlsWidget(qtw.QWidget, Ui_AnalyserControlsWidget):
             root_index = self.file_model.index(qtc.QDir.cleanPath(new_root))
         else:
             new_root = self._user_config.get_value('analyser_root')
-            root_index = self.file_model.index(qtc.QDir.cleanPath(new_root)) # type:ignore
+            if new_root == "Please choose a root path":
+                root_index = self.file_model.index(qtc.QDir.cleanPath(__file__))
+            else:
+                root_index = self.file_model.index(qtc.QDir.cleanPath(new_root)) # type:ignore
         
         if not root_index.isValid(): 
             raise ValueError(f"New root is invalid ({str(root_index)})")

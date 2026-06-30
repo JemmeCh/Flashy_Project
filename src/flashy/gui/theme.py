@@ -3,7 +3,16 @@ from PySide6.QtGui import QBrush, QColor, QPalette
 from xml.etree import ElementTree
 import pyqtgraph as pg
 
-
+COLORS = [
+    "#000000",  # black
+    "#0033CC",  # blue
+    "#800080",  # purple
+    "#CC0000",  # red
+    "#008080",  # teal
+    "#6600CC",  # violet
+    "#006400",  # dark green
+    "#8B0000",  # dark red
+]
 
 def generate_palette(file_path: str = 'src/flashy/gui/palettes/flashy_theme.xml') -> 'QPalette':
     """
@@ -76,8 +85,8 @@ def generate_palette(file_path: str = 'src/flashy/gui/palettes/flashy_theme.xml'
     
     return palette
 
-def get_pen(index: int):
-    return pg.mkPen(pg.intColor(index), width=1)
+def get_pen(index, width:int=1):
+    return pg.mkPen(COLORS[index % len(COLORS)], width=width)
 
 
 FLASHy_THEME = generate_palette()

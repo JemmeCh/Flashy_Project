@@ -6,11 +6,15 @@ import json
 
 from typing import Any, List
 
-from flashy.models.processing_config import AcquisitionConfig, ProcessingConfig
+from flashy.models.acquisition_config import AcquisitionConfig
+
 from flashy.models.analysis.config import AnalysisConfig
 from flashy.models.user.config import UserConfig
-from flashy.detectors.detector import DetectorAssignment
+from flashy.detectors.config import DetectorsConfig
+from flashy.digitizers.config import DigitizersConfig
+
 from flashy.services.logger.logger_service import get_logger
+from flashy.services.normalizer import Normalizer
 
 # TODO: 
 # - In read_file: needs to check which channel it is for correct rdc_len (recent: what is blud talking about?)
@@ -26,6 +30,7 @@ class DataLoader:
     """
     def __init__(self) -> None:
         self._logger = get_logger()
+        self._normalizer = Normalizer()
     
     def read_file(self, filename: str) -> tuple[AcquisitionConfig, AnalysisConfig, dict[str, List[dict[str, Any]]]]:
         if filename.lower().endswith('.tdms'):
@@ -60,6 +65,7 @@ class DataLoader:
         processing_config_json = json.loads(props['processing_config']) #type:ignore --> Tested and worked
         acquisition_config = msgspec.convert(processing_config_json['acquisition'], type=AcquisitionConfig)
         analysis_config = msgspec.convert(processing_config_json['analysis'], type=AnalysisConfig)
+        # TODO: Verify that the data is valid
         
         # Get data per channel
         data = {}
@@ -84,7 +90,7 @@ class DataLoader:
     # Read configuration
     # =======================================================================
     
-    def read_config_json_file(self) -> tuple[UserConfig, ProcessingConfig]:
+    def read_config_json_file(self) -> dict[str, Any]:
         """
         Read the configuration file generated when the program was previously closed (`config.json`).
         
@@ -93,14 +99,30 @@ class DataLoader:
         """
         filename_json: str = 'config.json'
         
+        # Load configs
         with open(filename_json, 'r') as f:
             all_dict: dict = json.load(f)
         user_config_dict = all_dict['user_config']
-        processing_config_dict = all_dict['processing_config']
         user_config = msgspec.convert(user_config_dict, type=UserConfig)
-        processing_config = msgspec.convert(processing_config_dict, type=ProcessingConfig)
-        # TODO: Verify that the data is valid
-        return user_config, processing_config
+        analysis_config_dict = all_dict['analysis_config']
+        analysis_config = msgspec.convert(analysis_config_dict, type=AnalysisConfig)
+        digitizers_config_dict = all_dict['digitizers_config']
+        digitizers_config = msgspec.convert(digitizers_config_dict, type=DigitizersConfig)
+        detectors_config_dict = all_dict['detectors_config']
+        detectors_config = msgspec.convert(detectors_config_dict, type=DetectorsConfig)
+        
+        # Verify + Correct configs
+        user_config = self._normalizer.confirm_user_config(user_config)
+        analysis_config = self._normalizer.confirm_analysis_config(analysis_config)
+        digitizers_config = self._normalizer.confirm_digitizers_config(digitizers_config)
+        detectors_config = self._normalizer.confirm_detectors_config(detectors_config)
+        
+        return {
+            'user_config': user_config,
+            'analysis_config': analysis_config,
+            'digitizers_config': digitizers_config,
+            'detectors_config': detectors_config,
+        }
     
     # =======================================================================
     # Legacy CSV file reader
@@ -143,14 +165,9 @@ class DataLoader:
         # Make default processing config
         acquisition_config = AcquisitionConfig(
             digitizer=CaenDT5781Config(
-                [CaenDT5781Channel.create_default(channel_id=0)],
+                [CaenDT5781Channel.create_default()],
             ),
-            detector_assignments=[
-                DetectorAssignment(
-                    detector=BergozBCT.create_default(),
-                    digitizer_channel=0
-                    )
-                ]
+            detectors=[BergozBCT.create_default()]
         )
         analysis_config = AnalysisConfig.create_default()
         
@@ -214,7 +231,7 @@ def main():
     """:meta private:"""
     path = 'write_test.tdms'
     data_loader = DataLoader()
-    acquisition_config, analysis_config, data = data_loader.read_all_tdms_file(path)
+    #acquisition_config, analysis_config, data = data_loader.read_all_tdms_file(path)
     #print(data['CH0'][0]['properties'])
     #print(analysis_config)
     #print(acquisition_config)
@@ -226,9 +243,15 @@ def main():
     #print(acquisition_config.digitizer.channels[0].get_field_value('coarse_gain'))
     #print(type(acquisition_config.digitizer.channels[0].get_field_value('coarse_gain')))
     
-    user_config, processing_config = data_loader.read_config_json_file()
+    configs = data_loader.read_config_json_file()
+    user_config = configs['user_config']
     print(user_config)
-    print(processing_config)
+    analysis_config = configs['analysis_config']
+    print(analysis_config)
+    digitizers_config = configs['digitizers_config']
+    print(digitizers_config)
+    detectors_config = configs['detectors_config']
+    print(detectors_config)
 
 if __name__ == "__main__":
     main()

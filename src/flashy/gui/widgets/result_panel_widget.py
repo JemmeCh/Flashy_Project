@@ -11,7 +11,7 @@ from flashy.gui.theme import get_pen
 from flashy.services.normalizer import Normalizer
 from flashy.services.logger.logger_service import get_logger
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 if TYPE_CHECKING:
     from flashy.models.analysis.result import AnalysisResult
 
@@ -44,14 +44,14 @@ class ResultPanelWidget(qtw.QWidget, Ui_ResultPanelWidget):
         assert self.graph_right.plotItem
         
         # Top graph
-        self.graph_top.plotItem.setTitle('CH0')
+        self.graph_top.plotItem.setTitle('CH0 - ')
         self.graph_top.plotItem.setLabel('left', 'Voltage', units='V')
         self.graph_top.plotItem.setLabel('bottom', 'Time', units='s')
         self.graph_top.plotItem.showGrid(x=True, y=True, alpha=0.3)
         self.graph_top.plotItem.setMenuEnabled(False)
         
         # Bot graph
-        self.graph_bot.plotItem.setTitle('CH1')
+        self.graph_bot.plotItem.setTitle('CH1 - ')
         self.graph_bot.plotItem.setLabel('left', 'Voltage', units='V')
         self.graph_bot.plotItem.setLabel('bottom', 'Time', units='s')
         self.graph_bot.plotItem.showGrid(x=True, y=True, alpha=0.3)
@@ -63,6 +63,16 @@ class ResultPanelWidget(qtw.QWidget, Ui_ResultPanelWidget):
         self.graph_right.plotItem.setLabel('bottom', 'Time', units='s')
         self.graph_right.plotItem.showGrid(x=True, y=True, alpha=0.3)
         self.graph_right.plotItem.setMenuEnabled(False)
+    
+    def _change_plot_title(self, title: str, ch: int):
+        graph = [
+            self.graph_top,
+            self.graph_bot,
+        ][ch]
+        
+        assert graph.plotItem
+        chx = graph.plotItem.titleLabel.text.split(' - ')[0]
+        graph.plotItem.setTitle(f"{chx} - {title}")
     
     @qtc.Slot('AnalysisResult')
     def change_results(
@@ -79,12 +89,20 @@ class ResultPanelWidget(qtw.QWidget, Ui_ResultPanelWidget):
         table_results = None
         
         try:
-            # TODO: Parameter for the hard coded value
-            scale_factor = 1e-9 * config.acquisition.digitizer.sampling_period_ns
-            time_scale = np.arange(0, len(analysis_results.pulse_batches[0].pulses[0])) * scale_factor
+            sampling_period_ns = config.acquisition.digitizer.sampling_period_ns
+            time_scale = float(config.analysis.get_value("time_scale").split(" ")[0])
+            scale_factor = time_scale * sampling_period_ns
+            time_axis = np.arange(0, len(analysis_results.pulse_batches[0].pulses[0])) * scale_factor
         except IndexError as e:
             self._logger.warning(f"Analysis results are empty!")
             self._logger.debug(f"analysis_results.pulse_batches={analysis_results.pulse_batches}")
+            return
+        except KeyError as e:
+            self._logger.warning(f"{e} is not a parameter in the chosen file. Please disable the 'Use File Parameters' parameter for now.")
+            self._logger.debug("Implement fallback!")
+            return
+        except Exception as e:
+            self._logger.exception(f"An error occured: {e}")
             return
         
         self.graph_right.plotItem.clear()
@@ -99,10 +117,12 @@ class ResultPanelWidget(qtw.QWidget, Ui_ResultPanelWidget):
             # Graphs
             assert graph.plotItem
             graph.plotItem.clear()
+            detector_name = config.acquisition.detectors[i].display_name
+            self._change_plot_title(detector_name, i)
             for j, p in enumerate(batch.pulses):
                 peak = np.max(p)
-                graph.plotItem.plot(time_scale, p, pen=get_pen(j))
-                self.graph_right.plotItem.plot(time_scale, p/peak, pen=get_pen(i))
+                graph.plotItem.plot(time_axis, p, pen=get_pen(j, width=2))
+                self.graph_right.plotItem.plot(time_axis, p/peak, pen=get_pen(i))
             graph.plotItem.getViewBox().autoRange()
         self.graph_right.plotItem.getViewBox().autoRange()
         

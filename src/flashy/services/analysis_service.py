@@ -42,7 +42,7 @@ class AnalysisService:
         
         :param filename: Path to the file.
         :type filename: str
-        :param analysis_config: Analysis configuration to use. If None, a default configuration is used.
+        :param analysis_config: Analysis configuration to use. If None, the file's configuration is used.
         :type analysis_config: AnalysisConfig | None, optional
         
         :returns: Results of the analysis of the file's pulses.

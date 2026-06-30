@@ -4,7 +4,7 @@ import msgspec
 from flashy.models.parameters.definition import ParameterDefinition
 
 
-class ParameterContainer(msgspec.Struct):
+class ParameterContainer(msgspec.Struct, tag_field="tag", tag=str.lower):
     """
     Generic base class for configuration-like objects backed by a
     :py:class:`~flashy.models.parameters.definition.ParameterDefinition` registry.

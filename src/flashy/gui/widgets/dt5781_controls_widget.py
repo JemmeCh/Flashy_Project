@@ -31,7 +31,8 @@ class DT5781ControlsWidget(qtw.QWidget, Ui_DT5781ControlsWidget):
         self._logger = get_logger()
         
         # Replace placeholder with custom widgets
-        self.tv_parameters = ParameterTreeView(app_context.processing_root_tree)
+        # TODO: Make custom tab tree
+        self.tv_parameters = ParameterTreeView(app_context.caendt5781_tree)
         self.acq_timer = AcquisitionTimer(self)
         self.layout_Parameters.replaceWidget(self.ParameterTreeViewPlaceholder, self.tv_parameters)
         self.layout_digitizer.replaceWidget(self.LCDTimerPlaceholder, self.acq_timer)
@@ -42,7 +43,7 @@ class DT5781ControlsWidget(qtw.QWidget, Ui_DT5781ControlsWidget):
         self.le_status.selectionChanged.connect(lambda: self.le_status.setSelection(0, 0))
         self.le_next_shoot.selectionChanged.connect(lambda: self.le_next_shoot.setSelection(0, 0))
         
-        # TODO: Change this to proper model
+        # TODO: Change this to proper model (table view?)
         self.le_project.setText(self._user_config.get_value('project_path'))
         self.le_shoot.setText(self._user_config.get_value('name_of_shoot'))
         self.le_next_shoot.setText(self._user_config.get_value('increment_name'))
@@ -64,6 +65,12 @@ class DT5781ControlsWidget(qtw.QWidget, Ui_DT5781ControlsWidget):
             self.pb_acquisition.setText('Begin Acquisition')
             self._acq_running = False
             self.stop_acquisition.emit()
+    
+    @qtc.Slot()
+    def wrong_processing_config(self):
+        self.acq_timer.toggle_timer()
+        self.pb_acquisition.setText('Begin Acquisition')
+        self._acq_running = False
     
     @qtc.Slot()
     def change_project(self):
